@@ -8,13 +8,13 @@
 //   mousse::calcTypes::interpolate
 // Description
 //   Interpolates volume fields to surface fields for each time.
-// SourceFiles
-//   interpolate.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class interpolate
 :
   public calcType
@@ -61,9 +61,10 @@ public:
   //- Destructor
   virtual ~interpolate();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_interpolate_field.cpp"
-#endif
+
+#include "write_interpolate_field.ipp"
+
 #endif

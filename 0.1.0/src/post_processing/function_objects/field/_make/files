@@ -1,7 +1,7 @@
-field_average/field_average/field_average.cpp
-field_average/field_average_item/field_average_item.cpp
-field_average/field_average_item/field_average_item_io.cpp
-field_average/field_average_function_object/field_average_function_object.cpp
+field_average/field_average.cpp
+field_average/field_average_item.cpp
+field_average/field_average_item_io.cpp
+field_average/field_average_function_object.cpp
 
 field_coordinate_system_transform/field_coordinate_system_transform.cpp
 field_coordinate_system_transform/field_coordinate_system_transform_function_object.cpp
@@ -9,14 +9,14 @@ field_coordinate_system_transform/field_coordinate_system_transform_function_obj
 field_min_max/field_min_max.cpp
 field_min_max/field_min_max_function_object.cpp
 
-field_values/field_value/field_value.cpp
-field_values/field_value/field_value_new.cpp
-field_values/field_value_delta/field_value_delta.cpp
-field_values/field_value_delta/field_value_delta_function_object.cpp
-field_values/face_source/face_source.cpp
-field_values/face_source/face_source_function_object.cpp
-field_values/cell_source/cell_source.cpp
-field_values/cell_source/cell_source_function_object.cpp
+field_values/field_value.cpp
+field_values/field_value_new.cpp
+field_values/field_value_delta.cpp
+field_values/field_value_delta_function_object.cpp
+field_values/face_source.cpp
+field_values/face_source_function_object.cpp
+field_values/cell_source.cpp
+field_values/cell_source_function_object.cpp
 
 near_wall_fields/near_wall_fields.cpp
 near_wall_fields/near_wall_fields_function_object.cpp

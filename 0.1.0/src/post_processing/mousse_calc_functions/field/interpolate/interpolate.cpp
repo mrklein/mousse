@@ -4,29 +4,39 @@
 
 #include "interpolate.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace calcTypes
-{
+namespace mousse {
+namespace calcTypes {
+
 DEFINE_TYPE_NAME_AND_DEBUG(interpolate, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, interpolate, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::calcTypes::interpolate::interpolate()
 :
-  calcType()
+  calcType{}
 {}
+
+
 // Destructor 
 mousse::calcTypes::interpolate::~interpolate()
 {}
+
+
 // Member Functions 
 void mousse::calcTypes::interpolate::init()
 {
   mousse::argList::validArgs.append("interpolate");
   argList::validArgs.append("fieldName");
 }
+
+
 void mousse::calcTypes::interpolate::preCalc
 (
   const argList& /*args*/,
@@ -34,6 +44,8 @@ void mousse::calcTypes::interpolate::preCalc
   const fvMesh& /*mesh*/
 )
 {}
+
+
 void mousse::calcTypes::interpolate::calc
 (
   const argList& args,
@@ -43,32 +55,29 @@ void mousse::calcTypes::interpolate::calc
 {
   const word fieldName = args[2];
   IOobject fieldHeader
-  (
+  {
     fieldName,
     runTime.timeName(),
     mesh,
     IOobject::MUST_READ
-  );
+  };
   // Check field exists
-  if (fieldHeader.headerOk())
-  {
+  if (fieldHeader.headerOk()) {
     bool processed = false;
     writeInterpolateField<scalar>(fieldHeader, mesh, processed);
     writeInterpolateField<vector>(fieldHeader, mesh, processed);
     writeInterpolateField<sphericalTensor>(fieldHeader, mesh, processed);
     writeInterpolateField<symmTensor>(fieldHeader, mesh, processed);
     writeInterpolateField<tensor>(fieldHeader, mesh, processed);
-    if (!processed)
-    {
+    if (!processed) {
       FatalError
         << "Unable to process " << fieldName << nl
         << "No call to interpolate for fields of type "
         << fieldHeader.headerClassName() << nl << nl
         << exit(FatalError);
     }
-  }
-  else
-  {
-    Info<< "    No " << fieldName << endl;
+  } else {
+    Info << "    No " << fieldName << endl;
   }
 }
+

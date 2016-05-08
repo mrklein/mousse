@@ -3,14 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "wall_bounded_stream_line_function_object.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(wallBoundedStreamLineFunctionObject, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    functionObject,
-    wallBoundedStreamLineFunctionObject,
-    dictionary
-  );
+namespace mousse {
+
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(wallBoundedStreamLineFunctionObject, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  functionObject,
+  wallBoundedStreamLineFunctionObject,
+  dictionary
+);
+
 }
+

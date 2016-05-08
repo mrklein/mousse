@@ -3,14 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "field_min_max_function_object.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(fieldMinMaxFunctionObject, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    functionObject,
-    fieldMinMaxFunctionObject,
-    dictionary
-  );
+namespace mousse {
+
+DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(fieldMinMaxFunctionObject, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  functionObject,
+  fieldMinMaxFunctionObject,
+  dictionary
+);
+
 }
+

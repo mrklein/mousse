@@ -35,18 +35,20 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   surface_interpolate_fields.cpp
-//   i_osurface_interpolate_fields.hpp
+
 #include "ofstream.hpp"
 #include "surface_fields.hpp"
 #include "tuple2.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
+
+
 class surfaceInterpolateFields
 {
 protected:
@@ -58,7 +60,7 @@ protected:
     bool active_;
     //- Fields to process
     //wordList fieldSet_;
-    List<Tuple2<word, word> > fieldSet_;
+    List<Tuple2<word, word>> fieldSet_;
     //- Locally constructed fields
     PtrList<surfaceScalarField> ssf_;
     PtrList<surfaceVectorField> svf_;
@@ -69,7 +71,7 @@ protected:
     template<class Type>
     void interpolateFields
     (
-      PtrList<GeometricField<Type, fvsPatchField, surfaceMesh> >&
+      PtrList<GeometricField<Type, fvsPatchField, surfaceMesh>>&
     ) const;
 public:
   //- Runtime type information
@@ -95,10 +97,7 @@ public:
   virtual ~surfaceInterpolateFields();
   // Member Functions
     //- Return name of the surfaceInterpolateFields object
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the field min/max data
     virtual void read(const dictionary&);
     //- Execute, currently does nothing
@@ -116,8 +115,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "surface_interpolate_fields_templates.cpp"
-#endif
+
+#include "surface_interpolate_fields.ipp"
+
 #endif

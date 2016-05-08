@@ -4,8 +4,12 @@
 
 #include "find_cell_particle.hpp"
 #include "cloud.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<findCellParticle>, 0);
+
 }  // namespace mousse
+

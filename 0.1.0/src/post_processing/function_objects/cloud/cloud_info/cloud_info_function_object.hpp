@@ -4,12 +4,17 @@
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   cloud_info_function_object.cpp
+
 #include "cloud_info.hpp"
 #include "output_filter_function_object.hpp"
-namespace mousse
-{
-  typedef OutputFilterFunctionObject<cloudInfo>
-    cloudInfoFunctionObject;
+
+
+namespace mousse {
+
+typedef OutputFilterFunctionObject<cloudInfo>
+  cloudInfoFunctionObject;
+
 }
+
 #endif
+

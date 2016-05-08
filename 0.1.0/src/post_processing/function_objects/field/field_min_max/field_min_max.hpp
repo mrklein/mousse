@@ -45,19 +45,21 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   field_min_max.cpp
-//   i_ofield_min_max.hpp
+
 #include "function_object_file.hpp"
 #include "switch.hpp"
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class polyMesh;
 class mapPolyMesh;
+
+
 class fieldMinMax
 :
   public functionObjectFile
@@ -123,10 +125,7 @@ public:
   virtual ~fieldMinMax();
   // Member Functions
     //- Return name of the set of field min/max
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the field min/max data
     virtual void read(const dictionary&);
     //- Execute, currently does nothing
@@ -151,8 +150,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "field_min_max_templates.cpp"
-#endif
+
+#include "field_min_max.ipp"
+
 #endif

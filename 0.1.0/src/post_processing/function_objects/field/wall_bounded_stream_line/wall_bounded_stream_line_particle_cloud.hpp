@@ -1,3 +1,6 @@
+#ifndef POST_PROCESSING_FUNCTION_OBJECTS_FIELD_WALL_BOUNDED_STREAM_LINE_WALL_BOUNDED_STREAM_LINE_PARTICLE_CLOUD_HPP_
+#define POST_PROCESSING_FUNCTION_OBJECTS_FIELD_WALL_BOUNDED_STREAM_LINE_WALL_BOUNDED_STREAM_LINE_PARTICLE_CLOUD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,14 +8,13 @@
 //   mousse::wallBoundedStreamLineParticleCloud
 // Description
 //   A Cloud of streamLine particles
-// SourceFiles
-//   stream_line_cloud.cpp
-#ifndef streamLineCloud_H
-#define streamLineCloud_H
+
 #include "cloud.hpp"
 #include "wall_bounded_stream_line_particle.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wallBoundedStreamLineParticleCloud
 :
   public Cloud<wallBoundedStreamLineParticle>
@@ -46,5 +48,8 @@ public:
       const wallBoundedStreamLineParticleCloud&
     ) = delete;
 };
+
 }  // namespace mousse
-#endif
+
+#endif  // POST_PROCESSING_FUNCTION_OBJECTS_FIELD_WALL_BOUNDED_STREAM_LINE_WALL_BOUNDED_STREAM_LINE_PARTICLE_CLOUD_HPP_
+

@@ -7,8 +7,13 @@
 
 #include "cloud_info.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<cloudInfo> IOcloudInfo;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<cloudInfo> IOcloudInfo;
+
 }
+
 #endif
+

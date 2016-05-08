@@ -7,8 +7,13 @@
 
 #include "surface_interpolate_fields.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<surfaceInterpolateFields> IOsurfaceInterpolateFields;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<surfaceInterpolateFields> IOsurfaceInterpolateFields;
+
 }
+
 #endif
+

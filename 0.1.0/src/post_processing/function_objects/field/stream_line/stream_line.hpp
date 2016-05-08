@@ -70,8 +70,7 @@
 //   mousse::OutputFilterFunctionObject
 //   mousse::sampledSet
 //   mousse::wallBoundedStreamLine
-// SourceFiles
-//   stream_line.cpp
+
 #include "vol_fields_fwd.hpp"
 #include "point_field_fwd.hpp"
 #include "switch.hpp"
@@ -81,14 +80,18 @@
 #include "poly_mesh.hpp"
 #include "writer.hpp"
 #include "indirect_primitive_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
 class meshSearch;
 class sampledSet;
+
+
 class streamLine
 {
   // Private data
@@ -132,16 +135,16 @@ class streamLine
       //- Axis of the sampled points to output
       word sampledSetAxis_;
       //- File writer for scalar data
-      autoPtr<writer<scalar> > scalarFormatterPtr_;
+      autoPtr<writer<scalar>> scalarFormatterPtr_;
       //- File writer for vector data
-      autoPtr<writer<vector> > vectorFormatterPtr_;
+      autoPtr<writer<vector>> vectorFormatterPtr_;
     // Generated data
       //- All tracks. Per particle the points it passed through
-      DynamicList<List<point> > allTracks_;
+      DynamicList<List<point>> allTracks_;
       //- Per scalarField, per particle, the sampled value.
-      List<DynamicList<scalarList> > allScalars_;
+      List<DynamicList<scalarList>> allScalars_;
       //- Per scalarField, per particle, the sampled value.
-      List<DynamicList<vectorList> > allVectors_;
+      List<DynamicList<vectorList>> allVectors_;
     //- Construct patch out of all wall patch faces
     autoPtr<indirectPrimitivePatch> wallPatch() const;
     //- Do all seeding and tracking
@@ -167,10 +170,7 @@ public:
   virtual ~streamLine();
   // Member Functions
     //- Return name of the set of field averages
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the field average data
     virtual void read(const dictionary&);
     //- Execute the averaging
@@ -188,5 +188,8 @@ public:
     ////- Update for changes of mesh due to readUpdate
     //virtual void readUpdate(const polyMesh::readUpdateState state);
 };
+
 }  // namespace mousse
+
 #endif
+

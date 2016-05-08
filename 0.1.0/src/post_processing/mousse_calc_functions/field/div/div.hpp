@@ -9,13 +9,13 @@
 // Description
 //   Writes scalar fields corresponding to the divergence of the supplied
 //   field (name) for each time.
-// SourceFiles
-//   div.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class div
 :
   public calcType
@@ -62,9 +62,10 @@ public:
   //- Destructor
   virtual ~div();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_div_field.cpp"
-#endif
+
+#include "write_div_field.ipp"
+
 #endif

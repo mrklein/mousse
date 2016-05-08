@@ -8,13 +8,14 @@
 //   mousse::calcType
 // Description
 //   Base class for post-processing calculation functions
-// SourceFiles
-//   calc_type.cpp
+
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "fv_cfd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class calcType
 {
 protected:
@@ -94,5 +95,8 @@ public:
         const fvMesh& mesh
       );
 };
+
 }  // namespace mousse
+
 #endif
+

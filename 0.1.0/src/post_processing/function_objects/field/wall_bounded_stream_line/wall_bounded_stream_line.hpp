@@ -70,8 +70,7 @@
 //   mousse::OutputFilterFunctionObject
 //   mousse::sampledSet
 //   mousse::streamLine
-// SourceFiles
-//   wall_bounded_stream_line.cpp
+
 #include "vol_fields_fwd.hpp"
 #include "point_field_fwd.hpp"
 #include "switch.hpp"
@@ -82,14 +81,18 @@
 #include "writer.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "tet_indices.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
 class meshSearch;
 class sampledSet;
+
+
 class wallBoundedStreamLine
 {
   // Private data
@@ -131,15 +134,15 @@ class wallBoundedStreamLine
       //- Axis of the sampled points to output
       word sampledSetAxis_;
       //- File output writer
-      autoPtr<writer<scalar> > scalarFormatterPtr_;
-      autoPtr<writer<vector> > vectorFormatterPtr_;
+      autoPtr<writer<scalar>> scalarFormatterPtr_;
+      autoPtr<writer<vector>> vectorFormatterPtr_;
     // Generated data
       //- All tracks. Per particle the points it passed through
-      DynamicList<List<point> > allTracks_;
+      DynamicList<List<point>> allTracks_;
       //- Per scalarField, per particle, the sampled value.
-      List<DynamicList<scalarList> > allScalars_;
+      List<DynamicList<scalarList>> allScalars_;
       //- Per scalarField, per particle, the sampled value.
-      List<DynamicList<vectorList> > allVectors_;
+      List<DynamicList<vectorList>> allVectors_;
     //- Construct patch out of all wall patch faces
     autoPtr<indirectPrimitivePatch> wallPatch() const;
     //- Find wall tet on cell
@@ -193,5 +196,8 @@ public:
     ////- Update for changes of mesh due to readUpdate
     //virtual void readUpdate(const polyMesh::readUpdateState state);
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -39,19 +39,21 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   near_wall_fields.cpp
-//   i_onear_wall_fields.hpp
+
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "tuple2.hpp"
 #include "interpolation_cell_point.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
+
+
 class nearWallFields
 {
 protected:
@@ -63,7 +65,7 @@ protected:
     bool active_;
     // Read from dictionary
       //- Fields to process
-      List<Tuple2<word, word> > fieldSet_;
+      List<Tuple2<word, word>> fieldSet_;
       //- Patches to sample
       labelHashSet patchSet_;
       //- Distance away from wall
@@ -76,7 +78,7 @@ protected:
       //- From cell to seed patch faces
       labelListList cellToWalls_;
       //- From cell to tracked end point
-      List<List<point> > cellToSamples_;
+      List<List<point>> cellToSamples_;
       //- Map from cell based data back to patch based data
       autoPtr<mapDistribute> getPatchDataMapPtr_;
     // Locally constructed fields
@@ -91,7 +93,7 @@ protected:
     template<class Type>
     void createFields
     (
-      PtrList<GeometricField<Type, fvPatchField, volMesh> >&
+      PtrList<GeometricField<Type, fvPatchField, volMesh>>&
     ) const;
     //- Override boundary fields with sampled values
     template<class Type>
@@ -103,7 +105,7 @@ protected:
     template<class Type>
     void sampleFields
     (
-      PtrList<GeometricField<Type, fvPatchField, volMesh> >&
+      PtrList<GeometricField<Type, fvPatchField, volMesh>>&
     ) const;
 public:
   //- Runtime type information
@@ -126,10 +128,7 @@ public:
   virtual ~nearWallFields();
   // Member Functions
     //- Return name of the nearWallFields object
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the field min/max data
     virtual void read(const dictionary&);
     //- Execute, currently does nothing
@@ -147,8 +146,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "near_wall_fields_templates.cpp"
-#endif
+
+#include "near_wall_fields.ipp"
+
 #endif

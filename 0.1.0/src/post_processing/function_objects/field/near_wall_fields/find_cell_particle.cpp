@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "find_cell_particle.hpp"
+
+
 // Constructors 
 mousse::findCellParticle::findCellParticle
 (
@@ -15,10 +17,12 @@ mousse::findCellParticle::findCellParticle
   const label data
 )
 :
-  particle(mesh, position, cellI, tetFaceI, tetPtI),
-  end_(end),
-  data_(data)
+  particle{mesh, position, cellI, tetFaceI, tetPtI},
+  end_{end},
+  data_{data}
 {}
+
+
 mousse::findCellParticle::findCellParticle
 (
   const polyMesh& mesh,
@@ -26,22 +30,14 @@ mousse::findCellParticle::findCellParticle
   bool readFields
 )
 :
-  particle(mesh, is, readFields)
+  particle{mesh, is, readFields}
 {
-  if (readFields)
-  {
-    if (is.format() == IOstream::ASCII)
-    {
+  if (readFields) {
+    if (is.format() == IOstream::ASCII) {
       is >> end_;
       data_ = readLabel(is);
-    }
-    else
-    {
-      is.read
-      (
-        reinterpret_cast<char*>(&end_),
-        sizeof(end_) + sizeof(data_)
-      );
+    } else {
+      is.read(reinterpret_cast<char*>(&end_), sizeof(end_) + sizeof(data_));
     }
   }
   // Check state of Istream
@@ -51,6 +47,8 @@ mousse::findCellParticle::findCellParticle
     "(const Cloud<findCellParticle>&, Istream&, bool)"
   );
 }
+
+
 // Member Functions 
 bool mousse::findCellParticle::move
 (
@@ -62,16 +60,14 @@ bool mousse::findCellParticle::move
   td.keepParticle = true;
   scalar tEnd = (1.0 - stepFraction())*maxTrackLen;
   scalar dtMax = tEnd;
-  while (td.keepParticle && !td.switchProcessor && tEnd > SMALL)
-  {
+  while (td.keepParticle && !td.switchProcessor && tEnd > SMALL) {
     // set the lagrangian time-step
     scalar dt = min(dtMax, tEnd);
     dt *= trackToFace(end_, td);
     tEnd -= dt;
     stepFraction() = 1.0 - tEnd/maxTrackLen;
   }
-  if (tEnd < SMALL || !td.keepParticle)
-  {
+  if (tEnd < SMALL || !td.keepParticle) {
     // Hit endpoint or patch. If patch hit could do fancy stuff but just
     // to use the patch point is good enough for now.
     td.cellToData()[cell()].append(data());
@@ -79,6 +75,8 @@ bool mousse::findCellParticle::move
   }
   return td.keepParticle;
 }
+
+
 bool mousse::findCellParticle::hitPatch
 (
   const polyPatch&,
@@ -90,6 +88,8 @@ bool mousse::findCellParticle::hitPatch
 {
   return false;
 }
+
+
 void mousse::findCellParticle::hitWedgePatch
 (
   const wedgePolyPatch&,
@@ -99,6 +99,8 @@ void mousse::findCellParticle::hitWedgePatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::findCellParticle::hitSymmetryPlanePatch
 (
   const symmetryPlanePolyPatch&,
@@ -108,6 +110,8 @@ void mousse::findCellParticle::hitSymmetryPlanePatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::findCellParticle::hitSymmetryPatch
 (
   const symmetryPolyPatch&,
@@ -117,6 +121,8 @@ void mousse::findCellParticle::hitSymmetryPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::findCellParticle::hitCyclicPatch
 (
   const cyclicPolyPatch&,
@@ -126,6 +132,8 @@ void mousse::findCellParticle::hitCyclicPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::findCellParticle::hitProcessorPatch
 (
   const processorPolyPatch&,
@@ -135,6 +143,8 @@ void mousse::findCellParticle::hitProcessorPatch
   // Remove particle
   td.switchProcessor = true;
 }
+
+
 void mousse::findCellParticle::hitWallPatch
 (
   const wallPolyPatch&,
@@ -145,6 +155,8 @@ void mousse::findCellParticle::hitWallPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::findCellParticle::hitPatch
 (
   const polyPatch&,
@@ -154,18 +166,17 @@ void mousse::findCellParticle::hitPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<(Ostream& os, const findCellParticle& p)
 {
-  if (os.format() == IOstream::ASCII)
-  {
-    os  << static_cast<const particle&>(p)
+  if (os.format() == IOstream::ASCII) {
+    os << static_cast<const particle&>(p)
       << token::SPACE << p.end_
       << token::SPACE << p.data_;
-  }
-  else
-  {
-    os  << static_cast<const particle&>(p);
+  } else {
+    os << static_cast<const particle&>(p);
     os.write
     (
       reinterpret_cast<const char*>(&p.end_),
@@ -176,3 +187,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const findCellParticle& p)
   os.check("Ostream& operator<<(Ostream&, const findCellParticle&)");
   return os;
 }
+

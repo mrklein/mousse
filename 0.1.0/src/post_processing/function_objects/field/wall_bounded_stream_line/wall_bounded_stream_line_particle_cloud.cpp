@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "wall_bounded_stream_line_particle_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<wallBoundedStreamLineParticle>, 0);
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<wallBoundedStreamLineParticle>, 0);
+
 }
+
+
 // Constructors 
 mousse::wallBoundedStreamLineParticleCloud::wallBoundedStreamLineParticleCloud
 (
@@ -16,13 +21,14 @@ mousse::wallBoundedStreamLineParticleCloud::wallBoundedStreamLineParticleCloud
   bool readFields
 )
 :
-  Cloud<wallBoundedStreamLineParticle>(mesh, cloudName, false)
+  Cloud<wallBoundedStreamLineParticle>{mesh, cloudName, false}
 {
-  if (readFields)
-  {
+  if (readFields) {
     wallBoundedStreamLineParticle::readFields(*this);
   }
 }
+
+
 mousse::wallBoundedStreamLineParticleCloud::wallBoundedStreamLineParticleCloud
 (
   const polyMesh& mesh,
@@ -30,5 +36,6 @@ mousse::wallBoundedStreamLineParticleCloud::wallBoundedStreamLineParticleCloud
   const IDLList<wallBoundedStreamLineParticle>& particles
 )
 :
-  Cloud<wallBoundedStreamLineParticle>(mesh, cloudName, particles)
+  Cloud<wallBoundedStreamLineParticle>{mesh, cloudName, particles}
 {}
+

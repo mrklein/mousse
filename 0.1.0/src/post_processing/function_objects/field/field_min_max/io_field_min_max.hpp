@@ -7,8 +7,13 @@
 
 #include "field_min_max.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<fieldMinMax> IOfieldMinMax;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<fieldMinMax> IOfieldMinMax;
+
 }
+
 #endif
+

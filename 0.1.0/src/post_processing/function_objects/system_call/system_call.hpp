@@ -54,17 +54,19 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   system_call.cpp
-//   i_osystem_call.hpp
+
 #include "string_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class polyMesh;
 class mapPolyMesh;
+
+
 class systemCall
 {
 protected:
@@ -119,5 +121,8 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

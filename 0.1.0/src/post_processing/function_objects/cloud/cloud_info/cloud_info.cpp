@@ -5,11 +5,16 @@
 #include "cloud_info.hpp"
 #include "dictionary.hpp"
 #include "kinematic_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(cloudInfo, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(cloudInfo, 0);
+
 }
+
+
 // Protected Member Functions 
 void mousse::cloudInfo::writeFileHeader(const label /*i*/)
 {
@@ -19,6 +24,8 @@ void mousse::cloudInfo::writeFileHeader(const label /*i*/)
   writeTabbed(file(), "mass");
   file() << endl;
 }
+
+
 // Constructors 
 mousse::cloudInfo::cloudInfo
 (
@@ -35,57 +42,62 @@ mousse::cloudInfo::cloudInfo
 {
   read(dict);
 }
+
+
 // Destructor 
 mousse::cloudInfo::~cloudInfo()
 {}
+
+
 // Member Functions 
 void mousse::cloudInfo::read(const dictionary& dict)
 {
-  if (active_)
-  {
-    functionObjectFile::resetNames(dict.lookup("clouds"));
-    Info<< type() << " " << name_ << ": ";
-    if (names().size())
-    {
-      Info<< "applying to clouds:" << nl;
-      FOR_ALL(names(), i)
-      {
-        Info<< "    " << names()[i] << nl;
-      }
-      Info<< endl;
+  if (!active_)
+    return;
+  functionObjectFile::resetNames(dict.lookup("clouds"));
+  Info << type() << " " << name_ << ": ";
+  if (names().size()) {
+    Info << "applying to clouds:" << nl;
+    FOR_ALL(names(), i) {
+      Info << "    " << names()[i] << nl;
     }
-    else
-    {
-      Info<< "no clouds to be processed" << nl << endl;
-    }
+    Info << endl;
+  } else {
+    Info<< "no clouds to be processed" << nl << endl;
   }
 }
+
+
 void mousse::cloudInfo::execute()
 {}
+
+
 void mousse::cloudInfo::end()
 {}
+
+
 void mousse::cloudInfo::timeSet()
 {}
+
+
 void mousse::cloudInfo::write()
 {
-  if (active_)
-  {
-    functionObjectFile::write();
-    FOR_ALL(names(), i)
-    {
-      const word& cloudName = names()[i];
-      const kinematicCloud& cloud =
-        obr_.lookupObject<kinematicCloud>(cloudName);
-      label nParcels = returnReduce(cloud.nParcels(), sumOp<label>());
-      scalar massInSystem =
-        returnReduce(cloud.massInSystem(), sumOp<scalar>());
-      if (Pstream::master())
-      {
-        file(i)
-          << obr_.time().value() << token::TAB
-          << nParcels << token::TAB
-          << massInSystem << endl;
-      }
+  if (!active_)
+    return;
+  functionObjectFile::write();
+  FOR_ALL(names(), i) {
+    const word& cloudName = names()[i];
+    const kinematicCloud& cloud =
+      obr_.lookupObject<kinematicCloud>(cloudName);
+    label nParcels = returnReduce(cloud.nParcels(), sumOp<label>());
+    scalar massInSystem =
+      returnReduce(cloud.massInSystem(), sumOp<scalar>());
+    if (Pstream::master()) {
+      file(i)
+        << obr_.time().value() << token::TAB
+        << nParcels << token::TAB
+        << massInSystem << endl;
     }
   }
 }
+

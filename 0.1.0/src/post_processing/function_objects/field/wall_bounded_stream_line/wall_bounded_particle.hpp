@@ -9,14 +9,14 @@
 // Description
 //   Particle class that tracks on triangles of boundary faces. Use
 //   trackToEdge similar to trackToFace on particle.
-// SourceFiles
-//   wall_bounded_particle.cpp
-//   wall_bounded_particle_templates.cpp
+
 #include "particle.hpp"
 #include "auto_ptr.hpp"
 #include "info_proxy.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wallBoundedParticle
 :
   public particle
@@ -40,11 +40,8 @@ public:
         const PackedBoolList& isWallPatch
       )
       :
-        particle::TrackingData<CloudType>
-        (
-          cloud
-        ),
-        isWallPatch_(isWallPatch)
+        particle::TrackingData<CloudType>{cloud},
+        isWallPatch_{isWallPatch}
       {}
   };
 protected:
@@ -172,7 +169,7 @@ public:
     //- Construct and return a clone
     autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new wallBoundedParticle(*this));
+      return autoPtr<particle>{new wallBoundedParticle{*this}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -182,31 +179,26 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
       autoPtr<wallBoundedParticle> operator()
       (
         Istream& is
       ) const
       {
-        return autoPtr<wallBoundedParticle>
-        (
-          new wallBoundedParticle(mesh_, is, true)
-        );
+        return
+          autoPtr<wallBoundedParticle>
+          {
+            new wallBoundedParticle{mesh_, is, true}
+          };
       }
     };
   // Member Functions
     // Access
       //- -1 or label of mesh edge
-      inline label meshEdgeStart() const
-      {
-        return meshEdgeStart_;
-      }
+      inline label meshEdgeStart() const { return meshEdgeStart_; }
       //- -1 or diagonal edge
-      inline label diagEdge() const
-      {
-        return diagEdge_;
-      }
+      inline label diagEdge() const { return diagEdge_; }
     // Track
       //- Equivalent of trackToFace
       template<class TrackData>
@@ -241,8 +233,9 @@ public:
       const InfoProxy<wallBoundedParticle>&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "wall_bounded_particle_templates.cpp"
-#endif
+
+#include "wall_bounded_particle.ipp"
+
 #endif

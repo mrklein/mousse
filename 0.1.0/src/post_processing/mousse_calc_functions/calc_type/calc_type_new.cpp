@@ -3,16 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "calc_type.hpp"
+
+
 mousse::autoPtr<mousse::calcType> mousse::calcType::New
 (
   const word& calcTypeName
 )
 {
-  Info<< "Selecting calcType " << calcTypeName << endl;
+  Info << "Selecting calcType " << calcTypeName << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(calcTypeName);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     // special treatment for -help
     // exit without stack trace
     if (calcTypeName == "-help")
@@ -21,9 +22,7 @@ mousse::autoPtr<mousse::calcType> mousse::calcType::New
         << "Valid calcType selections are:" << nl
         << dictionaryConstructorTablePtr_->sortedToc() << nl
         << exit(FatalError);
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("calcType::New()")
         << "Unknown calcType type " << calcTypeName << nl
         << "Valid calcType selections are:" << nl
@@ -31,5 +30,6 @@ mousse::autoPtr<mousse::calcType> mousse::calcType::New
         << abort(FatalError);
     }
   }
-  return autoPtr<calcType>(cstrIter()());
+  return autoPtr<calcType>{cstrIter()()};
 }
+

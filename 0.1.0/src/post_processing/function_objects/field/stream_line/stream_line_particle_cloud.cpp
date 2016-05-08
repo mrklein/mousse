@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "stream_line_particle_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<streamLineParticle>, 0);
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<streamLineParticle>, 0);
+
 }
+
+
 // Constructors 
 mousse::streamLineParticleCloud::streamLineParticleCloud
 (
@@ -16,13 +21,14 @@ mousse::streamLineParticleCloud::streamLineParticleCloud
   bool readFields
 )
 :
-  Cloud<streamLineParticle>(mesh, cloudName, false)
+  Cloud<streamLineParticle>{mesh, cloudName, false}
 {
-  if (readFields)
-  {
+  if (readFields) {
     streamLineParticle::readFields(*this);
   }
 }
+
+
 mousse::streamLineParticleCloud::streamLineParticleCloud
 (
   const polyMesh& mesh,
@@ -30,5 +36,6 @@ mousse::streamLineParticleCloud::streamLineParticleCloud
   const IDLList<streamLineParticle>& particles
 )
 :
-  Cloud<streamLineParticle>(mesh, cloudName, particles)
+  Cloud<streamLineParticle>{mesh, cloudName, particles}
 {}
+

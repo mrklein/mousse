@@ -44,21 +44,22 @@
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
 //   mousse::coordinateSystem
-// SourceFiles
-//   field_coordinate_system_transform.cpp
-//   field_coordinate_system_transform_templates.cpp
-//   i_ofield_coordinate_system_transform.hpp
+
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class polyMesh;
 class mapPolyMesh;
+
+
 class fieldCoordinateSystemTransform
 {
 protected:
@@ -125,8 +126,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "field_coordinate_system_transform_templates.cpp"
-#endif
+
+#include "field_coordinate_system_transform.ipp"
+
 #endif

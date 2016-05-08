@@ -9,13 +9,13 @@
 // Description
 //   Writes scalar fields corresponding to the magnitude ot the gradient
 //   of the supplied field (name) for each time.
-// SourceFiles
-//   mag_grad.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class magGrad
 :
   public calcType
@@ -62,9 +62,10 @@ public:
   //- Destructor
   virtual ~magGrad();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_mag_grad_field.cpp"
-#endif
+
+#include "write_mag_grad_field.ipp"
+
 #endif

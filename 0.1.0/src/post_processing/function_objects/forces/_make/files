@@ -1,7 +1,7 @@
-forces/forces.cpp
-forces/forces_function_object.cpp
+forces.cpp
+forces_function_object.cpp
 
-force_coeffs/force_coeffs.cpp
-force_coeffs/force_coeffs_function_object.cpp
+force_coeffs.cpp
+force_coeffs_function_object.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_forces
