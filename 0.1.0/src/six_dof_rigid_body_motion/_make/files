@@ -1,40 +1,40 @@
-six_dof_rigid_body_motion/six_dof_rigid_body_motion.cpp
-six_dof_rigid_body_motion/six_dof_rigid_body_motion_io.cpp
-six_dof_rigid_body_motion/six_dof_rigid_body_motion_state.cpp
-six_dof_rigid_body_motion/six_dof_rigid_body_motion_state_io.cpp
+six_dof_rigid_body_motion.cpp
+six_dof_rigid_body_motion_io.cpp
+six_dof_rigid_body_motion_state.cpp
+six_dof_rigid_body_motion_state_io.cpp
 
-restraints = six_dof_rigid_body_motion/restraints
+restraints = restraints
 
-$(restraints)/six_dof_rigid_body_motion_restraint/six_dof_rigid_body_motion_restraint.cpp
-$(restraints)/six_dof_rigid_body_motion_restraint/six_dof_rigid_body_motion_restraint_new.cpp
-$(restraints)/linear_axial_angular_spring/linear_axial_angular_spring.cpp
-$(restraints)/linear_spring/linear_spring.cpp
-$(restraints)/spherical_angular_spring/spherical_angular_spring.cpp
-$(restraints)/tabulated_axial_angular_spring/tabulated_axial_angular_spring.cpp
-$(restraints)/linear_damper/linear_damper.cpp
-$(restraints)/spherical_angular_damper/spherical_angular_damper.cpp
+$(restraints)/six_dof_rigid_body_motion_restraint.cpp
+$(restraints)/six_dof_rigid_body_motion_restraint_new.cpp
+$(restraints)/linear_axial_angular_spring.cpp
+$(restraints)/linear_spring.cpp
+$(restraints)/spherical_angular_spring.cpp
+$(restraints)/tabulated_axial_angular_spring.cpp
+$(restraints)/linear_damper.cpp
+$(restraints)/spherical_angular_damper.cpp
 
-constraints = six_dof_rigid_body_motion/constraints
+constraints = constraints
 
-$(constraints)/six_dof_rigid_body_motion_constraint/six_dof_rigid_body_motion_constraint.cpp
-$(constraints)/six_dof_rigid_body_motion_constraint/six_dof_rigid_body_motion_constraint_new.cpp
-$(constraints)/axis/six_dof_rigid_body_motion_axis_constraint.cpp
-$(constraints)/line/six_dof_rigid_body_motion_line_constraint.cpp
-$(constraints)/orientation/six_dof_rigid_body_motion_orientation_constraint.cpp
-$(constraints)/plane/six_dof_rigid_body_motion_plane_constraint.cpp
-$(constraints)/point/six_dof_rigid_body_motion_point_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_constraint_new.cpp
+$(constraints)/six_dof_rigid_body_motion_axis_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_line_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_orientation_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_plane_constraint.cpp
+$(constraints)/six_dof_rigid_body_motion_point_constraint.cpp
 
-point_patch_fields/derived/six_dof_rigid_body_displacement/six_dof_rigid_body_displacement_point_patch_vector_field.cpp
-point_patch_fields/derived/uncoupled_six_dof_rigid_body_displacement/uncoupled_six_dof_rigid_body_displacement_point_patch_vector_field.cpp
+point_patch_fields/derived/six_dof_rigid_body_displacement_point_patch_vector_field.cpp
+point_patch_fields/derived/uncoupled_six_dof_rigid_body_displacement_point_patch_vector_field.cpp
 
-six_dof_rigid_body_motion_solver/six_dof_rigid_body_motion_solver.cpp
-six_dof_rigid_body_motion_solver/external_point_edge_point.cpp
-six_dof_rigid_body_motion_solver/point_patch_dist.cpp
+six_dof_rigid_body_motion_solver.cpp
+external_point_edge_point.cpp
+point_patch_dist.cpp
 
-six_dof_solvers/six_dof_solver/six_dof_solver.cpp
-six_dof_solvers/six_dof_solver/new_six_dof_solver.cpp
-six_dof_solvers/symplectic/symplectic.cpp
-six_dof_solvers/crank_nicolson/crank_nicolson.cpp
-six_dof_solvers/newmark/newmark.cpp
+solvers/six_dof_solver.cpp
+solvers/six_dof_solver_new.cpp
+solvers/symplectic.cpp
+solvers/crank_nicolson.cpp
+solvers/newmark.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_six_dof_rigid_body_motion
