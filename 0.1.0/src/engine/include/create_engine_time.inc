@@ -1,4 +1,4 @@
-  Info<< "Create engine time\n" << endl;
+  Info << "Create engine time\n" << endl;
   engineTime runTime
   {
     Time::controlDictName,

@@ -4,16 +4,19 @@
 
 #include "engine_time.hpp"
 #include "unit_conversion.hpp"
+
+
 // Private Member Functions 
 void mousse::engineTime::timeAdjustment()
 {
   deltaT_  = degToTime(deltaT_);
   endTime_ = degToTime(endTime_);
-  if (writeControl_ == wcRunTime || writeControl_ == wcAdjustableRunTime)
-  {
+  if (writeControl_ == wcRunTime || writeControl_ == wcAdjustableRunTime) {
     writeInterval_ = degToTime(writeInterval_);
   }
 }
+
+
 // Constructors 
 //- Construct from objectRegistry arguments
 mousse::engineTime::engineTime
@@ -36,7 +39,6 @@ mousse::engineTime::engineTime
   },
   dict_
   {
-    // IOobject
     {
       "engineGeometry",
       constant(),
@@ -63,59 +65,70 @@ mousse::engineTime::engineTime
   deltaTSave_ = deltaT_;
   deltaT0_ = deltaT_;
 }
+
+
 // Member Functions 
+
 // Read the controlDict and set all the parameters
 void mousse::engineTime::readDict()
 {
   Time::readDict();
   timeAdjustment();
 }
+
+
 // Read the controlDict and set all the parameters
 bool mousse::engineTime::read()
 {
-  if (Time::read())
-  {
+  if (Time::read()) {
     timeAdjustment();
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 mousse::scalar mousse::engineTime::degToTime(const scalar theta) const
 {
   // 6 * rpm => deg/s
   return theta/(6.0*rpm_.value());
 }
+
+
 mousse::scalar mousse::engineTime::timeToDeg(const scalar t) const
 {
   // 6 * rpm => deg/s
   return t*(6.0*rpm_.value());
 }
+
+
 mousse::scalar mousse::engineTime::theta() const
 {
   return timeToDeg(value());
 }
+
+
 // Return current crank-angle translated to a single revolution
 // (value between -180 and 180 with 0 = top dead centre)
 mousse::scalar mousse::engineTime::thetaRevolution() const
 {
   scalar t = theta();
-  while (t > 180.0)
-  {
+  while (t > 180.0) {
     t -= 360.0;
   }
-  while (t < -180.0)
-  {
+  while (t < -180.0) {
     t += 360.0;
   }
   return t;
 }
+
+
 mousse::scalar mousse::engineTime::deltaTheta() const
 {
   return timeToDeg(deltaTValue());
 }
+
+
 mousse::scalar mousse::engineTime::pistonPosition(const scalar theta) const
 {
   return
@@ -124,29 +137,40 @@ mousse::scalar mousse::engineTime::pistonPosition(const scalar theta) const
        + ::sqrt(sqr(conRodLength_.value())
                 - sqr(stroke_.value()*::sin(degToRad(theta))/2.0)));
 }
+
+
 mousse::dimensionedScalar mousse::engineTime::pistonPosition() const
 {
   return {"pistonPosition",
           dimLength,
           pistonPosition(theta())};
 }
+
+
 mousse::dimensionedScalar mousse::engineTime::pistonDisplacement() const
 {
   return {"pistonDisplacement",
           dimLength,
           pistonPosition(theta() - deltaTheta()) - pistonPosition().value()};
 }
+
+
 mousse::dimensionedScalar mousse::engineTime::pistonSpeed() const
 {
   return {"pistonSpeed",
           dimVelocity,
           pistonDisplacement().value()/(deltaTValue() + VSMALL)};
 }
+
+
 mousse::scalar mousse::engineTime::userTimeToTime(const scalar theta) const
 {
   return degToTime(theta);
 }
+
+
 mousse::scalar mousse::engineTime::timeToUserTime(const scalar t) const
 {
   return timeToDeg(t);
 }
+

@@ -6,33 +6,31 @@
 #include "engine_time.hpp"
 #include "poly_mesh.hpp"
 #include "interpolate_xy.hpp"
+
+
 // Private Member Functions 
 mousse::scalar mousse::engineValve::adjustCrankAngle(const scalar theta) const
 {
-  if (theta < liftProfileStart_)
-  {
+  if (theta < liftProfileStart_) {
     scalar adjustedTheta = theta;
-    while (adjustedTheta < liftProfileStart_)
-    {
+    while (adjustedTheta < liftProfileStart_) {
       adjustedTheta += liftProfileEnd_ - liftProfileStart_;
     }
     return adjustedTheta;
-  }
-  else if (theta > liftProfileEnd_)
-  {
+  } else if (theta > liftProfileEnd_) {
     scalar adjustedTheta = theta;
-    while (adjustedTheta > liftProfileEnd_)
-    {
+    while (adjustedTheta > liftProfileEnd_) {
       adjustedTheta -= liftProfileEnd_ - liftProfileStart_;
     }
     return adjustedTheta;
-  }
-  else
-  {
+  } else {
     return theta;
   }
 }
+
+
 // Constructors 
+
 // Construct from components
 mousse::engineValve::engineValve
 (
@@ -56,28 +54,30 @@ mousse::engineValve::engineValve
   const scalar diameter
 )
 :
-  name_(name),
-  mesh_(mesh),
-  engineDB_(refCast<const engineTime>(mesh.time())),
-  csPtr_(valveCS),
-  bottomPatch_(bottomPatchName, mesh.boundaryMesh()),
-  poppetPatch_(poppetPatchName, mesh.boundaryMesh()),
-  stemPatch_(stemPatchName, mesh.boundaryMesh()),
-  curtainInPortPatch_(curtainInPortPatchName, mesh.boundaryMesh()),
-  curtainInCylinderPatch_(curtainInCylinderPatchName, mesh.boundaryMesh()),
-  detachInCylinderPatch_(detachInCylinderPatchName, mesh.boundaryMesh()),
-  detachInPortPatch_(detachInPortPatchName, mesh.boundaryMesh()),
-  detachFaces_(detachFaces),
-  liftProfile_(liftProfile),
-  liftProfileStart_(min(liftProfile_.x())),
-  liftProfileEnd_(max(liftProfile_.x())),
-  minLift_(minLift),
-  minTopLayer_(minTopLayer),
-  maxTopLayer_(maxTopLayer),
-  minBottomLayer_(minBottomLayer),
-  maxBottomLayer_(maxBottomLayer),
-  diameter_(diameter)
+  name_{name},
+  mesh_{mesh},
+  engineDB_{refCast<const engineTime>(mesh.time())},
+  csPtr_{valveCS},
+  bottomPatch_{bottomPatchName, mesh.boundaryMesh()},
+  poppetPatch_{poppetPatchName, mesh.boundaryMesh()},
+  stemPatch_{stemPatchName, mesh.boundaryMesh()},
+  curtainInPortPatch_{curtainInPortPatchName, mesh.boundaryMesh()},
+  curtainInCylinderPatch_{curtainInCylinderPatchName, mesh.boundaryMesh()},
+  detachInCylinderPatch_{detachInCylinderPatchName, mesh.boundaryMesh()},
+  detachInPortPatch_{detachInPortPatchName, mesh.boundaryMesh()},
+  detachFaces_{detachFaces},
+  liftProfile_{liftProfile},
+  liftProfileStart_{min(liftProfile_.x())},
+  liftProfileEnd_{max(liftProfile_.x())},
+  minLift_{minLift},
+  minTopLayer_{minTopLayer},
+  maxTopLayer_{maxTopLayer},
+  minBottomLayer_{minBottomLayer},
+  maxBottomLayer_{maxBottomLayer},
+  diameter_{diameter}
 {}
+
+
 // Construct from dictionary
 mousse::engineValve::engineValve
 (
@@ -86,108 +86,110 @@ mousse::engineValve::engineValve
   const dictionary& dict
 )
 :
-  name_(name),
-  mesh_(mesh),
-  engineDB_(refCast<const engineTime>(mesh_.time())),
+  name_{name},
+  mesh_{mesh},
+  engineDB_{refCast<const engineTime>(mesh_.time())},
   csPtr_
-  (
+  {
     coordinateSystem::New
     (
       mesh_,
       dict.subDict("coordinateSystem")
     )
-  ),
-  bottomPatch_(dict.lookup("bottomPatch"), mesh.boundaryMesh()),
-  poppetPatch_(dict.lookup("poppetPatch"), mesh.boundaryMesh()),
-  stemPatch_(dict.lookup("stemPatch"), mesh.boundaryMesh()),
+  },
+  bottomPatch_{dict.lookup("bottomPatch"), mesh.boundaryMesh()},
+  poppetPatch_{dict.lookup("poppetPatch"), mesh.boundaryMesh()},
+  stemPatch_{dict.lookup("stemPatch"), mesh.boundaryMesh()},
   curtainInPortPatch_
-  (
+  {
     dict.lookup("curtainInPortPatch"),
     mesh.boundaryMesh()
-  ),
+  },
   curtainInCylinderPatch_
-  (
+  {
     dict.lookup("curtainInCylinderPatch"),
     mesh.boundaryMesh()
-  ),
+  },
   detachInCylinderPatch_
-  (
+  {
     dict.lookup("detachInCylinderPatch"),
     mesh.boundaryMesh()
-  ),
+  },
   detachInPortPatch_
-  (
+  {
     dict.lookup("detachInPortPatch"),
     mesh.boundaryMesh()
-  ),
-  detachFaces_(dict.lookup("detachFaces")),
-  liftProfile_("theta", "lift", name_, dict.lookup("liftProfile")),
-  liftProfileStart_(min(liftProfile_.x())),
-  liftProfileEnd_(max(liftProfile_.x())),
-  minLift_(readScalar(dict.lookup("minLift"))),
-  minTopLayer_(readScalar(dict.lookup("minTopLayer"))),
-  maxTopLayer_(readScalar(dict.lookup("maxTopLayer"))),
-  minBottomLayer_(readScalar(dict.lookup("minBottomLayer"))),
-  maxBottomLayer_(readScalar(dict.lookup("maxBottomLayer"))),
-  diameter_(readScalar(dict.lookup("diameter")))
+  },
+  detachFaces_{dict.lookup("detachFaces")},
+  liftProfile_{"theta", "lift", name_, dict.lookup("liftProfile")},
+  liftProfileStart_{min(liftProfile_.x())},
+  liftProfileEnd_{max(liftProfile_.x())},
+  minLift_{readScalar(dict.lookup("minLift"))},
+  minTopLayer_{readScalar(dict.lookup("minTopLayer"))},
+  maxTopLayer_{readScalar(dict.lookup("maxTopLayer"))},
+  minBottomLayer_{readScalar(dict.lookup("minBottomLayer"))},
+  maxBottomLayer_{readScalar(dict.lookup("maxBottomLayer"))},
+  diameter_{readScalar(dict.lookup("diameter"))}
 {}
-// Destructor 
+
+
 // Member Functions 
 mousse::scalar mousse::engineValve::lift(const scalar theta) const
 {
-  return interpolateXY
-  (
-    adjustCrankAngle(theta),
-    liftProfile_.x(),
-    liftProfile_.y()
-  );
+  return
+    interpolateXY
+    (
+      adjustCrankAngle(theta),
+      liftProfile_.x(),
+      liftProfile_.y()
+    );
 }
+
+
 bool mousse::engineValve::isOpen() const
 {
   return lift(engineDB_.theta()) >= minLift_;
 }
+
+
 mousse::scalar mousse::engineValve::curLift() const
 {
-  return max
-  (
-    lift(engineDB_.theta()),
-    minLift_
-  );
+  return
+    max(lift(engineDB_.theta()), minLift_);
 }
+
+
 mousse::scalar mousse::engineValve::curVelocity() const
 {
   return
-   -(
-      curLift()
-     - max
-      (
-        lift(engineDB_.theta() - engineDB_.deltaTheta()),
-        minLift_
-      )
-    )/(engineDB_.deltaTValue() + VSMALL);
+    -(curLift()
+      - max(lift(engineDB_.theta() - engineDB_.deltaTheta()), minLift_)
+     )/(engineDB_.deltaTValue() + VSMALL);
 }
+
+
 mousse::labelList mousse::engineValve::movingPatchIDs() const
 {
-  labelList mpIDs(2);
+  labelList mpIDs{2};
   label nMpIDs = 0;
-  if (bottomPatch_.active())
-  {
+  if (bottomPatch_.active()) {
     mpIDs[nMpIDs] = bottomPatch_.index();
     nMpIDs++;
   }
-  if (poppetPatch_.active())
-  {
+  if (poppetPatch_.active()) {
     mpIDs[nMpIDs] = poppetPatch_.index();
     nMpIDs++;
   }
   mpIDs.setSize(nMpIDs);
   return mpIDs;
 }
+
+
 void mousse::engineValve::writeDict(Ostream& os) const
 {
-  os  << nl << name() << nl << token::BEGIN_BLOCK;
+  os << nl << name() << nl << token::BEGIN_BLOCK;
   cs().writeDict(os);
-  os  << "bottomPatch " << bottomPatch_.name() << token::END_STATEMENT << nl
+  os << "bottomPatch " << bottomPatch_.name() << token::END_STATEMENT << nl
     << "poppetPatch " << poppetPatch_.name() << token::END_STATEMENT << nl
     << "stemPatch " << stemPatch_.name() << token::END_STATEMENT << nl
     << "curtainInPortPatch " << curtainInPortPatch_.name()
@@ -209,3 +211,4 @@ void mousse::engineValve::writeDict(Ostream& os) const
     << "diameter " << diameter_ << token::END_STATEMENT << nl
     << token::END_BLOCK << endl;
 }
+

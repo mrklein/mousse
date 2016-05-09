@@ -8,15 +8,18 @@
 //   mousse::enginePiston
 // Description
 //   mousse::enginePiston
-// SourceFiles
-//   engine_piston.cpp
+
 #include "poly_patch_id.hpp"
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class engineTime;
+
+
 class enginePiston
 {
   // Private data
@@ -58,26 +61,17 @@ public:
   // Destructor - default
   // Member Functions
     //- Return coordinate system
-    const coordinateSystem& cs() const
-    {
-      return csPtr_();
-    }
+    const coordinateSystem& cs() const { return csPtr_(); }
     //- Return ID of piston patch
-    const polyPatchID& patchID() const
-    {
-      return patchID_;
-    }
+    const polyPatchID& patchID() const { return patchID_; }
     // Piston layering thickness
-      scalar minLayer() const
-      {
-        return minLayer_;
-      }
-      scalar maxLayer() const
-      {
-        return maxLayer_;
-      }
+      scalar minLayer() const { return minLayer_; }
+      scalar maxLayer() const { return maxLayer_; }
     //- Write dictionary
     void writeDict(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

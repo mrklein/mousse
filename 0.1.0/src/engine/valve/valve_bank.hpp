@@ -6,12 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::valveBank
-// Description
-//   A list of valves.
+
 #include "ptr_list.hpp"
 #include "engine_valve.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class valveBank
 :
   public PtrList<engineValve>
@@ -27,8 +28,7 @@ public:
     {
       PtrList<entry> valveEntries{is};
       setSize(valveEntries.size());
-      FOR_ALL(valveEntries, valveI)
-      {
+      FOR_ALL(valveEntries, valveI) {
         valveI,
         set
         (
@@ -45,8 +45,9 @@ public:
     valveBank(const valveBank&) = delete;
     //- Disallow default bitwise assignment
     valveBank& operator=(const valveBank&) = delete;
-  // Destructor - default
-  // Member Functions
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -4,6 +4,8 @@
 
 #include "engine_time.hpp"
 #include "ignition.hpp"
+
+
 // Constructors 
 mousse::ignition::ignition
 (
@@ -12,23 +14,22 @@ mousse::ignition::ignition
   const fvMesh& mesh
 )
 :
-  mesh_(mesh),
-  ignite_(combustionProperties.lookup("ignite")),
+  mesh_{mesh},
+  ignite_{combustionProperties.lookup("ignite")},
   ignSites_
-  (
+  {
     combustionProperties.lookup("ignitionSites"),
     ignitionSite::iNew(db, mesh)
-  )
-{
-  if (ignite_)
-  {
-    Info<< "\nIgnition on" << endl;
   }
-  else
-  {
+{
+  if (ignite_) {
+    Info<< "\nIgnition on" << endl;
+  } else {
     Info<< "\nIgnition switched off" << endl;
   }
 }
+
+
 mousse::ignition::ignition
 (
   const dictionary& combustionProperties,
@@ -36,20 +37,18 @@ mousse::ignition::ignition
   const fvMesh& mesh
 )
 :
-  mesh_(mesh),
-  ignite_(combustionProperties.lookup("ignite")),
+  mesh_{mesh},
+  ignite_{combustionProperties.lookup("ignite")},
   ignSites_
-  (
+  {
     combustionProperties.lookup("ignitionSites"),
     ignitionSite::iNew(edb, mesh)
-  )
-{
-  if (ignite_)
-  {
-    Info<< "\nIgnition on" << endl;
   }
-  else
-  {
-    Info<< "\nIgnition switched off" << endl;
+{
+  if (ignite_) {
+    Info << "\nIgnition on" << endl;
+  } else {
+    Info << "\nIgnition switched off" << endl;
   }
 }
+

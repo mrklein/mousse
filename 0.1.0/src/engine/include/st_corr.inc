@@ -1,16 +1,13 @@
   dimensionedScalar StCorr{"StCorr", dimless, 1.0};
-  if (ign.igniting())
-  {
+  if (ign.igniting()) {
     using mousse::constant::mathematical::pi;
     // Calculate volume of ignition kernel
     dimensionedScalar Vk{"Vk", dimVolume, gSum(c*mesh.V().field())};
     dimensionedScalar Ak{"Ak", dimArea, 0.0};
-    if (Vk.value() > SMALL)
-    {
+    if (Vk.value() > SMALL) {
       // Calculate kernel area from its volume
       // and the dimensionality of the case
-      switch(mesh.nGeometricD())
-      {
+      switch(mesh.nGeometricD()) {
         case 3:
         {
           // Assume it is part-spherical
@@ -26,8 +23,8 @@
           };
           Ak = (sphereFraction*4.0*pi
             *pow(3.0*Vk/(sphereFraction*4.0*pi), 2.0/3.0));
-        }
-        break;
+          }
+          break;
         case 2:
         {
           // Assume it is part-circular
@@ -47,15 +44,16 @@
           };
           Ak = (circleFraction*pi*thickness
             *sqrt(4.0*Vk/(circleFraction*thickness*pi)));
-        }
-        break;
+          }
+          break;
         case 1:
           // Assume it is plane or two planes
-          Ak = dimensionedScalar
-          {
-            combustionProperties.lookup("ignitionKernelArea")
-          };
-        break;
+          Ak =
+            dimensionedScalar
+            {
+              combustionProperties.lookup("ignitionKernelArea")
+            };
+          break;
       }
       // Calculate kernel area from b field consistent with the
       // discretisation of the b equation.
@@ -65,6 +63,7 @@
       };
       dimensionedScalar AkEst = gSum(mgb*mesh.V().field());
       StCorr.value() = max(min((Ak/AkEst).value(), 10.0), 1.0);
-      Info<< "StCorr = " << StCorr.value() << endl;
+      Info << "StCorr = " << StCorr.value() << endl;
     }
   }
+

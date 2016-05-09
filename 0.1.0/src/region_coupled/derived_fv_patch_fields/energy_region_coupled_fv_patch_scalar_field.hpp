@@ -11,16 +11,17 @@
 //   The fvPatch is treated as uncoupled from the delta point of view.
 //   In the mesh the fvPatch is an interface and is incorporated
 //   into the matrix implicitly.
-// SourceFiles
-//   energy_region_coupled_fv_patch_scalar_field.cpp
+
 #include "region_coupled_base_fv_patch.hpp"
 #include "ldu_interface_field.hpp"
 #include "fv_patch_field.hpp"
 #include "named_enum.hpp"
 #include "basic_thermo.hpp"
 #include "coupled_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class energyRegionCoupledFvPatchScalarField
 :
   public coupledFvPatchField<scalar>
@@ -87,12 +88,13 @@ public:
       const energyRegionCoupledFvPatchScalarField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new energyRegionCoupledFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new energyRegionCoupledFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     energyRegionCoupledFvPatchScalarField
@@ -101,15 +103,16 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new energyRegionCoupledFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new energyRegionCoupledFvPatchScalarField{*this, iF}
+        };
     }
   //- Destructor
   virtual ~energyRegionCoupledFvPatchScalarField()
@@ -117,10 +120,7 @@ public:
   // Member functions
     // Access
       //- Method to obtain K
-      word kappaMethod() const
-      {
-        return methodTypeNames_[method_];
-      }
+      word kappaMethod() const { return methodTypeNames_[method_]; }
     // Evaluation functions
       //- Return neighbour coupled internal cell data
       virtual tmp<scalarField> patchNeighbourField() const;
@@ -163,5 +163,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

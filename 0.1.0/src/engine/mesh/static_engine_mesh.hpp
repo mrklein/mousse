@@ -8,11 +8,12 @@
 //   mousse::staticEngineMesh
 // Description
 //   mousse::staticEngineMesh
-// SourceFiles
-//   static_engine_mesh.cpp
+
 #include "engine_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class staticEngineMesh
 :
   public engineMesh
@@ -33,5 +34,8 @@ public:
     // Edit
       void move();
 };
+
 }  // namespace mousse
+
 #endif
+

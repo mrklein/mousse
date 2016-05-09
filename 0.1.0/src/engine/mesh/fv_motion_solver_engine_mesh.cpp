@@ -6,50 +6,55 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fvc_mesh_phi.hpp"
 #include "surface_interpolate.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(fvMotionSolverEngineMesh, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(engineMesh, fvMotionSolverEngineMesh, IOobject);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(fvMotionSolverEngineMesh, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(engineMesh, fvMotionSolverEngineMesh, IOobject);
+
 }
+
+
 // Constructors 
 mousse::fvMotionSolverEngineMesh::fvMotionSolverEngineMesh(const IOobject& io)
 :
-  engineMesh(io),
-  pistonLayers_("pistonLayers", dimLength, 0.0),
-  motionSolver_
-  (
-    *this,
-    engineDB_.engineDict()
-  )
+  engineMesh{io},
+  pistonLayers_{"pistonLayers", dimLength, 0.0},
+  motionSolver_{*this, engineDB_.engineDict()}
 {
   engineDB_.engineDict().readIfPresent("pistonLayers", pistonLayers_);
 }
+
+
 // Destructor 
 mousse::fvMotionSolverEngineMesh::~fvMotionSolverEngineMesh()
 {}
+
+
 // Member Functions 
 void mousse::fvMotionSolverEngineMesh::move()
 {
   scalar deltaZ = engineDB_.pistonDisplacement().value();
-  Info<< "deltaZ = " << deltaZ << endl;
+  Info << "deltaZ = " << deltaZ << endl;
   // Position of the top of the static mesh layers above the piston
   scalar pistonPlusLayers = pistonPosition_.value() + pistonLayers_.value();
   scalar pistonSpeed = deltaZ/engineDB_.deltaTValue();
   motionSolver_.pointMotionU().boundaryField()[pistonIndex_] == pistonSpeed;
+
   {
     scalarField linerPoints
-    (
+    {
       boundary()[linerIndex_].patch().localPoints().component(vector::Z)
-    );
+    };
     motionSolver_.pointMotionU().boundaryField()[linerIndex_] ==
       pistonSpeed*pos(deckHeight_.value() - linerPoints)
-     *(deckHeight_.value() - linerPoints)
-     /(deckHeight_.value() - pistonPlusLayers);
+      *(deckHeight_.value() - linerPoints)
+      /(deckHeight_.value() - pistonPlusLayers);
   }
   motionSolver_.solve();
-  if (engineDB_.foundObject<surfaceScalarField>("phi"))
-  {
+  if (engineDB_.foundObject<surfaceScalarField>("phi")) {
     surfaceScalarField& phi =
       const_cast<surfaceScalarField&>
       (engineDB_.lookupObject<surfaceScalarField>("phi"));
@@ -58,22 +63,19 @@ void mousse::fvMotionSolverEngineMesh::move()
     const volVectorField& U =
       engineDB_.lookupObject<volVectorField>("U");
     bool absolutePhi = false;
-    if (moving())
-    {
+    if (moving()) {
       phi += fvc::interpolate(rho)*fvc::meshPhi(rho, U);
       absolutePhi = true;
     }
     movePoints(motionSolver_.curPoints());
-    if (absolutePhi)
-    {
+    if (absolutePhi) {
       phi -= fvc::interpolate(rho)*fvc::meshPhi(rho, U);
     }
-  }
-  else
-  {
+  } else {
     movePoints(motionSolver_.curPoints());
   }
   pistonPosition_.value() += deltaZ;
-  Info<< "clearance: " << deckHeight_.value() - pistonPosition_.value() << nl
+  Info << "clearance: " << deckHeight_.value() - pistonPosition_.value() << nl
     << "Piston speed = " << pistonSpeed << " m/s" << endl;
 }
+

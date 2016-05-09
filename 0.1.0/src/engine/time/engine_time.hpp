@@ -22,13 +22,14 @@
 //   \endverbatim
 // Note
 //  The engineTime can currently only be selected at compile-time.
-// SourceFiles
-//   engine_time.cpp
+
 #include "time.hpp"
 #include "dictionary.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class engineTime
 :
   public Time
@@ -75,35 +76,17 @@ public:
       scalar pistonPosition(const scalar theta) const;
     // Access
       //- Return the engine geometry dictionary
-      const IOdictionary& engineDict() const
-      {
-        return dict_;
-      }
+      const IOdictionary& engineDict() const { return dict_; }
       //- Return the engines current operating RPM
-      const dimensionedScalar& rpm() const
-      {
-        return rpm_;
-      }
+      const dimensionedScalar& rpm() const { return rpm_; }
       //- Return the engines connecting-rod length
-      const dimensionedScalar& conRodLength() const
-      {
-        return conRodLength_;
-      }
+      const dimensionedScalar& conRodLength() const { return conRodLength_; }
       //- Return the engines bore
-      const dimensionedScalar& bore() const
-      {
-        return bore_;
-      }
+      const dimensionedScalar& bore() const { return bore_; }
       //- Return the engines stroke
-      const dimensionedScalar& stroke() const
-      {
-        return stroke_;
-      }
+      const dimensionedScalar& stroke() const { return stroke_; }
       //- Return the engines clearance-gap
-      const dimensionedScalar& clearance() const
-      {
-        return clearance_;
-      }
+      const dimensionedScalar& clearance() const { return clearance_; }
       //- Return current crank-angle
       scalar theta() const;
       //- Return current crank-angle translated to a single revolution
@@ -128,5 +111,8 @@ public:
       //- Read the controlDict and set all the parameters
       virtual bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

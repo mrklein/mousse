@@ -8,13 +8,14 @@
 //   mousse::fvMotionSolverEngineMesh
 // Description
 //   mousse::fvMotionSolverEngineMesh
-// SourceFiles
-//   fv_motion_solver_engine_mesh.cpp
+
 #include "engine_mesh.hpp"
 #include "velocity_component_laplacian_fv_motion_solver.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMotionSolverEngineMesh
 :
   public engineMesh
@@ -40,5 +41,8 @@ public:
     // Edit
       void move();
 };
+
 }  // namespace mousse
+
 #endif
+

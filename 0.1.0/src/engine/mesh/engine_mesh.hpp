@@ -8,14 +8,15 @@
 //   mousse::engineMesh
 // Description
 //   mousse::engineMesh
-// SourceFiles
-//   engine_mesh.cpp
+
 #include "engine_time.hpp"
 #include "fv_mesh.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class engineMesh
 :
   public fvMesh
@@ -56,5 +57,8 @@ public:
     // Edit
       virtual void move() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

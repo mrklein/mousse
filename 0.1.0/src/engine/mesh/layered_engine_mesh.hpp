@@ -8,12 +8,13 @@
 //   mousse::layeredEngineMesh
 // Description
 //   mousse::layeredEngineMesh
-// SourceFiles
-//   layered_engine_mesh.cpp
+
 #include "engine_mesh.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class layeredEngineMesh
 :
   public engineMesh
@@ -36,5 +37,8 @@ public:
     // Edit
       void move();
 };
+
 }  // namespace mousse
+
 #endif
+

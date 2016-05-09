@@ -5,6 +5,8 @@
 #include "ignition_site.hpp"
 #include "time.hpp"
 #include "vol_fields.hpp"
+
+
 // Private Member Functions 
 void mousse::ignitionSite::findIgnitionCells(const fvMesh& mesh)
 {
@@ -13,8 +15,7 @@ void mousse::ignitionSite::findIgnitionCells(const fvMesh& mesh)
   const volVectorField& centres = mesh.C();
   const scalarField& vols = mesh.V();
   label ignCell = mesh.findCell(location_);
-  if (ignCell == -1)
-  {
+  if (ignCell == -1) {
     return;
   }
   scalar radius = diameter_/2.0;
@@ -24,15 +25,12 @@ void mousse::ignitionSite::findIgnitionCells(const fvMesh& mesh)
   cellVolumes_[0] = vols[ignCell];
   scalar minDist = GREAT;
   label nIgnCells = 1;
-  FOR_ALL(centres, celli)
-  {
+  FOR_ALL(centres, celli) {
     scalar dist = mag(centres[celli] - location_);
-    if (dist < minDist)
-    {
+    if (dist < minDist) {
       minDist = dist;
     }
-    if (dist < radius && celli != ignCell)
-    {
+    if (dist < radius && celli != ignCell) {
       cells_.setSize(nIgnCells+1);
       cellVolumes_.setSize(nIgnCells+1);
       cells_[nIgnCells] = celli;
@@ -40,38 +38,41 @@ void mousse::ignitionSite::findIgnitionCells(const fvMesh& mesh)
       nIgnCells++;
     }
   }
-  if (cells_.size())
-  {
-    Pout<< "Found ignition cells:" << endl << cells_ << endl;
+  if (cells_.size()) {
+    Pout << "Found ignition cells:" << endl << cells_ << endl;
   }
 }
+
+
 // Member Functions 
 const mousse::labelList& mousse::ignitionSite::cells() const
 {
-  if (mesh_.changing() && timeIndex_ != db_.timeIndex())
-  {
+  if (mesh_.changing() && timeIndex_ != db_.timeIndex()) {
     const_cast<ignitionSite&>(*this).findIgnitionCells(mesh_);
   }
   timeIndex_ = db_.timeIndex();
   return cells_;
 }
+
+
 bool mousse::ignitionSite::igniting() const
 {
   scalar curTime = db_.value();
   scalar deltaT = db_.deltaTValue();
   return
-  (
-    (curTime - deltaT >= time_)
-    &&
-    (curTime - deltaT < time_ + max(duration_, deltaT) + SMALL)
-  );
+    ((curTime - deltaT >= time_)
+     && (curTime - deltaT < time_ + max(duration_, deltaT) + SMALL));
 }
+
+
 bool mousse::ignitionSite::ignited() const
 {
   scalar curTime = db_.value();
   scalar deltaT = db_.deltaTValue();
   return(curTime - deltaT >= time_);
 }
+
+
 // Member Operators 
 void mousse::ignitionSite::operator=(const ignitionSite& is)
 {
@@ -83,3 +84,4 @@ void mousse::ignitionSite::operator=(const ignitionSite& is)
   cells_ = is.cells_;
   cellVolumes_ = is.cellVolumes_;
 }
+

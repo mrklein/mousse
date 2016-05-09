@@ -8,17 +8,20 @@
 //   mousse::engineValve
 // Description
 //   mousse::engineValve
-// SourceFiles
-//   engine_valve.cpp
+
 #include "word.hpp"
 #include "coordinate_system.hpp"
 #include "poly_patch_id.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class engineTime;
+
+
 class engineValve
 {
   // Private data
@@ -109,41 +112,20 @@ public:
   // Destructor - default
   // Member Functions
     //- Return name
-    const word& name() const
-    {
-      return name_;
-    }
+    const word& name() const { return name_; }
     //- Return coordinate system
-    const coordinateSystem& cs() const
-    {
-      return csPtr_();
-    }
+    const coordinateSystem& cs() const { return csPtr_(); }
     //- Return lift profile
-    const graph& liftProfile() const
-    {
-      return liftProfile_;
-    }
+    const graph& liftProfile() const { return liftProfile_; }
     //- Return valve diameter
-    scalar diameter() const
-    {
-      return diameter_;
-    }
+    scalar diameter() const { return diameter_; }
     // Valve patches
       //- Return ID of bottom patch
-      const polyPatchID& bottomPatchID() const
-      {
-        return bottomPatch_;
-      }
+      const polyPatchID& bottomPatchID() const { return bottomPatch_; }
       //- Return ID of poppet patch
-      const polyPatchID& poppetPatchID() const
-      {
-        return poppetPatch_;
-      }
+      const polyPatchID& poppetPatchID() const { return poppetPatch_; }
       //- Return ID of stem patch
-      const polyPatchID& stemPatchID() const
-      {
-        return stemPatch_;
-      }
+      const polyPatchID& stemPatchID() const { return stemPatch_; }
       //- Return ID of curtain in cylinder patch
       const polyPatchID& curtainInCylinderPatchID() const
       {
@@ -165,27 +147,12 @@ public:
         return detachInPortPatch_;
       }
       //- Return face labels of detach curtain
-      const labelList& detachFaces() const
-      {
-        return detachFaces_;
-      }
+      const labelList& detachFaces() const { return detachFaces_; }
     // Valve layering thickness
-      scalar minTopLayer() const
-      {
-        return minTopLayer_;
-      }
-      scalar maxTopLayer() const
-      {
-        return maxTopLayer_;
-      }
-      scalar minBottomLayer() const
-      {
-        return minBottomLayer_;
-      }
-      scalar maxBottomLayer() const
-      {
-        return maxBottomLayer_;
-      }
+      scalar minTopLayer() const { return minTopLayer_; }
+      scalar maxTopLayer() const { return maxTopLayer_; }
+      scalar minBottomLayer() const { return minBottomLayer_; }
+      scalar maxBottomLayer() const { return maxBottomLayer_; }
     // Valve position and velocity
       //- Return valve lift given crank angle in degrees
       scalar lift(const scalar theta) const;
@@ -201,5 +168,8 @@ public:
     //- Write dictionary
     void writeDict(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+
