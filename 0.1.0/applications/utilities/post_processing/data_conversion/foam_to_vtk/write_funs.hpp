@@ -8,16 +8,17 @@
 //   mousse::writeFuns
 // Description
 //   Various functions for collecting and writing binary data.
-// SourceFiles
-//   write_funs.cpp
+
 #include "float_scalar.hpp"
 #include "dynamic_list.hpp"
 #include "vol_fields_fwd.hpp"
 #include "point_fields_fwd.hpp"
 #include "vtk_mesh.hpp"
 #include "vol_point_interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class writeFuns
 {
   // Private Member Functions
@@ -109,8 +110,9 @@ public:
     const vtkMesh&
   );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "write_funs_templates.cpp"
-#endif
+
+#include "write_funs.ipp"
+
 #endif

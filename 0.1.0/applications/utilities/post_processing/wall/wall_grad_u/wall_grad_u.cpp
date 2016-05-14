@@ -5,6 +5,7 @@
 #include "fv_cfd.hpp"
 #include "wall_fv_patch.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -14,8 +15,7 @@ int main(int argc, char *argv[])
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
 
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject Uheader
@@ -26,8 +26,7 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check U exists
-    if (Uheader.headerOk())
-    {
+    if (Uheader.headerOk()) {
       mesh.readUpdate();
       Info << "    Reading U" << endl;
       volVectorField U{Uheader, mesh};
@@ -45,21 +44,18 @@ int main(int argc, char *argv[])
         {"wallGradU", U.dimensions()/dimLength, vector::zero}
       };
       const fvPatchList& patches = mesh.boundary();
-      FOR_ALL(wallGradU.boundaryField(), patchi)
-      {
+      FOR_ALL(wallGradU.boundaryField(), patchi) {
         const fvPatch& currPatch = patches[patchi];
-        if (isA<wallFvPatch>(currPatch))
-        {
+        if (isA<wallFvPatch>(currPatch)) {
           wallGradU.boundaryField()[patchi] = -U.boundaryField()[patchi].snGrad();
         }
       }
       wallGradU.write();
-    }
-    else
-    {
+    } else {
       Info << "    No U" << endl;
     }
   }
   Info << "End" << endl;
   return 0;
 }
+

@@ -1,7 +1,4 @@
-autoPtr<basicThermo> thermo
-{
-  basicThermo::New(mesh)
-};
+autoPtr<basicThermo> thermo{basicThermo::New(mesh)};
 const volScalarField& h = thermo->he();
 // Register copy of thermo density
 volScalarField rho
@@ -17,8 +14,7 @@ volScalarField rho
 autoPtr<volVectorField> UPtr;
 autoPtr<surfaceScalarField> phiPtr;
 autoPtr<compressible::turbulenceModel> turbulence;
-if (isA<fluidThermo>(thermo()))
-{
+if (isA<fluidThermo>(thermo())) {
   UPtr.reset
   (
     new volVectorField
@@ -38,11 +34,13 @@ if (isA<fluidThermo>(thermo()))
   // Copy phi to autoPtr. Rename to make sure copy is now registered as 'phi'.
   phi.rename("phiFluid");
   phiPtr.reset(new surfaceScalarField{"phi", phi});
-  turbulence = compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phiPtr(),
-    refCast<const fluidThermo>(thermo())
-  );
+  turbulence =
+    compressible::turbulenceModel::New
+    (
+      rho,
+      U,
+      phiPtr(),
+      refCast<const fluidThermo>(thermo())
+    );
 }
+

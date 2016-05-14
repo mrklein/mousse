@@ -4,11 +4,15 @@
 
 #include "ramp_hold_fall.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(rampHoldFall, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(relaxationModel, rampHoldFall, dictionary);
+
+
 // Constructors 
 rampHoldFall::rampHoldFall
 (
@@ -16,18 +20,20 @@ rampHoldFall::rampHoldFall
   const Time& runTime
 )
 :
-  relaxationModel(typeName, relaxationDict, runTime),
-  rampStartRelaxation_(readScalar(coeffDict().lookup("rampStartRelaxation"))),
-  holdRelaxation_(readScalar(coeffDict().lookup("holdRelaxation"))),
-  fallEndRelaxation_(readScalar(coeffDict().lookup("fallEndRelaxation"))),
-  rampEndFraction_(readScalar(coeffDict().lookup("rampEndFraction"))),
-  fallStartFraction_(readScalar(coeffDict().lookup("fallStartFraction"))),
-  rampGradient_((holdRelaxation_ - rampStartRelaxation_)/(rampEndFraction_)),
+  relaxationModel{typeName, relaxationDict, runTime},
+  rampStartRelaxation_{readScalar(coeffDict().lookup("rampStartRelaxation"))},
+  holdRelaxation_{readScalar(coeffDict().lookup("holdRelaxation"))},
+  fallEndRelaxation_{readScalar(coeffDict().lookup("fallEndRelaxation"))},
+  rampEndFraction_{readScalar(coeffDict().lookup("rampEndFraction"))},
+  fallStartFraction_{readScalar(coeffDict().lookup("fallStartFraction"))},
+  rampGradient_{(holdRelaxation_ - rampStartRelaxation_)/(rampEndFraction_)},
   fallGradient_
-  (
+  {
     (fallEndRelaxation_ - holdRelaxation_)/(1 - fallStartFraction_)
-  )
+  }
 {}
+
+
 // Member Functions 
 scalar rampHoldFall::relaxation()
 {
@@ -35,26 +41,21 @@ scalar rampHoldFall::relaxation()
   scalar tStart = runTime_.time().startTime().value();
   scalar tEnd = runTime_.time().endTime().value();
   scalar tSpan = tEnd - tStart;
-  if (tSpan < VSMALL)
-  {
+  if (tSpan < VSMALL) {
     return rampStartRelaxation_;
   }
-  if (t - tStart < rampEndFraction_*tSpan)
-  {
+  if (t - tStart < rampEndFraction_*tSpan) {
     // Ramp
     return rampGradient_*((t - tStart)/tSpan) + rampStartRelaxation_;
-  }
-  else if (t - tStart > fallStartFraction_*tSpan)
-  {
+  } else if (t - tStart > fallStartFraction_*tSpan) {
     // Fall
     return
-      fallGradient_*((t - tStart)/tSpan)
-     + fallEndRelaxation_ - fallGradient_;
-  }
-  else
-  {
+      fallGradient_*((t - tStart)/tSpan) + fallEndRelaxation_ - fallGradient_;
+  } else {
     //Hold
     return holdRelaxation_;
   }
 }
+
 }  // namespace mousse
+

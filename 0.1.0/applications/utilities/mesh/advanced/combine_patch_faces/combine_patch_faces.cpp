@@ -15,7 +15,10 @@
 #include "unit_conversion.hpp"
 #include "motion_smoother.hpp"
 
+
 using namespace mousse;
+
+
 // Merge faces on the same patch (usually from exposing refinement)
 // Can undo merges if these cause problems.
 label mergePatchFaces
@@ -33,17 +36,16 @@ label mergePatchFaces
   labelListList allFaceSets{faceCombiner.getMergeSets(minCos, concaveSin)};
   label nFaceSets = returnReduce(allFaceSets.size(), sumOp<label>());
   Info << "Merging " << nFaceSets << " sets of faces." << endl;
-  if (nFaceSets > 0)
-  {
+  if (nFaceSets > 0) {
     // Store the faces of the face sets
     List<faceList> allFaceSetsFaces{allFaceSets.size()};
-    FOR_ALL(allFaceSets, setI)
-    {
-      allFaceSetsFaces[setI] = UIndirectList<face>
-      (
-        mesh.faces(),
-        allFaceSets[setI]
-      );
+    FOR_ALL(allFaceSets, setI) {
+      allFaceSetsFaces[setI] =
+        UIndirectList<face>
+        {
+          mesh.faces(),
+          allFaceSets[setI]
+        };
     }
 
     autoPtr<mapPolyMesh> map;
@@ -58,12 +60,9 @@ label mergePatchFaces
       // Update fields
       mesh.updateMesh(map);
       // Move mesh (since morphing does not do this)
-      if (map().hasMotionPoints())
-      {
+      if (map().hasMotionPoints()) {
         mesh.movePoints(map().preMotionPoints());
-      }
-      else
-      {
+      } else {
         // Delete mesh volumes. No other way to do this?
         mesh.clearOut();
       }
@@ -72,21 +71,16 @@ label mergePatchFaces
     // ~~~~~~~~~~~~~~~~~~~~~~~~~
     // Faces in error.
     labelHashSet errorFaces;
-    if (qualDictPtr.valid())
-    {
+    if (qualDictPtr.valid()) {
       motionSmoother::checkMesh(false, mesh, qualDictPtr(), errorFaces);
-    }
-    else
-    {
+    } else {
       mesh.checkFacePyramids(false, -SMALL, &errorFaces);
     }
     // Sets where the master is in error
     labelHashSet errorSets;
-    FOR_ALL(allFaceSets, setI)
-    {
+    FOR_ALL(allFaceSets, setI) {
       label newMasterI = map().reverseFaceMap()[allFaceSets[setI][0]];
-      if (errorFaces.found(newMasterI))
-      {
+      if (errorFaces.found(newMasterI)) {
         errorSets.insert(setI);
       }
     }
@@ -95,22 +89,18 @@ label mergePatchFaces
       << " error faces on boundaries that have been merged."
       << " These will be restored to their original faces."
       << endl;
-    if (nErrorSets > 0)
-    {
+    if (nErrorSets > 0) {
       // Renumber stored faces to new vertex numbering.
-      FOR_ALL_CONST_ITER(labelHashSet, errorSets, iter)
-      {
+      FOR_ALL_CONST_ITER(labelHashSet, errorSets, iter) {
         label setI = iter.key();
         faceList& setFaceVerts = allFaceSetsFaces[setI];
         FOR_ALL(setFaceVerts, i)
         {
           inplaceRenumber(map().reversePointMap(), setFaceVerts[i]);
           // Debug: check that all points are still there.
-          FOR_ALL(setFaceVerts[i], j)
-          {
+          FOR_ALL(setFaceVerts[i], j) {
             label newVertI = setFaceVerts[i][j];
-            if (newVertI < 0)
-            {
+            if (newVertI < 0) {
               FATAL_ERROR_IN("mergePatchFaces")
                 << "In set:" << setI << " old face labels:"
                 << allFaceSets[setI] << " new face vertices:"
@@ -123,8 +113,7 @@ label mergePatchFaces
       // Topology changes container
       polyTopoChange meshMod{mesh};
       // Restore faces
-      FOR_ALL_CONST_ITER(labelHashSet, errorSets, iter)
-      {
+      FOR_ALL_CONST_ITER(labelHashSet, errorSets, iter) {
         label setI = iter.key();
         const labelList& setFaces = allFaceSets[setI];
         const faceList& setFaceVerts = allFaceSetsFaces[setI];
@@ -133,8 +122,7 @@ label mergePatchFaces
         label own = mesh.faceOwner()[newMasterI];
         label zoneID = mesh.faceZones().whichZone(newMasterI);
         bool zoneFlip = false;
-        if (zoneID >= 0)
-        {
+        if (zoneID >= 0) {
           const faceZone& fZone = mesh.faceZones()[zoneID];
           zoneFlip = fZone.flipMap()[fZone.whichFace(newMasterI)];
         }
@@ -143,41 +131,40 @@ label mergePatchFaces
           << " to vertices " << setFaceVerts[0] << endl;
         // Modify the master face.
         meshMod.setAction
-        (
-          polyModifyFace
-          {
-            setFaceVerts[0],                // original face
-            newMasterI,                     // label of face
-            own,                            // owner
-            -1,                             // neighbour
-            false,                          // face flip
-            patchID,                        // patch for face
-            false,                          // remove from zone
-            zoneID,                         // zone for face
-            zoneFlip                        // face flip in zone
-          }
-        );
+          (
+            polyModifyFace
+            {
+              setFaceVerts[0],                // original face
+              newMasterI,                     // label of face
+              own,                            // owner
+              -1,                             // neighbour
+              false,                          // face flip
+              patchID,                        // patch for face
+              false,                          // remove from zone
+              zoneID,                         // zone for face
+              zoneFlip                        // face flip in zone
+            }
+          );
         // Add the previously removed faces
-        for (label i = 1; i < setFaces.size(); i++)
-        {
+        for (label i = 1; i < setFaces.size(); i++) {
           Pout << "Restoring removed face " << setFaces[i]
             << " with vertices " << setFaceVerts[i] << endl;
           meshMod.setAction
-          (
-            polyAddFace
-            {
-              setFaceVerts[i],        // vertices
-              own,                    // owner,
-              -1,                     // neighbour,
-              -1,                     // masterPointID,
-              -1,                     // masterEdgeID,
-              newMasterI,             // masterFaceID,
-              false,                  // flipFaceFlux,
-              patchID,                // patchID,
-              zoneID,                 // zoneID,
-              zoneFlip                // zoneFlip
-            }
-          );
+            (
+              polyAddFace
+              {
+                setFaceVerts[i],        // vertices
+                own,                    // owner,
+                -1,                     // neighbour,
+                -1,                     // masterPointID,
+                -1,                     // masterEdgeID,
+                newMasterI,             // masterFaceID,
+                false,                  // flipFaceFlux,
+                patchID,                // patchID,
+                zoneID,                 // zoneID,
+                zoneFlip                // zoneFlip
+              }
+            );
         }
       }
       // Change the mesh (no inflation)
@@ -185,23 +172,20 @@ label mergePatchFaces
       // Update fields
       mesh.updateMesh(map);
       // Move mesh (since morphing does not do this)
-      if (map().hasMotionPoints())
-      {
+      if (map().hasMotionPoints()) {
         mesh.movePoints(map().preMotionPoints());
-      }
-      else
-      {
+      } else {
         // Delete mesh volumes. No other way to do this?
         mesh.clearOut();
       }
     }
-  }
-  else
-  {
+  } else {
     Info << "No faces merged ..." << endl;
   }
   return nFaceSets;
 }
+
+
 // Remove points not used by any face or points used by only two faces where
 // the edges are in line
 label mergeEdges(const scalar minCos, polyMesh& mesh)
@@ -215,8 +199,7 @@ label mergeEdges(const scalar minCos, polyMesh& mesh)
   // Count usage of points
   boolList pointCanBeDeleted;
   label nRemove = pointRemover.countPointUsage(minCos, pointCanBeDeleted);
-  if (nRemove > 0)
-  {
+  if (nRemove > 0) {
     Info << "Removing " << nRemove
       << " straight edge points ..." << endl;
     // Topology changes container
@@ -227,22 +210,19 @@ label mergeEdges(const scalar minCos, polyMesh& mesh)
     // Update fields
     mesh.updateMesh(map);
     // Move mesh (since morphing does not do this)
-    if (map().hasMotionPoints())
-    {
+    if (map().hasMotionPoints()) {
       mesh.movePoints(map().preMotionPoints());
-    }
-    else
-    {
+    } else {
       // Delete mesh volumes. No other way to do this?
       mesh.clearOut();
     }
-  }
-  else
-  {
+  } else {
     Info << "No straight edges simplified and no points removed ..." << endl;
   }
   return nRemove;
 }
+
+
 int main(int argc, char *argv[])
 {
   #include "add_overwrite_option.inc"
@@ -281,8 +261,7 @@ int main(int argc, char *argv[])
     << "      (sin:" << concaveSin << ')' << nl
     << endl;
   autoPtr<IOdictionary> qualDict;
-  if (meshQuality)
-  {
+  if (meshQuality) {
     Info << "Enabling user-defined geometry checks." << nl << endl;
     qualDict.reset
     (
@@ -297,44 +276,38 @@ int main(int argc, char *argv[])
       }
     );
   }
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   // Merge faces on same patch
-  label nChanged = mergePatchFaces
-  (
-    minCos,
-    concaveSin,
-    qualDict,
-    runTime,
-    mesh
-  );
+  label nChanged =
+    mergePatchFaces
+    (
+      minCos,
+      concaveSin,
+      qualDict,
+      runTime,
+      mesh
+    );
   // Merge points on straight edges and remove unused points
-  if (qualDict.valid())
-  {
+  if (qualDict.valid()) {
     Info << "Merging all 'loose' points on surface edges, "
       << "regardless of the angle they make." << endl;
     // Surface bnound to be used to extrude. Merge all loose points.
     nChanged += mergeEdges(-1, mesh);
-  }
-  else
-  {
+  } else {
     nChanged += mergeEdges(minCos, mesh);
   }
-  if (nChanged > 0)
-  {
-    if (overwrite)
-    {
+  if (nChanged > 0) {
+    if (overwrite) {
       mesh.setInstance(oldInstance);
     }
     Info << "Writing morphed mesh to time " << runTime.timeName() << endl;
     mesh.write();
-  }
-  else
-  {
+  } else {
     Info << "Mesh unchanged." << endl;
   }
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

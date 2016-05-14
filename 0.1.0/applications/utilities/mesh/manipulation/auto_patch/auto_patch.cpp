@@ -11,18 +11,18 @@
 #include "ofstream.hpp"
 #include "list_ops.hpp"
 
+
 using namespace mousse;
+
 
 // Get all feature edges.
 void collectFeatureEdges(const boundaryMesh& bMesh, labelList& markedEdges)
 {
   markedEdges.setSize(bMesh.mesh().nEdges());
   label markedI = 0;
-  FOR_ALL(bMesh.featureSegments(), i)
-  {
+  FOR_ALL(bMesh.featureSegments(), i) {
     const labelList& segment = bMesh.featureSegments()[i];
-    FOR_ALL(segment, j)
-    {
+    FOR_ALL(segment, j) {
       label featEdgeI = segment[j];
       label meshEdgeI = bMesh.featureToEdge()[featEdgeI];
       markedEdges[markedI++] = meshEdgeI;
@@ -30,6 +30,7 @@ void collectFeatureEdges(const boundaryMesh& bMesh, labelList& markedEdges)
   }
   markedEdges.setSize(markedI);
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -69,19 +70,16 @@ int main(int argc, char *argv[])
   // Current patch number.
   label newPatchI = bMesh.patches().size();
   label suffix = 0;
-  while (true)
-  {
+  while (true) {
     // Find first unset face.
     label unsetFaceI = findIndex(patchIDs, -1);
-    if (unsetFaceI == -1)
-    {
+    if (unsetFaceI == -1) {
       // All faces have patchID set. Exit.
       break;
     }
     // Found unset face. Create patch for it.
     word patchName;
-    do
-    {
+    do {
       patchName = "auto" + name(suffix++);
     }
     while (bMesh.findPatchID(patchName) != -1);
@@ -92,10 +90,8 @@ int main(int argc, char *argv[])
     bMesh.markFaces(markedEdges, unsetFaceI, visited);
     // Assign all visited faces to current patch
     label nVisited = 0;
-    FOR_ALL(visited, faceI)
-    {
-      if (visited[faceI])
-      {
+    FOR_ALL(visited, faceI) {
+      if (visited[faceI]) {
         nVisited++;
         patchIDs[faceI] = newPatchI;
       }
@@ -106,11 +102,10 @@ int main(int argc, char *argv[])
   }
   const PtrList<boundaryPatch>& patches = bMesh.patches();
   // Create new list of patches with old ones first
-  List<polyPatch*> newPatchPtrList(patches.size());
+  List<polyPatch*> newPatchPtrList{patches.size()};
   newPatchI = 0;
   // Copy old patches
-  FOR_ALL(mesh.boundaryMesh(), patchI)
-  {
+  FOR_ALL(mesh.boundaryMesh(), patchI) {
     const polyPatch& patch = mesh.boundaryMesh()[patchI];
     newPatchPtrList[newPatchI] =
       patch.clone
@@ -123,22 +118,21 @@ int main(int argc, char *argv[])
     newPatchI++;
   }
   // Add new ones with empty size.
-  for (label patchI = newPatchI; patchI < patches.size(); patchI++)
-  {
+  for (label patchI = newPatchI; patchI < patches.size(); patchI++) {
     const boundaryPatch& bp = patches[patchI];
-    newPatchPtrList[newPatchI] = polyPatch::New
-    (
-      polyPatch::typeName,
-      bp.name(),
-      0,
-      mesh.nFaces(),
-      newPatchI,
-      mesh.boundaryMesh()
-    ).ptr();
+    newPatchPtrList[newPatchI] =
+      polyPatch::New
+      (
+        polyPatch::typeName,
+        bp.name(),
+        0,
+        mesh.nFaces(),
+        newPatchI,
+        mesh.boundaryMesh()
+      ).ptr();
     newPatchI++;
   }
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   // Change patches
@@ -148,15 +142,13 @@ int main(int argc, char *argv[])
   // Since bMesh read from mesh there is one to one mapping so we don't
   // have to do the geometric stuff.
   const labelList& meshFace = bMesh.meshFace();
-  FOR_ALL(patchIDs, faceI)
-  {
+  FOR_ALL(patchIDs, faceI) {
     label meshFaceI = meshFace[faceI];
     polyMeshRepatcher.changePatchID(meshFaceI, patchIDs[faceI]);
   }
   polyMeshRepatcher.repatch();
   // Write resulting mesh
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
   }
   // Set the precision of the points data to 10
@@ -165,3 +157,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

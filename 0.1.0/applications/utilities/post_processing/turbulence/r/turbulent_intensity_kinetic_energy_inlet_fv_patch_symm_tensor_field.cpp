@@ -6,6 +6,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 
+
 // Constructors 
 mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::
 turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
@@ -16,6 +17,8 @@ turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   fixedValueFvPatchSymmTensorField{p, iF}
 {}
+
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::
 turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 (
@@ -27,6 +30,8 @@ turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   fixedValueFvPatchSymmTensorField{ptf, p, iF, mapper}
 {}
+
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::
 turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 (
@@ -37,8 +42,10 @@ turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   fixedValueFvPatchSymmTensorField{p, iF}
 {
-  fvPatchSymmTensorField::operator=(symmTensorField("value", dict, p.size()));
+  fvPatchSymmTensorField::operator=(symmTensorField{"value", dict, p.size()});
 }
+
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::
 turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 (
@@ -47,6 +54,8 @@ turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   fixedValueFvPatchSymmTensorField{ptf}
 {}
+
+
 mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::
 turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 (
@@ -56,6 +65,8 @@ turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   fixedValueFvPatchSymmTensorField{ptf, iF}
 {}
+
+
 // Member Functions 
 void mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::write
 (
@@ -66,10 +77,14 @@ void mousse::turbulentIntensityKineticEnergyInletFvPatchSymmTensorField::write
   writeEntry("value", os);
 }
 
+
 namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchSymmTensorField,
   turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 );
+
 }
+

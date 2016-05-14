@@ -8,6 +8,7 @@
 #include "ioobject_list.hpp"
 #include "patch_summary_templates.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -23,14 +24,12 @@ int main(int argc, char *argv[])
   const bool expand = args.optionFound("expand");
   #include "create_named_mesh.inc"
   const polyBoundaryMesh& bm = mesh.boundaryMesh();
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // Update the mesh if changed
-    if (mesh.readUpdate() == polyMesh::TOPO_PATCH_CHANGE)
-    {
-      Info<< "Detected changed patches. Recreating patch group table."
+    if (mesh.readUpdate() == polyMesh::TOPO_PATCH_CHANGE) {
+      Info << "Detected changed patches. Recreating patch group table."
         << endl;
     }
     const IOobjectList fieldObjs{mesh, runTime.timeName()};
@@ -45,9 +44,8 @@ int main(int argc, char *argv[])
     PtrList<pointSphericalTensorField> psptf{objNames.size()};
     PtrList<pointSymmTensorField> psytf{objNames.size()};
     PtrList<pointTensorField> ptf{objNames.size()};
-    Info<< "Valid fields:" << endl;
-    FOR_ALL(objNames, objI)
-    {
+    Info << "Valid fields:" << endl;
+    FOR_ALL(objNames, objI) {
       IOobject obj
       {
         objNames[objI],
@@ -55,8 +53,7 @@ int main(int argc, char *argv[])
         mesh,
         IOobject::MUST_READ
       };
-      if (obj.headerOk())
-      {
+      if (obj.headerOk()) {
         addToFieldList(vsf, obj, objI, mesh);
         addToFieldList(vvf, obj, objI, mesh);
         addToFieldList(vsptf, obj, objI, mesh);
@@ -69,13 +66,11 @@ int main(int argc, char *argv[])
         addToFieldList(ptf, obj, objI, pointMesh::New(mesh));
       }
     }
-    Info<< endl;
-    if (expand)
-    {
+    Info << endl;
+    if (expand) {
       // Print each patch separately
-      FOR_ALL(bm, patchI)
-      {
-        Info<< bm[patchI].type() << "\t: " << bm[patchI].name() << nl;
+      FOR_ALL(bm, patchI) {
+        Info << bm[patchI].type() << "\t: " << bm[patchI].name() << nl;
         outputFieldList(vsf, patchI);
         outputFieldList(vvf, patchI);
         outputFieldList(vsptf, patchI);
@@ -86,19 +81,16 @@ int main(int argc, char *argv[])
         outputFieldList(psptf, patchI);
         outputFieldList(psytf, patchI);
         outputFieldList(ptf, patchI);
-        Info<< endl;
+        Info << endl;
       }
-    }
-    else
-    {
+    } else {
       // Collect for each patch the bc type per field. Merge similar
       // patches.
       // Per 'group', the map from fieldname to patchfield type
       DynamicList<HashTable<word>> fieldToTypes{bm.size()};
       // Per 'group' the patches
       DynamicList<DynamicList<label>> groupToPatches{bm.size()};
-      FOR_ALL(bm, patchI)
-      {
+      FOR_ALL(bm, patchI) {
         HashTable<word> fieldToType;
         collectFieldList(vsf, patchI, fieldToType);
         collectFieldList(vvf, patchI, fieldToType);
@@ -111,38 +103,30 @@ int main(int argc, char *argv[])
         collectFieldList(psytf, patchI, fieldToType);
         collectFieldList(ptf, patchI, fieldToType);
         label groupI = findIndex(fieldToTypes, fieldToType);
-        if (groupI == -1)
-        {
+        if (groupI == -1) {
           DynamicList<label> group{1};
           group.append(patchI);
           groupToPatches.append(group);
           fieldToTypes.append(fieldToType);
-        }
-        else
-        {
+        } else {
           groupToPatches[groupI].append(patchI);
         }
       }
-      FOR_ALL(groupToPatches, groupI)
-      {
+      FOR_ALL(groupToPatches, groupI) {
         const DynamicList<label>& patchIDs = groupToPatches[groupI];
-        if (patchIDs.size() > 1)
-        {
+        if (patchIDs.size() > 1) {
           // Check if part of a group
           wordList groups;
           labelHashSet nonGroupPatches;
           bm.matchGroups(patchIDs, groups, nonGroupPatches);
           const labelList sortedPatches{nonGroupPatches.sortedToc()};
-          FOR_ALL(sortedPatches, i)
-          {
+          FOR_ALL(sortedPatches, i) {
             Info << bm[sortedPatches[i]].type()
               << "\t: " << bm[sortedPatches[i]].name() << nl;
           }
-          if (groups.size())
-          {
-            FOR_ALL(groups, i)
-            {
-              Info<< "group\t: " << groups[i] << nl;
+          if (groups.size()) {
+            FOR_ALL(groups, i) {
+              Info << "group\t: " << groups[i] << nl;
             }
           }
           outputFieldList(vsf, patchIDs[0]);
@@ -156,15 +140,11 @@ int main(int argc, char *argv[])
           outputFieldList(psytf, patchIDs[0]);
           outputFieldList(ptf, patchIDs[0]);
           Info << endl;
-        }
-        else
-        {
+        } else {
           // No group.
-          FOR_ALL(patchIDs, i)
-          {
+          FOR_ALL(patchIDs, i) {
             label patchI = patchIDs[i];
-            Info<< bm[patchI].type()
-              << "\t: " << bm[patchI].name() << nl;
+            Info << bm[patchI].type() << "\t: " << bm[patchI].name() << nl;
             outputFieldList(vsf, patchI);
             outputFieldList(vvf, patchI);
             outputFieldList(vsptf, patchI);
@@ -181,6 +161,7 @@ int main(int argc, char *argv[])
       }
     }
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

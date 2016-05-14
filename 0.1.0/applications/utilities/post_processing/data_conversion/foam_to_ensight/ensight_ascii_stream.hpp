@@ -6,13 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::ensightAsciiStream
-// Description
-// SourceFiles
-//   ensight_ascii_stream.cpp
+
 #include "ensight_stream.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ensightAsciiStream
 :
   public ensightStream
@@ -45,10 +45,7 @@ public:
   virtual ~ensightAsciiStream()
   {}
   // Member Functions
-    virtual bool ascii() const
-    {
-      return true;
-    }
+    virtual bool ascii() const { return true; }
     virtual void write(const char* c)
     {
       str_ << c << nl;
@@ -59,35 +56,28 @@ public:
     }
     virtual void write(const scalarField& sf)
     {
-      FOR_ALL(sf, i)
-      {
-        if (mag(sf[i]) >= scalar(floatScalarVSMALL))
-        {
+      FOR_ALL(sf, i) {
+        if (mag(sf[i]) >= scalar(floatScalarVSMALL)) {
           str_ << setw(12) << sf[i] << nl;
-        }
-        else
-        {
+        } else {
           str_ << setw(12) << scalar(0) << nl;
         }
       }
     }
     virtual void write(const List<int>& sf)
     {
-      FOR_ALL(sf, i)
-      {
+      FOR_ALL(sf, i) {
         str_ << setw(10) << sf[i];
       }
       str_<< nl;
     }
     virtual void writePartHeader(const label partI)
     {
-      str_<< "part" << nl
-        << setw(10) << partI << nl;
+      str_<< "part" << nl << setw(10) << partI << nl;
     }
-  // Member Operators
-  // Friend Functions
-  // Friend Operators
-  // IOstream Operators
 };
+
 }  // namespace mousse
+
 #endif
+

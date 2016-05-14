@@ -7,7 +7,9 @@
 #include "io_sampled_sets.hpp"
 #include "io_sampled_surfaces.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -21,13 +23,11 @@ int main(int argc, char *argv[])
   const word dictName("sampleDict");
   autoPtr<IOsampledSets> sSetsPtr;
   autoPtr<IOsampledSurfaces> sSurfsPtr;
-  if (args.optionFound("dict"))
-  {
+  if (args.optionFound("dict")) {
     // Construct from fileName
     fileName dictPath = args["dict"];
-    if (isDir(dictPath))
-    {
-      dictPath = dictPath / dictName;
+    if (isDir(dictPath)) {
+      dictPath = dictPath/dictName;
     }
     sSetsPtr.reset
     (
@@ -55,9 +55,7 @@ int main(int argc, char *argv[])
         true
       }
     );
-  }
-  else
-  {
+  } else {
     // Construct from name in system() directory
     sSetsPtr.reset
     (
@@ -85,8 +83,7 @@ int main(int argc, char *argv[])
   }
   IOsampledSets& sSets = sSetsPtr();
   IOsampledSurfaces& sSurfs = sSurfsPtr();
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     // Handle geometry/topology changes
@@ -100,3 +97,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

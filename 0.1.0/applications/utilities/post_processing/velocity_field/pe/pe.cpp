@@ -17,6 +17,7 @@
 #include "turbulent_transport_model.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -27,8 +28,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (phiHeader.headerOk())
-  {
+  if (phiHeader.headerOk()) {
     autoPtr<surfaceScalarField> PePtr;
     Info << "    Reading phi" << endl;
     surfaceScalarField phi{phiHeader, mesh};
@@ -50,10 +50,9 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
       IOobject::MUST_READ_IF_MODIFIED
     };
     Info << "    Calculating Pe" << endl;
-    if (phi.dimensions() == dimensionSet{0, 3, -1, 0, 0})
-    {
-      if (turbulencePropertiesHeader.headerOk())
-      {
+    const auto& deltaCoeffs = mesh.surfaceInterpolation::deltaCoeffs();
+    if (phi.dimensions() == dimensionSet{0, 3, -1, 0, 0}) {
+      if (turbulencePropertiesHeader.headerOk()) {
         singlePhaseTransportModel laminarTransport(U, phi);
         autoPtr<incompressible::turbulenceModel> turbulenceModel
         {
@@ -64,6 +63,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
             laminarTransport
           )
         };
+        const auto nuEff = fvc::interpolate(turbulenceModel->nuEff());
         PePtr.set
         (
           new surfaceScalarField
@@ -73,14 +73,10 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
               runTime.timeName(),
               mesh
             },
-            mag(phi)/(mesh.magSf()
-                      *mesh.surfaceInterpolation::deltaCoeffs()
-                      *fvc::interpolate(turbulenceModel->nuEff()))
+            mag(phi)/(mesh.magSf()*deltaCoeffs*nuEff)
           }
         );
-      }
-      else
-      {
+      } else {
         IOdictionary transportProperties
         {
           {
@@ -100,17 +96,12 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
               runTime.timeName(),
               mesh
             },
-            mag(phi)/(mesh.magSf()
-                      *mesh.surfaceInterpolation::deltaCoeffs()
-                      *nu)
+            mag(phi)/(mesh.magSf()*deltaCoeffs*nu)
           }
         );
       }
-    }
-    else if (phi.dimensions() == dimensionSet{1, 0, -1, 0, 0})
-    {
-      if (turbulencePropertiesHeader.headerOk())
-      {
+    } else if (phi.dimensions() == dimensionSet{1, 0, -1, 0, 0}) {
+      if (turbulencePropertiesHeader.headerOk()) {
         autoPtr<fluidThermo> thermo{fluidThermo::New(mesh)};
         volScalarField rho
         {
@@ -131,6 +122,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
             thermo()
           )
         };
+        const auto muEff = fvc::interpolate(turbulenceModel->muEff()); 
         PePtr.set
         (
           new surfaceScalarField
@@ -140,14 +132,10 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
               runTime.timeName(),
               mesh
             },
-            mag(phi)/(mesh.magSf()
-                      *mesh.surfaceInterpolation::deltaCoeffs()
-                      *fvc::interpolate(turbulenceModel->muEff()))
+            mag(phi)/(mesh.magSf()*deltaCoeffs*muEff)
           }
         );
-      }
-      else
-      {
+      } else {
         IOdictionary transportProperties
         {
           {
@@ -167,22 +155,17 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
               runTime.timeName(),
               mesh
             },
-            mag(phi)/(mesh.magSf()
-                      *mesh.surfaceInterpolation::deltaCoeffs()
-                      *mu)
+            mag(phi)/(mesh.magSf()*deltaCoeffs*mu)
           }
         );
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN(args.executable())
         << "Incorrect dimensions of phi: " << phi.dimensions()
           << abort(FatalError);
     }
     Info << "    Pe max : " << max(PePtr()).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       Info << "    Writing surfaceScalarField : "
         << PePtr().name() << endl;
       PePtr().write();
@@ -199,9 +182,8 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
         << Pe.name() << endl;
       Pe.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No phi" << endl;
   }
 }
+

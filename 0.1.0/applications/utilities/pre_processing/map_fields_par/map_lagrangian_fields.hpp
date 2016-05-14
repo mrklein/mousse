@@ -11,8 +11,9 @@
 #include "ioobject_list.hpp"
 #include "compact_io_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 //- Gets the indices of (source)particles that have been appended to the
 //  target cloud and maps the lagrangian fields accordingly.
 template<class Type>
@@ -26,8 +27,7 @@ void MapLagrangianFields
 {
   {
     IOobjectList fields = objects.lookupClass(IOField<Type>::typeName);
-    FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
       const word& fieldName = fieldIter()->name();
       Info << "    mapping lagrangian field " << fieldName << endl;
       // Read field (does not need mesh)
@@ -46,8 +46,7 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
@@ -57,8 +56,7 @@ void MapLagrangianFields
   {
     IOobjectList fieldFields =
       objects.lookupClass(IOField<Field<Type> >::typeName);
-    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter) {
       const word& fieldName = fieldIter()->name();
       Info << "    mapping lagrangian fieldField " << fieldName << endl;
       // Read field (does not need mesh)
@@ -78,8 +76,7 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
@@ -89,8 +86,7 @@ void MapLagrangianFields
   {
     IOobjectList fieldFields =
       objects.lookupClass(CompactIOField<Field<Type>, Type>::typeName);
-    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter) {
       Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
@@ -109,8 +105,7 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
@@ -118,5 +113,8 @@ void MapLagrangianFields
     }
   }
 }
+
 }  // namespace mousse
+
 #endif
+

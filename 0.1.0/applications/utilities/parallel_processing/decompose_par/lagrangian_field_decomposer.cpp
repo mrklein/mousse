@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "lagrangian_field_decomposer.hpp"
+
+
 // Constructors 
 // Construct from components
 mousse::lagrangianFieldDecomposer::lagrangianFieldDecomposer
@@ -21,29 +23,27 @@ mousse::lagrangianFieldDecomposer::lagrangianFieldDecomposer
   particleIndices_{lagrangianPositions.size()}
 {
   label pi = 0;
-  FOR_ALL(cellProcAddressing, procCelli)
-  {
+  FOR_ALL(cellProcAddressing, procCelli) {
     label celli = cellProcAddressing[procCelli];
-    if (cellParticles[celli])
-    {
-      SLList<indexedParticle*>& particlePtrs = *cellParticles[celli];
-      FOR_ALL_CONST_ITER(SLList<indexedParticle*>, particlePtrs, iter)
-      {
-        const indexedParticle& ppi = *iter();
-        particleIndices_[pi++] = ppi.index();
-        positions_.append
-        (
-          new passiveParticle
-          {
-            procMesh,
-            ppi.position(),
-            procCelli,
-            false
-          }
-        );
-      }
+    if (!cellParticles[celli])
+      continue;
+    SLList<indexedParticle*>& particlePtrs = *cellParticles[celli];
+    FOR_ALL_CONST_ITER(SLList<indexedParticle*>, particlePtrs, iter) {
+      const indexedParticle& ppi = *iter();
+      particleIndices_[pi++] = ppi.index();
+      positions_.append
+      (
+        new passiveParticle
+        {
+          procMesh,
+          ppi.position(),
+          procCelli,
+          false
+        }
+      );
     }
   }
   particleIndices_.setSize(pi);
   IOPosition<Cloud<passiveParticle>>(positions_).write();
 }
+

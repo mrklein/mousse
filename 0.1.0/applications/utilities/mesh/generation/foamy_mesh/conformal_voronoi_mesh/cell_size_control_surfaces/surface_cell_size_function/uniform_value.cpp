@@ -4,17 +4,22 @@
 
 #include "uniform_value.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(uniformValue, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    surfaceCellSizeFunction,
-    uniformValue,
-    dictionary
-  );
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(uniformValue, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  surfaceCellSizeFunction,
+  uniformValue,
+  dictionary
+);
+
 }
+
+
 // Constructors 
 mousse::uniformValue::uniformValue
 (
@@ -24,17 +29,19 @@ mousse::uniformValue::uniformValue
 )
 :
   surfaceCellSizeFunction
-  (
+  {
     typeName,
     cellSizeFunctionDict,
     surface,
     defaultCellSize
-  ),
+  },
   surfaceCellSize_
-  (
+  {
     readScalar(coeffsDict().lookup("surfaceCellSizeCoeff"))*defaultCellSize
-  )
+  }
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::uniformValue::interpolate
 (
@@ -44,3 +51,4 @@ mousse::scalar mousse::uniformValue::interpolate
 {
   return surfaceCellSize_;
 }
+

@@ -8,17 +8,19 @@
 //   mousse::faceSelections::faceZoneSelection
 // Description
 //   Select faces from faceZone
-// SourceFiles
-//   face_zone_selection.cpp
+
 #include "face_selection.hpp"
 #include "point_field.hpp"
 #include "bool_list.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class regionSplit;
-namespace faceSelections
-{
+
+namespace faceSelections {
+
 class faceZoneSelection
 :
   public faceSelection
@@ -42,7 +44,7 @@ public:
     autoPtr<faceSelection> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<faceSelection> clone() const");
-      return autoPtr<faceSelection>(NULL);
+      return autoPtr<faceSelection>{nullptr};
     }
   //- Destructor
   virtual ~faceZoneSelection();
@@ -50,6 +52,9 @@ public:
     //- Apply this selector
     virtual void select(const label zoneID, labelList&, boolList&) const;
 };
+
 }  // namespace faceSelections
 }  // namespace mousse
+
 #endif
+

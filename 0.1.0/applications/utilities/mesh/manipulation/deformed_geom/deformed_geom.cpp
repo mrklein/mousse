@@ -8,7 +8,9 @@
 #include "istring_stream.hpp"
 #include "vol_point_interpolation.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -22,8 +24,7 @@ int main(int argc, char *argv[])
   instantList Times = runTime.times();
   pointField zeroPoints{mesh.points()};
   // skip "constant" time
-  for (label timeI = 1; timeI < Times.size(); ++timeI)
-  {
+  for (label timeI = 1; timeI < Times.size(); ++timeI) {
     runTime.setTime(Times[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject Uheader
@@ -34,8 +35,7 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check U exists
-    if (Uheader.headerOk())
-    {
+    if (Uheader.headerOk()) {
       Info << "    Reading U" << endl;
       volVectorField U{Uheader, mesh};
       pointField newPoints
@@ -44,9 +44,7 @@ int main(int argc, char *argv[])
       };
       mesh.polyMesh::movePoints(newPoints);
       mesh.write();
-    }
-    else
-    {
+    } else {
       Info << "    No U" << endl;
     }
     Info << endl;
@@ -54,3 +52,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

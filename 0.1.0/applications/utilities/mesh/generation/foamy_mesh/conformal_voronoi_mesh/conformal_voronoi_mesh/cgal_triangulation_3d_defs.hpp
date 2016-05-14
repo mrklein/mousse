@@ -8,11 +8,14 @@
 #include "cgal_triangulation_3d_kernel.hpp"
 #include "indexed_vertex.hpp"
 #include "indexed_cell.hpp"
-typedef CGAL::indexedVertex<K>     Vb;
-typedef CGAL::indexedCell<K>       Cb;
-typedef CGAL::Compact_location     CompactLocator;
-typedef CGAL::Fast_location        FastLocator;
-typedef CGAL::Triangulation_data_structure_3<Vb, Cb>           Tds;
+
+
+typedef CGAL::indexedVertex<K> Vb;
+typedef CGAL::indexedCell<K> Cb;
+typedef CGAL::Compact_location CompactLocator;
+typedef CGAL::Fast_location FastLocator;
+typedef CGAL::Triangulation_data_structure_3<Vb, Cb> Tds;
 typedef CGAL::Delaunay_triangulation_3<K, Tds, CompactLocator> Delaunay;
-typedef CGAL::Delaunay_triangulation_3<K, Tds, FastLocator>    CellSizeDelaunay;
+typedef CGAL::Delaunay_triangulation_3<K, Tds, FastLocator> CellSizeDelaunay;
+
 #endif

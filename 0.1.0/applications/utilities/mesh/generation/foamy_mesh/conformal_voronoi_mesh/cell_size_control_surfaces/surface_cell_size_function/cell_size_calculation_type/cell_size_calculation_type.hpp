@@ -8,14 +8,17 @@
 //   mousse::cellSizeCalculationType
 // Description
 //   Abstract base class for specifying target cell sizes
-// SourceFiles
-//   cell_size_calculation_type.cpp
+
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "tri_surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfaceMesh;
+
+
 class cellSizeCalculationType
 {
 protected:
@@ -66,5 +69,8 @@ public:
     //- Load the cell size
     virtual tmp<triSurfacePointScalarField> load() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

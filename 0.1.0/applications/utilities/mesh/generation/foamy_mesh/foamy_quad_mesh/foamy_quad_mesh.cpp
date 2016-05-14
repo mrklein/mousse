@@ -13,7 +13,11 @@
 #include "poly_topo_change.hpp"
 #include "edge_collapser.hpp"
 #include "global_index.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -27,7 +31,6 @@ int main(int argc, char *argv[])
   #include "set_root_case.inc"
   #include "create_time.inc"
   // Read control dictionary
-  // ~~~~~~~~~~~~~~~~~~~~~~~
   IOdictionary controlDict
   {
     {
@@ -44,47 +47,41 @@ int main(int argc, char *argv[])
   Switch extrude{extrusionDict.lookup("extrude")};
   const bool overwrite = args.optionFound("overwrite");
   // Read and triangulation
-  // ~~~~~~~~~~~~~~~~~~~~~~
   CV2D mesh{runTime, controlDict};
-  if (args.options().found("pointsFile"))
-  {
+  if (args.options().found("pointsFile")) {
     fileName pointFileName{IStringStream{args.options()["pointsFile"]}()};
     mesh.insertPoints(pointFileName);
-  }
-  else
-  {
+  } else {
     mesh.insertGrid();
   }
   mesh.insertSurfacePointPairs();
   mesh.boundaryConform();
-  while (runTime.loop())
-  {
-    Info<< nl << "Time = " << runTime.timeName() << endl;
+  while (runTime.loop()) {
+    Info << nl << "Time = " << runTime.timeName() << endl;
     mesh.newPoints();
   }
   mesh.write();
-  Info<< "Finished Delaunay in = " << runTime.cpuTimeIncrement() << " s."
+  Info << "Finished Delaunay in = " << runTime.cpuTimeIncrement() << " s."
     << endl;
-  Info<< "Begin filtering short edges:" << endl;
-  shortEdgeFilter2D sef(mesh, shortEdgeFilterDict);
+  Info << "Begin filtering short edges:" << endl;
+  shortEdgeFilter2D sef{mesh, shortEdgeFilterDict};
   sef.filter();
-  Info<< "Meshed surface after edge filtering :" << endl;
+  Info << "Meshed surface after edge filtering :" << endl;
   sef.fMesh().writeStats(Info);
-  if (mesh.meshControls().meshedSurfaceOutput())
-  {
-    Info<< "Write .obj file of the 2D mesh: MeshedSurface.obj" << endl;
+  if (mesh.meshControls().meshedSurfaceOutput()) {
+    Info << "Write .obj file of the 2D mesh: MeshedSurface.obj" << endl;
     sef.fMesh().write("MeshedSurface.obj");
   }
-  Info<< "Finished filtering in = " << runTime.cpuTimeIncrement() << " s."
+  Info << "Finished filtering in = " << runTime.cpuTimeIncrement() << " s."
     << endl;
-  Info<< "Begin constructing a polyMesh:" << endl;
+  Info << "Begin constructing a polyMesh:" << endl;
   patchToPoly2DMesh poly2DMesh
-  (
+  {
     sef.fMesh(),
     sef.patchNames(),
     sef.patchSizes(),
     sef.mapEdgesRegion()
-  );
+  };
   poly2DMesh.createMesh();
   polyMesh pMesh
   {
@@ -101,30 +98,29 @@ int main(int argc, char *argv[])
     xferMove(poly2DMesh.owner()),
     xferMove(poly2DMesh.neighbour())
   };
-  Info<< "Constructing patches." << endl;
+  Info << "Constructing patches." << endl;
   List<polyPatch*> patches{poly2DMesh.patchNames().size()};
   label countPatches = 0;
-  FOR_ALL(patches, patchI)
-  {
-    if (poly2DMesh.patchSizes()[patchI] != 0)
-    {
-      patches[countPatches] = new polyPatch
-      (
+  FOR_ALL(patches, patchI) {
+    if (poly2DMesh.patchSizes()[patchI] == 0)
+      continue;
+    patches[countPatches] =
+      new polyPatch
+      {
         poly2DMesh.patchNames()[patchI],
         poly2DMesh.patchSizes()[patchI],
         poly2DMesh.patchStarts()[patchI],
         countPatches,
         pMesh.boundaryMesh(),
         word::null
-      );
-      countPatches++;
-    }
+      };
+    countPatches++;
   }
   patches.setSize(countPatches);
   pMesh.addPatches(patches);
-  if (extrude)
-  {
-    Info<< "Begin extruding the polyMesh:" << endl;
+  if (extrude) {
+    Info << "Begin extruding the polyMesh:" << endl;
+
     {
       // Point generator
       autoPtr<extrudeModel> model{extrudeModel::New(extrusionDict)};
@@ -136,17 +132,15 @@ int main(int argc, char *argv[])
       pMesh.updateMesh(morphMap);
     }
   }
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
-  }
-  else
-  {
+  } else {
     pMesh.setInstance("constant");
   }
   pMesh.write();
-  Info<< "Finished extruding in = "
+  Info << "Finished extruding in = "
     << runTime.cpuTimeIncrement() << " s." << endl;
-  Info<< nl << "End\n" << endl;
+  Info << nl << "End\n" << endl;
   return 0;
 }
+

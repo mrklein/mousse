@@ -8,46 +8,50 @@
 #include "tet_wedge_matcher.hpp"
 #include "tet_matcher.hpp"
 #include "iomanip.hpp"
+
+
 void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
 {
-  Info<< "Mesh stats" << nl
+  Info << "Mesh stats" << nl
     << "    points:           "
     << returnReduce(mesh.points().size(), sumOp<label>()) << nl;
-  label nInternalPoints = returnReduce
-  (
-    mesh.nInternalPoints(),
-    sumOp<label>()
-  );
-  if (nInternalPoints != -Pstream::nProcs())
-  {
-    Info<< "    internal points:  " << nInternalPoints << nl;
-    if (returnReduce(mesh.nInternalPoints(), minOp<label>()) == -1)
-    {
+  label nInternalPoints =
+    returnReduce
+    (
+      mesh.nInternalPoints(),
+      sumOp<label>()
+    );
+  if (nInternalPoints != -Pstream::nProcs()) {
+    Info << "    internal points:  " << nInternalPoints << nl;
+    if (returnReduce(mesh.nInternalPoints(), minOp<label>()) == -1) {
       WARNING_IN("mousse::printMeshStats(const polyMesh&, const bool)")
         << "Some processors have their points sorted into internal"
         << " and external and some do not." << endl
         << "This can cause problems later on." << endl;
     }
   }
-  if (allTopology && nInternalPoints != -Pstream::nProcs())
-  {
+  if (allTopology && nInternalPoints != -Pstream::nProcs()) {
     label nEdges = returnReduce(mesh.nEdges(), sumOp<label>());
-    label nInternalEdges = returnReduce
-    (
-      mesh.nInternalEdges(),
-      sumOp<label>()
-    );
-    label nInternal1Edges = returnReduce
-    (
-      mesh.nInternal1Edges(),
-      sumOp<label>()
-    );
-    label nInternal0Edges = returnReduce
-    (
-      mesh.nInternal0Edges(),
-      sumOp<label>()
-    );
-    Info<< "    edges:            " << nEdges << nl
+    label nInternalEdges =
+      returnReduce
+      (
+        mesh.nInternalEdges(),
+        sumOp<label>()
+      );
+    label nInternal1Edges =
+      returnReduce
+      (
+        mesh.nInternal1Edges(),
+        sumOp<label>()
+      );
+    label nInternal0Edges =
+      returnReduce
+      (
+        mesh.nInternal0Edges(),
+        sumOp<label>()
+      );
+    Info
+      << "    edges:            " << nEdges << nl
       << "    internal edges:   " << nInternalEdges << nl
       << "    internal edges using one boundary point:   "
       << nInternal1Edges-nInternal0Edges << nl
@@ -57,7 +61,8 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
   label nFaces = returnReduce(mesh.faces().size(), sumOp<label>());
   label nIntFaces = returnReduce(mesh.faceNeighbour().size(), sumOp<label>());
   label nCells = returnReduce(mesh.cells().size(), sumOp<label>());
-  Info<< "    faces:            " << nFaces << nl
+  Info
+    << "    faces:            " << nFaces << nl
     << "    internal faces:   " << nIntFaces << nl
     << "    cells:            " << nCells << nl
     << "    faces per cell:   "
@@ -83,34 +88,20 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
   label nTetWedge = 0;
   label nUnknown = 0;
   Map<label> polyhedralFaces;
-  for (label cellI = 0; cellI < mesh.nCells(); cellI++)
-  {
-    if (hex.isA(mesh, cellI))
-    {
+  for (label cellI = 0; cellI < mesh.nCells(); cellI++) {
+    if (hex.isA(mesh, cellI)) {
       nHex++;
-    }
-    else if (tet.isA(mesh, cellI))
-    {
+    } else if (tet.isA(mesh, cellI)) {
       nTet++;
-    }
-    else if (pyr.isA(mesh, cellI))
-    {
+    } else if (pyr.isA(mesh, cellI)) {
       nPyr++;
-    }
-    else if (prism.isA(mesh, cellI))
-    {
+    } else if (prism.isA(mesh, cellI)) {
       nPrism++;
-    }
-    else if (wedge.isA(mesh, cellI))
-    {
+    } else if (wedge.isA(mesh, cellI)) {
       nWedge++;
-    }
-    else if (tetWedge.isA(mesh, cellI))
-    {
+    } else if (tetWedge.isA(mesh, cellI)) {
       nTetWedge++;
-    }
-    else
-    {
+    } else {
       nUnknown++;
       polyhedralFaces(mesh.cells()[cellI].size())++;
     }
@@ -122,7 +113,8 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
   reduce(nTetWedge,sumOp<label>());
   reduce(nTet,sumOp<label>());
   reduce(nUnknown,sumOp<label>());
-  Info<< "Overall number of cells of each type:" << nl
+  Info
+    << "Overall number of cells of each type:" << nl
     << "    hexahedra:     " << nHex << nl
     << "    prisms:        " << nPrism << nl
     << "    wedges:        " << nWedge << nl
@@ -131,18 +123,18 @@ void mousse::printMeshStats(const polyMesh& mesh, const bool allTopology)
     << "    tetrahedra:    " << nTet << nl
     << "    polyhedra:     " << nUnknown
     << endl;
-  if (nUnknown > 0)
-  {
+  if (nUnknown > 0) {
     Pstream::mapCombineGather(polyhedralFaces, plusEqOp<label>());
-    Info<< "    Breakdown of polyhedra by number of faces:" << nl
+    Info
+      << "    Breakdown of polyhedra by number of faces:" << nl
       << "        faces" << "   number of cells" << endl;
     const labelList sortedKeys = polyhedralFaces.sortedToc();
-    FOR_ALL(sortedKeys, keyI)
-    {
+    FOR_ALL(sortedKeys, keyI) {
       const label nFaces = sortedKeys[keyI];
-      Info<< setf(std::ios::right) << setw(13)
+      Info << setf(std::ios::right) << setw(13)
         << nFaces << "   " << polyhedralFaces[nFaces] << nl;
     }
   }
-  Info<< endl;
+  Info << endl;
 }
+

@@ -18,6 +18,8 @@
 #include "face_set.hpp"
 #include "point_set.hpp"
 #include "uniform_dimensioned_fields.hpp"
+
+
 // Private Member Functions 
 void mousse::domainDecomposition::mark
 (
@@ -26,21 +28,19 @@ void mousse::domainDecomposition::mark
   labelList& elementToZone
 )
 {
-  FOR_ALL(zoneElems, i)
-  {
+  FOR_ALL(zoneElems, i) {
     label pointi = zoneElems[i];
-    if (elementToZone[pointi] == -1)
-    {
+    if (elementToZone[pointi] == -1) {
       // First occurrence
       elementToZone[pointi] = zoneI;
-    }
-    else if (elementToZone[pointi] >= 0)
-    {
+    } else if (elementToZone[pointi] >= 0) {
       // Multiple zones
       elementToZone[pointi] = -2;
     }
   }
 }
+
+
 // Constructors 
 mousse::domainDecomposition::domainDecomposition(const IOobject& io)
 :
@@ -48,24 +48,22 @@ mousse::domainDecomposition::domainDecomposition(const IOobject& io)
   facesInstancePointsPtr_
   {
     pointsInstance() != facesInstance()
-   ? new pointIOField
-     {
-       // IOobject
-       {
-         "points",
-         facesInstance(),
-         polyMesh::meshSubDir,
-         *this,
-         IOobject::MUST_READ,
-         IOobject::NO_WRITE,
-         false
-       }
-     }
-    : NULL
+    ? new pointIOField
+      {
+        {
+          "points",
+          facesInstance(),
+          polyMesh::meshSubDir,
+          *this,
+          IOobject::MUST_READ,
+          IOobject::NO_WRITE,
+          false
+        }
+      }
+    : nullptr
   },
   decompositionDict_
   {
-    // IOobject
     {
       "decomposeParDict",
       time().system(),
@@ -90,13 +88,17 @@ mousse::domainDecomposition::domainDecomposition(const IOobject& io)
 {
   decompositionDict_.readIfPresent("distributed", distributed_);
 }
+
+
 // Destructor 
 mousse::domainDecomposition::~domainDecomposition()
 {}
+
+
 // Member Functions 
 bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
 {
-  Info<< "\nConstructing processor meshes" << endl;
+  Info << "\nConstructing processor meshes" << endl;
   // Mark point/faces/cells that are in zones.
   // -1   : not in zone
   // -2   : in multiple zones
@@ -106,50 +108,43 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
   // for the duplicate elements
   // Point zones
   labelList pointToZone{points().size(), -1};
-  FOR_ALL(pointZones(), zoneI)
-  {
+  FOR_ALL(pointZones(), zoneI) {
     mark(pointZones()[zoneI], zoneI, pointToZone);
   }
   // Face zones
   labelList faceToZone{faces().size(), -1};
-  FOR_ALL(faceZones(), zoneI)
-  {
+  FOR_ALL(faceZones(), zoneI) {
     mark(faceZones()[zoneI], zoneI, faceToZone);
   }
   // Cell zones
   labelList cellToZone{nCells(), -1};
-  FOR_ALL(cellZones(), zoneI)
-  {
+  FOR_ALL(cellZones(), zoneI) {
     mark(cellZones()[zoneI], zoneI, cellToZone);
   }
   PtrList<const cellSet> cellSets;
   PtrList<const faceSet> faceSets;
   PtrList<const pointSet> pointSets;
-  if (decomposeSets)
-  {
+  if (decomposeSets) {
     // Read sets
     IOobjectList objects{*this, facesInstance(), "polyMesh/sets"};
 
     {
       IOobjectList cSets{objects.lookupClass(cellSet::typeName)};
-      FOR_ALL_CONST_ITER(IOobjectList, cSets, iter)
-      {
+      FOR_ALL_CONST_ITER(IOobjectList, cSets, iter) {
         cellSets.append(new cellSet{*iter()});
       }
     }
 
     {
       IOobjectList fSets{objects.lookupClass(faceSet::typeName)};
-      FOR_ALL_CONST_ITER(IOobjectList, fSets, iter)
-      {
+      FOR_ALL_CONST_ITER(IOobjectList, fSets, iter) {
         faceSets.append(new faceSet{*iter()});
       }
     }
 
     {
       IOobjectList pSets{objects.lookupClass(pointSet::typeName)};
-      FOR_ALL_CONST_ITER(IOobjectList, pSets, iter)
-      {
+      FOR_ALL_CONST_ITER(IOobjectList, pSets, iter) {
         pointSets.append(new pointSet{*iter()});
       }
     }
@@ -167,12 +162,12 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       IOobject::MUST_READ,
       IOobject::NO_WRITE
     };
-    if (io.headerOk())
-    {
-      Info<< "Reading hexRef8 data : " << io.name() << endl;
+    if (io.headerOk()) {
+      Info << "Reading hexRef8 data : " << io.name() << endl;
       cellLevelPtr.reset(new labelIOList{io});
     }
   }
+
   autoPtr<labelIOList> pointLevelPtr;
 
   {
@@ -185,9 +180,8 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       IOobject::MUST_READ,
       IOobject::NO_WRITE
     };
-    if (io.headerOk())
-    {
-      Info<< "Reading hexRef8 data : " << io.name() << endl;
+    if (io.headerOk()) {
+      Info << "Reading hexRef8 data : " << io.name() << endl;
       pointLevelPtr.reset(new labelIOList{io});
     }
   }
@@ -204,9 +198,8 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       IOobject::MUST_READ,
       IOobject::NO_WRITE
     };
-    if (io.headerOk())
-    {
-      Info<< "Reading hexRef8 data : " << io.name() << endl;
+    if (io.headerOk()) {
+      Info << "Reading hexRef8 data : " << io.name() << endl;
       level0EdgePtr.reset(new uniformDimensionedScalarField{io});
     }
   }
@@ -216,15 +209,13 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
   label totProcPatches = 0;
   label maxProcFaces = 0;
   // Write out the meshes
-  for (label procI = 0; procI < nProcs_; procI++)
-  {
+  for (label procI = 0; procI < nProcs_; procI++) {
     // Create processor points
     const labelList& curPointLabels = procPointAddressing_[procI];
     const pointField& meshPoints = points();
     labelList pointLookup{nPoints(), -1};
     pointField procPoints{curPointLabels.size()};
-    FOR_ALL(curPointLabels, pointi)
-    {
+    FOR_ALL(curPointLabels, pointi) {
       procPoints[pointi] = meshPoints[curPointLabels[pointi]];
       pointLookup[curPointLabels[pointi]] = pointi;
     }
@@ -233,8 +224,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     const faceList& meshFaces = faces();
     labelList faceLookup{nFaces(), -1};
     faceList procFaces{curFaceLabels.size()};
-    FOR_ALL(curFaceLabels, facei)
-    {
+    FOR_ALL(curFaceLabels, facei) {
       // Mark the original face as used
       // Remember to decrement the index by one (turning index)
       //
@@ -242,20 +232,16 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       faceLookup[curF] = facei;
       // get the original face
       labelList origFaceLabels;
-      if (curFaceLabels[facei] >= 0)
-      {
+      if (curFaceLabels[facei] >= 0) {
         // face not turned
         origFaceLabels = meshFaces[curF];
-      }
-      else
-      {
+      } else {
         origFaceLabels = meshFaces[curF].reverseFace();
       }
       // translate face labels into local point list
       face& procFaceLabels = procFaces[facei];
       procFaceLabels.setSize(origFaceLabels.size());
-      FOR_ALL(origFaceLabels, pointi)
-      {
+      FOR_ALL(origFaceLabels, pointi) {
         procFaceLabels[pointi] = pointLookup[origFaceLabels[pointi]];
       }
     }
@@ -263,21 +249,19 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     const labelList& curCellLabels = procCellAddressing_[procI];
     const cellList& meshCells = cells();
     cellList procCells{curCellLabels.size()};
-    FOR_ALL(curCellLabels, celli)
-    {
+    FOR_ALL(curCellLabels, celli) {
       const labelList& origCellLabels = meshCells[curCellLabels[celli]];
       cell& curCell = procCells[celli];
       curCell.setSize(origCellLabels.size());
-      FOR_ALL(origCellLabels, cellFaceI)
-      {
+      FOR_ALL(origCellLabels, cellFaceI) {
         curCell[cellFaceI] = faceLookup[origCellLabels[cellFaceI]];
       }
     }
     // Create processor mesh without a boundary
     fileName processorCasePath
-    (
+    {
       time().caseName()/fileName(word("processor") + mousse::name(procI))
-    );
+    };
     // make the processor directory
     mkDir(time().rootPath()/processorCasePath);
     // create a database
@@ -300,19 +284,17 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     //   Only at writing time will it additionally write the current
     //   points.
     autoPtr<polyMesh> procMeshPtr;
-    if (facesInstancePointsPtr_.valid())
-    {
+    if (facesInstancePointsPtr_.valid()) {
       // Construct mesh from facesInstance.
       pointField facesInstancePoints
-      (
+      {
         facesInstancePointsPtr_(),
         curPointLabels
-      );
+      };
       procMeshPtr.reset
       (
         new polyMesh
         {
-          // IOobject
           {
             this->polyMesh::name(), // region of undecomposed mesh
             facesInstance(),
@@ -323,9 +305,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           xferMove(procCells)
         }
       );
-    }
-    else
-    {
+    } else {
       procMeshPtr.reset
       (
         new polyMesh
@@ -346,37 +326,31 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     // Create processor boundary patches
     const labelList& curPatchSizes = procPatchSize_[procI];
     const labelList& curPatchStarts = procPatchStartIndex_[procI];
-    const labelList& curNeighbourProcessors =
-      procNeighbourProcessors_[procI];
-    const labelList& curProcessorPatchSizes =
-      procProcessorPatchSize_[procI];
+    const labelList& curNeighbourProcessors = procNeighbourProcessors_[procI];
+    const labelList& curProcessorPatchSizes = procProcessorPatchSize_[procI];
     const labelList& curProcessorPatchStarts =
       procProcessorPatchStartIndex_[procI];
-    const labelListList& curSubPatchIDs =
-      procProcessorPatchSubPatchIDs_[procI];
+    const labelListList& curSubPatchIDs = procProcessorPatchSubPatchIDs_[procI];
     const labelListList& curSubStarts =
       procProcessorPatchSubPatchStarts_[procI];
     const polyPatchList& meshPatches = boundaryMesh();
     // Count the number of inter-proc patches
     label nInterProcPatches = 0;
-    FOR_ALL(curSubPatchIDs, procPatchI)
-    {
+    FOR_ALL(curSubPatchIDs, procPatchI) {
       nInterProcPatches += curSubPatchIDs[procPatchI].size();
     }
     List<polyPatch*> procPatches
     {
-      curPatchSizes.size()
-        + nInterProcPatches,          //curProcessorPatchSizes.size(),
+      curPatchSizes.size() + nInterProcPatches,
       reinterpret_cast<polyPatch*>(0)
     };
     label nPatches = 0;
-    FOR_ALL(curPatchSizes, patchi)
-    {
+    FOR_ALL(curPatchSizes, patchi) {
       // Get the face labels consistent with the field mapping
       // (reuse the patch field mappers)
       const polyPatch& meshPatch = meshPatches[patchi];
       fvFieldDecomposer::patchFieldDecomposer patchMapper
-      (
+      {
         SubList<label>
         {
           curFaceLabels,
@@ -384,39 +358,39 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           curPatchStarts[patchi]
         },
         meshPatch.start()
-      );
+      };
       // Map existing patches
-      procPatches[nPatches] = meshPatch.clone
-      (
-        procMesh.boundaryMesh(),
-        nPatches,
-        patchMapper.directAddressing(),
-        curPatchStarts[patchi]
-      ).ptr();
+      procPatches[nPatches] =
+        meshPatch.clone
+        (
+          procMesh.boundaryMesh(),
+          nPatches,
+          patchMapper.directAddressing(),
+          curPatchStarts[patchi]
+        ).ptr();
       nPatches++;
     }
-    FOR_ALL(curProcessorPatchSizes, procPatchI)
-    {
+    FOR_ALL(curProcessorPatchSizes, procPatchI) {
       const labelList& subPatchID = curSubPatchIDs[procPatchI];
       const labelList& subStarts = curSubStarts[procPatchI];
       label curStart = curProcessorPatchStarts[procPatchI];
-      FOR_ALL(subPatchID, i)
-      {
+      FOR_ALL(subPatchID, i) {
         label size =
         (
           i < subPatchID.size()-1
-         ? subStarts[i+1] - subStarts[i]
-         : curProcessorPatchSizes[procPatchI] - subStarts[i]
+          ? subStarts[i+1] - subStarts[i]
+          : curProcessorPatchSizes[procPatchI] - subStarts[i]
         );
-        if (subPatchID[i] == -1)
-        {
+        const auto nbr_name =
+          mousse::name(curNeighbourProcessors[procPatchI]);
+        const auto bdr_name = 
+          word("procBoundary") + mousse::name(procI) + "to" + nbr_name;
+        if (subPatchID[i] == -1) {
           // From internal faces
           procPatches[nPatches] =
             new processorPolyPatch
             {
-              word("procBoundary") + mousse::name(procI)
-             + "to"
-             + mousse::name(curNeighbourProcessors[procPatchI]),
+              bdr_name,
               size,
               curStart,
               nPatches,
@@ -424,24 +398,15 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
               static_cast<int>(procI),
               static_cast<int>(curNeighbourProcessors[procPatchI])
             };
-        }
-        else
-        {
-          const coupledPolyPatch& pcPatch
-            = refCast<const coupledPolyPatch>
-             (
-               boundaryMesh()[subPatchID[i]]
-             );
+        } else {
+          const coupledPolyPatch& pcPatch =
+            refCast<const coupledPolyPatch>(boundaryMesh()[subPatchID[i]]);
           // From cyclic
           const word& referPatch = pcPatch.name();
           procPatches[nPatches] =
             new processorCyclicPolyPatch
             {
-              word("procBoundary") + mousse::name(procI)
-             + "to"
-             + mousse::name(curNeighbourProcessors[procPatchI])
-             + "through"
-             + referPatch,
+              bdr_name + "through" + referPatch,
               size,
               curStart,
               nPatches,
@@ -467,29 +432,22 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       // necessary
       List<DynamicList<label>> zonePoints{pz.size()};
       // Estimate size
-      FOR_ALL(zonePoints, zoneI)
-      {
-        zonePoints[zoneI].setCapacity(pz[zoneI].size() / nProcs_);
+      FOR_ALL(zonePoints, zoneI) {
+        zonePoints[zoneI].setCapacity(pz[zoneI].size()/nProcs_);
       }
       // Use the pointToZone map to find out the single zone (if any),
       // use slow search only for shared points.
-      FOR_ALL(curPointLabels, pointi)
-      {
+      FOR_ALL(curPointLabels, pointi) {
         label curPoint = curPointLabels[pointi];
         label zoneI = pointToZone[curPoint];
-        if (zoneI >= 0)
-        {
+        if (zoneI >= 0) {
           // Single zone.
           zonePoints[zoneI].append(pointi);
-        }
-        else if (zoneI == -2)
-        {
+        } else if (zoneI == -2) {
           // Multiple zones. Lookup.
-          FOR_ALL(pz, zoneI)
-          {
+          FOR_ALL(pz, zoneI) {
             label index = pz[zoneI].whichPoint(curPoint);
-            if (index != -1)
-            {
+            if (index != -1) {
               zonePoints[zoneI].append(pointi);
             }
           }
@@ -497,8 +455,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       }
       procMesh.pointZones().clearAddressing();
       procMesh.pointZones().setSize(zonePoints.size());
-      FOR_ALL(zonePoints, zoneI)
-      {
+      FOR_ALL(zonePoints, zoneI) {
         procMesh.pointZones().set
         (
           zoneI,
@@ -510,8 +467,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           )
         );
       }
-      if (pz.size())
-      {
+      if (pz.size()) {
         // Force writing on all processors
         procMesh.pointZones().writeOpt() = IOobject::AUTO_WRITE;
       }
@@ -522,11 +478,10 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       // Go through all the zoned face and find out if they
       // belong to a zone.  If so, add it to the zone as
       // necessary
-      List<DynamicList<label> > zoneFaces{fz.size()};
-      List<DynamicList<bool> > zoneFaceFlips{fz.size()};
+      List<DynamicList<label>> zoneFaces{fz.size()};
+      List<DynamicList<bool>> zoneFaceFlips{fz.size()};
       // Estimate size
-      FOR_ALL(zoneFaces, zoneI)
-      {
+      FOR_ALL(zoneFaces, zoneI) {
         label procSize = fz[zoneI].size() / nProcs_;
         zoneFaces[zoneI].setCapacity(procSize);
         zoneFaceFlips[zoneI].setCapacity(procSize);
@@ -534,36 +489,27 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       // Go through all the zoned faces and find out if they
       // belong to a zone.  If so, add it to the zone as
       // necessary
-      FOR_ALL(curFaceLabels, facei)
-      {
+      FOR_ALL(curFaceLabels, facei) {
         // Remember to decrement the index by one (turning index)
-        //
         label curF = mag(curFaceLabels[facei]) - 1;
         label zoneI = faceToZone[curF];
-        if (zoneI >= 0)
-        {
+        if (zoneI >= 0) {
           // Single zone. Add the face
           zoneFaces[zoneI].append(facei);
           label index = fz[zoneI].whichFace(curF);
           bool flip = fz[zoneI].flipMap()[index];
-          if (curFaceLabels[facei] < 0)
-          {
+          if (curFaceLabels[facei] < 0) {
             flip = !flip;
           }
           zoneFaceFlips[zoneI].append(flip);
-        }
-        else if (zoneI == -2)
-        {
+        } else if (zoneI == -2) {
           // Multiple zones. Lookup.
-          FOR_ALL(fz, zoneI)
-          {
+          FOR_ALL(fz, zoneI) {
             label index = fz[zoneI].whichFace(curF);
-            if (index != -1)
-            {
+            if (index != -1) {
               zoneFaces[zoneI].append(facei);
               bool flip = fz[zoneI].flipMap()[index];
-              if (curFaceLabels[facei] < 0)
-              {
+              if (curFaceLabels[facei] < 0) {
                 flip = !flip;
               }
               zoneFaceFlips[zoneI].append(flip);
@@ -573,8 +519,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       }
       procMesh.faceZones().clearAddressing();
       procMesh.faceZones().setSize(zoneFaces.size());
-      FOR_ALL(zoneFaces, zoneI)
-      {
+      FOR_ALL(zoneFaces, zoneI) {
         procMesh.faceZones().set
         (
           zoneI,
@@ -587,8 +532,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           )
         );
       }
-      if (fz.size())
-      {
+      if (fz.size()) {
         // Force writing on all processors
         procMesh.faceZones().writeOpt() = IOobject::AUTO_WRITE;
       }
@@ -599,29 +543,22 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       // Go through all the zoned cells and find out if they
       // belong to a zone.  If so, add it to the zone as
       // necessary
-      List<DynamicList<label> > zoneCells{cz.size()};
+      List<DynamicList<label>> zoneCells{cz.size()};
       // Estimate size
-      FOR_ALL(zoneCells, zoneI)
-      {
-        zoneCells[zoneI].setCapacity(cz[zoneI].size() / nProcs_);
+      FOR_ALL(zoneCells, zoneI) {
+        zoneCells[zoneI].setCapacity(cz[zoneI].size()/nProcs_);
       }
-      FOR_ALL(curCellLabels, celli)
-      {
+      FOR_ALL(curCellLabels, celli) {
         label curCellI = curCellLabels[celli];
         label zoneI = cellToZone[curCellI];
-        if (zoneI >= 0)
-        {
+        if (zoneI >= 0) {
           // Single zone.
           zoneCells[zoneI].append(celli);
-        }
-        else if (zoneI == -2)
-        {
+        } else if (zoneI == -2) {
           // Multiple zones. Lookup.
-          FOR_ALL(cz, zoneI)
-          {
+          FOR_ALL(cz, zoneI) {
             label index = cz[zoneI].whichCell(curCellI);
-            if (index != -1)
-            {
+            if (index != -1) {
               zoneCells[zoneI].append(celli);
             }
           }
@@ -629,8 +566,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       }
       procMesh.cellZones().clearAddressing();
       procMesh.cellZones().setSize(zoneCells.size());
-      FOR_ALL(zoneCells, zoneI)
-      {
+      FOR_ALL(zoneCells, zoneI) {
         procMesh.cellZones().set
         (
           zoneI,
@@ -642,8 +578,7 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           )
         );
       }
-      if (cz.size())
-      {
+      if (cz.size()) {
         // Force writing on all processors
         procMesh.cellZones().writeOpt() = IOobject::AUTO_WRITE;
       }
@@ -652,11 +587,9 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     IOstream::defaultPrecision(10);
     procMesh.write();
     // Write points if pointsInstance differing from facesInstance
-    if (facesInstancePointsPtr_.valid())
-    {
+    if (facesInstancePointsPtr_.valid()) {
       pointIOField pointsInstancePoints
       {
-        // IOobject
         {
           "points",
           pointsInstance(),
@@ -671,42 +604,32 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       pointsInstancePoints.write();
     }
     // Decompose any sets
-    if (decomposeSets)
-    {
-      FOR_ALL(cellSets, i)
-      {
+    if (decomposeSets) {
+      FOR_ALL(cellSets, i) {
         const cellSet& cs = cellSets[i];
         cellSet set{procMesh, cs.name(), cs.size()/nProcs_};
-        FOR_ALL(curCellLabels, i)
-        {
-          if (cs.found(curCellLabels[i]))
-          {
+        FOR_ALL(curCellLabels, i) {
+          if (cs.found(curCellLabels[i])) {
             set.insert(i);
           }
         }
         set.write();
       }
-      FOR_ALL(faceSets, i)
-      {
+      FOR_ALL(faceSets, i) {
         const faceSet& cs = faceSets[i];
         faceSet set{procMesh, cs.name(), cs.size()/nProcs_};
-        FOR_ALL(curFaceLabels, i)
-        {
-          if (cs.found(mag(curFaceLabels[i])-1))
-          {
+        FOR_ALL(curFaceLabels, i) {
+          if (cs.found(mag(curFaceLabels[i])-1)) {
             set.insert(i);
           }
         }
         set.write();
       }
-      FOR_ALL(pointSets, i)
-      {
+      FOR_ALL(pointSets, i) {
         const pointSet& cs = pointSets[i];
-        pointSet set(procMesh, cs.name(), cs.size()/nProcs_);
-        FOR_ALL(curPointLabels, i)
-        {
-          if (cs.found(curPointLabels[i]))
-          {
+        pointSet set{procMesh, cs.name(), cs.size()/nProcs_};
+        FOR_ALL(curPointLabels, i) {
+          if (cs.found(curPointLabels[i])) {
             set.insert(i);
           }
         }
@@ -714,11 +637,9 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
       }
     }
     // hexRef8 data
-    if (cellLevelPtr.valid())
-    {
+    if (cellLevelPtr.valid()) {
       labelIOList
-      (
-        IOobject
+      {
         {
           cellLevelPtr().name(),
           facesInstance(),
@@ -727,18 +648,12 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           IOobject::NO_READ,
           IOobject::AUTO_WRITE
         },
-        UIndirectList<label>
-        {
-          cellLevelPtr(),
-          procCellAddressing_[procI]
-        }()
-      ).write();
+        UIndirectList<label>{cellLevelPtr(), procCellAddressing_[procI]}()
+      }.write();
     }
-    if (pointLevelPtr.valid())
-    {
+    if (pointLevelPtr.valid()) {
       labelIOList
       {
-        // IOobject
         {
           pointLevelPtr().name(),
           facesInstance(),
@@ -747,18 +662,12 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           IOobject::NO_READ,
           IOobject::AUTO_WRITE
         },
-        UIndirectList<label>
-        {
-          pointLevelPtr(),
-          procPointAddressing_[procI]
-        }()
+        UIndirectList<label>{pointLevelPtr(), procPointAddressing_[procI]}()
       }.write();
     }
-    if (level0EdgePtr.valid())
-    {
+    if (level0EdgePtr.valid()) {
       uniformDimensionedScalarField
-      (
-        // IOobject
+      {
         {
           level0EdgePtr().name(),
           facesInstance(),
@@ -768,10 +677,10 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
           IOobject::AUTO_WRITE
         },
         level0EdgePtr()
-      ).write();
+      }.write();
     }
     // Statistics
-    Info<< endl
+    Info << endl
       << "Processor " << procI << nl
       << "    Number of cells = " << procMesh.nCells()
       << endl;
@@ -779,26 +688,23 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     label nBoundaryFaces = 0;
     label nProcPatches = 0;
     label nProcFaces = 0;
-    FOR_ALL(procMesh.boundaryMesh(), patchi)
-    {
-      if (isA<processorPolyPatch>(procMesh.boundaryMesh()[patchi]))
-      {
+    FOR_ALL(procMesh.boundaryMesh(), patchi) {
+      if (isA<processorPolyPatch>(procMesh.boundaryMesh()[patchi])) {
         const processorPolyPatch& ppp =
         refCast<const processorPolyPatch>
         (
           procMesh.boundaryMesh()[patchi]
         );
-        Info<< "    Number of faces shared with processor "
+        Info << "    Number of faces shared with processor "
           << ppp.neighbProcNo() << " = " << ppp.size() << endl;
         nProcPatches++;
         nProcFaces += ppp.size();
-      }
-      else
-      {
+      } else {
         nBoundaryFaces += procMesh.boundaryMesh()[patchi].size();
       }
     }
-    Info<< "    Number of processor patches = " << nProcPatches << nl
+    Info
+      << "    Number of processor patches = " << nProcPatches << nl
       << "    Number of processor faces = " << nProcFaces << nl
       << "    Number of boundary faces = " << nBoundaryFaces << endl;
     totProcFaces += nProcFaces;
@@ -808,7 +714,6 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     // create and write the addressing information
     labelIOList pointProcAddressing
     {
-      // IOobject
       {
         "pointProcAddressing",
         procMesh.facesInstance(),
@@ -822,7 +727,6 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     pointProcAddressing.write();
     labelIOList faceProcAddressing
     {
-      // IOobject
       {
         "faceProcAddressing",
         procMesh.facesInstance(),
@@ -836,7 +740,6 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     faceProcAddressing.write();
     labelIOList cellProcAddressing
     {
-      // IOobject
       {
         "cellProcAddressing",
         procMesh.facesInstance(),
@@ -855,7 +758,6 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     procBoundaryAddressing.setSize(nMeshPatches+nProcPatches, -1);
     labelIOList boundaryProcAddressing
     {
-      // IOobject
       {
         "boundaryProcAddressing",
         procMesh.facesInstance(),
@@ -872,15 +774,13 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
   scalar avgProcPatches = scalar(totProcPatches)/nProcs_;
   scalar avgProcFaces = scalar(totProcFaces)/nProcs_;
   // In case of all faces on one processor. Just to avoid division by 0.
-  if (totProcPatches == 0)
-  {
+  if (totProcPatches == 0) {
     avgProcPatches = 1;
   }
-  if (totProcFaces == 0)
-  {
+  if (totProcFaces == 0) {
     avgProcFaces = 1;
   }
-  Info<< nl
+  Info << nl
     << "Number of processor faces = " << totProcFaces/2 << nl
     << "Max number of cells = " << maxProcCells
     << " (" << 100.0*(maxProcCells-avgProcCells)/avgProcCells
@@ -894,3 +794,4 @@ bool mousse::domainDecomposition::writeDecomposition(const bool decomposeSets)
     << endl;
   return true;
 }
+

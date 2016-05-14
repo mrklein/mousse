@@ -9,8 +9,10 @@
 #include "cell_modeller.hpp"
 #include "face_list.hpp"
 #include "ptr_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 cellShape extrudedTriangleCellShape
 (
   const label cellIndex,
@@ -21,6 +23,7 @@ cellShape extrudedTriangleCellShape
   const label pointOffset,
   faceList& frontAndBackFaces
 );
+
 cellShape extrudedQuadCellShape
 (
   const label cellIndex,
@@ -31,6 +34,7 @@ cellShape extrudedQuadCellShape
   const label pointOffset,
   faceList& frontAndBackFaces
 );
+
 cellShape create3DCellShape
 (
   const label cellIndex,
@@ -40,5 +44,8 @@ cellShape create3DCellShape
   const labelList& neighbour,
   const label fluentCellModelID
 );
+
 }  // namespace mousse
+
 #endif
+

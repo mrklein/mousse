@@ -8,14 +8,15 @@
 //   mousse::surfaceCellSizeFunction
 // Description
 //   Abstract base class for specifying target cell sizes
-// SourceFiles
-//   surface_cell_size_function.cpp
+
 #include "searchable_surface.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceCellSizeFunction
 :
   public dictionary
@@ -71,15 +72,15 @@ public:
   virtual ~surfaceCellSizeFunction();
   // Member Functions
     //- Const access to the details dictionary
-    inline const dictionary& coeffsDict() const
-    {
-      return coeffsDict_;
-    }
+    inline const dictionary& coeffsDict() const { return coeffsDict_; }
     virtual scalar interpolate
     (
       const point& pt,
       const label index
     ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

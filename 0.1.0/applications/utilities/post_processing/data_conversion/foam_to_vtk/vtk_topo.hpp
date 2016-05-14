@@ -8,13 +8,16 @@
 //   mousse::vtkTopo
 // Description
 //   Polyhedral cell decomposition for VTK.
-// SourceFiles
-//   vtk_topo.cpp
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
+
+
 class vtkTopo
 {
   // Private data
@@ -32,7 +35,7 @@ class vtkTopo
     void operator=(const vtkTopo&);
 public:
  // Public static data
-    //- Equivalent to enumeration in "vtkCellType.h"
+    //- Equivalent to enumeration in "vtk_cell_type.hpp"
     enum vtkTypes
     {
       VTK_TRIANGLE   = 5,
@@ -51,22 +54,16 @@ public:
     vtkTopo(const polyMesh&);
   // Member Functions
     // Access
-      const labelListList& vertLabels() const
-      {
-        return vertLabels_;
-      }
-      const labelList& cellTypes() const
-      {
-        return cellTypes_;
-      }
+      const labelListList& vertLabels() const { return vertLabels_; }
+      const labelList& cellTypes() const { return cellTypes_; }
       const labelList& addPointCellLabels() const
       {
         return addPointCellLabels_;
       }
-      const labelList& superCells() const
-      {
-        return superCells_;
-      }
+      const labelList& superCells() const { return superCells_; }
 };
+
 }  // namespace mousse
+
 #endif
+

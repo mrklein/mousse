@@ -1,6 +1,5 @@
   word dictName{"noiseDict"};
-  if (args.optionFound("dict"))
-  {
+  if (args.optionFound("dict")) {
     dictName = args["dict"];
   }
   IOdictionary dict

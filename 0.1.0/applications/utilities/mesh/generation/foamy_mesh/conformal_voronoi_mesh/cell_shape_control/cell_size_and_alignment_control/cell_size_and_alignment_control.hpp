@@ -6,17 +6,16 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cellSizeAndAlignmentControl
-// Description
-// SourceFiles
-//   cell_size_and_alignment_control_i.hpp
-//   cell_size_and_alignment_control.cpp
+
 #include "dictionary.hpp"
 #include "conformation_surfaces.hpp"
 #include "time.hpp"
 #include "quaternion.hpp"
 #include "triad_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellSizeAndAlignmentControl
 {
 protected:
@@ -79,10 +78,7 @@ public:
   virtual ~cellSizeAndAlignmentControl();
   // Member Functions
     // Access
-      const word& name() const
-      {
-        return name_;
-      }
+      const word& name() const { return name_; }
       const Switch& forceInitialPointInsertion() const
       {
         return forceInitialPointInsertion_;
@@ -101,5 +97,8 @@ public:
         triadField& alignments
       ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

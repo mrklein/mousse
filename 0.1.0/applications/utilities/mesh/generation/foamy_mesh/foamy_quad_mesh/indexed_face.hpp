@@ -9,11 +9,14 @@
 // Description
 //   An indexed form of CGAL::Triangulation_face_base_2<K> used to keep
 //   track of the vertices in the triangulation.
+
 #include "CGAL/Triangulation_2.h"
 #include "indexed_vertex.hpp"
-namespace CGAL
-{
-template<class Gt, class Fb=CGAL::Triangulation_face_base_2<Gt> >
+
+
+namespace CGAL {
+
+template<class Gt, class Fb=CGAL::Triangulation_face_base_2<Gt>>
 class indexedFace
 :
   public Fb
@@ -67,7 +70,9 @@ public:
     inline int& faceIndex();
     inline int faceIndex() const;
 };
+
 }  // namespace CGAL
+
 
 // Constructors 
 template<class Gt, class Fb>
@@ -76,6 +81,8 @@ inline CGAL::indexedFace<Gt, Fb>::indexedFace()
   Fb{},
   index_{CHANGED}
 {}
+
+
 template<class Gt, class Fb>
 inline CGAL::indexedFace<Gt, Fb>::indexedFace
 (
@@ -87,6 +94,8 @@ inline CGAL::indexedFace<Gt, Fb>::indexedFace
   Fb{v0, v1, v2},
   index_{CHANGED}
 {}
+
+
 template<class Gt, class Fb>
 inline CGAL::indexedFace<Gt, Fb>::indexedFace
 (
@@ -101,6 +110,8 @@ inline CGAL::indexedFace<Gt, Fb>::indexedFace
   Fb{v0, v1, v2, n0, n1, n2},
   index_{CHANGED}
 {}
+
+
 // Member Functions 
 template<class Gt, class Fb>
 inline void CGAL::indexedFace<Gt, Fb>::set_vertex(int i, Vertex_handle v)
@@ -108,12 +119,16 @@ inline void CGAL::indexedFace<Gt, Fb>::set_vertex(int i, Vertex_handle v)
   index_ = CHANGED;
   Fb::set_vertex(i, v);
 }
+
+
 template<class Gt, class Fb>
 inline void CGAL::indexedFace<Gt, Fb>::set_vertices()
 {
   index_ = CHANGED;
   Fb::set_vertices();
 }
+
+
 template<class Gt, class Fb>
 inline void CGAL::indexedFace<Gt, Fb>::set_vertices
 (
@@ -125,11 +140,15 @@ inline void CGAL::indexedFace<Gt, Fb>::set_vertices
   index_ = CHANGED;
   Fb::set_vertices(v0, v1, v2);
 }
+
+
 template<class Gt, class Fb>
 inline int& CGAL::indexedFace<Gt, Fb>::faceIndex()
 {
   return index_;
 }
+
+
 template<class Gt, class Fb>
 inline int CGAL::indexedFace<Gt, Fb>::faceIndex() const
 {
@@ -137,3 +156,4 @@ inline int CGAL::indexedFace<Gt, Fb>::faceIndex() const
 }
 
 #endif
+

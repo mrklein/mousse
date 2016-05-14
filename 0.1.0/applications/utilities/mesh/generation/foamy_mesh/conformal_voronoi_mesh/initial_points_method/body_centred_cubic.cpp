@@ -4,11 +4,15 @@
 
 #include "body_centred_cubic.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(bodyCentredCubic, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(initialPointsMethod, bodyCentredCubic, dictionary);
+
+
 // Constructors 
 bodyCentredCubic::bodyCentredCubic
 (
@@ -21,7 +25,7 @@ bodyCentredCubic::bodyCentredCubic
 )
 :
   initialPointsMethod
-  (
+  {
     typeName,
     initialPointsDict,
     runTime,
@@ -29,26 +33,25 @@ bodyCentredCubic::bodyCentredCubic
     geometryToConformTo,
     cellShapeControls,
     decomposition
-  ),
-  initialCellSize_(readScalar(detailsDict().lookup("initialCellSize"))),
-  randomiseInitialGrid_(detailsDict().lookup("randomiseInitialGrid")),
+  },
+  initialCellSize_{readScalar(detailsDict().lookup("initialCellSize"))},
+  randomiseInitialGrid_{detailsDict().lookup("randomiseInitialGrid")},
   randomPerturbationCoeff_
-  (
+  {
     readScalar(detailsDict().lookup("randomPerturbationCoeff"))
-  )
+  }
 {}
+
+
 // Member Functions 
 List<Vb::Point> bodyCentredCubic::initialPoints() const
 {
   boundBox bb;
   // Pick up the bounds of this processor, or the whole geometry, depending
   // on whether this is a parallel run.
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     bb = decomposition().procBounds();
-  }
-  else
-  {
+  } else {
     bb = geometryToConformTo().globalBounds();
   }
   scalar x0 = bb.min().x();
@@ -63,61 +66,48 @@ List<Vb::Point> bodyCentredCubic::initialPoints() const
   vector delta(xR/ni, yR/nj, zR/nk);
   delta *= pow((1.0/2.0),-(1.0/3.0));
   scalar pert = randomPerturbationCoeff_*cmptMin(delta);
-  DynamicList<Vb::Point> initialPoints(ni*nj*nk/10);
-  for (label i = 0; i < ni; i++)
-  {
-    for (label j = 0; j < nj; j++)
-    {
+  DynamicList<Vb::Point> initialPoints{ni*nj*nk/10};
+  for (label i = 0; i < ni; i++) {
+    for (label j = 0; j < nj; j++) {
       // Generating, testing and adding points one line at a time to
       // reduce the memory requirement for cases with bounding boxes that
       // are very large in comparison to the volume to be filled
       label pI = 0;
-      pointField points(2*nk);
-      for (label k = 0; k < nk; k++)
-      {
+      pointField points{2*nk};
+      for (label k = 0; k < nk; k++) {
         point pA
-        (
+        {
           x0 + i*delta.x(),
           y0 + j*delta.y(),
           z0 + k*delta.z()
-        );
+        };
         point pB = pA + 0.5*delta;
-        if (randomiseInitialGrid_)
-        {
+        if (randomiseInitialGrid_) {
           pA.x() += pert*(rndGen().scalar01() - 0.5);
           pA.y() += pert*(rndGen().scalar01() - 0.5);
           pA.z() += pert*(rndGen().scalar01() - 0.5);
         }
-        if (Pstream::parRun())
-        {
-          if (decomposition().positionOnThisProcessor(pA))
-          {
+        if (Pstream::parRun()) {
+          if (decomposition().positionOnThisProcessor(pA)) {
             // Add this point in parallel only if this position is
             // on this processor.
             points[pI++] = pA;
           }
-        }
-        else
-        {
+        } else {
           points[pI++] = pA;
         }
-        if (randomiseInitialGrid_)
-        {
+        if (randomiseInitialGrid_) {
           pB.x() += pert*(rndGen().scalar01() - 0.5);
           pB.y() += pert*(rndGen().scalar01() - 0.5);
           pB.z() += pert*(rndGen().scalar01() - 0.5);
         }
-        if (Pstream::parRun())
-        {
-          if (decomposition().positionOnThisProcessor(pB))
-          {
+        if (Pstream::parRun()) {
+          if (decomposition().positionOnThisProcessor(pB)) {
             // Add this point in parallel only if this position is
             // on this processor.
             points[pI++] = pB;
           }
-        }
-        else
-        {
+        } else {
           points[pI++] = pB;
         }
       }
@@ -127,12 +117,10 @@ List<Vb::Point> bodyCentredCubic::initialPoints() const
         (
           points,
           minimumSurfaceDistanceCoeffSqr_
-         *sqr(cellShapeControls().cellSize(points))
+          *sqr(cellShapeControls().cellSize(points))
         );
-      FOR_ALL(insidePoints, i)
-      {
-        if (insidePoints[i])
-        {
+      FOR_ALL(insidePoints, i) {
+        if (insidePoints[i]) {
           const point& p(points[i]);
           initialPoints.append(Vb::Point(p.x(), p.y(), p.z()));
         }
@@ -141,4 +129,6 @@ List<Vb::Point> bodyCentredCubic::initialPoints() const
   }
   return initialPoints.shrink();
 }
+
 }  // namespace mousse
+

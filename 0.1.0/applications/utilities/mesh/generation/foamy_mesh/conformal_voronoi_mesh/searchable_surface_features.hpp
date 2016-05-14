@@ -8,14 +8,15 @@
 //   mousse::searchableSurfaceFeatures
 // Description
 //   Decorator that returns the features of a searchable surface.
-// SourceFiles
-//   searchable_surface_features.cpp
+
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "searchable_surface.hpp"
 #include "extended_feature_edge_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class searchableSurfaceFeatures
 {
   // Private data
@@ -48,7 +49,7 @@ public:
     virtual autoPtr<searchableSurfaceFeatures> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<searchableSurfaceFeatures> clone() const");
-      return autoPtr<searchableSurfaceFeatures>(NULL);
+      return autoPtr<searchableSurfaceFeatures>{nullptr};
     }
     //- Disallow default bitwise copy construct
     searchableSurfaceFeatures(const searchableSurfaceFeatures&) = delete;
@@ -65,22 +66,19 @@ public:
   virtual ~searchableSurfaceFeatures();
   // Member Functions
     //- Return a reference to the searchable surface
-    const searchableSurface& surface() const
-    {
-      return surface_;
-    }
+    const searchableSurface& surface() const { return surface_; }
     //- Return a reference to the dictionary
-    const dictionary& dict() const
-    {
-      return dict_;
-    }
+    const dictionary& dict() const { return dict_; }
     //- Return whether this searchable surface has features
     virtual bool hasFeatures() const = 0;
     //- Return an extendedFeatureEdgeMesh containing the features
     virtual autoPtr<extendedFeatureEdgeMesh> features() const
     {
-      return autoPtr<extendedFeatureEdgeMesh>();
+      return autoPtr<extendedFeatureEdgeMesh>{};
     }
 };
+
 }  // namespace mousse
+
 #endif
+

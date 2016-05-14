@@ -6,10 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::faceSets
-// Description
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class faceSets
 {
 public:
@@ -23,10 +25,13 @@ public:
     //- Construct null
     faceSets()
     :
-      nTris(0),
-      nQuads(0),
-      nPolys(0)
+      nTris{0},
+      nQuads{0},
+      nPolys{0}
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

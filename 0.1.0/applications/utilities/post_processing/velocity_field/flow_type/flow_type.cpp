@@ -20,6 +20,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& /*args*/, const Time& runTime, const fvMesh& mesh)
 {
   IOobject Uheader
@@ -29,8 +30,7 @@ void mousse::calc(const argList& /*args*/, const Time& runTime, const fvMesh& me
     mesh,
     IOobject::MUST_READ
   };
-  if (Uheader.headerOk())
-  {
+  if (Uheader.headerOk()) {
     Info << "    Reading U" << endl;
     volVectorField U{Uheader, mesh};
     volTensorField gradU{fvc::grad(U)};
@@ -48,10 +48,9 @@ void mousse::calc(const argList& /*args*/, const Time& runTime, const fvMesh& me
       (magD - magOmega)/(magD + magOmega + smallMagD)
     };
     flowType.write();
-  }
-  else
-  {
+  } else {
     Info << "    No U" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

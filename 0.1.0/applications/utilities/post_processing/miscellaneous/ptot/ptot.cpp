@@ -4,6 +4,7 @@
 
 #include "fv_cfd.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -12,8 +13,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject pheader
@@ -31,15 +31,14 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check p and U exist
-    if (pheader.headerOk() && Uheader.headerOk())
-    {
+    if (pheader.headerOk() && Uheader.headerOk()) {
       mesh.readUpdate();
       Info << "    Reading p" << endl;
-      volScalarField p(pheader, mesh);
+      volScalarField p{pheader, mesh};
       Info << "    Reading U" << endl;
-      volVectorField U(Uheader, mesh);
+      volVectorField U{Uheader, mesh};
       Info << "    Calculating ptot" << endl;
-      if (p.dimensions() == dimensionSet(0, 2, -2, 0, 0))
+      if (p.dimensions() == dimensionSet{0, 2, -2, 0, 0})
       {
         volScalarField ptot
         {
@@ -52,9 +51,7 @@ int main(int argc, char *argv[])
           p + 0.5*magSqr(U)
         };
         ptot.write();
-      }
-      else
-      {
+      } else {
         IOobject rhoheader
         {
           "rho",
@@ -63,8 +60,7 @@ int main(int argc, char *argv[])
           IOobject::MUST_READ
         };
         // Check rho exists
-        if (rhoheader.headerOk())
-        {
+        if (rhoheader.headerOk()) {
           Info << "    Reading rho" << endl;
           volScalarField rho{rhoheader, mesh};
           volScalarField ptot
@@ -78,18 +74,15 @@ int main(int argc, char *argv[])
             p + 0.5*rho*magSqr(U)
           };
           ptot.write();
-        }
-        else
-        {
+        } else {
           Info << "    No rho" << endl;
         }
       }
-    }
-    else
-    {
+    } else {
       Info << "    No p or U" << endl;
     }
     Info << endl;
   }
   return 0;
 }
+

@@ -21,10 +21,14 @@
 #include "indexed_octree.hpp"
 #include "global_mesh_data.hpp"
 
+
 using namespace mousse;
+
+
 // cellType for cells included/not included in mesh.
 static const label MESH = cellClassification::INSIDE;
 static const label NONMESH = cellClassification::OUTSIDE;
+
 
 void writeSet(const cellSet& cells, const string& msg)
 {
@@ -33,16 +37,18 @@ void writeSet(const cellSet& cells, const string& msg)
     << endl << endl;
   cells.write();
 }
+
+
 void getType(const labelList& elems, const label type, labelHashSet& set)
 {
-  FOR_ALL(elems, i)
-  {
-    if (elems[i] == type)
-    {
+  FOR_ALL(elems, i) {
+    if (elems[i] == type) {
       set.insert(i);
     }
   }
 }
+
+
 void cutBySurface
 (
   const polyMesh& mesh,
@@ -80,68 +86,46 @@ void cutBySurface
   // other cells.
   // Is a bit of a hack but allows us to reuse all the functionality
   // in cellClassification.
-  FOR_ALL(cellType, cellI)
-  {
+  FOR_ALL(cellType, cellI) {
     label cType = cellType[cellI];
-    if (cType == cellClassification::CUT)
-    {
-      if (selectCut)
-      {
+    if (cType == cellClassification::CUT) {
+      if (selectCut) {
         cellType[cellI] = MESH;
-      }
-      else
-      {
+      } else {
         cellType[cellI] = NONMESH;
       }
-    }
-    else if (cType == cellClassification::INSIDE)
-    {
-      if (selectInside)
-      {
+    } else if (cType == cellClassification::INSIDE) {
+      if (selectInside) {
         cellType[cellI] = MESH;
-      }
-      else
-      {
+      } else {
         cellType[cellI] = NONMESH;
       }
-    }
-    else if (cType == cellClassification::OUTSIDE)
-    {
-      if (selectOutside)
-      {
+    } else if (cType == cellClassification::OUTSIDE) {
+      if (selectOutside) {
         cellType[cellI] = MESH;
-      }
-      else
-      {
+      } else {
         cellType[cellI] = NONMESH;
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("cutBySurface")
         << "Multiple mesh regions in original mesh" << endl
         << "Please use splitMeshRegions to separate these"
         << exit(FatalError);
     }
   }
-  if (nearDist > 0)
-  {
+  if (nearDist > 0) {
     Info << "Removing cells with points closer than " << nearDist
       << " to the surface ..." << nl << endl;
     const pointField& pts = mesh.points();
     const indexedOctree<treeDataTriSurface>& tree = querySurf.tree();
     label nRemoved = 0;
-    FOR_ALL(pts, pointI)
-    {
+    FOR_ALL(pts, pointI) {
       const point& pt = pts[pointI];
       pointIndexHit hitInfo = tree.findNearest(pt, sqr(nearDist));
-      if (hitInfo.hit())
-      {
+      if (hitInfo.hit()) {
         const labelList& pCells = mesh.pointCells()[pointI];
-        FOR_ALL(pCells, i)
-        {
-          if (cellType[pCells[i]] != NONMESH)
-          {
+        FOR_ALL(pCells, i) {
+          if (cellType[pCells[i]] != NONMESH) {
             cellType[pCells[i]] = NONMESH;
             nRemoved++;
           }
@@ -152,6 +136,8 @@ void cutBySurface
       << nl << endl;
   }
 }
+
+
 // We're meshing the outside. Subset the currently selected mesh cells with the
 // ones reachable from the outsidepoints.
 label selectOutsideCells
@@ -162,7 +148,6 @@ label selectOutsideCells
   cellClassification& cellType
 )
 {
-  //
   // Check all outsidePts and for all of them inside a mesh cell
   // collect the faces to start walking from
   //
@@ -173,28 +158,24 @@ label selectOutsideCells
   DynamicList<cellInfo> outsideFacesInfo{outsideFacesMap.size()};
   // cellInfo for mesh cell
   const cellInfo meshInfo{MESH};
-  FOR_ALL(outsidePts, outsidePtI)
-  {
+  FOR_ALL(outsidePts, outsidePtI) {
     // Find cell containing point. Linear search.
     label cellI = queryMesh.findCell(outsidePts[outsidePtI], -1, false);
-    if (cellI != -1 && cellType[cellI] == MESH)
-    {
-      Info << "Marking cell " << cellI << " containing outside point "
-        << outsidePts[outsidePtI] << " with type " << cellType[cellI]
-        << " ..." << endl;
-      //
-      // Mark this cell and its faces to start walking from
-      //
-      // Mark faces of cellI
-      const labelList& cFaces = mesh.cells()[cellI];
-      FOR_ALL(cFaces, i)
-      {
-        label faceI = cFaces[i];
-        if (outsideFacesMap.insert(faceI))
-        {
-          outsideFaces.append(faceI);
-          outsideFacesInfo.append(meshInfo);
-        }
+    if (cellI == -1 || cellType[cellI] != MESH)
+      continue;
+    Info << "Marking cell " << cellI << " containing outside point "
+      << outsidePts[outsidePtI] << " with type " << cellType[cellI]
+      << " ..." << endl;
+    //
+    // Mark this cell and its faces to start walking from
+    //
+    // Mark faces of cellI
+    const labelList& cFaces = mesh.cells()[cellI];
+    FOR_ALL(cFaces, i) {
+      label faceI = cFaces[i];
+      if (outsideFacesMap.insert(faceI)) {
+        outsideFaces.append(faceI);
+        outsideFacesInfo.append(meshInfo);
       }
     }
   }
@@ -210,21 +191,20 @@ label selectOutsideCells
   // changedFaces. Use these to subset cellType
   const List<cellInfo>& allCellInfo = regionCalc.allCellInfo();
   label nChanged = 0;
-  FOR_ALL(allCellInfo, cellI)
-  {
-    if (cellType[cellI] == MESH)
-    {
-      // Original cell was selected for meshing. Check if cell was
-      // reached from outsidePoints
-      if (allCellInfo[cellI].type() != MESH)
-      {
-        cellType[cellI] = NONMESH;
-        nChanged++;
-      }
+  FOR_ALL(allCellInfo, cellI) {
+    if (cellType[cellI] != MESH)
+      continue;
+    // Original cell was selected for meshing. Check if cell was
+    // reached from outsidePoints
+    if (allCellInfo[cellI].type() != MESH) {
+      cellType[cellI] = NONMESH;
+      nChanged++;
     }
   }
   return nChanged;
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -250,17 +230,14 @@ int main(int argc, char *argv[])
   bool selectInside{readBool(refineDict.lookup("selectInside"))};
   bool selectOutside{readBool(refineDict.lookup("selectOutside"))};
   scalar nearDist{readScalar(refineDict.lookup("nearDistance"))};
-  if (useSurface)
-  {
+  if (useSurface) {
     Info << "Cells to be used for meshing (0=false, 1=true):" << nl
       << "    cells cut by surface            : " << selectCut << nl
       << "    cells inside of surface         : " << selectInside << nl
       << "    cells outside of surface        : " << selectOutside << nl
       << "    cells with points further than  : " << nearDist << nl
       << endl;
-  }
-  else
-  {
+  } else {
     Info << "Cells to be used for meshing (0=false, 1=true):" << nl
       << "    cells reachable from outsidePoints:" << selectOutside << nl
       << endl;
@@ -270,12 +247,10 @@ int main(int argc, char *argv[])
   // Search engine on mesh. Face decomposition since faces might be warped.
   meshSearch queryMesh{mesh};
   // Check all 'outside' points
-  FOR_ALL(outsidePts, outsideI)
-  {
+  FOR_ALL(outsidePts, outsideI) {
     const point& outsidePoint = outsidePts[outsideI];
     label cellI = queryMesh.findCell(outsidePoint, -1, false);
-    if (returnReduce(cellI, maxOp<label>()) == -1)
-    {
+    if (returnReduce(cellI, maxOp<label>()) == -1) {
       FATAL_ERROR_IN(args.executable())
         << "outsidePoint " << outsidePoint
         << " is not inside any cell"
@@ -290,73 +265,74 @@ int main(int argc, char *argv[])
     {mesh.nCells(), cellClassification::MESH}
   };
   // Surface
-  autoPtr<triSurface> surf{NULL};
+  autoPtr<triSurface> surf{nullptr};
   // Search engine on surface.
-  autoPtr<triSurfaceSearch> querySurf{NULL};
+  autoPtr<triSurfaceSearch> querySurf{nullptr};
 
-  if (useSurface)
-  {
-    surf.reset(new triSurface(surfName));
+  if (useSurface) {
+    surf.reset(new triSurface{surfName});
     // Dump some stats
     surf().writeStats(Info);
     // Search engine on surface.
-    querySurf.reset(new triSurfaceSearch(surf));
+    querySurf.reset(new triSurfaceSearch{surf});
     // Set cellType[cellI] according to relation to surface
     cutBySurface
-    (
-      mesh,
-      queryMesh,
-      querySurf,
-      outsidePts,
-      selectCut,
-      selectInside,
-      selectOutside,
-      nearDist,
-      cellType
-    );
+      (
+        mesh,
+        queryMesh,
+        querySurf,
+        outsidePts,
+        selectCut,
+        selectInside,
+        selectOutside,
+        nearDist,
+        cellType
+      );
   }
   // Now 'trim' all the corners from the mesh so meshing/surface extraction
   // becomes easier.
   label nHanging, nRegionEdges, nRegionPoints, nOutside;
-  do
-  {
+  do {
     Info << "Removing cells which after subsetting would have all points"
       << " on outside ..." << nl << endl;
-    nHanging = cellType.fillHangingCells
-    (
-      MESH,       // meshType
-      NONMESH,    // fill type
-      mesh.nCells()
-    );
+    nHanging =
+      cellType.fillHangingCells
+      (
+        MESH,       // meshType
+        NONMESH,    // fill type
+        mesh.nCells()
+      );
     Info << "Removing edges connecting cells unconnected by faces ..."
       << nl << endl;
-    nRegionEdges = cellType.fillRegionEdges
-    (
-      MESH,       // meshType
-      NONMESH,    // fill type
-      mesh.nCells()
-    );
+    nRegionEdges =
+      cellType.fillRegionEdges
+      (
+        MESH,       // meshType
+        NONMESH,    // fill type
+        mesh.nCells()
+      );
     Info << "Removing points connecting cells unconnected by faces ..."
       << nl << endl;
-    nRegionPoints = cellType.fillRegionPoints
-    (
-      MESH,       // meshType
-      NONMESH,    // fill type
-      mesh.nCells()
-    );
+    nRegionPoints =
+      cellType.fillRegionPoints
+      (
+        MESH,       // meshType
+        NONMESH,    // fill type
+        mesh.nCells()
+      );
     nOutside = 0;
-    if (selectOutside)
-    {
+    if (selectOutside) {
       // Since we're selecting the cells reachable from outsidePoints
       // and the set might have changed, redo the outsideCells
       // calculation
-      nOutside = selectOutsideCells
-      (
-        mesh,
-        queryMesh,
-        outsidePts,
-        cellType
-      );
+      nOutside =
+        selectOutsideCells
+        (
+          mesh,
+          queryMesh,
+          outsidePts,
+          cellType
+        );
     }
   } while (nHanging != 0
            || nRegionEdges != 0
@@ -368,3 +344,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

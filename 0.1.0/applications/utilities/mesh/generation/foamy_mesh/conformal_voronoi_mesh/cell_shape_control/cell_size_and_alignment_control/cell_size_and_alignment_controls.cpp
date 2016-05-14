@@ -4,11 +4,16 @@
 
 #include "cell_size_and_alignment_controls.hpp"
 #include "searchable_surface_control.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(cellSizeAndAlignmentControls, 0);
+
 }
+
+
 // Private Member Functions 
 bool mousse::cellSizeAndAlignmentControls::evalCellSizeFunctions
 (
@@ -19,28 +24,26 @@ bool mousse::cellSizeAndAlignmentControls::evalCellSizeFunctions
 {
   bool anyFunctionFound = false;
   // Regions requesting with the same priority take the smallest
-  if (controlFunctions_.size())
-  {
+  if (controlFunctions_.size()) {
     // Maintain priority of current hit. Initialise so it always goes
     // through at least once.
     label previousPriority = labelMin;
-    FOR_ALL(controlFunctions_, i)
-    {
+    FOR_ALL(controlFunctions_, i) {
       const cellSizeAndAlignmentControl& cSF = controlFunctions_[i];
-      if (isA<searchableSurfaceControl>(cSF))
-      {
-        const searchableSurfaceControl& sSC =
-          refCast<const searchableSurfaceControl>(cSF);
-        anyFunctionFound = sSC.cellSize(pt, minSize, previousPriority);
-        if (previousPriority > maxPriority)
-        {
-          maxPriority = previousPriority;
-        }
+      if (!isA<searchableSurfaceControl>(cSF))
+        continue;
+      const searchableSurfaceControl& sSC =
+        refCast<const searchableSurfaceControl>(cSF);
+      anyFunctionFound = sSC.cellSize(pt, minSize, previousPriority);
+      if (previousPriority > maxPriority) {
+        maxPriority = previousPriority;
       }
     }
   }
   return anyFunctionFound;
 }
+
+
 // Constructors 
 mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
 (
@@ -50,21 +53,18 @@ mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
   const scalar& defaultCellSize
 )
 :
-  shapeControlDict_(shapeControlDict),
-  geometryToConformTo_(geometryToConformTo),
-  controlFunctions_(shapeControlDict_.size()),
-  defaultCellSize_(defaultCellSize)
+  shapeControlDict_{shapeControlDict},
+  geometryToConformTo_{geometryToConformTo},
+  controlFunctions_{shapeControlDict_.size()},
+  defaultCellSize_{defaultCellSize}
 {
   label functionI = 0;
-  FOR_ALL_CONST_ITER(dictionary, shapeControlDict_, iter)
-  {
+  FOR_ALL_CONST_ITER(dictionary, shapeControlDict_, iter) {
     word shapeControlEntryName = iter().keyword();
-    const dictionary& controlFunctionDict
-    (
-      shapeControlDict_.subDict(shapeControlEntryName)
-    );
-    Info<< nl << "Shape Control : " << shapeControlEntryName << endl;
-    Info<< incrIndent;
+    const dictionary& controlFunctionDict =
+      shapeControlDict_.subDict(shapeControlEntryName);
+    Info << nl << "Shape Control : " << shapeControlEntryName << endl;
+    Info << incrIndent;
     controlFunctions_.set
     (
       functionI,
@@ -77,13 +77,12 @@ mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
         defaultCellSize_
       )
     );
-    Info<< decrIndent;
+    Info << decrIndent;
     functionI++;
   }
   // Sort controlFunctions_ by maxPriority
-  SortableList<label> functionPriorities(functionI);
-  FOR_ALL(controlFunctions_, funcI)
-  {
+  SortableList<label> functionPriorities{functionI};
+  FOR_ALL(controlFunctions_, funcI) {
     functionPriorities[funcI] = controlFunctions_[funcI].maxPriority();
   }
   functionPriorities.reverseSort();
@@ -91,9 +90,13 @@ mousse::cellSizeAndAlignmentControls::cellSizeAndAlignmentControls
     invert(functionPriorities.size(), functionPriorities.indices());
   controlFunctions_.reorder(invertedFunctionPriorities);
 }
+
+
 // Destructor 
 mousse::cellSizeAndAlignmentControls::~cellSizeAndAlignmentControls()
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::cellSizeAndAlignmentControls::cellSize
 (
@@ -105,6 +108,8 @@ mousse::scalar mousse::cellSizeAndAlignmentControls::cellSize
   evalCellSizeFunctions(pt, size, maxPriority);
   return size;
 }
+
+
 mousse::scalar mousse::cellSizeAndAlignmentControls::cellSize
 (
   const point& pt,
@@ -116,3 +121,4 @@ mousse::scalar mousse::cellSizeAndAlignmentControls::cellSize
   evalCellSizeFunctions(pt, size, maxPriority);
   return size;
 }
+

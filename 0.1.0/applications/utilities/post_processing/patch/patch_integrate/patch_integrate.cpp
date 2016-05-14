@@ -4,33 +4,34 @@
 
 #include "fv_cfd.hpp"
 
+
 template<class FieldType>
 void printIntegrate
 (
   const fvMesh& mesh,
-  const IOobject& fieldHeader,
-  const label patchI,
+  const IOobject& fH,
+  const label pI,
   bool& done
 )
 {
-  if (!done && fieldHeader.headerClassName() == FieldType::typeName)
-  {
-    Info << "    Reading " << fieldHeader.headerClassName() << " "
-      << fieldHeader.name() << endl;
-    FieldType f{fieldHeader, mesh};
-    Info << "    Integral of " << fieldHeader.name()
-      << " over vector area of patch "
-      << mesh.boundary()[patchI].name() << '[' << patchI << ']' << " = "
-      << gSum(mesh.Sf().boundaryField()[patchI]*f.boundaryField()[patchI])
-      << nl;
-    Info << "    Integral of " << fieldHeader.name()
-      << " over area magnitude of patch "
-      << mesh.boundary()[patchI].name() << '[' << patchI << ']' << " = "
-      << gSum(mesh.magSf().boundaryField()[patchI]*f.boundaryField()[patchI])
-      << nl;
-    done = true;
-  }
+  if (done || fH.headerClassName() != FieldType::typeName)
+    return;
+  Info << "    Reading " << fH.headerClassName() << " "
+    << fH.name() << endl;
+  FieldType f{fH, mesh};
+  Info << "    Integral of " << fH.name()
+    << " over vector area of patch "
+    << mesh.boundary()[pI].name() << '[' << pI << ']' << " = "
+    << gSum(mesh.Sf().boundaryField()[pI]*f.boundaryField()[pI])
+    << nl;
+  Info << "    Integral of " << fH.name()
+    << " over area magnitude of patch "
+    << mesh.boundary()[pI].name() << '[' << pI << ']' << " = "
+    << gSum(mesh.magSf().boundaryField()[pI]*f.boundaryField()[pI])
+    << nl;
+  done = true;
 }
+
 
 template<class FieldType>
 void printSum
@@ -41,18 +42,18 @@ void printSum
   bool& done
 )
 {
-  if (!done && fieldHeader.headerClassName() == FieldType::typeName)
-  {
-    Info << "    Reading " << FieldType::typeName << " "
-      << fieldHeader.name() << endl;
-    FieldType f(fieldHeader, mesh);
-    typename FieldType::value_type sumField = gSum(f.boundaryField()[patchI]);
-    Info << "    Integral of " << fieldHeader.name() << " over patch "
-      << mesh.boundary()[patchI].name() << '[' << patchI << ']' << " = "
-      << sumField << nl;
-    done = true;
-  }
+  if (done || fieldHeader.headerClassName() != FieldType::typeName)
+    return;
+  Info << "    Reading " << FieldType::typeName << " "
+    << fieldHeader.name() << endl;
+  FieldType f(fieldHeader, mesh);
+  typename FieldType::value_type sumField = gSum(f.boundaryField()[patchI]);
+  Info << "    Integral of " << fieldHeader.name() << " over patch "
+    << mesh.boundary()[patchI].name() << '[' << patchI << ']' << " = "
+    << sumField << nl;
+  done = true;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -66,8 +67,7 @@ int main(int argc, char *argv[])
   #include "create_named_mesh.inc"
   const word fieldName = args[1];
   const word patchName = args[2];
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject fieldHeader
@@ -78,12 +78,10 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check field exists
-    if (fieldHeader.headerOk())
-    {
+    if (fieldHeader.headerOk()) {
       mesh.readUpdate();
       const label patchI = mesh.boundaryMesh().findPatchID(patchName);
-      if (patchI < 0)
-      {
+      if (patchI < 0) {
         FatalError
           << "Unable to find patch " << patchName << nl
           << exit(FatalError);
@@ -146,8 +144,7 @@ int main(int argc, char *argv[])
         patchI,
         done
       );
-      if (!done)
-      {
+      if (!done) {
         FatalError
           << "Only possible to integrate "
           << "volFields and surfaceFields."
@@ -155,9 +152,7 @@ int main(int argc, char *argv[])
           << fieldHeader.headerClassName()
           << nl << exit(FatalError);
       }
-    }
-    else
-    {
+    } else {
       Info << "    No field " << fieldName << endl;
     }
     Info << endl;
@@ -165,3 +160,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

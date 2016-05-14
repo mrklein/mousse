@@ -1,4 +1,4 @@
-  Info<< nl << "Reading transportProperties" << endl;
+  Info << nl << "Reading transportProperties" << endl;
   IOdictionary transportProperties
   {
     {

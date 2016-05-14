@@ -8,18 +8,19 @@
 //   mousse::edgeStats
 // Description
 //   Helper class to calculate minimum edge length on mesh.
-// SourceFiles
-//   edge_stats.cpp
 
 #include "direction.hpp"
 #include "scalar.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyMesh;
 class Ostream;
 class twoDPointCorrector;
+
+
 class edgeStats
 {
   // Private data
@@ -47,5 +48,8 @@ public:
     //- Calculate minimum edge length and print
     scalar minLen(Ostream& os) const;
 };
+
 }  // namespace mousse
+
 #endif
+

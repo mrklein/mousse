@@ -6,15 +6,17 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::fieldFromFile
-// Description
-// SourceFiles
-//   field_from_file.cpp
+
 #include "cell_size_calculation_type.hpp"
 #include "tri_surface_fields.hpp"
 #include "primitive_patch_interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfaceMesh;
+
+
 class fieldFromFile
 :
   public cellSizeCalculationType
@@ -46,5 +48,8 @@ public:
     //- Load the cell size field
     virtual tmp<triSurfacePointScalarField> load();
 };
+
 }  // namespace mousse
+
 #endif
+

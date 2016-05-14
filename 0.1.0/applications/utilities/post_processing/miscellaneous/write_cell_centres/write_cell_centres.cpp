@@ -9,7 +9,9 @@
 #include "vector_io_field.hpp"
 #include "vol_fields.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -19,16 +21,14 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     // Check for new mesh
     mesh.readUpdate();
     Info << "Writing components of cellCentre positions to volScalarFields"
       << " ccx, ccy, ccz in " <<  runTime.timeName() << endl;
-    for (direction i=0; i<vector::nComponents; i++)
-    {
+    for (direction i=0; i<vector::nComponents; i++) {
       volScalarField cci
       {
         {
@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
       calculatedFvPatchField<scalar>::typeName
     };
     V.dimensionedInternalField() = mesh.V();
-    FOR_ALL(V.boundaryField(), patchI)
-    {
+    FOR_ALL(V.boundaryField(), patchI) {
       V.boundaryField()[patchI] = V.boundaryField()[patchI].patch().magSf();
     }
     Info << "Writing cellVolumes and patch faceAreas to " << V.name()
@@ -68,3 +67,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

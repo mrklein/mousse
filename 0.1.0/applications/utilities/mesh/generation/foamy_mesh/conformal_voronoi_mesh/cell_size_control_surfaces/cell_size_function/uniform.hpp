@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::uniform
-// Description
-// SourceFiles
-//   uniform.cpp
+
 #include "cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniform
 :
   public cellSizeFunction
@@ -56,5 +56,8 @@ public:
       const pointField& pts
     );
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -9,12 +9,13 @@
 // Description
 //   Choose random points inside the domain and place them with a probability
 //   proportional to the target density of points.
-// SourceFiles
-//   auto_density.cpp
+
 #include "initial_points_method.hpp"
 #include "tree_bound_box.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class autoDensity
 :
   public initialPointsMethod
@@ -102,5 +103,8 @@ public:
     //- Return the initial points for the conformalVoronoiMesh
     virtual List<Vb::Point> initialPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

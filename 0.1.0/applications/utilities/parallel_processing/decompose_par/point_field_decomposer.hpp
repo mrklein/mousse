@@ -8,14 +8,14 @@
 //   mousse::pointFieldDecomposer
 // Description
 //   Point field decomposer.
-// SourceFiles
-//   point_field_decomposer.cpp
-//   point_field_decomposer_decompose_fields.cpp
+
 #include "point_mesh.hpp"
 #include "point_patch_field_mapper_patch_ref.hpp"
 #include "point_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pointFieldDecomposer
 {
 public:
@@ -38,22 +38,10 @@ public:
           const labelList& directAddr
         );
       // Member functions
-        label size() const
-        {
-          return directAddressing_.size();
-        }
-        bool direct() const
-        {
-          return true;
-        }
-        bool hasUnmapped() const
-        {
-          return hasUnmapped_;
-        }
-        const labelUList& directAddressing() const
-        {
-          return directAddressing_;
-        }
+        label size() const { return directAddressing_.size(); }
+        bool direct() const { return true; }
+        bool hasUnmapped() const { return hasUnmapped_; }
+        const labelUList& directAddressing() const { return directAddressing_; }
     };
 private:
   // Private data
@@ -67,11 +55,6 @@ private:
     const labelList& boundaryAddressing_;
     //- List of patch field decomposers
     List<patchFieldDecomposer*> patchFieldDecomposerPtrs_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    pointFieldDecomposer(const pointFieldDecomposer&);
-    //- Disallow default bitwise assignment
-    void operator=(const pointFieldDecomposer&);
 public:
   // Constructors
     //- Construct from components
@@ -82,6 +65,10 @@ public:
       const labelList& pointAddressing,
       const labelList& boundaryAddressing
     );
+    //- Disallow default bitwise copy construct
+    pointFieldDecomposer(const pointFieldDecomposer&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const pointFieldDecomposer&) = delete;
   //- Destructor
   ~pointFieldDecomposer();
   // Member Functions
@@ -95,8 +82,9 @@ public:
     template<class GeoField>
     void decomposeFields(const PtrList<GeoField>& fields) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "point_field_decomposer_decompose_fields.cpp"
-#endif
+
+#include "point_field_decomposer_decompose_fields.ipp"
+
 #endif

@@ -5,9 +5,8 @@
     mesh,
     IOobject::MUST_READ
   };
-  if (!UMeanHeader.headerOk())
-  {
-    Info<< "    No UMean field" << endl;
+  if (!UMeanHeader.headerOk()) {
+    Info << "    No UMean field" << endl;
     continue;
   }
   volVectorField UMean

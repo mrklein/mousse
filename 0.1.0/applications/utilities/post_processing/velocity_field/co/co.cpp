@@ -5,6 +5,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -15,8 +16,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (phiHeader.headerOk())
-  {
+  if (phiHeader.headerOk()) {
     volScalarField Co
     {
       {
@@ -31,8 +31,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     };
     Info << "    Reading phi" << endl;
     surfaceScalarField phi{phiHeader, mesh};
-    if (phi.dimensions() == dimensionSet{1, 0, -1, 0, 0})
-    {
+    if (phi.dimensions() == dimensionSet{1, 0, -1, 0, 0}) {
       Info << "    Calculating compressible Co" << endl;
       Info << "    Reading rho" << endl;
       volScalarField rho
@@ -50,31 +49,24 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
         *fvc::surfaceSum(mag(phi))().dimensionedInternalField()
         /(rho*mesh.V());
       Co.correctBoundaryConditions();
-    }
-    else if (phi.dimensions() == dimensionSet{0, 3, -1, 0, 0})
-    {
+    } else if (phi.dimensions() == dimensionSet{0, 3, -1, 0, 0}) {
       Info << "    Calculating incompressible Co" << endl;
       Co.dimensionedInternalField() =
         (0.5*runTime.deltaT())
-        *fvc::surfaceSum(mag(phi))().dimensionedInternalField()
-        /mesh.V();
+        *fvc::surfaceSum(mag(phi))().dimensionedInternalField()/mesh.V();
       Co.correctBoundaryConditions();
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN(args.executable())
         << "Incorrect dimensions of phi: " << phi.dimensions()
         << abort(FatalError);
     }
     Info << "Co max : " << max(Co).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       Co.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No phi" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

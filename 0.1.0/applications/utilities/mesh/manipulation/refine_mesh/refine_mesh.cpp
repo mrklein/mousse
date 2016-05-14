@@ -17,10 +17,13 @@
 #include "plane.hpp"
 #include "sub_field.hpp"
 
+
 using namespace mousse;
+
 
 // Max cos angle for edges to be considered aligned with axis.
 static const scalar edgeTol = 1e-3;
+
 
 // Print edge statistics on mesh.
 void printEdgeStats(const primitiveMesh& mesh)
@@ -30,47 +33,39 @@ void printEdgeStats(const primitiveMesh& mesh)
   label nZ = 0;
   scalar minX = GREAT;
   scalar maxX = -GREAT;
-  vector x(1, 0, 0);
+  vector x{1, 0, 0};
   scalar minY = GREAT;
   scalar maxY = -GREAT;
-  vector y(0, 1, 0);
+  vector y{0, 1, 0};
   scalar minZ = GREAT;
   scalar maxZ = -GREAT;
-  vector z(0, 0, 1);
+  vector z{0, 0, 1};
   scalar minOther = GREAT;
   scalar maxOther = -GREAT;
   const edgeList& edges = mesh.edges();
-  FOR_ALL(edges, edgeI)
-  {
+  FOR_ALL(edges, edgeI) {
     const edge& e = edges[edgeI];
-    vector eVec(e.vec(mesh.points()));
+    vector eVec{e.vec(mesh.points())};
     scalar eMag = mag(eVec);
     eVec /= eMag;
-    if (mag(eVec & x) > 1-edgeTol)
-    {
+    if (mag(eVec & x) > 1 - edgeTol) {
       minX = min(minX, eMag);
       maxX = max(maxX, eMag);
       nX++;
-    }
-    else if (mag(eVec & y) > 1-edgeTol)
-    {
+    } else if (mag(eVec & y) > 1 - edgeTol) {
       minY = min(minY, eMag);
       maxY = max(maxY, eMag);
       nY++;
-    }
-    else if (mag(eVec & z) > 1-edgeTol)
-    {
+    } else if (mag(eVec & z) > 1 - edgeTol) {
       minZ = min(minZ, eMag);
       maxZ = max(maxZ, eMag);
       nZ++;
-    }
-    else
-    {
+    } else {
       minOther = min(minOther, eMag);
       maxOther = max(maxOther, eMag);
     }
   }
-  Pout<< "Mesh edge statistics:" << endl
+  Pout << "Mesh edge statistics:" << endl
     << "    x aligned :  number:" << nX << "\tminLen:" << minX
     << "\tmaxLen:" << maxX << endl
     << "    y aligned :  number:" << nY << "\tminLen:" << minY
@@ -81,12 +76,11 @@ void printEdgeStats(const primitiveMesh& mesh)
     << "\tminLen:" << minOther
     << "\tmaxLen:" << maxOther << endl << endl;
 }
+
+
 int main(int argc, char *argv[])
 {
-  argList::addNote
-  (
-    "refine cells in multiple directions"
-  );
+  argList::addNote("refine cells in multiple directions");
   #include "add_overwrite_option.inc"
   #include "add_region_option.inc"
   #include "add_dict_option.inc"
@@ -101,9 +95,7 @@ int main(int argc, char *argv[])
   #include "create_named_poly_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
   printEdgeStats(mesh);
-  //
   // Read/construct control dictionary
-  //
   const bool readDict = args.optionFound("dict");
   const bool refineAllCells = args.optionFound("all");
   const bool overwrite = args.optionFound("overwrite");
@@ -112,11 +104,9 @@ int main(int argc, char *argv[])
   // Dictionary to control refinement
   dictionary refineDict;
   const word dictName{"refineMeshDict"};
-  if (readDict)
-  {
+  if (readDict) {
     fileName dictPath = args["dict"];
-    if (isDir(dictPath))
-    {
+    if (isDir(dictPath)) {
       dictPath = dictPath/dictName;
     }
     IOobject dictIO
@@ -125,8 +115,7 @@ int main(int argc, char *argv[])
       mesh,
       IOobject::MUST_READ
     };
-    if (!dictIO.headerOk())
-    {
+    if (!dictIO.headerOk()) {
       FATAL_ERROR_IN(args.executable())
         << "Cannot open specified refinement dictionary "
         << dictPath
@@ -134,9 +123,7 @@ int main(int argc, char *argv[])
     }
     Info << "Refining according to " << dictPath << nl << endl;
     refineDict = IOdictionary(dictIO);
-  }
-  else if (!refineAllCells)
-  {
+  } else if (!refineAllCells) {
     IOobject dictIO
     {
       dictName,
@@ -144,36 +131,28 @@ int main(int argc, char *argv[])
       mesh,
       IOobject::MUST_READ
     };
-    if (dictIO.headerOk())
-    {
+    if (dictIO.headerOk()) {
       Info << "Refining according to " << dictName << nl << endl;
       refineDict = IOdictionary{dictIO};
-    }
-    else
-    {
+    } else {
       Info << "Refinement dictionary " << dictName << " not found" << endl;
     }
   }
-  if (refineDict.size())
-  {
+  if (refineDict.size()) {
     const word setName{refineDict.lookup("set")};
     cellSet cells{mesh, setName};
     Pout << "Read " << cells.size() << " cells from cellSet "
       << cells.instance()/cells.local()/cells.name()
       << endl << endl;
     refCells = cells.toc();
-  }
-  else
-  {
+  } else {
     Info << "Refining all cells" << nl << endl;
     // Select all cells
     refCells.setSize(mesh.nCells());
-    FOR_ALL(mesh.cells(), cellI)
-    {
+    FOR_ALL(mesh.cells(), cellI) {
       refCells[cellI] = cellI;
     }
-    if (mesh.nGeometricD() == 3)
-    {
+    if (mesh.nGeometricD() == 3) {
       Info << "3D case; refining all directions" << nl << endl;
       wordList directions{3};
       directions[0] = "tan1";
@@ -182,25 +161,18 @@ int main(int argc, char *argv[])
       refineDict.add("directions", directions);
       // Use hex cutter
       refineDict.add("useHexTopology", "true");
-    }
-    else
-    {
+    } else {
       const Vector<label> dirs{mesh.geometricD()};
       wordList directions{2};
-      if (dirs.x() == -1)
-      {
+      if (dirs.x() == -1) {
         Info << "2D case; refining in directions y,z\n" << endl;
         directions[0] = "tan2";
         directions[1] = "normal";
-      }
-      else if (dirs.y() == -1)
-      {
+      } else if (dirs.y() == -1) {
         Info << "2D case; refining in directions x,z\n" << endl;
         directions[0] = "tan1";
         directions[1] = "normal";
-      }
-      else
-      {
+      } else {
         Info << "2D case; refining in directions x,y\n" << endl;
         directions[0] = "tan1";
         directions[1] = "tan2";
@@ -211,22 +183,20 @@ int main(int argc, char *argv[])
     }
     refineDict.add("coordinateSystem", "global");
     dictionary coeffsDict;
-    coeffsDict.add("tan1", vector(1, 0, 0));
-    coeffsDict.add("tan2", vector(0, 1, 0));
+    coeffsDict.add("tan1", vector{1, 0, 0});
+    coeffsDict.add("tan2", vector{0, 1, 0});
     refineDict.add("globalCoeffs", coeffsDict);
     refineDict.add("geometricCut", "false");
     refineDict.add("writeMesh", "false");
   }
-  string oldTimeName(runTime.timeName());
-  if (!overwrite)
-  {
+  string oldTimeName{runTime.timeName()};
+  if (!overwrite) {
     runTime++;
   }
   // Multi-directional refinement (does multiple iterations)
   multiDirRefinement multiRef{mesh, refCells, refineDict};
   // Write resulting mesh
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
   }
   mesh.write();
@@ -235,11 +205,9 @@ int main(int argc, char *argv[])
   const labelListList& oldToNew = multiRef.addedCells();
   // Create cellSet with added cells for easy inspection
   cellSet newCells{mesh, "refinedCells", refCells.size()};
-  FOR_ALL(oldToNew, oldCellI)
-  {
+  FOR_ALL(oldToNew, oldCellI) {
     const labelList& added = oldToNew[oldCellI];
-    FOR_ALL(added, i)
-    {
+    FOR_ALL(added, i) {
       newCells.insert(added[i]);
     }
   }
@@ -247,12 +215,9 @@ int main(int argc, char *argv[])
     << newCells.instance()/newCells.local()/newCells.name()
     << endl << endl;
   newCells.write();
-  //
   // Invert cell split to construct map from new to old
-  //
   labelIOList newToOld
   {
-    // IOobject
     {
       "cellMap",
       runTime.timeName(),
@@ -265,18 +230,13 @@ int main(int argc, char *argv[])
   };
   newToOld.note() = "From cells in mesh at " + runTime.timeName()
     + " to cells in mesh at " + oldTimeName;
-  FOR_ALL(oldToNew, oldCellI)
-  {
+  FOR_ALL(oldToNew, oldCellI) {
     const labelList& added = oldToNew[oldCellI];
-    if (added.size())
-    {
-      FOR_ALL(added, i)
-      {
+    if (added.size()) {
+      FOR_ALL(added, i) {
         newToOld[added[i]] = oldCellI;
       }
-    }
-    else
-    {
+    } else {
       // Unrefined cell
       newToOld[oldCellI] = oldCellI;
     }
@@ -288,3 +248,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

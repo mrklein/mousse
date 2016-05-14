@@ -5,8 +5,10 @@
 #include "cell_shape_recognition.hpp"
 #include "label_list.hpp"
 #include "cell_modeller.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 cellShape extrudedTriangleCellShape
 (
   const label cellIndex,
@@ -18,15 +20,13 @@ cellShape extrudedTriangleCellShape
   faceList& frontAndBackFaces
 )
 {
-  static const cellModel* prismModelPtr_ = NULL;
-  if (!prismModelPtr_)
-  {
+  static const cellModel* prismModelPtr_ = nullptr;
+  if (!prismModelPtr_) {
     prismModelPtr_ = cellModeller::lookup("prism");
   }
   const cellModel& prism = *prismModelPtr_;
   // Checking
-  if (faceLabels.size() != 3)
-  {
+  if (faceLabels.size() != 3) {
     FATAL_ERROR_IN
     (
       "extrudedTriangleCellShape(const label cellIndex, "
@@ -40,12 +40,10 @@ cellShape extrudedTriangleCellShape
   }
   // make a list of outward-pointing faces
   labelListList localFaces{3};
-  FOR_ALL(faceLabels, faceI)
-  {
+  FOR_ALL(faceLabels, faceI) {
     const label curFaceLabel = faceLabels[faceI];
     const face& curFace = faces[curFaceLabel];
-    if (curFace.size() != 2)
-    {
+    if (curFace.size() != 2) {
       FATAL_ERROR_IN
       (
         "extrudedTriangleCellShape(const label cellIndex, "
@@ -57,23 +55,17 @@ cellShape extrudedTriangleCellShape
       << "does not have 2 vertices. Number of vertices: " << curFace
       << abort(FatalError);
     }
-    if (owner[curFaceLabel] == cellIndex)
-    {
+    if (owner[curFaceLabel] == cellIndex) {
       localFaces[faceI] = curFace;
-    }
-    else if (neighbour[curFaceLabel] == cellIndex)
-    {
+    } else if (neighbour[curFaceLabel] == cellIndex) {
       // Reverse the face.  Note: it is necessary to reverse by
       // hand to preserve connectivity of a 2-D mesh.
       //
       localFaces[faceI].setSize(curFace.size());
-      FOR_ALL_REVERSE(curFace, i)
-      {
+      FOR_ALL_REVERSE(curFace, i) {
         localFaces[faceI][curFace.size() - i - 1] = curFace[i];
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN
       (
         "extrudedTriangleCellShape(const label cellIndex, "
@@ -89,8 +81,7 @@ cellShape extrudedTriangleCellShape
     }
   }
   // Create a label list for the model
-  if (localFaces[0][1] == localFaces[1][0])
-  {
+  if (localFaces[0][1] == localFaces[1][0]) {
     // Set front and back plane faces
     labelList missingPlaneFace{3};
     // front plane
@@ -104,19 +95,17 @@ cellShape extrudedTriangleCellShape
     missingPlaneFace[2] = localFaces[1][1] + pointOffset;
     frontAndBackFaces[2*cellIndex + 1] = face(missingPlaneFace);
     // make a cell
-    labelList cellShapeLabels(6);
+    labelList cellShapeLabels{6};
     cellShapeLabels[0] = localFaces[0][0];
     cellShapeLabels[1] = localFaces[0][1];
     cellShapeLabels[2] = localFaces[1][1];
     cellShapeLabels[3] = localFaces[0][0] + pointOffset;
     cellShapeLabels[4] = localFaces[0][1] + pointOffset;
     cellShapeLabels[5] = localFaces[1][1] + pointOffset;
-    return cellShape(prism, cellShapeLabels);
-  }
-  else if (localFaces[0][1] == localFaces[2][0])
-  {
+    return {prism, cellShapeLabels};
+  } else if (localFaces[0][1] == localFaces[2][0]) {
     // Set front and back plane faces
-    labelList missingPlaneFace(3);
+    labelList missingPlaneFace{3};
     // front plane
     missingPlaneFace[0] = localFaces[0][0];
     missingPlaneFace[1] = localFaces[2][1];
@@ -128,17 +117,15 @@ cellShape extrudedTriangleCellShape
     missingPlaneFace[2] = localFaces[2][1] + pointOffset;
     frontAndBackFaces[2*cellIndex + 1] = face(missingPlaneFace);
     // make a cell
-    labelList cellShapeLabels(6);
+    labelList cellShapeLabels{6};
     cellShapeLabels[0] = localFaces[0][0];
     cellShapeLabels[1] = localFaces[0][1];
     cellShapeLabels[2] = localFaces[2][1];
     cellShapeLabels[3] = localFaces[0][0] + pointOffset;
     cellShapeLabels[4] = localFaces[0][1] + pointOffset;
     cellShapeLabels[5] = localFaces[2][1] + pointOffset;
-    return cellShape(prism, cellShapeLabels);
-  }
-  else
-  {
+    return {prism, cellShapeLabels};
+  } else {
     FATAL_ERROR_IN
     (
       "extrudedTriangleCellShape(const label cellIndex, "
@@ -150,6 +137,8 @@ cellShape extrudedTriangleCellShape
     << abort(FatalError);
   }
   // Return added to keep compiler happy
-  return cellShape{prism, labelList(0)};
+  return {prism, labelList{0}};
 }
+
 }  // namespace mousse
+

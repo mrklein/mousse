@@ -9,7 +9,11 @@
 #include "const_circulator.hpp"
 #include "delaunay_mesh_tools.hpp"
 #include "obj_stream.hpp"
+
+
 using namespace mousse::vectorTools;
+
+
 // Private Member Functions 
 void mousse::conformalVoronoiMesh::createEdgePointGroup
 (
@@ -18,79 +22,78 @@ void mousse::conformalVoronoiMesh::createEdgePointGroup
   DynamicList<Vb>& pts
 ) const
 {
-  if (foamyHexMeshControls().circulateEdges())
-  {
+  if (foamyHexMeshControls().circulateEdges()) {
     createEdgePointGroupByCirculating(feMesh, edHit, pts);
-  }
-  else
-  {
+  } else {
     label edgeI = edHit.index();
     extendedFeatureEdgeMesh::edgeStatus edStatus =
       feMesh.getEdgeStatus(edgeI);
-    switch (edStatus)
-    {
+    switch (edStatus) {
       case extendedFeatureEdgeMesh::EXTERNAL:
-      {
-        createExternalEdgePointGroup(feMesh, edHit, pts);
-        break;
-      }
+        {
+          createExternalEdgePointGroup(feMesh, edHit, pts);
+          break;
+        }
       case extendedFeatureEdgeMesh::INTERNAL:
-      {
-        createInternalEdgePointGroup(feMesh, edHit, pts);
-        break;
-      }
+        {
+          createInternalEdgePointGroup(feMesh, edHit, pts);
+          break;
+        }
       case extendedFeatureEdgeMesh::FLAT:
-      {
-        createFlatEdgePointGroup(feMesh, edHit, pts);
-        break;
-      }
+        {
+          createFlatEdgePointGroup(feMesh, edHit, pts);
+          break;
+        }
       case extendedFeatureEdgeMesh::OPEN:
-      {
-        createOpenEdgePointGroup(feMesh, edHit, pts);
-        break;
-      }
+        {
+          createOpenEdgePointGroup(feMesh, edHit, pts);
+          break;
+        }
       case extendedFeatureEdgeMesh::MULTIPLE:
-      {
-        createMultipleEdgePointGroup(feMesh, edHit, pts);
-        break;
-      }
+        {
+          createMultipleEdgePointGroup(feMesh, edHit, pts);
+          break;
+        }
       case extendedFeatureEdgeMesh::NONE:
-      {
-        break;
-      }
+        {
+          break;
+        }
     }
   }
 }
+
+
 bool mousse::conformalVoronoiMesh::meshableRegion
 (
   const plane::side side,
   const extendedFeatureEdgeMesh::sideVolumeType volType
 ) const
 {
-  switch (volType)
-  {
+  switch (volType) {
     case extendedFeatureEdgeMesh::INSIDE:
-    {
-      return (side == plane::FLIP) ? true : false;
-    }
+      {
+        return (side == plane::FLIP) ? true : false;
+      }
     case extendedFeatureEdgeMesh::OUTSIDE:
-    {
-      return (side == plane::NORMAL) ? true : false;
-    }
+      {
+        return (side == plane::NORMAL) ? true : false;
+      }
     case extendedFeatureEdgeMesh::BOTH:
-    {
-      return true;
-    }
+      {
+        return true;
+      }
     case extendedFeatureEdgeMesh::NEITHER:
-    {
-      return false;
-    }
+      {
+        return false;
+      }
     default:
-    {
-      return false;
-    }
+      {
+        return false;
+      }
   }
 }
+
+
 bool mousse::conformalVoronoiMesh::regionIsInside
 (
   const extendedFeatureEdgeMesh::sideVolumeType volTypeA,
@@ -101,30 +104,30 @@ bool mousse::conformalVoronoiMesh::regionIsInside
 ) const
 {
   plane::side sideA
-  (
+  {
     ((masterPtVec & normalA) <= 0) ? plane::FLIP : plane::NORMAL
-  );
+  };
   plane::side sideB
-  (
+  {
     ((masterPtVec & normalB) <= 0) ? plane::FLIP : plane::NORMAL
-  );
+  };
   const bool meshableRegionA = meshableRegion(sideA, volTypeA);
   const bool meshableRegionB = meshableRegion(sideB, volTypeB);
-  if (meshableRegionA == meshableRegionB)
-  {
+  if (meshableRegionA == meshableRegionB) {
     return meshableRegionA;
-  }
-  else
-  {
+  } else {
     WARNING_IN
     (
       "mousse::conformalVoronoiMesh::regionIsInside"
       "(volTypeA, normalA, volTypeB, normalB, masterPtVec)"
-    )   << ""
-      << endl;
+    )
+    << ""
+    << endl;
     return false;
   }
 }
+
+
 void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -142,18 +145,15 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
   const labelList& edNormalIs = feMesh.edgeNormals()[edgeI];
   const labelList& feNormalDirections = feMesh.normalDirections()[edgeI];
   const List<sideVolumeType>& normalVolumeTypes = feMesh.normalVolumeTypes();
-  ConstCirculator<labelList> circ(edNormalIs);
-  ConstCirculator<labelList> circNormalDirs(feNormalDirections);
+  ConstCirculator<labelList> circ{edNormalIs};
+  ConstCirculator<labelList> circNormalDirs{feNormalDirections};
   Map<mousse::point> masterPoints;
   Map<vertexType> masterPointsTypes;
   Map<plane> masterPointReflectionsPrev;
   Map<plane> masterPointReflectionsNext;
-//    Info<< "Edge = " << edHit << ", edDir = " << edDir << endl;
-//    Info<< "    edNorms = " << edNormalIs.size() << endl;
   bool addedMasterPreviously = false;
   label initialRegion = -1;
-  if (circ.size()) do
-  {
+  if (circ.size()) do {
     const sideVolumeType volType = normalVolumeTypes[circ()];
     const sideVolumeType nextVolType = normalVolumeTypes[circ.next()];
     const vector& normal = feNormals[circ()];
@@ -162,42 +162,19 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
     normalDir *= circNormalDirs()/mag(normalDir);
     vector nextNormalDir = (nextNormal ^ edDir);
     nextNormalDir *= circNormalDirs.next()/mag(nextNormalDir);
-//        Info<< "    " << circ() << " " << circ.next() << nl
-//            << "    " << circNormalDirs() << " " << circNormalDirs.next()
-//            << nl
-//            << "    normals = " << normal << " " << nextNormal << nl
-//            << " normalDirs = " << normalDir << " " << nextNormalDir << nl
-//            << "      cross = " << (normalDir ^ nextNormalDir) << nl
-//            << "    "
-//            << extendedFeatureEdgeMesh::sideVolumeTypeNames_[volType] << " "
-//            << extendedFeatureEdgeMesh::sideVolumeTypeNames_[nextVolType]
-//            << endl;
     // Calculate master point
     vector masterPtVec(normalDir + nextNormalDir);
     masterPtVec /= mag(masterPtVec) + SMALL;
-    if
-    (
-      ((normalDir ^ nextNormalDir) & edDir) < SMALL
-    || mag(masterPtVec) < SMALL
-    )
-    {
-//            Info<< "    IGNORE REGION" << endl;
+    if (((normalDir ^ nextNormalDir) & edDir) < SMALL
+        || mag(masterPtVec) < SMALL) {
       addedMasterPreviously = false;
-      if
-      (
-        circ.size() == 2
-      && mag((normal & nextNormal) - 1) < SMALL
-      )
-      {
+      if (circ.size() == 2 && mag((normal & nextNormal) - 1) < SMALL) {
         const vector n = 0.5*(normal + nextNormal);
         const vector s = ppDist*(edDir ^ n);
-        if (volType == extendedFeatureEdgeMesh::BOTH)
-        {
+        if (volType == extendedFeatureEdgeMesh::BOTH) {
           createBafflePointPair(ppDist, edgePt + s, n, true, pts);
           createBafflePointPair(ppDist, edgePt - s, n, true, pts);
-        }
-        else
-        {
+        } else {
           WARNING_IN
           (
             "mousse::conformalVoronoiMesh::"
@@ -207,12 +184,9 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
             "    const pointIndexHit&,"
             "    DynamicList<Vb>&"
             ")"
-          )   << "Failed to insert flat/open edge as volType is "
-            << extendedFeatureEdgeMesh::sideVolumeTypeNames_
-             [
-               volType
-             ]
-            << endl;
+          )
+          << "Failed to insert flat/open edge as volType is "
+          << extendedFeatureEdgeMesh::sideVolumeTypeNames_[volType] << endl;
         }
         break;
       }
@@ -230,13 +204,11 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
         masterPtVec
       );
     // Specialise for size = 1 && baffle
-    if (mag((normalDir & nextNormalDir) - 1) < SMALL)
-    {
+    if (mag((normalDir & nextNormalDir) - 1) < SMALL) {
       if (inside)
       {
-//                Info<< "Specialise for size 1 and baffle" << endl;
         vector s = ppDist*(edDir ^ normal);
-        plane facePlane(edgePt, normal);
+        plane facePlane{edgePt, normal};
         mousse::point pt1 = edgePt + s + ppDist*normal;
         mousse::point pt2 = edgePt - s + ppDist*normal;
         mousse::point pt3 = facePlane.mirror(pt1);
@@ -246,88 +218,75 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
         pts.append(Vb(pt3, Vb::vtInternalFeatureEdge));
         pts.append(Vb(pt4, Vb::vtInternalFeatureEdge));
         break;
-      }
-      else
-      {
+      } else {
         WARNING_IN
         (
           "mousse::conformalVoronoiMesh::"
           "createEdgePointGroupByCirculating"
           "("
-          "    const extendedFeatureEdgeMesh&,"
-          "    const pointIndexHit&,"
-          "    DynamicList<Vb>&"
+          "  const extendedFeatureEdgeMesh&,"
+          "  const pointIndexHit&,"
+          "  DynamicList<Vb>&"
           ")"
-        )   << "Faces are parallel but master point is not inside"
-          << endl;
+        )
+        << "Faces are parallel but master point is not inside"
+        << endl;
       }
     }
-    if (!addedMasterPreviously)
-    {
-      if (initialRegion == -1)
-      {
+    if (!addedMasterPreviously) {
+      if (initialRegion == -1) {
         initialRegion = circ.nRotations();
       }
       addedMasterPreviously = true;
       masterPoints.insert(circ.nRotations(), masterPt);
       masterPointsTypes.insert
-      (
-        circ.nRotations(),
-        inside
-       ? Vb::vtInternalFeatureEdge
-       : Vb::vtExternalFeatureEdge
-      );
+        (
+          circ.nRotations(),
+          inside ? Vb::vtInternalFeatureEdge : Vb::vtExternalFeatureEdge
+        );
       masterPointReflectionsPrev.insert
-      (
-        circ.nRotations(),
-        plane(edgePt, normal)
-      );
+        (
+          circ.nRotations(),
+          plane(edgePt, normal)
+        );
       masterPointReflectionsNext.insert
-      (
-        circ.nRotations(),
-        plane(edgePt, nextNormal)
-      );
-    }
-    else if (addedMasterPreviously)
-    {
+        (
+          circ.nRotations(),
+          plane(edgePt, nextNormal)
+        );
+    } else if (addedMasterPreviously) {
       addedMasterPreviously = true;
       masterPointReflectionsNext.erase(circ.nRotations() - 1);
       // Shift the master point to be normal to the plane between it and
       // the previous master point
       // Should be the intersection of the normal and the plane with the
       // new master point in it.
-      plane p(masterPoints[circ.nRotations() - 1], normalDir);
-      plane::ray r(edgePt, masterPt - edgePt);
+      plane p{masterPoints[circ.nRotations() - 1], normalDir};
+      plane::ray r{edgePt, masterPt - edgePt};
       scalar cutPoint = p.normalIntersect(r);
       masterPoints.insert
-      (
-        circ.nRotations(),
-        edgePt + cutPoint*(masterPt - edgePt)
-      );
+        (
+          circ.nRotations(),
+          edgePt + cutPoint*(masterPt - edgePt)
+        );
       masterPointsTypes.insert
-      (
-        circ.nRotations(),
-        inside
-       ? Vb::vtInternalFeatureEdge
-       : Vb::vtExternalFeatureEdge
-      );
+        (
+          circ.nRotations(),
+          inside
+          ? Vb::vtInternalFeatureEdge
+          : Vb::vtExternalFeatureEdge
+        );
       masterPointReflectionsNext.insert
-      (
-        circ.nRotations(),
-        plane(edgePt, nextNormal)
-      );
+        (
+          circ.nRotations(),
+          plane(edgePt, nextNormal)
+        );
     }
-    if
-    (
-      masterPoints.size() > 1
-    && inside
-    && circ.nRotations() == circ.size() - 1
-    )
-    {
-      if (initialRegion == 0)
-      {
-        plane p(masterPoints[initialRegion], nextNormalDir);
-        plane::ray r(edgePt, masterPt - edgePt);
+    if (masterPoints.size() > 1 && inside
+        && circ.nRotations() == circ.size() - 1) {
+      if (initialRegion == 0) {
+        plane p{masterPoints[initialRegion], nextNormalDir};
+        plane::ray r{edgePt, masterPt - edgePt};
         scalar cutPoint = p.normalIntersect(r);
         masterPoints[circ.nRotations()] =
           edgePt + cutPoint*(masterPt - edgePt);
@@ -336,50 +295,34 @@ void mousse::conformalVoronoiMesh::createEdgePointGroupByCirculating
         masterPointReflectionsPrev.erase(initialRegion);
         masterPointReflectionsNext.erase(circ.nRotations());
       }
-      else
-      {
-      }
     }
   }
-  while
-  (
-    circ.circulate(CirculatorBase::CLOCKWISE),
-    circNormalDirs.circulate(CirculatorBase::CLOCKWISE)
-  );
-  FOR_ALL_CONST_ITER(Map<mousse::point>, masterPoints, iter)
-  {
+  while (circ.circulate(CirculatorBase::CLOCKWISE),
+         circNormalDirs.circulate(CirculatorBase::CLOCKWISE));
+  FOR_ALL_CONST_ITER(Map<mousse::point>, masterPoints, iter) {
     const mousse::point& pt = masterPoints[iter.key()];
     const vertexType ptType = masterPointsTypes[iter.key()];
-//        Info<< "    Adding Master " << iter.key() << " " << pt << " "
-//            << indexedVertexEnum::vertexTypeNames_[ptType] << endl;
     pts.append(Vb(pt, ptType));
     const vertexType reflectedPtType =
-    (
-      ptType == Vb::vtInternalFeatureEdge
-     ? Vb::vtExternalFeatureEdge
-     : Vb::vtInternalFeatureEdge
-    );
-    if (masterPointReflectionsPrev.found(iter.key()))
-    {
+      (
+        ptType == Vb::vtInternalFeatureEdge
+        ? Vb::vtExternalFeatureEdge
+        : Vb::vtInternalFeatureEdge
+      );
+    if (masterPointReflectionsPrev.found(iter.key())) {
       const mousse::point reflectedPt =
         masterPointReflectionsPrev[iter.key()].mirror(pt);
-//            Info<< "        Adding Prev " << reflectedPt << " "
-//                << indexedVertexEnum::vertexTypeNames_[reflectedPtType]
-//                << endl;
       pts.append(Vb(reflectedPt, reflectedPtType));
     }
-    if (masterPointReflectionsNext.found(iter.key()))
-    {
+    if (masterPointReflectionsNext.found(iter.key())) {
       const mousse::point reflectedPt =
-       masterPointReflectionsNext[iter.key()].mirror(pt);
-//            Info<< "        Adding Next " << reflectedPt << " "
-//                << indexedVertexEnum::vertexTypeNames_[reflectedPtType]
-//                << endl;
+        masterPointReflectionsNext[iter.key()].mirror(pt);
       pts.append(Vb(reflectedPt, reflectedPtType));
     }
   }
-//    pts.append(Vb(edgePt, Vb::vtExternalFeatureEdge));
 }
+
+
 void mousse::conformalVoronoiMesh::createExternalEdgePointGroup
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -400,44 +343,32 @@ void mousse::conformalVoronoiMesh::createExternalEdgePointGroup
     normalVolumeTypes[edNormalIs[0]];
   const extendedFeatureEdgeMesh::sideVolumeType& volTypeB =
     normalVolumeTypes[edNormalIs[1]];
-  if (areParallel(nA, nB))
-  {
+  if (areParallel(nA, nB)) {
     // The normals are nearly parallel, so this is too sharp a feature to
     // conform to.
     return;
   }
   // Normalised distance of reference point from edge point
   vector refVec((nA + nB)/(1 + (nA & nB)));
-  if (magSqr(refVec) > sqr(5.0))
-  {
+  if (magSqr(refVec) > sqr(5.0)) {
     // Limit the size of the conformation
     ppDist *= 5.0/mag(refVec);
-    // Pout<< nl << "createExternalEdgePointGroup limit "
-    //     << "edgePt " << edgePt << nl
-    //     << "refVec " << refVec << nl
-    //     << "mag(refVec) " << mag(refVec) << nl
-    //     << "ppDist " << ppDist << nl
-    //     << "nA " << nA << nl
-    //     << "nB " << nB << nl
-    //     << "(nA & nB) " << (nA & nB) << nl
-    //     << endl;
   }
   // Convex. So refPt will be inside domain and hence a master point
   mousse::point refPt = edgePt - ppDist*refVec;
   // Insert the master point pairing the the first slave
-  if (!geometryToConformTo_.inside(refPt))
-  {
+  if (!geometryToConformTo_.inside(refPt)) {
     return;
   }
   pts.append
   (
     Vb
-    (
+    {
       refPt,
       vertexCount() + pts.size(),
       Vb::vtInternalFeatureEdge,
       Pstream::myProcNo()
-    )
+    }
   );
   // Insert the slave points by reflecting refPt in both faces.
   // with each slave refering to the master
@@ -445,31 +376,31 @@ void mousse::conformalVoronoiMesh::createExternalEdgePointGroup
   pts.append
   (
     Vb
-    (
+    {
       reflectedA,
       vertexCount() + pts.size(),
       (
         volTypeA == extendedFeatureEdgeMesh::BOTH
-       ? Vb::vtInternalFeatureEdge
-       : Vb::vtExternalFeatureEdge
+        ? Vb::vtInternalFeatureEdge
+        : Vb::vtExternalFeatureEdge
       ),
       Pstream::myProcNo()
-    )
+    }
   );
   mousse::point reflectedB = refPt + 2*ppDist*nB;
   pts.append
   (
     Vb
-    (
+    {
       reflectedB,
       vertexCount() + pts.size(),
       (
         volTypeB == extendedFeatureEdgeMesh::BOTH
-       ? Vb::vtInternalFeatureEdge
-       : Vb::vtExternalFeatureEdge
+        ? Vb::vtInternalFeatureEdge
+        : Vb::vtExternalFeatureEdge
       ),
       Pstream::myProcNo()
-    )
+    }
   );
   ptPairs_.addPointPair
   (
@@ -482,6 +413,8 @@ void mousse::conformalVoronoiMesh::createExternalEdgePointGroup
     pts[pts.size() - 2].index()
   );
 }
+
+
 void mousse::conformalVoronoiMesh::createInternalEdgePointGroup
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -500,29 +433,16 @@ void mousse::conformalVoronoiMesh::createInternalEdgePointGroup
   const vector& nB = feNormals[edNormalIs[1]];
   const extendedFeatureEdgeMesh::sideVolumeType& volTypeA =
     normalVolumeTypes[edNormalIs[0]];
-//    const extendedFeatureEdgeMesh::sideVolumeType& volTypeB =
-//        normalVolumeTypes[edNormalIs[1]];
-  if (areParallel(nA, nB))
-  {
+  if (areParallel(nA, nB)) {
     // The normals are nearly parallel, so this is too sharp a feature to
     // conform to.
     return;
   }
   // Normalised distance of reference point from edge point
   vector refVec((nA + nB)/(1 + (nA & nB)));
-  if (magSqr(refVec) > sqr(5.0))
-  {
+  if (magSqr(refVec) > sqr(5.0)) {
     // Limit the size of the conformation
     ppDist *= 5.0/mag(refVec);
-    // Pout<< nl << "createInternalEdgePointGroup limit "
-    //     << "edgePt " << edgePt << nl
-    //     << "refVec " << refVec << nl
-    //     << "mag(refVec) " << mag(refVec) << nl
-    //     << "ppDist " << ppDist << nl
-    //     << "nA " << nA << nl
-    //     << "nB " << nB << nl
-    //     << "(nA & nB) " << (nA & nB) << nl
-    //     << endl;
   }
   // Concave. master and reflected points inside the domain.
   mousse::point refPt = edgePt - ppDist*refVec;
@@ -557,50 +477,46 @@ void mousse::conformalVoronoiMesh::createInternalEdgePointGroup
   // reflectedAa  2     4
   // reflectedBb  3     4
   // reflMasterPt 4     0
-  if
-  (
-    !geometryToConformTo_.inside(reflectedA)
-  || !geometryToConformTo_.inside(reflectedB)
-  )
-  {
+  if (!geometryToConformTo_.inside(reflectedA)
+      || !geometryToConformTo_.inside(reflectedB)) {
     return;
   }
   // Master A is inside.
   pts.append
   (
     Vb
-    (
+    {
       reflectedA,
       vertexCount() + pts.size(),
       Vb::vtInternalFeatureEdge,
       Pstream::myProcNo()
-    )
+    }
   );
   // Master B is inside.
   pts.append
   (
     Vb
-    (
+    {
       reflectedB,
       vertexCount() + pts.size(),
       Vb::vtInternalFeatureEdge,
       Pstream::myProcNo()
-    )
+    }
   );
   // Slave is outside.
   pts.append
   (
     Vb
-    (
+    {
       reflMasterPt,
       vertexCount() + pts.size(),
       (
         volTypeA == extendedFeatureEdgeMesh::BOTH
-       ? Vb::vtInternalFeatureEdge
-       : Vb::vtExternalFeatureEdge
+        ? Vb::vtInternalFeatureEdge
+        : Vb::vtExternalFeatureEdge
       ),
       Pstream::myProcNo()
-    )
+    }
   );
   ptPairs_.addPointPair
   (
@@ -612,47 +528,46 @@ void mousse::conformalVoronoiMesh::createInternalEdgePointGroup
     pts[pts.size() - 3].index(),
     pts[pts.size() - 1].index()
   );
-  if (nAddPoints == 1)
-  {
+  if (nAddPoints == 1) {
     // One additional point is the reflection of the slave point,
     // i.e. the original reference point
     pts.append
     (
       Vb
-      (
+      {
         refPt,
         vertexCount() + pts.size(),
         Vb::vtInternalFeatureEdge,
         Pstream::myProcNo()
-      )
+      }
     );
-  }
-  else if (nAddPoints == 2)
-  {
+  } else if (nAddPoints == 2) {
     mousse::point reflectedAa = refPt + ppDist*nB;
     pts.append
     (
       Vb
-      (
+      {
         reflectedAa,
         vertexCount() + pts.size(),
         Vb::vtInternalFeatureEdge,
         Pstream::myProcNo()
-      )
+      }
     );
     mousse::point reflectedBb = refPt + ppDist*nA;
     pts.append
     (
       Vb
-      (
+      {
         reflectedBb,
         vertexCount() + pts.size(),
         Vb::vtInternalFeatureEdge,
         Pstream::myProcNo()
-      )
+      }
     );
   }
 }
+
+
 void mousse::conformalVoronoiMesh::createFlatEdgePointGroup
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -676,22 +591,19 @@ void mousse::conformalVoronoiMesh::createFlatEdgePointGroup
   // direction not important, as +s and -s can be used because this
   // is a flat edge
   vector s = ppDist*(feMesh.edgeDirections()[edHit.index()] ^ n);
-  if (normalVolumeTypes[edNormalIs[0]] == extendedFeatureEdgeMesh::OUTSIDE)
-  {
+  if (normalVolumeTypes[edNormalIs[0]] == extendedFeatureEdgeMesh::OUTSIDE) {
     createPointPair(ppDist, edgePt + s, -n, true, pts);
     createPointPair(ppDist, edgePt - s, -n, true, pts);
-  }
-  else if (normalVolumeTypes[edNormalIs[0]] == extendedFeatureEdgeMesh::BOTH)
-  {
+  } else if (normalVolumeTypes[edNormalIs[0]] == extendedFeatureEdgeMesh::BOTH) {
     createBafflePointPair(ppDist, edgePt + s, n, true, pts);
     createBafflePointPair(ppDist, edgePt - s, n, true, pts);
-  }
-  else
-  {
+  } else {
     createPointPair(ppDist, edgePt + s, n, true, pts);
     createPointPair(ppDist, edgePt - s, n, true, pts);
   }
 }
+
+
 void mousse::conformalVoronoiMesh::createOpenEdgePointGroup
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -704,36 +616,26 @@ void mousse::conformalVoronoiMesh::createOpenEdgePointGroup
   const scalar ppDist = pointPairDistance(edgePt);
   const vectorField& feNormals = feMesh.normals();
   const labelList& edNormalIs = feMesh.edgeNormals()[edHit.index()];
-  if (edNormalIs.size() == 1)
-  {
-//        Info<< "Inserting open edge point group around " << edgePt << endl;
-//        Info<< "    ppDist    = " << ppDist << nl
-//            << "    edNormals = " << edNormalIs
-//            << endl;
+  if (edNormalIs.size() == 1) {
     const vector& n = feNormals[edNormalIs[0]];
     vector s = ppDist*(feMesh.edgeDirections()[edHit.index()] ^ n);
     plane facePlane(edgePt, n);
     const label initialPtsSize = pts.size();
-    if
-    (
-      !geometryToConformTo_.inside(edgePt)
-    )
-    {
+    if (!geometryToConformTo_.inside(edgePt)) {
       return;
     }
     createBafflePointPair(ppDist, edgePt - s, n, true, pts);
     createBafflePointPair(ppDist, edgePt + s, n, false, pts);
-    for (label ptI = initialPtsSize; ptI < pts.size(); ++ptI)
-    {
+    for (label ptI = initialPtsSize; ptI < pts.size(); ++ptI) {
       pts[ptI].type() = Vb::vtInternalFeatureEdge;
     }
-  }
-  else
-  {
-    Info<< "NOT INSERTING OPEN EDGE POINT GROUP WITH MORE THAN 1 "
+  } else {
+    Info << "NOT INSERTING OPEN EDGE POINT GROUP WITH MORE THAN 1 "
       << "EDGE NORMAL, NOT IMPLEMENTED" << endl;
   }
 }
+
+
 void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
 (
   const extendedFeatureEdgeMesh& feMesh,
@@ -741,7 +643,6 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
   DynamicList<Vb>& pts
 ) const
 {
-//    Info<< "NOT INSERTING MULTIPLE EDGE POINT GROUP, NOT IMPLEMENTED" << endl;
   const mousse::point& edgePt = edHit.hitPoint();
   const scalar ppDist = pointPairDistance(edgePt);
   const vector edDir = feMesh.edgeDirections()[edHit.index()];
@@ -750,22 +651,18 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
   const labelList& normalDirs = feMesh.normalDirections()[edHit.index()];
   const List<extendedFeatureEdgeMesh::sideVolumeType>& normalVolumeTypes =
     feMesh.normalVolumeTypes();
-  labelList nNormalTypes(4, label(0));
-  FOR_ALL(edNormalIs, edgeNormalI)
-  {
+  labelList nNormalTypes{4, label(0)};
+  FOR_ALL(edNormalIs, edgeNormalI) {
     const extendedFeatureEdgeMesh::sideVolumeType sType =
       normalVolumeTypes[edNormalIs[edgeNormalI]];
     nNormalTypes[sType]++;
   }
-  if (nNormalTypes[extendedFeatureEdgeMesh::BOTH] == 4)
-  {
+  if (nNormalTypes[extendedFeatureEdgeMesh::BOTH] == 4) {
     label masterEdgeNormalIndex = -1;
-    FOR_ALL(edNormalIs, edgeNormalI)
-    {
+    FOR_ALL(edNormalIs, edgeNormalI) {
       const extendedFeatureEdgeMesh::sideVolumeType sType =
         normalVolumeTypes[edNormalIs[edgeNormalI]];
-      if (sType == extendedFeatureEdgeMesh::BOTH)
-      {
+      if (sType == extendedFeatureEdgeMesh::BOTH) {
         masterEdgeNormalIndex = edgeNormalI;
         break;
       }
@@ -783,22 +680,22 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     pts.append
     (
       Vb
-      (
+      {
         pt1,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     pts.append
     (
       Vb
-      (
+      {
         pt2,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -808,12 +705,12 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     pts.append
     (
       Vb
-      (
+      {
         pt3,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -823,12 +720,12 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     pts.append
     (
       Vb
-      (
+      {
         pt4,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -840,20 +737,13 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
       pts[pts.size() - 2].index(), // external 0 -> slave
       pts[pts.size() - 1].index()
     );
-  }
-  else if
-  (
-    nNormalTypes[extendedFeatureEdgeMesh::BOTH] == 1
-  && nNormalTypes[extendedFeatureEdgeMesh::INSIDE] == 2
-  )
-  {
+  } else if (nNormalTypes[extendedFeatureEdgeMesh::BOTH] == 1
+             && nNormalTypes[extendedFeatureEdgeMesh::INSIDE] == 2) {
     label masterEdgeNormalIndex = -1;
-    FOR_ALL(edNormalIs, edgeNormalI)
-    {
+    FOR_ALL(edNormalIs, edgeNormalI) {
       const extendedFeatureEdgeMesh::sideVolumeType sType =
         normalVolumeTypes[edNormalIs[edgeNormalI]];
-      if (sType == extendedFeatureEdgeMesh::BOTH)
-      {
+      if (sType == extendedFeatureEdgeMesh::BOTH) {
         masterEdgeNormalIndex = edgeNormalI;
         break;
       }
@@ -865,34 +755,33 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     normalDir *= nDir/mag(normalDir);
     const label nextNormalI =
       (masterEdgeNormalIndex + 1) % edNormalIs.size();
-    if ((normalDir & feNormals[edNormalIs[nextNormalI]]) > 0)
-    {
+    if ((normalDir & feNormals[edNormalIs[nextNormalI]]) > 0) {
       normalDir *= -1;
     }
     mousse::point pt1 = edgePt + ppDist*normalDir + ppDist*n;
     mousse::point pt2 = edgePt + ppDist*normalDir - ppDist*n;
-    plane plane3(edgePt, normalDir);
+    plane plane3{edgePt, normalDir};
     mousse::point pt3 = plane3.mirror(pt1);
     mousse::point pt4 = plane3.mirror(pt2);
     pts.append
     (
       Vb
-      (
+      {
         pt1,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     pts.append
     (
       Vb
-      (
+      {
         pt2,
         vertexCount() + pts.size(),
         Vb::vtInternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -902,12 +791,12 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     pts.append
     (
       Vb
-      (
+      {
         pt3,
         vertexCount() + pts.size(),
         Vb::vtExternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -917,12 +806,12 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
     pts.append
     (
       Vb
-      (
+      {
         pt4,
         vertexCount() + pts.size(),
         Vb::vtExternalSurface,
         Pstream::myProcNo()
-      )
+      }
     );
     ptPairs_.addPointPair
     (
@@ -930,29 +819,14 @@ void mousse::conformalVoronoiMesh::createMultipleEdgePointGroup
       pts[pts.size() - 1].index()
     );
   }
-//    // As this is a flat edge, there are two normals by definition
-//    const vector& nA = feNormals[edNormalIs[0]];
-//    const vector& nB = feNormals[edNormalIs[1]];
-//
-//    // Average normal to remove any bias to one side, although as this
-//    // is a flat edge, the normals should be essentially the same
-//    const vector n = 0.5*(nA + nB);
-//
-//    // Direction along the surface to the control point, sense of edge
-//    // direction not important, as +s and -s can be used because this
-//    // is a flat edge
-//    vector s = ppDist*(feMesh.edgeDirections()[edHit.index()] ^ n);
-//
-//    createBafflePointPair(ppDist, edgePt + s, n, true, pts);
-//    createBafflePointPair(ppDist, edgePt - s, n, true, pts);
 }
+
+
 void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
 {
-  Info<< nl
-    << "Inserting feature points" << endl;
-  const label preFeaturePointSize(number_of_vertices());
-  if (Pstream::parRun() && distribute)
-  {
+  Info << nl << "Inserting feature points" << endl;
+  const label preFeaturePointSize{static_cast<label>(number_of_vertices())};
+  if (Pstream::parRun() && distribute) {
     ftPtConformer_.distribute(decomposition());
   }
   const List<Vb>& ftPtVertices = ftPtConformer_.featurePointVertices();
@@ -962,173 +836,6 @@ void mousse::conformalVoronoiMesh::insertFeaturePoints(bool distribute)
   ftPtConformer_.reIndexPointPairs(oldToNewIndices);
   label nFeatureVertices = number_of_vertices() - preFeaturePointSize;
   reduce(nFeatureVertices, sumOp<label>());
-  Info<< "    Inserted " << nFeatureVertices << " feature vertices" << endl;
+  Info << "    Inserted " << nFeatureVertices << " feature vertices" << endl;
 }
-//mousse::scalar mousse::conformalVoronoiMesh::pyramidVolume
-//(
-//    const mousse::point& apex,
-//    const mousse::point& a,
-//    const mousse::point& b,
-//    const mousse::point& c,
-//    const bool printInfo
-//) const
-//{
-//    triPointRef tri(a, b, c);
-//
-//    tetPointRef tet(tri.a(), tri.b(), tri.c(), apex);
-//
-//    scalar volume = tet.mag();
-//
-////    scalar volume = (1.0/3.0)*constant::mathematical::pi;
-////
-////    K::Circle_3 circle(toPoint(a), toPoint(b), toPoint(c));
-////
-////    scalar height = mag(topoint(circle.center()) - apex);
-////
-////    volume *= circle.squared_radius()*height;
-//
-//    if (printInfo)
-//    {
-//        Info<< "Calculating volume of pyramid..." << nl
-//            << "    Apex      : " << apex << nl
-//            << "    Point a   : " << a << nl
-//            << "    Point b   : " << b << nl
-//            << "    Point c   : " << c << nl
-//            << "        Center  : " << tri.centre() << nl
-//            << "        Volume  : " << volume << endl;
-//    }
-//
-//    return volume;
-//}
-//void mousse::conformalVoronoiMesh::createPyramidMasterPoint
-//(
-//    const mousse::point& apex,
-//    const vectorField& edgeDirections,
-//    mousse::point& masterPoint,
-//    vectorField& norms
-//) const
-//{
-//    pointField basePoints(edgeDirections.size() + 1);
-//
-//    FOR_ALL(edgeDirections, eI)
-//    {
-//        basePoints[eI] = edgeDirections[eI] + apex;
-//    }
-//
-//    basePoints[edgeDirections.size() + 1] = apex;
-//
-//    face f(identity(edgeDirections.size()));
-//
-//    pyramidPointFaceRef p(f, apex);
-//
-//    const scalar ppDist = pointPairDistance(apex);
-//
-//
-//    vector unitDir = f.centre();
-//    unitDir /= mag(unitDir);
-//
-//    masterPoint = apex + ppDist*unitDir;
-//
-//    norms.setSize(edgeDirections.size());
-//
-//    FOR_ALL(norms, nI)
-//    {
-//        norms[nI] =
-//    }
-//}
-//void mousse::conformalVoronoiMesh::createConvexConcaveFeaturePoints
-//(
-//    DynamicList<mousse::point>& pts,
-//    DynamicList<label>& indices,
-//    DynamicList<label>& types
-//)
-//{
-//    const PtrList<extendedFeatureEdgeMesh>& feMeshes
-//    (
-//        geometryToConformTo_.features()
-//    );
-//
-//    FOR_ALL(feMeshes, i)
-//    {
-//        const extendedFeatureEdgeMesh& feMesh(feMeshes[i]);
-//
-//        for
-//        (
-//            label ptI = feMesh.convexStart();
-//            ptI < feMesh.mixedStart();
-//            ptI++
-//        )
-//        {
-//            const mousse::point& apex = feMesh.points()[ptI];
-//
-//            if (!positionOnThisProc(apex))
-//            {
-//                continue;
-//            }
-//
-//            const vectorField& featPtEdgeDirections
-//                = feMesh.featurePointEdgeDirections(ptI);
-//
-//            mousse::point masterPoint;
-//            vectorField tetNorms;
-//
-//            createPyramidMasterPoint
-//            (
-//                apex,
-//                featPtEdgeDirections,
-//                masterPoint,
-//                tetNorms
-//            );
-//
-//
-//
-//            // Result when the points are eventually inserted (example n = 4)
-//            // Add number_of_vertices() at insertion of first vertex to all
-//            // numbers:
-//            // pt           index type
-//            // internalPt   0     1
-//            // externalPt0  1     0
-//            // externalPt1  2     0
-//            // externalPt2  3     0
-//            // externalPt3  4     0
-//
-//            // Result when the points are eventually inserted (example n = 5)
-//            // Add number_of_vertices() at insertion of first vertex to all
-//            // numbers:
-//            // pt           index type
-//            // internalPt0  0     5
-//            // internalPt1  1     5
-//            // internalPt2  2     5
-//            // internalPt3  3     5
-//            // internalPt4  4     5
-//            // externalPt   5     4
-//
-//            if (geometryToConformTo_.inside(masterPoint))
-//            {
-//
-//            }
-//            else
-//            {
-//
-//            }
-//
-//            pts.append(masterPoint);
-//            indices.append(0);
-//            types.append(1);
-//
-//            label internalPtIndex = -1;
-//
-//            FOR_ALL(tetNorms, nI)
-//            {
-//                const vector& n = tetNorms[nI];
-//
-//                mousse::point reflectedPoint
-//                    = reflectPoint(featPt, masterPoint, n);
-//
-//                pts.append(reflectedPoint);
-//                indices.append(0);
-//                types.append(internalPtIndex--);
-//            }
-//        }
-//    }
-//}
+

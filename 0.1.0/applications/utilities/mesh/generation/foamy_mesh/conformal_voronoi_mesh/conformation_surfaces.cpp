@@ -6,83 +6,69 @@
 #include "conformal_voronoi_mesh.hpp"
 #include "tri_surface.hpp"
 #include "searchable_surface_features.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(conformationSurfaces, 0);
+
 }
+
+
 // Private Member Functions 
 void mousse::conformationSurfaces::hasBoundedVolume
 (
   List<volumeType>& referenceVolumeTypes
 ) const
 {
-  vector sum(vector::zero);
+  vector sum{vector::zero};
   label totalTriangles = 0;
-  FOR_ALL(surfaces_, s)
-  {
+  FOR_ALL(surfaces_, s) {
     const searchableSurface& surface(allGeometry_[surfaces_[s]]);
-    if
-    (
-      surface.hasVolumeType()
-    && (
-        normalVolumeTypes_[regionOffset_[s]]
-      != extendedFeatureEdgeMesh::BOTH
-      )
-    )
-    {
-      pointField pts(1, locationInMesh_);
-      List<volumeType> vTypes
-      (
-        pts.size(),
-        volumeType::UNKNOWN
-      );
+    if (surface.hasVolumeType()
+        && (normalVolumeTypes_[regionOffset_[s]]
+            != extendedFeatureEdgeMesh::BOTH)){
+      pointField pts{1, locationInMesh_};
+      List<volumeType> vTypes{pts.size(), volumeType::UNKNOWN};
       surface.getVolumeType(pts, vTypes);
       referenceVolumeTypes[s] = vTypes[0];
-      Info<< "    is "
+      Info << "    is "
         << volumeType::names[referenceVolumeTypes[s]]
         << " surface " << surface.name()
         << endl;
     }
-    if (isA<triSurface>(surface))
-    {
-      const triSurface& triSurf = refCast<const triSurface>(surface);
-      const pointField& surfPts = triSurf.points();
-      Info<< "    Checking " << surface.name() << endl;
-      label nBaffles = 0;
-      Info<< "        Index = " << surfaces_[s] << endl;
-      Info<< "        Offset = " << regionOffset_[s] << endl;
-      FOR_ALL(triSurf, sI)
-      {
-        const label patchID =
-          triSurf[sI].region()
-         + regionOffset_[s];
-        // Don't include baffle surfaces in the calculation
-        if
-        (
-          normalVolumeTypes_[patchID]
-        != extendedFeatureEdgeMesh::BOTH
-        )
-        {
-          sum += triSurf[sI].normal(surfPts);
-        }
-        else
-        {
-          nBaffles++;
-        }
+    if (!isA<triSurface>(surface))
+      continue;
+    const triSurface& triSurf = refCast<const triSurface>(surface);
+    const pointField& surfPts = triSurf.points();
+    Info << "    Checking " << surface.name() << endl;
+    label nBaffles = 0;
+    Info << "        Index = " << surfaces_[s] << endl;
+    Info << "        Offset = " << regionOffset_[s] << endl;
+    FOR_ALL(triSurf, sI) {
+      const label patchID =
+        triSurf[sI].region() + regionOffset_[s];
+      // Don't include baffle surfaces in the calculation
+      if (normalVolumeTypes_[patchID] != extendedFeatureEdgeMesh::BOTH) {
+        sum += triSurf[sI].normal(surfPts);
+      } else {
+        nBaffles++;
       }
-      Info<< "        has " << nBaffles << " baffles out of "
-        << triSurf.size() << " triangles" << endl;
-      totalTriangles += triSurf.size();
     }
+    Info << "        has " << nBaffles << " baffles out of "
+      << triSurf.size() << " triangles" << endl;
+    totalTriangles += triSurf.size();
   }
-  Info<< "    Sum of all the surface normals (if near zero, surface is"
+  Info << "    Sum of all the surface normals (if near zero, surface is"
     << " probably closed):" << nl
     << "    Note: Does not include baffle surfaces in calculation" << nl
     << "        Sum = " << sum/(totalTriangles + SMALL) << nl
     << "        mag(Sum) = " << mag(sum)/(totalTriangles + SMALL)
     << endl;
 }
+
+
 void mousse::conformationSurfaces::readFeatures
 (
   const label surfI,
@@ -93,64 +79,55 @@ void mousse::conformationSurfaces::readFeatures
 {
   word featureMethod =
     featureDict.lookupOrDefault<word>("featureMethod", "none");
-  if (featureMethod == "extendedFeatureEdgeMesh")
-  {
-    fileName feMeshName(featureDict.lookup("extendedFeatureEdgeMesh"));
-    Info<< "    features: " << feMeshName << endl;
+  if (featureMethod == "extendedFeatureEdgeMesh") {
+    fileName feMeshName{featureDict.lookup("extendedFeatureEdgeMesh")};
+    Info << "    features: " << feMeshName << endl;
     features_.set
     (
       featureIndex,
       new extendedFeatureEdgeMesh
-      (
+      {
         IOobject
-        (
+        {
           feMeshName,
           runTime_.time().constant(),
           "extendedFeatureEdgeMesh",
           runTime_.time(),
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        )
-      )
+        }
+      }
     );
     featureIndex++;
-  }
-  else if (featureMethod == "extractFeatures")
-  {
+  } else if (featureMethod == "extractFeatures") {
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
-    Info<< "    features: " << surface.name()
+    Info << "    features: " << surface.name()
       << " of type " << surface.type()
       << ", id: " << featureIndex << endl;
     autoPtr<searchableSurfaceFeatures> ssFeatures
-    (
-      searchableSurfaceFeatures::New(surface, featureDict)
-    );
-    if (ssFeatures().hasFeatures())
     {
+      searchableSurfaceFeatures::New(surface, featureDict)
+    };
+    if (ssFeatures().hasFeatures()) {
       features_.set
       (
         featureIndex,
         ssFeatures().features()
       );
       featureIndex++;
-    }
-    else
-    {
+    } else {
       WARNING_IN
       (
         "mousse::conformationSurfaces::readFeatures"
         "(const label, const dictionary&, const word&, label&)"
-      )   << surface.name() << " of type "
-        << surface.type() << " does not have features"
-        << endl;
+      )
+      << surface.name() << " of type "
+      << surface.type() << " does not have features"
+      << endl;
     }
-  }
-  else if (featureMethod == "none")
-  {
+  } else if (featureMethod == "none") {
     // Currently nothing to do
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("mousse::conformationSurfaces::readFeatures")
       << "No valid featureMethod found for surface " << surfaceName
       << nl << "Use \"extendedFeatureEdgeMesh\" "
@@ -158,6 +135,8 @@ void mousse::conformationSurfaces::readFeatures
       << exit(FatalError);
   }
 }
+
+
 void mousse::conformationSurfaces::readFeatures
 (
   const dictionary& featureDict,
@@ -167,35 +146,30 @@ void mousse::conformationSurfaces::readFeatures
 {
   word featureMethod =
     featureDict.lookupOrDefault<word>("featureMethod", "none");
-  if (featureMethod == "extendedFeatureEdgeMesh")
-  {
-    fileName feMeshName(featureDict.lookup("extendedFeatureEdgeMesh"));
-    Info<< "    features: " << feMeshName << ", id: " << featureIndex
+  if (featureMethod == "extendedFeatureEdgeMesh") {
+    fileName feMeshName{featureDict.lookup("extendedFeatureEdgeMesh")};
+    Info << "    features: " << feMeshName << ", id: " << featureIndex
       << endl;
     features_.set
     (
       featureIndex,
       new extendedFeatureEdgeMesh
-      (
+      {
         IOobject
-        (
+        {
           feMeshName,
           runTime_.time().constant(),
           "extendedFeatureEdgeMesh",
           runTime_.time(),
           IOobject::MUST_READ,
           IOobject::NO_WRITE
-        )
-      )
+        }
+      }
     );
     featureIndex++;
-  }
-  else if (featureMethod == "none")
-  {
+  } else if (featureMethod == "none") {
     // Currently nothing to do
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("mousse::conformationSurfaces::readFeatures")
       << "No valid featureMethod found for surface " << surfaceName
       << nl << "Use \"extendedFeatureEdgeMesh\" "
@@ -203,6 +177,8 @@ void mousse::conformationSurfaces::readFeatures
       << exit(FatalError);
   }
 }
+
+
 // Constructors 
 mousse::conformationSurfaces::conformationSurfaces
 (
@@ -212,43 +188,37 @@ mousse::conformationSurfaces::conformationSurfaces
   const dictionary& surfaceConformationDict
 )
 :
-  runTime_(runTime),
-  // rndGen_(rndGen),
-  allGeometry_(allGeometry),
-  features_(),
-  locationInMesh_(surfaceConformationDict.lookup("locationInMesh")),
-  surfaces_(),
-  allGeometryToSurfaces_(),
-  normalVolumeTypes_(),
-  patchNames_(),
-  surfZones_(),
-  regionOffset_(),
-  patchInfo_(),
-  globalBounds_(),
-  referenceVolumeTypes_(0)
+  runTime_{runTime},
+  // rndGen_{rndGen},
+  allGeometry_{allGeometry},
+  features_{},
+  locationInMesh_{surfaceConformationDict.lookup("locationInMesh")},
+  surfaces_{},
+  allGeometryToSurfaces_{},
+  normalVolumeTypes_{},
+  patchNames_{},
+  surfZones_{},
+  regionOffset_{},
+  patchInfo_{},
+  globalBounds_{},
+  referenceVolumeTypes_{0}
 {
-  const dictionary& surfacesDict
-  (
-    surfaceConformationDict.subDict("geometryToConformTo")
-  );
-  const dictionary& additionalFeaturesDict
-  (
-    surfaceConformationDict.subDict("additionalFeatures")
-  );
+  const dictionary& surfacesDict =
+    surfaceConformationDict.subDict("geometryToConformTo");
+  const dictionary& additionalFeaturesDict =
+    surfaceConformationDict.subDict("additionalFeatures");
   // Wildcard specification : loop over all surface, all regions
   // and try to find a match.
   // Count number of surfaces.
   label surfI = 0;
-  FOR_ALL(allGeometry.names(), geomI)
-  {
+  FOR_ALL(allGeometry.names(), geomI) {
     const word& geomName = allGeometry_.names()[geomI];
-    if (surfacesDict.found(geomName))
-    {
+    if (surfacesDict.found(geomName)) {
       surfI++;
     }
   }
   const label nAddFeat = additionalFeaturesDict.size();
-  Info<< nl << "Reading geometryToConformTo" << endl;
+  Info << nl << "Reading geometryToConformTo" << endl;
   allGeometryToSurfaces_.setSize(allGeometry_.size(), -1);
   normalVolumeTypes_.setSize(surfI);
   surfaces_.setSize(surfI);
@@ -257,29 +227,26 @@ mousse::conformationSurfaces::conformationSurfaces
   features_.setSize(surfI + nAddFeat);
   label featureI = 0;
   regionOffset_.setSize(surfI, 0);
-  PtrList<dictionary> globalPatchInfo(surfI);
-  List<Map<autoPtr<dictionary> > > regionPatchInfo(surfI);
-  List<sideVolumeType> globalVolumeTypes(surfI);
-  List<Map<sideVolumeType> > regionVolumeTypes(surfI);
-  HashSet<word> unmatchedKeys(surfacesDict.toc());
+  PtrList<dictionary> globalPatchInfo{surfI};
+  List<Map<autoPtr<dictionary>>> regionPatchInfo{surfI};
+  List<sideVolumeType> globalVolumeTypes{surfI};
+  List<Map<sideVolumeType>> regionVolumeTypes{surfI};
+  HashSet<word> unmatchedKeys{surfacesDict.toc()};
   surfI = 0;
-  FOR_ALL(allGeometry_.names(), geomI)
-  {
+  FOR_ALL(allGeometry_.names(), geomI) {
     const word& geomName = allGeometry_.names()[geomI];
     const entry* ePtr = surfacesDict.lookupEntryPtr(geomName, false, true);
-    if (ePtr)
-    {
+    if (ePtr) {
       const dictionary& dict = ePtr->dict();
       unmatchedKeys.erase(ePtr->keyword());
       surfaces_[surfI] = geomI;
       const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
       // Surface zones
-      if (dict.found("faceZone"))
-      {
-        surfZones_.set(surfI, new surfaceZonesInfo(surface, dict));
+      if (dict.found("faceZone")) {
+        surfZones_.set(surfI, new surfaceZonesInfo{surface, dict});
       }
       allGeometryToSurfaces_[surfaces_[surfI]] = surfI;
-      Info<< nl << "    " << geomName << endl;
+      Info << nl << "    " << geomName << endl;
       const wordList& regionNames =
         allGeometry_.regionNames()[surfaces_[surfI]];
       patchNames_.append(regionNames);
@@ -294,10 +261,8 @@ mousse::conformationSurfaces::conformationSurfaces
           )
         ]
       );
-      if (!globalVolumeTypes[surfI])
-      {
-        if (!surface.hasVolumeType())
-        {
+      if (!globalVolumeTypes[surfI]) {
+        if (!surface.hasVolumeType()) {
           WARNING_IN("conformationSurfaces::conformationSurfaces(..)")
             << "Non-baffle surface "
             << surface.name()
@@ -306,8 +271,7 @@ mousse::conformationSurfaces::conformationSurfaces
         }
       }
       // Load patch info
-      if (dict.found("patchInfo"))
-      {
+      if (dict.found("patchInfo")) {
         globalPatchInfo.set
         (
           surfI,
@@ -322,22 +286,15 @@ mousse::conformationSurfaces::conformationSurfaces
         featureI
       );
       const wordList& rNames = surface.regions();
-      if (dict.found("regions"))
-      {
+      if (dict.found("regions")) {
         const dictionary& regionsDict = dict.subDict("regions");
-        FOR_ALL(rNames, regionI)
-        {
+        FOR_ALL(rNames, regionI) {
           const word& regionName = rNames[regionI];
-          if (regionsDict.found(regionName))
-          {
-            Info<< "        region " << regionName << endl;
+          if (regionsDict.found(regionName)) {
+            Info << "        region " << regionName << endl;
             // Get the dictionary for region
-            const dictionary& regionDict = regionsDict.subDict
-            (
-              regionName
-            );
-            if (regionDict.found("patchInfo"))
-            {
+            const dictionary& regionDict = regionsDict.subDict(regionName);
+            if (regionDict.found("patchInfo")) {
               regionPatchInfo[surfI].insert
               (
                 regionI,
@@ -363,8 +320,7 @@ mousse::conformationSurfaces::conformationSurfaces
       surfI++;
     }
   }
-  if (unmatchedKeys.size() > 0)
-  {
+  if (unmatchedKeys.size() > 0) {
     IO_WARNING_IN
     (
       "conformationSurfaces::conformationSurfaces(..)",
@@ -377,8 +333,7 @@ mousse::conformationSurfaces::conformationSurfaces
   }
   // Calculate local to global region offset
   label nRegions = 0;
-  FOR_ALL(surfaces_, surfI)
-  {
+  FOR_ALL(surfaces_, surfI) {
     regionOffset_[surfI] = nRegions;
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
     nRegions += surface.regions().size();
@@ -386,17 +341,14 @@ mousse::conformationSurfaces::conformationSurfaces
   // Rework surface specific information into information per global region
   patchInfo_.setSize(nRegions);
   normalVolumeTypes_.setSize(nRegions);
-  FOR_ALL(surfaces_, surfI)
-  {
+  FOR_ALL(surfaces_, surfI) {
     const searchableSurface& surface = allGeometry_[surfaces_[surfI]];
     label nRegions = surface.regions().size();
     // Initialise to global (i.e. per surface)
-    for (label i = 0; i < nRegions; i++)
-    {
+    for (label i = 0; i < nRegions; i++) {
       label globalRegionI = regionOffset_[surfI] + i;
       normalVolumeTypes_[globalRegionI] = globalVolumeTypes[surfI];
-      if (globalPatchInfo.set(surfI))
-      {
+      if (globalPatchInfo.set(surfI)) {
         patchInfo_.set
         (
           globalRegionI,
@@ -404,39 +356,34 @@ mousse::conformationSurfaces::conformationSurfaces
         );
       }
     }
-    FOR_ALL_CONST_ITER(Map<sideVolumeType>, regionVolumeTypes[surfI], iter)
-    {
+    FOR_ALL_CONST_ITER(Map<sideVolumeType>, regionVolumeTypes[surfI], iter) {
       label globalRegionI = regionOffset_[surfI] + iter.key();
       normalVolumeTypes_[globalRegionI] =
         regionVolumeTypes[surfI][iter.key()];
     }
-    const Map<autoPtr<dictionary> >& localInfo = regionPatchInfo[surfI];
-    FOR_ALL_CONST_ITER(Map<autoPtr<dictionary> >, localInfo, iter)
-    {
+    const Map<autoPtr<dictionary>>& localInfo = regionPatchInfo[surfI];
+    FOR_ALL_CONST_ITER(Map<autoPtr<dictionary>>, localInfo, iter) {
       label globalRegionI = regionOffset_[surfI] + iter.key();
       patchInfo_.set(globalRegionI, iter()().clone());
     }
   }
-  if (!additionalFeaturesDict.empty())
-  {
-    Info<< nl << "Reading additionalFeatures" << endl;
+  if (!additionalFeaturesDict.empty()) {
+    Info << nl << "Reading additionalFeatures" << endl;
   }
-  FOR_ALL_CONST_ITER(dictionary, additionalFeaturesDict, iter)
-  {
+  FOR_ALL_CONST_ITER(dictionary, additionalFeaturesDict, iter) {
     word featureName = iter().keyword();
-    Info<< nl << "    " << iter().keyword() << endl;
-    const dictionary& featureSubDict
-    (
-      additionalFeaturesDict.subDict(featureName)
-    );
+    Info << nl << "    " << iter().keyword() << endl;
+    const dictionary& featureSubDict =
+      additionalFeaturesDict.subDict(featureName);
     readFeatures(featureSubDict, featureName, featureI);
   }
   // Remove unnecessary space from the features list
   features_.setSize(featureI);
-  globalBounds_ = treeBoundBox
-  (
-    searchableSurfacesQueries::bounds(allGeometry_, surfaces_)
-  );
+  globalBounds_ =
+    treeBoundBox
+    (
+      searchableSurfacesQueries::bounds(allGeometry_, surfaces_)
+    );
   // Extend the global bounds to stop the bound box sitting on the surfaces
   // to be conformed to
   //globalBounds_ = globalBounds_.extend(rndGen_, 1e-4);
@@ -451,38 +398,40 @@ mousse::conformationSurfaces::conformationSurfaces
     surfaces_.size(),
     volumeType::UNKNOWN
   );
-  Info<< endl
+  Info << endl
     << "Testing for locationInMesh " << locationInMesh_ << endl;
   hasBoundedVolume(referenceVolumeTypes_);
-  if (debug)
-  {
-    Info<< "Names = " << allGeometry_.names() << endl;
-    Info<< "Surfaces = " << surfaces_ << endl;
-    Info<< "AllGeom to Surfaces = " << allGeometryToSurfaces_ << endl;
-    Info<< "Volume types = " << normalVolumeTypes_ << endl;
-    Info<< "Patch names = " << patchNames_ << endl;
-    Info<< "Region Offset = " << regionOffset_ << endl;
-    FOR_ALL(features_, fI)
-    {
-      Info<< features_[fI].name() << endl;
+  if (debug) {
+    Info << "Names = " << allGeometry_.names() << endl;
+    Info << "Surfaces = " << surfaces_ << endl;
+    Info << "AllGeom to Surfaces = " << allGeometryToSurfaces_ << endl;
+    Info << "Volume types = " << normalVolumeTypes_ << endl;
+    Info << "Patch names = " << patchNames_ << endl;
+    Info << "Region Offset = " << regionOffset_ << endl;
+    FOR_ALL(features_, fI) {
+      Info << features_[fI].name() << endl;
     }
   }
 }
+
+
 // Destructor 
 mousse::conformationSurfaces::~conformationSurfaces()
 {}
+
+
 // Member Functions 
 bool mousse::conformationSurfaces::overlaps(const treeBoundBox& bb) const
 {
-  FOR_ALL(surfaces_, s)
-  {
-    if (allGeometry_[surfaces_[s]].overlaps(bb))
-    {
+  FOR_ALL(surfaces_, s) {
+    if (allGeometry_[surfaces_[s]].overlaps(bb)) {
       return true;
     }
   }
   return false;
 }
+
+
 mousse::Field<bool> mousse::conformationSurfaces::inside
 (
   const pointField& samplePts
@@ -490,6 +439,8 @@ mousse::Field<bool> mousse::conformationSurfaces::inside
 {
   return wellInside(samplePts, scalarField(samplePts.size(), 0.0));
 }
+
+
 bool mousse::conformationSurfaces::inside
 (
   const point& samplePt
@@ -497,6 +448,8 @@ bool mousse::conformationSurfaces::inside
 {
   return wellInside(pointField(1, samplePt), scalarField(1, 0))[0];
 }
+
+
 mousse::Field<bool> mousse::conformationSurfaces::outside
 (
   const pointField& samplePts
@@ -504,6 +457,8 @@ mousse::Field<bool> mousse::conformationSurfaces::outside
 {
   return wellOutside(samplePts, scalarField(samplePts.size(), 0.0));
 }
+
+
 bool mousse::conformationSurfaces::outside
 (
   const point& samplePt
@@ -512,6 +467,8 @@ bool mousse::conformationSurfaces::outside
   return wellOutside(pointField(1, samplePt), scalarField(1, 0))[0];
   //return !inside(samplePt);
 }
+
+
 mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
 (
   const pointField& samplePts,
@@ -519,22 +476,16 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
   const bool testForInside
 ) const
 {
-  List<List<volumeType> > surfaceVolumeTests
+  List<List<volumeType>> surfaceVolumeTests
   (
     surfaces_.size(),
-    List<volumeType>
-    (
-      samplePts.size(),
-      volumeType::UNKNOWN
-    )
+    List<volumeType>{samplePts.size(), volumeType::UNKNOWN}
   );
   // Get lists for the volumeTypes for each sample wrt each surface
-  FOR_ALL(surfaces_, s)
-  {
-    const searchableSurface& surface(allGeometry_[surfaces_[s]]);
+  FOR_ALL(surfaces_, s) {
+    const searchableSurface& surface = allGeometry_[surfaces_[s]];
     const label regionI = regionOffset_[s];
-    if (normalVolumeTypes_[regionI] != extendedFeatureEdgeMesh::BOTH)
-    {
+    if (normalVolumeTypes_[regionI] != extendedFeatureEdgeMesh::BOTH) {
       surface.getVolumeType(samplePts, surfaceVolumeTests[s]);
     }
   }
@@ -542,7 +493,7 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
   // reference value and if the points are inside the surface by a given
   // distanceSquared
   // Assume that the point is wellInside until demonstrated otherwise.
-  Field<bool> insideOutsidePoint(samplePts.size(), testForInside);
+  Field<bool> insideOutsidePoint{samplePts.size(), testForInside};
   //Check if the points are inside the surface by the given distance squared
   labelList hitSurfaces;
   List<pointIndexHit> hitInfo;
@@ -555,32 +506,23 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
     hitSurfaces,
     hitInfo
   );
-  FOR_ALL(samplePts, i)
-  {
+  FOR_ALL(samplePts, i) {
     const pointIndexHit& pHit = hitInfo[i];
-    if (pHit.hit())
-    {
+    if (pHit.hit()) {
       // If the point is within range of the surface, then it can't be
       // well (in|out)side
       insideOutsidePoint[i] = false;
       continue;
     }
-    FOR_ALL(surfaces_, s)
-    {
+    FOR_ALL(surfaces_, s) {
       const label regionI = regionOffset_[s];
-      if (normalVolumeTypes_[regionI] == extendedFeatureEdgeMesh::BOTH)
-      {
+      if (normalVolumeTypes_[regionI] == extendedFeatureEdgeMesh::BOTH) {
         continue;
       }
       const searchableSurface& surface(allGeometry_[surfaces_[s]]);
-      if
-      (
-        !surface.hasVolumeType()
-      //&& surfaceVolumeTests[s][i] == volumeType::UNKNOWN
-      )
-      {
-        pointField sample(1, samplePts[i]);
-        scalarField nearestDistSqr(1, GREAT);
+      if (!surface.hasVolumeType()) {
+        pointField sample{1, samplePts[i]};
+        scalarField nearestDistSqr{1, GREAT};
         List<pointIndexHit> info;
         surface.findNearest(sample, nearestDistSqr, info);
         vector hitDir = info[0].rawPoint() - samplePts[i];
@@ -594,31 +536,18 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
           surfHit,
           hitSurface
         );
-        if (surfHit.hit() && hitSurface != surfaces_[s])
-        {
+        if (surfHit.hit() && hitSurface != surfaces_[s]) {
           continue;
         }
       }
-      if (surfaceVolumeTests[s][i] == volumeType::OUTSIDE)
-      {
-        if
-        (
-          normalVolumeTypes_[regionI]
-        == extendedFeatureEdgeMesh::INSIDE
-        )
-        {
+      if (surfaceVolumeTests[s][i] == volumeType::OUTSIDE) {
+        if (normalVolumeTypes_[regionI] == extendedFeatureEdgeMesh::INSIDE) {
           insideOutsidePoint[i] = !testForInside;
           break;
         }
       }
-      else if (surfaceVolumeTests[s][i] == volumeType::INSIDE)
-      {
-        if
-        (
-          normalVolumeTypes_[regionI]
-        == extendedFeatureEdgeMesh::OUTSIDE
-        )
-        {
+      else if (surfaceVolumeTests[s][i] == volumeType::INSIDE) {
+        if (normalVolumeTypes_[regionI] == extendedFeatureEdgeMesh::OUTSIDE) {
           insideOutsidePoint[i] = !testForInside;
           break;
         }
@@ -627,6 +556,8 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInOutSide
   }
   return insideOutsidePoint;
 }
+
+
 mousse::Field<bool> mousse::conformationSurfaces::wellInside
 (
   const pointField& samplePts,
@@ -635,6 +566,8 @@ mousse::Field<bool> mousse::conformationSurfaces::wellInside
 {
   return wellInOutSide(samplePts, testDistSqr, true);
 }
+
+
 bool mousse::conformationSurfaces::wellInside
 (
   const point& samplePt,
@@ -643,6 +576,8 @@ bool mousse::conformationSurfaces::wellInside
 {
   return wellInside(pointField(1, samplePt), scalarField(1, testDistSqr))[0];
 }
+
+
 mousse::Field<bool> mousse::conformationSurfaces::wellOutside
 (
   const pointField& samplePts,
@@ -651,6 +586,8 @@ mousse::Field<bool> mousse::conformationSurfaces::wellOutside
 {
   return wellInOutSide(samplePts, testDistSqr, false);
 }
+
+
 bool mousse::conformationSurfaces::wellOutside
 (
   const point& samplePt,
@@ -659,6 +596,8 @@ bool mousse::conformationSurfaces::wellOutside
 {
   return wellOutside(pointField(1, samplePt), scalarField(1, testDistSqr))[0];
 }
+
+
 bool mousse::conformationSurfaces::findSurfaceAnyIntersection
 (
   const point& start,
@@ -678,6 +617,8 @@ bool mousse::conformationSurfaces::findSurfaceAnyIntersection
   );
   return hitInfo[0].hit();
 }
+
+
 void mousse::conformationSurfaces::findSurfaceAnyIntersection
 (
   const point& start,
@@ -698,14 +639,15 @@ void mousse::conformationSurfaces::findSurfaceAnyIntersection
     hitInfo
   );
   surfHit = hitInfo[0];
-  if (surfHit.hit())
-  {
+  if (surfHit.hit()) {
     // hitSurfaces has returned the index of the entry in surfaces_ that was
     // found, not the index of the surface in allGeometry_, translating this
     // to allGeometry_
     hitSurface = surfaces_[hitSurfaces[0]];
   }
 }
+
+
 void mousse::conformationSurfaces::findSurfaceAllIntersections
 (
   const point& start,
@@ -715,7 +657,7 @@ void mousse::conformationSurfaces::findSurfaceAllIntersections
 ) const
 {
   labelListList hitSurfaces;
-  List<List<pointIndexHit> > hitInfo;
+  List<List<pointIndexHit>> hitInfo;
   searchableSurfacesQueries::findAllIntersections
   (
     allGeometry_,
@@ -727,14 +669,15 @@ void mousse::conformationSurfaces::findSurfaceAllIntersections
   );
   surfHit = hitInfo[0];
   hitSurface.setSize(hitSurfaces[0].size());
-  FOR_ALL(hitSurfaces[0], surfI)
-  {
+  FOR_ALL(hitSurfaces[0], surfI) {
     // hitSurfaces has returned the index of the entry in surfaces_ that was
     // found, not the index of the surface in allGeometry_, translating this
     // to allGeometry_
     hitSurface[surfI] = surfaces_[hitSurfaces[0][surfI]];
   }
 }
+
+
 void mousse::conformationSurfaces::findSurfaceNearestIntersection
 (
   const point& start,
@@ -759,14 +702,15 @@ void mousse::conformationSurfaces::findSurfaceNearestIntersection
     hitInfoEnd
   );
   surfHit = hitInfoStart[0];
-  if (surfHit.hit())
-  {
+  if (surfHit.hit()) {
     // hitSurfaces has returned the index of the entry in surfaces_ that was
     // found, not the index of the surface in allGeometry_, translating this
     // to allGeometry_
     hitSurface = surfaces_[hitSurfacesStart[0]];
   }
 }
+
+
 void mousse::conformationSurfaces::findSurfaceNearest
 (
   const point& sample,
@@ -787,14 +731,15 @@ void mousse::conformationSurfaces::findSurfaceNearest
     surfaceHits
   );
   surfHit = surfaceHits[0];
-  if (surfHit.hit())
-  {
+  if (surfHit.hit()) {
     // hitSurfaces has returned the index of the entry in surfaces_ that was
     // found, not the index of the surface in allGeometry_, translating this
     // to allGeometry_
     hitSurface = surfaces_[hitSurfaces[0]];
   }
 }
+
+
 void mousse::conformationSurfaces::findSurfaceNearest
 (
   const pointField& samples,
@@ -812,10 +757,8 @@ void mousse::conformationSurfaces::findSurfaceNearest
     hitSurfaces,
     surfaceHits
   );
-  FOR_ALL(surfaceHits, i)
-  {
-    if (surfaceHits[i].hit())
-    {
+  FOR_ALL(surfaceHits, i) {
+    if (surfaceHits[i].hit()) {
       // hitSurfaces has returned the index of the entry in surfaces_ that
       // was found, not the index of the surface in allGeometry_,
       // translating this to the surface in allGeometry_.
@@ -823,6 +766,8 @@ void mousse::conformationSurfaces::findSurfaceNearest
     }
   }
 }
+
+
 void mousse::conformationSurfaces::findFeaturePointNearest
 (
   const point& sample,
@@ -834,22 +779,22 @@ void mousse::conformationSurfaces::findFeaturePointNearest
   // Work arrays
   scalar minDistSqr = nearestDistSqr;
   pointIndexHit hitInfo;
-  FOR_ALL(features_, testI)
-  {
+  FOR_ALL(features_, testI) {
     features_[testI].nearestFeaturePoint
     (
       sample,
       minDistSqr,
       hitInfo
     );
-    if (hitInfo.hit())
-    {
+    if (hitInfo.hit()) {
       minDistSqr = magSqr(hitInfo.hitPoint()- sample);
       fpHit = hitInfo;
       featureHit = testI;
     }
   }
 }
+
+
 void mousse::conformationSurfaces::findEdgeNearest
 (
   const point& sample,
@@ -858,8 +803,8 @@ void mousse::conformationSurfaces::findEdgeNearest
   label& featureHit
 ) const
 {
-  pointField samples(1, sample);
-  scalarField nearestDistsSqr(1, nearestDistSqr);
+  pointField samples{1, sample};
+  scalarField nearestDistsSqr{1, nearestDistSqr};
   List<pointIndexHit> edgeHits;
   labelList featuresHit;
   findEdgeNearest
@@ -872,6 +817,8 @@ void mousse::conformationSurfaces::findEdgeNearest
   edgeHit = edgeHits[0];
   featureHit = featuresHit[0];
 }
+
+
 void mousse::conformationSurfaces::findEdgeNearest
 (
   const pointField& samples,
@@ -885,10 +832,9 @@ void mousse::conformationSurfaces::findEdgeNearest
   featuresHit = -1;
   edgeHits.setSize(samples.size());
   // Work arrays
-  scalarField minDistSqr(nearestDistsSqr);
-  List<pointIndexHit> hitInfo(samples.size());
-  FOR_ALL(features_, testI)
-  {
+  scalarField minDistSqr{nearestDistsSqr};
+  List<pointIndexHit> hitInfo{samples.size()};
+  FOR_ALL(features_, testI) {
     features_[testI].nearestFeatureEdge
     (
       samples,
@@ -896,21 +842,18 @@ void mousse::conformationSurfaces::findEdgeNearest
       hitInfo
     );
     // Update minDistSqr and arguments
-    FOR_ALL(hitInfo, pointI)
-    {
-      if (hitInfo[pointI].hit())
-      {
-        minDistSqr[pointI] = magSqr
-        (
-          hitInfo[pointI].hitPoint()
-         - samples[pointI]
-        );
+    FOR_ALL(hitInfo, pointI) {
+      if (hitInfo[pointI].hit()) {
+        minDistSqr[pointI] =
+          magSqr(hitInfo[pointI].hitPoint() - samples[pointI]);
         edgeHits[pointI] = hitInfo[pointI];
         featuresHit[pointI] = testI;
       }
     }
   }
 }
+
+
 void mousse::conformationSurfaces::findEdgeNearestByType
 (
   const point& sample,
@@ -924,10 +867,9 @@ void mousse::conformationSurfaces::findEdgeNearestByType
   featuresHit = -1;
   edgeHits.setSize(extendedFeatureEdgeMesh::nEdgeTypes);
   // Work arrays
-  scalarField minDistSqr(extendedFeatureEdgeMesh::nEdgeTypes, nearestDistSqr);
-  List<pointIndexHit> hitInfo(extendedFeatureEdgeMesh::nEdgeTypes);
-  FOR_ALL(features_, testI)
-  {
+  scalarField minDistSqr{extendedFeatureEdgeMesh::nEdgeTypes, nearestDistSqr};
+  List<pointIndexHit> hitInfo{extendedFeatureEdgeMesh::nEdgeTypes};
+  FOR_ALL(features_, testI) {
     features_[testI].nearestFeatureEdgeByType
     (
       sample,
@@ -935,10 +877,8 @@ void mousse::conformationSurfaces::findEdgeNearestByType
       hitInfo
     );
     // Update minDistSqr and arguments
-    FOR_ALL(hitInfo, typeI)
-    {
-      if (hitInfo[typeI].hit())
-      {
+    FOR_ALL(hitInfo, typeI) {
+      if (hitInfo[typeI].hit()) {
         minDistSqr[typeI] = magSqr(hitInfo[typeI].hitPoint() - sample);
         edgeHits[typeI] = hitInfo[typeI];
         featuresHit[typeI] = testI;
@@ -946,22 +886,19 @@ void mousse::conformationSurfaces::findEdgeNearestByType
     }
   }
 }
+
+
 void mousse::conformationSurfaces::findAllNearestEdges
 (
   const point& sample,
   const scalar searchRadiusSqr,
-  List<List<pointIndexHit> >& edgeHitsByFeature,
+  List<List<pointIndexHit>>& edgeHitsByFeature,
   List<label>& featuresHit
 ) const
 {
-  // Initialise
-  //featuresHit.setSize(features_.size());
-  //featuresHit = -1;
-  //edgeHitsByFeature.setSize(features_.size());
   // Work arrays
-  List<pointIndexHit> hitInfo(extendedFeatureEdgeMesh::nEdgeTypes);
-  FOR_ALL(features_, testI)
-  {
+  List<pointIndexHit> hitInfo{extendedFeatureEdgeMesh::nEdgeTypes};
+  FOR_ALL(features_, testI) {
     features_[testI].allNearestFeatureEdges
     (
       sample,
@@ -969,33 +906,30 @@ void mousse::conformationSurfaces::findAllNearestEdges
       hitInfo
     );
     bool anyHit = false;
-    FOR_ALL(hitInfo, hitI)
-    {
-      if (hitInfo[hitI].hit())
-      {
+    FOR_ALL(hitInfo, hitI) {
+      if (hitInfo[hitI].hit()) {
         anyHit = true;
       }
     }
-    if (anyHit)
-    {
+    if (anyHit) {
       edgeHitsByFeature.append(hitInfo);
       featuresHit.append(testI);
     }
   }
 }
+
+
 void mousse::conformationSurfaces::writeFeatureObj(const fileName& prefix) const
 {
-  OFstream ftStr(runTime_.time().path()/prefix + "_allFeatures.obj");
-  Pout<< nl << "Writing all features to " << ftStr.name() << endl;
+  OFstream ftStr{runTime_.time().path()/prefix + "_allFeatures.obj"};
+  Pout << nl << "Writing all features to " << ftStr.name() << endl;
   label verti = 0;
-  FOR_ALL(features_, i)
-  {
-    const extendedFeatureEdgeMesh& fEM(features_[i]);
-    const pointField pts(fEM.points());
-    const edgeList eds(fEM.edges());
+  FOR_ALL(features_, i) {
+    const extendedFeatureEdgeMesh& fEM = features_[i];
+    const pointField pts{fEM.points()};
+    const edgeList eds{fEM.edges()};
     ftStr << "g " << fEM.name() << endl;
-    FOR_ALL(eds, j)
-    {
+    FOR_ALL(eds, j) {
       const edge& e = eds[j];
       meshTools::writeOBJ(ftStr, pts[e[0]]); verti++;
       meshTools::writeOBJ(ftStr, pts[e[1]]); verti++;
@@ -1003,6 +937,8 @@ void mousse::conformationSurfaces::writeFeatureObj(const fileName& prefix) const
     }
   }
 }
+
+
 mousse::label mousse::conformationSurfaces::findPatch
 (
   const point& ptA,
@@ -1014,6 +950,8 @@ mousse::label mousse::conformationSurfaces::findPatch
   findSurfaceAnyIntersection(ptA, ptB, surfHit, hitSurface);
   return getPatchID(hitSurface, surfHit);
 }
+
+
 mousse::label mousse::conformationSurfaces::findPatch(const point& pt) const
 {
   pointIndexHit surfHit;
@@ -1021,14 +959,15 @@ mousse::label mousse::conformationSurfaces::findPatch(const point& pt) const
   findSurfaceNearest(pt, sqr(GREAT), surfHit, hitSurface);
   return getPatchID(hitSurface, surfHit);
 }
+
+
 mousse::label mousse::conformationSurfaces::getPatchID
 (
   const label hitSurface,
   const pointIndexHit& surfHit
 ) const
 {
-  if (!surfHit.hit())
-  {
+  if (!surfHit.hit()) {
     return -1;
   }
   labelList surfLocalRegion;
@@ -1038,10 +977,11 @@ mousse::label mousse::conformationSurfaces::getPatchID
     surfLocalRegion
   );
   const label patchID =
-    surfLocalRegion[0]
-   + regionOffset_[allGeometryToSurfaces_[hitSurface]];
+    surfLocalRegion[0] + regionOffset_[allGeometryToSurfaces_[hitSurface]];
   return patchID;
 }
+
+
 mousse::extendedFeatureEdgeMesh::sideVolumeType
 mousse::conformationSurfaces::meshableSide
 (
@@ -1050,12 +990,13 @@ mousse::conformationSurfaces::meshableSide
 ) const
 {
   const label patchID = getPatchID(hitSurface, surfHit);
-  if (patchID == -1)
-  {
+  if (patchID == -1) {
     return extendedFeatureEdgeMesh::NEITHER;
   }
   return normalVolumeTypes_[patchID];
 }
+
+
 void mousse::conformationSurfaces::getNormal
 (
   const label hitSurface,
@@ -1066,8 +1007,8 @@ void mousse::conformationSurfaces::getNormal
   allGeometry_[hitSurface].getNormal(surfHit, normal);
   const label patchID = regionOffset_[allGeometryToSurfaces_[hitSurface]];
   // Now flip sign of normal depending on mesh side
-  if (normalVolumeTypes_[patchID] == extendedFeatureEdgeMesh::OUTSIDE)
-  {
+  if (normalVolumeTypes_[patchID] == extendedFeatureEdgeMesh::OUTSIDE) {
     normal *= -1;
   }
 }
+

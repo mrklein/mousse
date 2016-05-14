@@ -1,0 +1,3 @@
+equilibrium_co.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-equilibrium-co

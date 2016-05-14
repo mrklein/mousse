@@ -9,8 +9,10 @@
 #include "map_consistent_vol_fields.hpp"
 #include "map_lagrangian.hpp"
 #include "un_mapped.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<template<class> class CombineOp>
 void MapConsistentMesh
 (
@@ -20,7 +22,7 @@ void MapConsistentMesh
 )
 {
   // Create the interpolation scheme
-  meshToMesh0 meshToMesh0Interp(meshSource, meshTarget);
+  meshToMesh0 meshToMesh0Interp{meshSource, meshTarget};
   Info << nl
     << "Consistently creating and mapping fields for time "
     << meshSource.time().timeName() << nl << endl;
@@ -85,6 +87,8 @@ void MapConsistentMesh
   }
   mapLagrangian(meshToMesh0Interp);
 }
+
+
 template<template<class> class CombineOp>
 void MapSubMesh
 (
@@ -149,7 +153,7 @@ void MapSubMesh
   }
   {
     // Search for list of target objects for this time
-    IOobjectList objects(meshTarget, meshTarget.time().timeName());
+    IOobjectList objects{meshTarget, meshTarget.time().timeName()};
     // Mark surfaceFields as unmapped
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     UnMapped<surfaceScalarField>(objects);
@@ -167,6 +171,8 @@ void MapSubMesh
   }
   mapLagrangian(meshToMesh0Interp);
 }
+
+
 template<template<class> class CombineOp>
 void MapConsistentSubMesh
 (
@@ -177,18 +183,14 @@ void MapConsistentSubMesh
 {
   HashTable<word> patchMap;
   HashTable<label> cuttingPatchTable;
-  FOR_ALL(meshTarget.boundary(), patchi)
-  {
-    if (!isA<processorFvPatch>(meshTarget.boundary()[patchi]))
-    {
+  FOR_ALL(meshTarget.boundary(), patchi) {
+    if (!isA<processorFvPatch>(meshTarget.boundary()[patchi])) {
       patchMap.insert
       (
         meshTarget.boundary()[patchi].name(),
         meshTarget.boundary()[patchi].name()
       );
-    }
-    else
-    {
+    } else {
       cuttingPatchTable.insert
       (
         meshTarget.boundaryMesh()[patchi].name(),
@@ -205,5 +207,8 @@ void MapConsistentSubMesh
     mapOrder
   );
 }
+
 }  // namespace mousse
+
 #endif
+

@@ -8,37 +8,34 @@
 #include "function_object_file.hpp"
 #include "csv.hpp"
 
+
 using namespace mousse;
+
 
 mousse::scalar checkUniformTimeStep(const scalarField& t)
 {
   // check that a uniform time step has been applied
   scalar deltaT = -1.0;
-  if (t.size() > 1)
-  {
-    for (label i = 1; i < t.size(); i++)
-    {
+  if (t.size() > 1) {
+    for (label i = 1; i < t.size(); i++) {
       scalar dT = t[i] - t[i-1];
-      if (deltaT < 0)
-      {
+      if (deltaT < 0) {
         deltaT = dT;
       }
-      if (mag(deltaT - dT) > SMALL)
-      {
+      if (mag(deltaT - dT) > SMALL) {
         FATAL_ERROR_IN("checkUniformTimeStep(const scalarField&)")
           << "Unable to process data with a variable time step"
           << exit(FatalError);
       }
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("checkUniformTimeStep(const scalarField&)")
       << "Unable to create FFT with a single value"
       << exit(FatalError);
   }
   return deltaT;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -53,8 +50,7 @@ int main(int argc, char *argv[])
   const scalarField t{pData.x()};
   // pressure data
   const scalarField p{pData.y()};
-  if (t.size() < N)
-  {
+  if (t.size() < N) {
     FATAL_ERROR_IN(args.executable())
       << "Block size N = " << N
       << " is larger than number of data = " << t.size()
@@ -80,3 +76,4 @@ int main(int argc, char *argv[])
   Info << nl << "End\n" << endl;
   return 0;
 }
+

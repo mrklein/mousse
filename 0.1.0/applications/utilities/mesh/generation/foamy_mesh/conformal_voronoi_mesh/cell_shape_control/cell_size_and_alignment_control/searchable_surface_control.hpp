@@ -6,13 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::searchableSurfaceControl
-// Description
-// SourceFiles
-//   searchable_surface_control.cpp
+
 #include "cell_size_function.hpp"
 #include "triad.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class searchableSurfaceControl
 :
   public cellSizeAndAlignmentControl
@@ -63,10 +63,7 @@ public:
     {
       return cellSizeFunctions_;
     }
-    virtual label maxPriority() const
-    {
-      return maxPriority_;
-    }
+    virtual label maxPriority() const { return maxPriority_; }
     bool cellSize
     (
       const mousse::point& pt,
@@ -75,5 +72,8 @@ public:
     ) const;
     // Edit
 };
+
 }  // namespace mousse
+
 #endif
+

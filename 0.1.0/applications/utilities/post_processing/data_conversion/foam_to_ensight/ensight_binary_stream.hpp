@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::ensightBinaryStream
-// Description
-// SourceFiles
-//   ensight_binary_stream.cpp
+
 #include "ensight_stream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ensightBinaryStream
 :
   public ensightStream
@@ -42,10 +42,7 @@ public:
   virtual ~ensightBinaryStream()
   {}
   // Member Functions
-    virtual bool ascii() const
-    {
-      return false;
-    }
+    virtual bool ascii() const { return false; }
     virtual void write(const char* val)
     {
       char buffer[80] = {0};
@@ -58,19 +55,17 @@ public:
     }
     virtual void write(const scalarField& sf)
     {
-      if (sf.size())
-      {
-        List<float> temp{sf.size()};
-        FOR_ALL(sf, i)
-        {
-          temp[i] = float(sf[i]);
-        }
-        str_().write
-        (
-          reinterpret_cast<const char*>(temp.begin()),
-          sf.size()*sizeof(float)
-        );
+      if (!sf.size())
+        return;
+      List<float> temp{sf.size()};
+      FOR_ALL(sf, i) {
+        temp[i] = float(sf[i]);
       }
+      str_().write
+      (
+        reinterpret_cast<const char*>(temp.begin()),
+        sf.size()*sizeof(float)
+      );
     }
     virtual void write(const List<int>& sf)
     {
@@ -85,10 +80,9 @@ public:
       write("part");
       write(partI);
     }
-  // Member Operators
-  // Friend Functions
-  // Friend Operators
-  // IOstream Operators
 };
+
 }  // namespace mousse
+
 #endif
+

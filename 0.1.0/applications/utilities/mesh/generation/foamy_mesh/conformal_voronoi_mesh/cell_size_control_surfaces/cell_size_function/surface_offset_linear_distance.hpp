@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::surfaceOffsetLinearDistance
-// Description
-// SourceFiles
-//   surface_offset_linear_distance.cpp
+
 #include "cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class surfaceOffsetLinearDistance
 :
   public cellSizeFunction
@@ -63,5 +63,8 @@ public:
       scalar& size
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

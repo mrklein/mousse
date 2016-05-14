@@ -7,9 +7,12 @@
 #include "turbulent_transport_model.hpp"
 #include "wall_dist.hpp"
 
+
 // turbulence constants - file-scope
-static const scalar Cmu(0.09);
-static const scalar kappa(0.41);
+static const scalar Cmu{0.09};
+static const scalar kappa{0.41};
+
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -35,16 +38,13 @@ int main(int argc, char *argv[])
     "write nut field"
   );
   #include "set_root_case.inc"
-  if (!args.optionFound("ybl") && !args.optionFound("Cbl"))
-  {
+  if (!args.optionFound("ybl") && !args.optionFound("Cbl")) {
     FATAL_ERROR_IN(args.executable())
       << "Neither option 'ybl' or 'Cbl' have been provided to calculate "
       << "the boundary-layer thickness.\n"
       << "Please choose either 'ybl' OR 'Cbl'."
       << exit(FatalError);
-  }
-  else if (args.optionFound("ybl") && args.optionFound("Cbl"))
-  {
+  } else if (args.optionFound("ybl") && args.optionFound("Cbl")) {
     FATAL_ERROR_IN(args.executable())
       << "Both 'ybl' and 'Cbl' have been provided to calculate "
       << "the boundary-layer thickness.\n"
@@ -54,16 +54,13 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   #include "create_mesh.inc"
   #include "create_fields.inc"
-
   // Modify velocity by applying a 1/7th power law boundary-layer
   // u/U0 = (y/ybl)^(1/7)
   // assumes U0 is the same as the current cell velocity
   Info << "Setting boundary layer velocity" << nl << endl;
   scalar yblv = ybl.value();
-  FOR_ALL(U, cellI)
-  {
-    if (y[cellI] <= yblv)
-    {
+  FOR_ALL(U, cellI) {
+    if (y[cellI] <= yblv) {
       mask[cellI] = 1;
       U[cellI] *= ::pow(y[cellI]/yblv, (1.0/7.0));
     }
@@ -79,9 +76,7 @@ int main(int argc, char *argv[])
   {
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
   };
-
-  if (isA<incompressible::RASModel>(turbulence()))
-  {
+  if (isA<incompressible::RASModel>(turbulence())) {
     // Calculate nut - reference nut is calculated by the turbulence model
     // on its construction
     tmp<volScalarField> tnut = turbulence->nut();
@@ -90,8 +85,7 @@ int main(int argc, char *argv[])
     nut = (1 - mask)*nut + mask*sqr(kappa*min(y, ybl))*::sqrt(2)*S;
     // do not correct BC - wall functions will 'undo' manipulation above
     // by using nut from turbulence model
-    if (args.optionFound("writenut"))
-    {
+    if (args.optionFound("writenut")) {
       Info << "Writing nut" << endl;
       nut.write();
     }
@@ -126,8 +120,7 @@ int main(int argc, char *argv[])
       IOobject::NO_WRITE,
       false
     };
-    if (omegaHeader.headerOk())
-    {
+    if (omegaHeader.headerOk()) {
       volScalarField omega{omegaHeader, mesh};
       dimensionedScalar k0{"VSMALL", k.dimensions(), VSMALL};
       omega = (1 - mask)*omega + mask*epsilon/(Cmu*k + k0);
@@ -144,8 +137,7 @@ int main(int argc, char *argv[])
       IOobject::NO_WRITE,
       false
     };
-    if (nuTildaHeader.headerOk())
-    {
+    if (nuTildaHeader.headerOk()) {
       volScalarField nuTilda{nuTildaHeader, mesh};
       nuTilda = nut;
       // do not correct BC
@@ -160,3 +152,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

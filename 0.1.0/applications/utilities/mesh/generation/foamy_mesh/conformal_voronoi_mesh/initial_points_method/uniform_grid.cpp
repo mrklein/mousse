@@ -4,11 +4,15 @@
 
 #include "uniform_grid.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(uniformGrid, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(initialPointsMethod, uniformGrid, dictionary);
+
+
 // Constructors 
 uniformGrid::uniformGrid
 (
@@ -21,7 +25,7 @@ uniformGrid::uniformGrid
 )
 :
   initialPointsMethod
-  (
+  {
     typeName,
     initialPointsDict,
     runTime,
@@ -29,26 +33,25 @@ uniformGrid::uniformGrid
     geometryToConformTo,
     cellShapeControls,
     decomposition
-  ),
-  initialCellSize_(readScalar(detailsDict().lookup("initialCellSize"))),
-  randomiseInitialGrid_(detailsDict().lookup("randomiseInitialGrid")),
+  },
+  initialCellSize_{readScalar(detailsDict().lookup("initialCellSize"))},
+  randomiseInitialGrid_{detailsDict().lookup("randomiseInitialGrid")},
   randomPerturbationCoeff_
-  (
+  {
     readScalar(detailsDict().lookup("randomPerturbationCoeff"))
-  )
+  }
 {}
+
+
 // Member Functions 
 List<Vb::Point> uniformGrid::initialPoints() const
 {
   boundBox bb;
   // Pick up the bounds of this processor, or the whole geometry, depending
   // on whether this is a parallel run.
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     bb = decomposition().procBounds();
-  }
-  else
-  {
+  } else {
     bb = geometryToConformTo().globalBounds();
   }
   scalar x0 = bb.min().x();
@@ -64,36 +67,28 @@ List<Vb::Point> uniformGrid::initialPoints() const
   delta *= pow((1.0),-(1.0/3.0));
   scalar pert = randomPerturbationCoeff_*cmptMin(delta);
   // Initialise points list
-  DynamicList<Vb::Point> initialPoints(scalar(ni)*nj*nk/10);
-  for (label i = 0; i < ni; i++)
-  {
-    for (label j = 0; j < nj; j++)
-    {
+  DynamicList<Vb::Point> initialPoints{static_cast<label>(scalar(ni)*nj*nk/10)};
+  for (label i = 0; i < ni; i++) {
+    for (label j = 0; j < nj; j++) {
       // Generating, testing and adding points one line at a time to
       // reduce the memory requirement for cases with bounding boxes that
       // are very large in comparison to the volume to be filled
       label pI = 0;
-      pointField points(nk);
-      for (label k = 0; k < nk; k++)
-      {
+      pointField points{nk};
+      for (label k = 0; k < nk; k++) {
         point p
-        (
+        {
           x0 + (i + 0.5)*delta.x(),
           y0 + (j + 0.5)*delta.y(),
           z0 + (k + 0.5)*delta.z()
-        );
-        if (randomiseInitialGrid_)
-        {
+        };
+        if (randomiseInitialGrid_) {
           p.x() += pert*(rndGen().scalar01() - 0.5);
           p.y() += pert*(rndGen().scalar01() - 0.5);
           p.z() += pert*(rndGen().scalar01() - 0.5);
         }
-        if
-        (
-          Pstream::parRun()
-        && !decomposition().positionOnThisProcessor(p)
-        )
-        {
+        if (Pstream::parRun()
+            && !decomposition().positionOnThisProcessor(p)) {
           // Skip this point if, in parallel, this position is not on
           // this processor.
           continue;
@@ -106,16 +101,11 @@ List<Vb::Point> uniformGrid::initialPoints() const
         (
           points,
           minimumSurfaceDistanceCoeffSqr_
-         *sqr
-          (
-            cellShapeControls().cellSize(points)
-          )
+          *sqr(cellShapeControls().cellSize(points))
         );
-      FOR_ALL(insidePoints, i)
-      {
-        if (insidePoints[i])
-        {
-          const point& p(points[i]);
+      FOR_ALL(insidePoints, i) {
+        if (insidePoints[i]) {
+          const point& p = points[i];
           initialPoints.append(Vb::Point(p.x(), p.y(), p.z()));
         }
       }
@@ -123,4 +113,6 @@ List<Vb::Point> uniformGrid::initialPoints() const
   }
   return initialPoints.shrink();
 }
+
 }  // namespace mousse
+

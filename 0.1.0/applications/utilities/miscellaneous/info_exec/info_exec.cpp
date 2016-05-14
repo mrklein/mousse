@@ -6,13 +6,14 @@
 #include "time.hpp"
 #include "dictionary.hpp"
 #include "ifstream.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
-  argList::addNote
-  (
-    "interrogates a case and prints information to stdout"
-  );
+  argList::addNote("interrogates a case and prints information to stdout");
   argList::noBanner();
   argList::addBoolOption("times", "list available times");
   argList::addBoolOption("latestTime", "list last time");
@@ -29,77 +30,49 @@ int main(int argc, char *argv[])
     "report the named entry for the specified dictionary"
   );
   #include "set_root_case.inc"
-  if (args.optionFound("times"))
-  {
+  if (args.optionFound("times")) {
     instantList times
     {
       mousse::Time::findTimes(args.rootPath()/args.caseName())
     };
-    FOR_ALL(times, i)
-    {
-      Info<< times[i].name() << endl;
+    FOR_ALL(times, i) {
+      Info << times[i].name() << endl;
     }
-  }
-  else if (args.optionFound("latestTime"))
-  {
+  } else if (args.optionFound("latestTime")) {
     instantList times
     {
       mousse::Time::findTimes(args.rootPath()/args.caseName())
     };
-    Info<< times.last().name() << endl;
+    Info << times.last().name() << endl;
   }
-  if (args.optionFound("dict"))
-  {
+  if (args.optionFound("dict")) {
     fileName dictPath = args["dict"];
     const fileName dictFileName
     {
       dictPath.isAbsolute()
-     ? dictPath
-     : args.rootPath()/args.caseName()/args["dict"]
+      ? dictPath
+      : args.rootPath()/args.caseName()/args["dict"]
     };
     IFstream dictFile{dictFileName};
-    if (dictFile.good())
-    {
+    if (dictFile.good()) {
       dictionary dict{dictFile};
-      if (args.optionFound("entry"))
-      {
+      if (args.optionFound("entry")) {
         fileName entryName{args.option("entry")};
-        const entry* entPtr = NULL;
-        if (entryName.find('.') != string::npos)
-        {
+        const entry* entPtr = nullptr;
+        if (entryName.find('.') != string::npos) {
           // New syntax
-          entPtr = dict.lookupScopedEntryPtr
-          (
-            entryName,
-            false,
-            true            // wildcards
-          );
-        }
-        else
-        {
+          entPtr =
+            dict.lookupScopedEntryPtr(entryName, false, true);
+        } else {
           // Old syntax
           wordList entryNames{entryName.components(':')};
-          if (dict.found(entryNames[0]))
-          {
-            entPtr = &dict.lookupEntry
-            (
-              entryNames[0],
-              false,
-              true            // wildcards
-            );
-            for (int i=1; i<entryNames.size(); ++i)
-            {
-              if (entPtr->dict().found(entryNames[i]))
-              {
-                entPtr = &entPtr->dict().lookupEntry
-                (
-                  entryNames[i],
-                  false,
-                  true    // wildcards
-                );
-              }
-              else
-              {
+          if (dict.found(entryNames[0])) {
+            entPtr = &dict.lookupEntry(entryNames[0], false, true);
+            for (int i=1; i<entryNames.size(); ++i) {
+              if (entPtr->dict().found(entryNames[i])) {
+                entPtr =
+                  &entPtr->dict().lookupEntry(entryNames[i], false, true);
+              } else {
                 FATAL_ERROR_IN(args.executable())
                   << "Cannot find sub-entry " << entryNames[i]
                   << " in entry " << args["entry"]
@@ -109,44 +82,30 @@ int main(int argc, char *argv[])
             }
           }
         }
-        if (entPtr)
-        {
-          if (args.optionFound("keywords"))
-          {
+        if (entPtr) {
+          if (args.optionFound("keywords")) {
             const dictionary& dict = entPtr->dict();
-            FOR_ALL_CONST_ITER(dictionary, dict, iter)
-            {
-              Info<< iter().keyword() << endl;
+            FOR_ALL_CONST_ITER(dictionary, dict, iter) {
+              Info << iter().keyword() << endl;
             }
+          } else {
+            Info << *entPtr << endl;
           }
-          else
-          {
-            Info<< *entPtr << endl;
-          }
-        }
-        else
-        {
+        } else {
           FATAL_ERROR_IN(args.executable())
             << "Cannot find entry "
             << entryName
             << " in dictionary " << dictFileName;
           FatalError.exit(2);
         }
-      }
-      else if (args.optionFound("keywords"))
-      {
-        FOR_ALL_CONST_ITER(dictionary, dict, iter)
-        {
-          Info<< iter().keyword() << endl;
+      } else if (args.optionFound("keywords")) {
+        FOR_ALL_CONST_ITER(dictionary, dict, iter) {
+          Info << iter().keyword() << endl;
         }
+      } else {
+        Info << dict;
       }
-      else
-      {
-        Info<< dict;
-      }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN(args.executable())
         << "Cannot open file " << dictFileName;
       FatalError.exit(1);
@@ -154,3 +113,4 @@ int main(int argc, char *argv[])
   }
   return 0;
 }
+

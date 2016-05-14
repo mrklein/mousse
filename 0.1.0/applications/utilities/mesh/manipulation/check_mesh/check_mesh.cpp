@@ -11,7 +11,11 @@
 #include "check_topology.hpp"
 #include "check_geometry.hpp"
 #include "check_mesh_quality.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -44,31 +48,25 @@ int main(int argc, char *argv[])
   const bool allGeometry = args.optionFound("allGeometry");
   const bool allTopology = args.optionFound("allTopology");
   const bool meshQuality = args.optionFound("meshQuality");
-  if (noTopology)
-  {
-    Info<< "Disabling all topology checks." << nl << endl;
+  if (noTopology) {
+    Info << "Disabling all topology checks." << nl << endl;
   }
-  if (allTopology)
-  {
-    Info<< "Enabling all (cell, face, edge, point) topology checks."
+  if (allTopology) {
+    Info << "Enabling all (cell, face, edge, point) topology checks."
       << nl << endl;
   }
-  if (allGeometry)
-  {
-    Info<< "Enabling all geometry checks." << nl << endl;
+  if (allGeometry) {
+    Info << "Enabling all geometry checks." << nl << endl;
   }
-  if (meshQuality)
-  {
-    Info<< "Enabling user-defined geometry checks." << nl << endl;
+  if (meshQuality) {
+    Info << "Enabling user-defined geometry checks." << nl << endl;
   }
   autoPtr<IOdictionary> qualDict;
-  if (meshQuality)
-  {
+  if (meshQuality) {
     qualDict.reset
     (
       new IOdictionary
       {
-        // IOobject
         {
           "meshQualityDict",
           mesh.time().system(),
@@ -78,60 +76,46 @@ int main(int argc, char *argv[])
       }
     );
   }
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     polyMesh::readUpdateState state = mesh.readUpdate();
     if (!timeI || state == polyMesh::TOPO_CHANGE
-        || state == polyMesh::TOPO_PATCH_CHANGE)
-    {
-      Info<< "Time = " << runTime.timeName() << nl << endl;
+        || state == polyMesh::TOPO_PATCH_CHANGE) {
+      Info << "Time = " << runTime.timeName() << nl << endl;
       // Clear mesh before checking
       mesh.clearOut();
       // Reconstruct globalMeshData
       mesh.globalData();
       printMeshStats(mesh, allTopology);
       label nFailedChecks = 0;
-      if (!noTopology)
-      {
+      if (!noTopology) {
         nFailedChecks += checkTopology(mesh, allTopology, allGeometry);
       }
       nFailedChecks += checkGeometry(mesh, allGeometry);
-      if (meshQuality)
-      {
+      if (meshQuality) {
         nFailedChecks += checkMeshQuality(mesh, qualDict());
       }
       // Note: no reduction in nFailedChecks necessary since is
       //       counter of checks, not counter of failed cells,faces etc.
-      if (nFailedChecks == 0)
-      {
-        Info<< "\nMesh OK.\n" << endl;
+      if (nFailedChecks == 0) {
+        Info << "\nMesh OK.\n" << endl;
+      } else {
+        Info << "\nFailed " << nFailedChecks << " mesh checks.\n" << endl;
       }
-      else
-      {
-        Info<< "\nFailed " << nFailedChecks << " mesh checks.\n"
-          << endl;
-      }
-    }
-    else if (state == polyMesh::POINTS_MOVED)
-    {
-      Info<< "Time = " << runTime.timeName() << nl << endl;
+    } else if (state == polyMesh::POINTS_MOVED) {
+      Info << "Time = " << runTime.timeName() << nl << endl;
       label nFailedChecks = checkGeometry(mesh, allGeometry);
-      if (meshQuality)
-      {
+      if (meshQuality) {
         nFailedChecks += checkMeshQuality(mesh, qualDict());
       }
-      if (nFailedChecks)
-      {
-        Info<< "\nFailed " << nFailedChecks << " mesh checks.\n"
-          << endl;
-      }
-      else
-      {
+      if (nFailedChecks) {
+        Info << "\nFailed " << nFailedChecks << " mesh checks.\n" << endl;
+      } else {
         Info<< "\nMesh OK.\n" << endl;
       }
     }
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

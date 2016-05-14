@@ -1,0 +1,3 @@
+equilibrium_flame_t.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-equilibrium-flame-t

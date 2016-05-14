@@ -25,6 +25,8 @@
 #include "fv_field_decomposer.hpp"
 #include "point_field_decomposer.hpp"
 #include "lagrangian_field_decomposer.hpp"
+
+
 const labelIOList& procAddressing
 (
   const PtrList<fvMesh>& procMeshList,
@@ -34,14 +36,12 @@ const labelIOList& procAddressing
 )
 {
   const fvMesh& procMesh = procMeshList[procI];
-  if (!procAddressingList.set(procI))
-  {
+  if (!procAddressingList.set(procI)) {
     procAddressingList.set
     (
       procI,
       new labelIOList
       {
-        // IOobject
         {
           name,
           procMesh.facesInstance(),
@@ -56,6 +56,8 @@ const labelIOList& procAddressing
   }
   return procAddressingList[procI];
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -116,80 +118,64 @@ int main(int argc, char *argv[])
   instantList times = timeSelector::selectIfPresent(runTime, args);
   wordList regionNames;
   wordList regionDirs;
-  if (allRegions)
-  {
-    Info<< "Decomposing all regions in regionProperties" << nl << endl;
+  if (allRegions) {
+    Info << "Decomposing all regions in regionProperties" << nl << endl;
     regionProperties rp{runTime};
-    FOR_ALL_CONST_ITER(HashTable<wordList>, rp, iter)
-    {
+    FOR_ALL_CONST_ITER(HashTable<wordList>, rp, iter) {
       const wordList& regions = iter();
-      FOR_ALL(regions, i)
-      {
-        if (findIndex(regionNames, regions[i]) == -1)
-        {
+      FOR_ALL(regions, i) {
+        if (findIndex(regionNames, regions[i]) == -1) {
           regionNames.append(regions[i]);
         }
       }
     }
     regionDirs = regionNames;
-  }
-  else
-  {
+  } else {
     word regionName;
-    if (args.optionReadIfPresent("region", regionName))
-    {
-      regionNames = wordList(1, regionName);
+    if (args.optionReadIfPresent("region", regionName)) {
+      regionNames = wordList{1, regionName};
       regionDirs = regionNames;
-    }
-    else
-    {
-      regionNames = wordList(1, fvMesh::defaultRegion);
-      regionDirs = wordList(1, word::null);
+    } else {
+      regionNames = wordList{1, fvMesh::defaultRegion};
+      regionDirs = wordList{1, word::null};
     }
   }
-  FOR_ALL(regionNames, regionI)
-  {
+  FOR_ALL(regionNames, regionI) {
     const word& regionName = regionNames[regionI];
     const word& regionDir = regionDirs[regionI];
-    Info<< "\n\nDecomposing mesh " << regionName << nl << endl;
+    Info << "\n\nDecomposing mesh " << regionName << nl << endl;
     // determine the existing processor count directly
     label nProcs = 0;
-    while
-    (
-      isDir
-      (
-        runTime.path()
-       / (word("processor") + name(nProcs))
-       / runTime.constant()
-       / regionDir
-       / polyMesh::meshSubDir
-      )
-    )
-    {
+    while (isDir
+           (
+             runTime.path()
+             /(word("processor") + name(nProcs))
+             /runTime.constant()
+             /regionDir
+             /polyMesh::meshSubDir
+           )) {
       ++nProcs;
     }
     // get requested numberOfSubdomains
-    const label nDomains = readLabel
-    (
-      IOdictionary
-      {
-        // IOobject
+    const label nDomains =
+      readLabel
+      (
+        IOdictionary
         {
-          "decomposeParDict",
-          runTime.time().system(),
-          regionDir,          // use region if non-standard
-          runTime,
-          IOobject::MUST_READ_IF_MODIFIED,
-          IOobject::NO_WRITE,
-          false
-        }
-      }.lookup("numberOfSubdomains")
-    );
-    if (decomposeFieldsOnly)
-    {
+          {
+            "decomposeParDict",
+            runTime.time().system(),
+            regionDir,  // use region if non-standard
+            runTime,
+            IOobject::MUST_READ_IF_MODIFIED,
+            IOobject::NO_WRITE,
+            false
+          }
+        }.lookup("numberOfSubdomains")
+      );
+    if (decomposeFieldsOnly) {
       // Sanity check on previously decomposed case
-      if (nProcs != nDomains)
-      {
+      if (nProcs != nDomains) {
         FATAL_ERROR_IN(args.executable())
           << "Specified -fields, but the case was decomposed with "
           << nProcs << " domains"
@@ -199,26 +185,21 @@ int main(int argc, char *argv[])
           << nl
           << exit(FatalError);
       }
-    }
-    else if (nProcs)
-    {
+    } else if (nProcs) {
       bool procDirsProblem = true;
-      if (ifRequiredDecomposition && nProcs == nDomains)
-      {
+      if (ifRequiredDecomposition && nProcs == nDomains) {
         // we can reuse the decomposition
         decomposeFieldsOnly = true;
         procDirsProblem = false;
         forceOverwrite = false;
-        Info<< "Using existing processor directories" << nl;
+        Info << "Using existing processor directories" << nl;
       }
-      if (forceOverwrite)
-      {
-        Info<< "Removing " << nProcs
+      if (forceOverwrite) {
+        Info << "Removing " << nProcs
           << " existing processor directories" << endl;
         // remove existing processor dirs
         // reverse order to avoid gaps if someone interrupts the process
-        for (label procI = nProcs-1; procI >= 0; --procI)
-        {
+        for (label procI = nProcs-1; procI >= 0; --procI) {
           fileName procDir
           {
             runTime.path()/(word("processor") + name(procI))
@@ -227,8 +208,7 @@ int main(int argc, char *argv[])
         }
         procDirsProblem = false;
       }
-      if (procDirsProblem)
-      {
+      if (procDirsProblem) {
         FATAL_ERROR_IN(args.executable())
           << "Case is already decomposed with " << nProcs
           << " domains, use the -force option or manually" << nl
@@ -239,10 +219,9 @@ int main(int argc, char *argv[])
           << exit(FatalError);
       }
     }
-    Info<< "Create mesh" << endl;
+    Info << "Create mesh" << endl;
     domainDecomposition mesh
     {
-      // IOobject
       {
         regionName,
         runTime.timeName(),
@@ -253,18 +232,15 @@ int main(int argc, char *argv[])
       }
     };
     // Decompose the mesh
-    if (!decomposeFieldsOnly)
-    {
+    if (!decomposeFieldsOnly) {
       mesh.decomposeMesh();
       mesh.writeDecomposition(decomposeSets);
-      if (writeCellDist)
-      {
+      if (writeCellDist) {
         const labelList& procIds = mesh.cellToProc();
         // Write the decomposition as labelList for use with 'manual'
         // decomposition method.
         labelIOList cellDecomposition
         {
-          // IOobject
           {
             "cellDecomposition",
             mesh.facesInstance(),
@@ -276,13 +252,12 @@ int main(int argc, char *argv[])
           procIds
         };
         cellDecomposition.write();
-        Info<< nl << "Wrote decomposition to "
+        Info << nl << "Wrote decomposition to "
           << cellDecomposition.objectPath()
           << " for use in manual decomposition." << endl;
         // Write as volScalarField for postprocessing.
         volScalarField cellDist
         {
-          // IOobject
           {
             "cellDist",
             runTime.timeName(),
@@ -294,12 +269,11 @@ int main(int argc, char *argv[])
           {"cellDist", dimless, 0},
           zeroGradientFvPatchScalarField::typeName
         };
-        FOR_ALL(procIds, celli)
-        {
+        FOR_ALL(procIds, celli) {
          cellDist[celli] = procIds[celli];
         }
         cellDist.write();
-        Info<< nl << "Wrote decomposition as volScalarField to "
+        Info << nl << "Wrote decomposition as volScalarField to "
           << cellDist.name() << " for use in postprocessing."
           << endl;
       }
@@ -318,14 +292,12 @@ int main(int argc, char *argv[])
     PtrList<labelIOList> pointProcAddressingList{mesh.nProcs()};
     PtrList<pointFieldDecomposer> pointFieldDecomposerList{mesh.nProcs()};
     // Loop over all times
-    FOR_ALL(times, timeI)
-    {
+    FOR_ALL(times, timeI) {
       runTime.setTime(times[timeI], timeI);
-      Info<< "Time = " << runTime.timeName() << endl;
+      Info << "Time = " << runTime.timeName() << endl;
       // Search for list of objects for this time
       IOobjectList objects{mesh, runTime.timeName()};
       // Construct the vol fields
-      // ~~~~~~~~~~~~~~~~~~~~~~~~
       PtrList<volScalarField> volScalarFields;
       readFields(mesh, objects, volScalarFields);
       PtrList<volVectorField> volVectorFields;
@@ -337,20 +309,18 @@ int main(int argc, char *argv[])
       PtrList<volTensorField> volTensorFields;
       readFields(mesh, objects, volTensorFields);
       // Construct the dimensioned fields
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      PtrList<DimensionedField<scalar, volMesh> > dimScalarFields;
+      PtrList<DimensionedField<scalar, volMesh>> dimScalarFields;
       readFields(mesh, objects, dimScalarFields);
-      PtrList<DimensionedField<vector, volMesh> > dimVectorFields;
+      PtrList<DimensionedField<vector, volMesh>> dimVectorFields;
       readFields(mesh, objects, dimVectorFields);
-      PtrList<DimensionedField<sphericalTensor, volMesh> >
+      PtrList<DimensionedField<sphericalTensor, volMesh>>
         dimSphericalTensorFields;
       readFields(mesh, objects, dimSphericalTensorFields);
-      PtrList<DimensionedField<symmTensor, volMesh> > dimSymmTensorFields;
+      PtrList<DimensionedField<symmTensor, volMesh>> dimSymmTensorFields;
       readFields(mesh, objects, dimSymmTensorFields);
-      PtrList<DimensionedField<tensor, volMesh> > dimTensorFields;
+      PtrList<DimensionedField<tensor, volMesh>> dimTensorFields;
       readFields(mesh, objects, dimTensorFields);
       // Construct the surface fields
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       PtrList<surfaceScalarField> surfaceScalarFields;
       readFields(mesh, objects, surfaceScalarFields);
       PtrList<surfaceVectorField> surfaceVectorFields;
@@ -362,7 +332,6 @@ int main(int argc, char *argv[])
       PtrList<surfaceTensorField> surfaceTensorFields;
       readFields(mesh, objects, surfaceTensorFields);
       // Construct the point fields
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~
       const pointMesh& pMesh = pointMesh::New(mesh);
       PtrList<pointScalarField> pointScalarFields;
       readFields(pMesh, objects, pointScalarFields);
@@ -375,76 +344,74 @@ int main(int argc, char *argv[])
       PtrList<pointTensorField> pointTensorFields;
       readFields(pMesh, objects, pointTensorFields);
       // Construct the Lagrangian fields
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       fileNameList cloudDirs
       {
         readDir(runTime.timePath()/cloud::prefix, fileName::DIRECTORY)
       };
       // Particles
-      PtrList<Cloud<indexedParticle> > lagrangianPositions
+      PtrList<Cloud<indexedParticle>> lagrangianPositions
       {
         cloudDirs.size()
       };
       // Particles per cell
-      PtrList< List<SLList<indexedParticle*>*> > cellParticles
+      PtrList<List<SLList<indexedParticle*>*>> cellParticles
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<labelIOField> > lagrangianLabelFields
+      PtrList<PtrList<labelIOField>> lagrangianLabelFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<labelFieldCompactIOField> >
+      PtrList<PtrList<labelFieldCompactIOField>>
       lagrangianLabelFieldFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<scalarIOField> > lagrangianScalarFields
+      PtrList<PtrList<scalarIOField>> lagrangianScalarFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<scalarFieldCompactIOField> >
+      PtrList<PtrList<scalarFieldCompactIOField>>
       lagrangianScalarFieldFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<vectorIOField> > lagrangianVectorFields
+      PtrList<PtrList<vectorIOField>> lagrangianVectorFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<vectorFieldCompactIOField> >
+      PtrList<PtrList<vectorFieldCompactIOField>>
       lagrangianVectorFieldFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<sphericalTensorIOField> >
+      PtrList<PtrList<sphericalTensorIOField>>
       lagrangianSphericalTensorFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<sphericalTensorFieldCompactIOField> >
+      PtrList<PtrList<sphericalTensorFieldCompactIOField>>
         lagrangianSphericalTensorFieldFields{cloudDirs.size()};
-      PtrList<PtrList<symmTensorIOField> > lagrangianSymmTensorFields
+      PtrList<PtrList<symmTensorIOField>> lagrangianSymmTensorFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<symmTensorFieldCompactIOField> >
+      PtrList<PtrList<symmTensorFieldCompactIOField>>
       lagrangianSymmTensorFieldFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<tensorIOField> > lagrangianTensorFields
+      PtrList<PtrList<tensorIOField>> lagrangianTensorFields
       {
         cloudDirs.size()
       };
-      PtrList<PtrList<tensorFieldCompactIOField> >
+      PtrList<PtrList<tensorFieldCompactIOField>>
       lagrangianTensorFieldFields
       {
         cloudDirs.size()
       };
       label cloudI = 0;
-      FOR_ALL(cloudDirs, i)
-      {
+      FOR_ALL(cloudDirs, i) {
         IOobjectList sprayObjs
         {
           mesh,
@@ -455,12 +422,9 @@ int main(int argc, char *argv[])
           false
         };
         IOobject* positionsPtr = sprayObjs.lookup(word("positions"));
-        if (positionsPtr)
-        {
+        if (positionsPtr) {
           // Read lagrangian particles
-          // ~~~~~~~~~~~~~~~~~~~~~~~~~
-          Info<< "Identified lagrangian data set: " << cloudDirs[i]
-            << endl;
+          Info << "Identified lagrangian data set: " << cloudDirs[i] << endl;
           lagrangianPositions.set
           (
             cloudI,
@@ -472,29 +436,23 @@ int main(int argc, char *argv[])
             }
           );
           // Sort particles per cell
-          // ~~~~~~~~~~~~~~~~~~~~~~~
           cellParticles.set
           (
             cloudI,
             new List<SLList<indexedParticle*>*>
             {
               mesh.nCells(),
-              static_cast<SLList<indexedParticle*>*>(NULL)
+              static_cast<SLList<indexedParticle*>*>(nullptr)
             }
           );
           label i = 0;
-          FOR_ALL_ITER
-          (
-            Cloud<indexedParticle>,
-            lagrangianPositions[cloudI],
-            iter
-          )
-          {
+          FOR_ALL_ITER(Cloud<indexedParticle>,
+                       lagrangianPositions[cloudI],
+                       iter) {
             iter().index() = i++;
             label celli = iter().cell();
             // Check
-            if (celli < 0 || celli >= mesh.nCells())
-            {
+            if (celli < 0 || celli >= mesh.nCells()) {
               FATAL_ERROR_IN(args.executable())
                 << "Illegal cell number " << celli
                 << " for particle with index " << iter().index()
@@ -506,10 +464,9 @@ int main(int argc, char *argv[])
                 << mesh.findCell(iter().position())
                 << exit(FatalError);
             }
-            if (!cellParticles[cloudI][celli])
-            {
+            if (!cellParticles[cloudI][celli]) {
               cellParticles[cloudI][celli] =
-                new SLList<indexedParticle*>();
+                new SLList<indexedParticle*>{};
             }
             cellParticles[cloudI][celli]->append(&iter());
           }
@@ -615,24 +572,19 @@ int main(int argc, char *argv[])
       lagrangianTensorFieldFields.setSize(cloudI);
       // Any uniform data to copy/link?
       fileName uniformDir{"uniform"};
-      if (isDir(runTime.timePath()/uniformDir))
-      {
-        Info<< "Detected additional non-decomposed files in "
+      if (isDir(runTime.timePath()/uniformDir)) {
+        Info << "Detected additional non-decomposed files in "
           << runTime.timePath()/uniformDir
           << endl;
-      }
-      else
-      {
+      } else {
         uniformDir.clear();
       }
-      Info<< endl;
+      Info << endl;
       // split the fields over processors
-      for (label procI = 0; procI < mesh.nProcs(); procI++)
-      {
-        Info<< "Processor " << procI << ": field transfer" << endl;
+      for (label procI = 0; procI < mesh.nProcs(); procI++) {
+        Info << "Processor " << procI << ": field transfer" << endl;
         // open the database
-        if (!processorDbList.set(procI))
-        {
+        if (!processorDbList.set(procI)) {
           processorDbList.set
           (
             procI,
@@ -655,14 +607,12 @@ int main(int argc, char *argv[])
           rm(timeDir/"nut");
         }
         // read the mesh
-        if (!procMeshList.set(procI))
-        {
+        if (!procMeshList.set(procI)) {
           procMeshList.set
           (
             procI,
             new fvMesh
             {
-              // IOobject
               {
                 regionName,
                 processorDb.timeName(),
@@ -672,46 +622,47 @@ int main(int argc, char *argv[])
           );
         }
         const fvMesh& procMesh = procMeshList[procI];
-        const labelIOList& faceProcAddressing = procAddressing
-        (
-          procMeshList,
-          procI,
-          "faceProcAddressing",
-          faceProcAddressingList
-        );
-        const labelIOList& cellProcAddressing = procAddressing
-        (
-          procMeshList,
-          procI,
-          "cellProcAddressing",
-          cellProcAddressingList
-        );
-        const labelIOList& boundaryProcAddressing = procAddressing
-        (
-          procMeshList,
-          procI,
-          "boundaryProcAddressing",
-          boundaryProcAddressingList
-        );
+        const labelIOList& faceProcAddressing =
+          procAddressing
+          (
+            procMeshList,
+            procI,
+            "faceProcAddressing",
+            faceProcAddressingList
+          );
+        const labelIOList& cellProcAddressing =
+          procAddressing
+          (
+            procMeshList,
+            procI,
+            "cellProcAddressing",
+            cellProcAddressingList
+          );
+        const labelIOList& boundaryProcAddressing =
+          procAddressing
+          (
+            procMeshList,
+            procI,
+            "boundaryProcAddressing",
+            boundaryProcAddressingList
+          );
         // FV fields
         {
-          if (!fieldDecomposerList.set(procI))
-          {
+          if (!fieldDecomposerList.set(procI)) {
             fieldDecomposerList.set
             (
               procI,
               new fvFieldDecomposer
-              (
+              {
                 mesh,
                 procMesh,
                 faceProcAddressing,
                 cellProcAddressing,
                 boundaryProcAddressing
-              )
+              }
             );
           }
-          const fvFieldDecomposer& fieldDecomposer =
-            fieldDecomposerList[procI];
+          const auto& fieldDecomposer = fieldDecomposerList[procI];
           fieldDecomposer.decomposeFields(volScalarFields);
           fieldDecomposer.decomposeFields(volVectorFields);
           fieldDecomposer.decomposeFields(volSphericalTensorFields);
@@ -719,22 +670,17 @@ int main(int argc, char *argv[])
           fieldDecomposer.decomposeFields(volTensorFields);
           fieldDecomposer.decomposeFields(surfaceScalarFields);
           fieldDecomposer.decomposeFields(surfaceVectorFields);
-          fieldDecomposer.decomposeFields
-          (
-            surfaceSphericalTensorFields
-          );
+          fieldDecomposer.decomposeFields(surfaceSphericalTensorFields);
           fieldDecomposer.decomposeFields(surfaceSymmTensorFields);
           fieldDecomposer.decomposeFields(surfaceTensorFields);
-          if (times.size() == 1)
-          {
+          if (times.size() == 1) {
             // Clear cached decomposer
-            fieldDecomposerList.set(procI, NULL);
+            fieldDecomposerList.set(procI, nullptr);
           }
         }
         // Dimensioned fields
         {
-          if (!dimFieldDecomposerList.set(procI))
-          {
+          if (!dimFieldDecomposerList.set(procI)) {
             dimFieldDecomposerList.set
             (
               procI,
@@ -747,38 +693,33 @@ int main(int argc, char *argv[])
               }
             );
           }
-          const dimFieldDecomposer& dimDecomposer =
-            dimFieldDecomposerList[procI];
+          const auto& dimDecomposer = dimFieldDecomposerList[procI];
           dimDecomposer.decomposeFields(dimScalarFields);
           dimDecomposer.decomposeFields(dimVectorFields);
           dimDecomposer.decomposeFields(dimSphericalTensorFields);
           dimDecomposer.decomposeFields(dimSymmTensorFields);
           dimDecomposer.decomposeFields(dimTensorFields);
-          if (times.size() == 1)
-          {
-            dimFieldDecomposerList.set(procI, NULL);
+          if (times.size() == 1) {
+            dimFieldDecomposerList.set(procI, nullptr);
           }
         }
         // Point fields
-        if
-        (
-          pointScalarFields.size()
-        || pointVectorFields.size()
-        || pointSphericalTensorFields.size()
-        || pointSymmTensorFields.size()
-        || pointTensorFields.size()
-        )
+        if (pointScalarFields.size()
+            || pointVectorFields.size()
+            || pointSphericalTensorFields.size()
+            || pointSymmTensorFields.size()
+            || pointTensorFields.size())
         {
-          const labelIOList& pointProcAddressing = procAddressing
-          (
-            procMeshList,
-            procI,
-            "pointProcAddressing",
-            pointProcAddressingList
-          );
+          const labelIOList& pointProcAddressing =
+            procAddressing
+            (
+              procMeshList,
+              procI,
+              "pointProcAddressing",
+              pointProcAddressingList
+            );
           const pointMesh& procPMesh = pointMesh::New(procMesh);
-          if (!pointFieldDecomposerList.set(procI))
-          {
+          if (!pointFieldDecomposerList.set(procI)) {
             pointFieldDecomposerList.set
             (
               procI,
@@ -791,139 +732,123 @@ int main(int argc, char *argv[])
               }
             );
           }
-          const pointFieldDecomposer& pointDecomposer =
-            pointFieldDecomposerList[procI];
+          const auto& pointDecomposer = pointFieldDecomposerList[procI];
           pointDecomposer.decomposeFields(pointScalarFields);
           pointDecomposer.decomposeFields(pointVectorFields);
           pointDecomposer.decomposeFields(pointSphericalTensorFields);
           pointDecomposer.decomposeFields(pointSymmTensorFields);
           pointDecomposer.decomposeFields(pointTensorFields);
-          if (times.size() == 1)
-          {
-            pointProcAddressingList.set(procI, NULL);
-            pointFieldDecomposerList.set(procI, NULL);
+          if (times.size() == 1) {
+            pointProcAddressingList.set(procI, nullptr);
+            pointFieldDecomposerList.set(procI, nullptr);
           }
         }
         // If there is lagrangian data write it out
-        FOR_ALL(lagrangianPositions, cloudI)
-        {
-          if (lagrangianPositions[cloudI].size())
+        FOR_ALL(lagrangianPositions, cloudI) {
+          if (!lagrangianPositions[cloudI].size())
+            continue;
+          lagrangianFieldDecomposer fieldDecomposer
           {
-            lagrangianFieldDecomposer fieldDecomposer
-            {
-              mesh,
-              procMesh,
-              faceProcAddressing,
-              cellProcAddressing,
+            mesh,
+            procMesh,
+            faceProcAddressing,
+            cellProcAddressing,
+            cloudDirs[cloudI],
+            lagrangianPositions[cloudI],
+            cellParticles[cloudI]
+          };
+          // Lagrangian fields
+          {
+            fieldDecomposer.decomposeFields
+            (
               cloudDirs[cloudI],
-              lagrangianPositions[cloudI],
-              cellParticles[cloudI]
-            };
-            // Lagrangian fields
-            {
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianLabelFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianLabelFieldFields[cloudI]
-              );
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianScalarFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianScalarFieldFields[cloudI]
-              );
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianVectorFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianVectorFieldFields[cloudI]
-              );
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianSphericalTensorFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianSphericalTensorFieldFields[cloudI]
-              );
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianSymmTensorFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianSymmTensorFieldFields[cloudI]
-              );
-              fieldDecomposer.decomposeFields
-              (
-                cloudDirs[cloudI],
-                lagrangianTensorFields[cloudI]
-              );
-              fieldDecomposer.decomposeFieldFields
-              (
-                cloudDirs[cloudI],
-                lagrangianTensorFieldFields[cloudI]
-              );
-            }
+              lagrangianLabelFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianLabelFieldFields[cloudI]
+            );
+            fieldDecomposer.decomposeFields
+            (
+              cloudDirs[cloudI],
+              lagrangianScalarFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianScalarFieldFields[cloudI]
+            );
+            fieldDecomposer.decomposeFields
+            (
+              cloudDirs[cloudI],
+              lagrangianVectorFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianVectorFieldFields[cloudI]
+            );
+            fieldDecomposer.decomposeFields
+            (
+              cloudDirs[cloudI],
+              lagrangianSphericalTensorFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianSphericalTensorFieldFields[cloudI]
+            );
+            fieldDecomposer.decomposeFields
+            (
+              cloudDirs[cloudI],
+              lagrangianSymmTensorFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianSymmTensorFieldFields[cloudI]
+            );
+            fieldDecomposer.decomposeFields
+            (
+              cloudDirs[cloudI],
+              lagrangianTensorFields[cloudI]
+            );
+            fieldDecomposer.decomposeFieldFields
+            (
+              cloudDirs[cloudI],
+              lagrangianTensorFieldFields[cloudI]
+            );
           }
         }
         // Any non-decomposed data to copy?
-        if (uniformDir.size())
-        {
+        if (uniformDir.size()) {
           const fileName timePath = processorDb.timePath();
-          if (copyUniform || mesh.distributed())
-          {
-            cp
-            (
-              runTime.timePath()/uniformDir,
-              timePath/uniformDir
-            );
-          }
-          else
-          {
+          if (copyUniform || mesh.distributed()) {
+            cp(runTime.timePath()/uniformDir, timePath/uniformDir);
+          } else {
             // link with relative paths
             const string parentPath = string("..")/"..";
-            fileName currentDir(cwd());
+            fileName currentDir{cwd()};
             chDir(timePath);
-            ln
-            (
-              parentPath/runTime.timeName()/uniformDir,
-              uniformDir
-            );
+            ln(parentPath/runTime.timeName()/uniformDir, uniformDir);
             chDir(currentDir);
           }
         }
         // We have cached all the constant mesh data for the current
         // processor. This is only important if running with multiple
         // times, otherwise it is just extra storage.
-        if (times.size() == 1)
-        {
-          boundaryProcAddressingList.set(procI, NULL);
-          cellProcAddressingList.set(procI, NULL);
-          faceProcAddressingList.set(procI, NULL);
-          procMeshList.set(procI, NULL);
-          processorDbList.set(procI, NULL);
+        if (times.size() == 1) {
+          boundaryProcAddressingList.set(procI, nullptr);
+          cellProcAddressingList.set(procI, nullptr);
+          faceProcAddressingList.set(procI, nullptr);
+          procMeshList.set(procI, nullptr);
+          processorDbList.set(procI, nullptr);
         }
       }
     }
   }
-  Info<< "\nEnd\n" << endl;
+  Info << "\nEnd\n" << endl;
   return 0;
 }
+

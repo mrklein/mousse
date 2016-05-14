@@ -6,6 +6,7 @@
 #include "incompressible/single_phase_transport_model.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -13,8 +14,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject Uheader
@@ -25,8 +25,7 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check U exists
-    if (Uheader.headerOk())
-    {
+    if (Uheader.headerOk()) {
       mesh.readUpdate();
       Info << "    Reading U" << endl;
       volVectorField U{Uheader, mesh};
@@ -132,17 +131,14 @@ int main(int argc, char *argv[])
         },
         0.0*sigma.component(symmTensor::YZ)
       };
-      FOR_ALL(sigmaUn.boundaryField(), patchI)
-      {
+      FOR_ALL(sigmaUn.boundaryField(), patchI) {
         sigmaUn.boundaryField()[patchI] =
         (
           mesh.boundary()[patchI].nf() & sigma.boundaryField()[patchI]
         )().component(vector::X);
       }
       sigmaUn.write();
-    }
-    else
-    {
+    } else {
       Info << "    No U" << endl;
     }
     Info << endl;
@@ -150,3 +146,4 @@ int main(int argc, char *argv[])
   Info << "End" << endl;
   return 0;
 }
+

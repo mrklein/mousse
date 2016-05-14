@@ -8,9 +8,7 @@
 //   mousse::DelaunayMesh
 // Description
 //   The vertex and cell classes must have an index defined
-// SourceFiles
-//   delaunay_mesh.cpp
-//   delaunay_mesh_io.cpp
+
 #include "pair.hpp"
 #include "hash_set.hpp"
 #include "fixed_list.hpp"
@@ -20,9 +18,13 @@
 #include "time.hpp"
 #include "auto_ptr.hpp"
 #include "map.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 template<class Triangulation>
 class DelaunayMesh
 :
@@ -180,13 +182,17 @@ public:
         const bool writeDelaunayData = true
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class Triangulation>
 inline const mousse::Time& mousse::DelaunayMesh<Triangulation>::time() const
 {
   return runTime_;
 }
+
+
 template<class Triangulation>
 void mousse::DelaunayMesh<Triangulation>::timeCheck
 (
@@ -194,28 +200,25 @@ void mousse::DelaunayMesh<Triangulation>::timeCheck
   const bool check
 ) const
 {
-  if (check)
-  {
-    Info<< nl << "--- [ cpuTime "
-      << time().elapsedCpuTime() << " s, "
-      << "delta " << time().cpuTimeIncrement()<< " s";
-    if (description != word::null)
-    {
-      Info<< ", " << description << " ";
-    }
-    else
-    {
-      Info<< " ";
-    }
-    Info<< "] --- " << endl;
+  if (!check)
+    return;
+  Info << nl << "--- [ cpuTime "
+    << time().elapsedCpuTime() << " s, "
+    << "delta " << time().cpuTimeIncrement()<< " s";
+  if (description != word::null) {
+    Info<< ", " << description << " ";
+  } else {
+    Info<< " ";
   }
+  Info << "] --- " << endl;
 }
+
+
 template<class Triangulation>
 inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewCellIndex() const
 {
   label id = cellCount_++;
-  if (id == labelMax)
-  {
+  if (id == labelMax) {
     WARNING_IN
     (
       "mousse::DelaunayMesh<Triangulation>::getNewCellIndex() const"
@@ -224,12 +227,13 @@ inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewCellIndex() cons
   }
   return id;
 }
+
+
 template<class Triangulation>
 inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewVertexIndex() const
 {
   label id = vertexCount_++;
-  if (id == labelMax)
-  {
+  if (id == labelMax) {
     WARNING_IN
     (
       "mousse::DelaunayMesh<Triangulation>::getNewVertexIndex() const"
@@ -238,27 +242,36 @@ inline mousse::label mousse::DelaunayMesh<Triangulation>::getNewVertexIndex() co
   }
   return id;
 }
+
+
 template<class Triangulation>
 mousse::label mousse::DelaunayMesh<Triangulation>::cellCount() const
 {
   return cellCount_;
 }
+
+
 template<class Triangulation>
 mousse::label mousse::DelaunayMesh<Triangulation>::vertexCount() const
 {
   return vertexCount_;
 }
+
+
 template<class Triangulation>
 void mousse::DelaunayMesh<Triangulation>::resetCellCount()
 {
   cellCount_ = 0;
 }
+
+
 template<class Triangulation>
 void mousse::DelaunayMesh<Triangulation>::resetVertexCount()
 {
   vertexCount_ = 0;
 }
-#ifdef NoRepository
-  #include "delaunay_mesh.cpp"
-#endif
+
+
+#include "delaunay_mesh.ipp"
+
 #endif

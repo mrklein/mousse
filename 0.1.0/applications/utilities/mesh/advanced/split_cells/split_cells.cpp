@@ -19,36 +19,38 @@
 #include "mesh_tools.hpp"
 #include "list_ops.hpp"
 
+
 using namespace mousse;
+
 
 labelList pack(const boolList& lst)
 {
   labelList packedLst{lst.size()};
   label packedI = 0;
-  FOR_ALL(lst, i)
-  {
-    if (lst[i])
-    {
+  FOR_ALL(lst, i) {
+    if (lst[i]) {
       packedLst[packedI++] = i;
     }
   }
   packedLst.setSize(packedI);
   return packedLst;
 }
+
+
 scalarField pack(const boolList& lst, const scalarField& elems)
 {
   scalarField packedElems{lst.size()};
   label packedI = 0;
-  FOR_ALL(lst, i)
-  {
-    if (lst[i])
-    {
+  FOR_ALL(lst, i) {
+    if (lst[i]) {
       packedElems[packedI++] = elems[i];
     }
   }
   packedElems.setSize(packedI);
   return packedElems;
 }
+
+
 // Given sin and cos of max angle between normals calculate whether f0 and f1
 // on cellI make larger angle. Uses sinAngle only for quadrant detection.
 bool largerAngle
@@ -68,8 +70,7 @@ bool largerAngle
   // Get cos between faceArea vectors. Correct so flat angle (180 degrees)
   // gives -1.
   scalar normalCosAngle = n0 & n1;
-  if (sameFaceOrder)
-  {
+  if (sameFaceOrder) {
     normalCosAngle = -normalCosAngle;
   }
   // Get cos between faceCentre and normal vector to determine in
@@ -78,52 +79,38 @@ bool largerAngle
   vector c1c0{mesh.faceCentres()[f1] - mesh.faceCentres()[f0]};
   c1c0 /= mag(c1c0) + VSMALL;
   scalar fcCosAngle = n0 & c1c0;
-  if (own[f0] != cellI)
-  {
+  if (own[f0] != cellI) {
     fcCosAngle = -fcCosAngle;
   }
-  if (sinAngle < 0.0)
-  {
+  if (sinAngle < 0.0) {
     // Looking for concave angles (quadrant 3 or 4)
-    if (fcCosAngle <= 0)
-    {
+    if (fcCosAngle <= 0) {
       // Angle is convex so smaller.
       return false;
-    }
-    else
-    {
-      if (normalCosAngle < cosAngle)
-      {
+    } else {
+      if (normalCosAngle < cosAngle) {
         return false;
-      }
-      else
-      {
+      } else {
         return true;
       }
     }
-  }
-  else
-  {
+  } else {
     // Looking for convex angles (quadrant 1 or 2)
-    if (fcCosAngle > 0)
-    {
+    if (fcCosAngle > 0) {
       // Concave angle
       return true;
-    }
-    else
-    {
+    } else {
       // Convex. Check cos of normal vectors.
-      if (normalCosAngle > cosAngle)
-      {
+      if (normalCosAngle > cosAngle) {
         return false;
-      }
-      else
-      {
+      } else {
         return true;
       }
     }
   }
 }
+
+
 // Split hex (and hex only) along edgeI creating two prisms
 bool splitHex
 (
@@ -147,45 +134,34 @@ bool splitHex
   label leftFp = -1;
   label rightFp = -1;
   const cell& cFaces = mesh.cells()[cellI];
-  FOR_ALL(cFaces, i)
-  {
+  FOR_ALL(cFaces, i) {
     label faceI = cFaces[i];
     const face& f = faces[faceI];
     label fp0 = findIndex(f, e[0]);
     label fp1 = findIndex(f, e[1]);
-    if (fp0 == -1)
-    {
-      if (fp1 != -1)
-      {
+    if (fp0 == -1) {
+      if (fp1 != -1) {
         // Face uses e[1] but not e[0]
         rightI = faceI;
         rightFp = fp1;
-        if (leftI != -1)
-        {
+        if (leftI != -1) {
           // Have both faces so exit
           break;
         }
       }
-    }
-    else
-    {
-      if (fp1 != -1)
-      {
+    } else {
+      if (fp1 != -1) {
         // Face uses both e[1] and e[0]
-      }
-      else
-      {
+      } else {
         leftI = faceI;
         leftFp = fp0;
-        if (rightI != -1)
-        {
+        if (rightI != -1) {
           break;
         }
       }
     }
   }
-  if (leftI == -1 || rightI == -1)
-  {
+  if (leftI == -1 || rightI == -1) {
     FATAL_ERROR_IN("splitHex") << "Problem : leftI:" << leftI
       << " rightI:" << rightI << abort(FatalError);
   }
@@ -209,6 +185,8 @@ bool splitHex
   cellEdgeWeights.append(loopWeights);
   return true;
 }
+
+
 // Split cellI along edgeI with a plane along halfNorm direction.
 bool splitCell
 (
@@ -238,31 +216,27 @@ bool splitCell
   plane cutPlane{mesh.points()[e.start()], planeN};
   labelList loop;
   scalarField loopWeights;
-  if
-  (
-    cellCutter.cut
-    (
-      cutPlane,
-      cellI,
-      vertIsCut,
-      edgeIsCut,
-      edgeWeight,
-      loop,
-      loopWeights
-    )
-  )
-  {
+  if (cellCutter.cut
+      (
+        cutPlane,
+        cellI,
+        vertIsCut,
+        edgeIsCut,
+        edgeWeight,
+        loop,
+        loopWeights
+      )) {
     // Did manage to cut cell. Copy into overall list.
     cutCells.append(cellI);
     cellLoops.append(loop);
     cellEdgeWeights.append(loopWeights);
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 // Collects cuts for all cells in cellSet
 void collectCuts
 (
@@ -290,12 +264,10 @@ void collectCuts
   boolList vertIsCut{mesh.nPoints(), false};
   boolList edgeIsCut{mesh.nEdges(), false};
   scalarField edgeWeight{mesh.nEdges(), -GREAT};
-  FOR_ALL_CONST_ITER(cellSet, cellsToCut, iter)
-  {
+  FOR_ALL_CONST_ITER(cellSet, cellsToCut, iter) {
     const label cellI = iter.key();
     const labelList& cEdges = cellEdges[cellI];
-    FOR_ALL(cEdges, i)
-    {
+    FOR_ALL(cEdges, i) {
       label edgeI = cEdges[i];
       label f0, f1;
       meshTools::getEdgeFaces(mesh, cellI, edgeI, f0, f1);
@@ -303,24 +275,19 @@ void collectCuts
       n0 /= mag(n0);
       vector n1 = faceAreas[f1];
       n1 /= mag(n1);
-      if
-      (
-        largerAngle
-        (
-          mesh,
-          minCos,
-          minSin,
-          cellI,
-          f0,
-          f1,
-          n0,
-          n1
-        )
-      )
-      {
+      if (largerAngle
+          (
+            mesh,
+            minCos,
+            minSin,
+            cellI,
+            f0,
+            f1,
+            n0,
+            n1
+          )) {
         bool splitOk = false;
-        if (!geometry && cellShapes[cellI].model() == hex)
-        {
+        if (!geometry && cellShapes[cellI].model() == hex) {
           splitOk =
             splitHex
             (
@@ -331,17 +298,12 @@ void collectCuts
               cellLoops,
               cellEdgeWeights
             );
-        }
-        else
-        {
+        } else {
           vector halfNorm;
-          if ((own[f0] == cellI) ^ (own[f1] == cellI))
-          {
+          if ((own[f0] == cellI) ^ (own[f1] == cellI)) {
             // Opposite owner orientation
             halfNorm = 0.5*(n0 - n1);
-          }
-          else
-          {
+          } else {
             // Faces have same owner or same neighbour so
             // normals point in same direction
             halfNorm = 0.5*(n0 + n1);
@@ -362,22 +324,17 @@ void collectCuts
               cellEdgeWeights
             );
         }
-        if (splitOk)
-        {
+        if (splitOk) {
           // Update cell/edge/vertex wise info.
           label index = cellLoops.size() - 1;
           const labelList& loop = cellLoops[index];
           const scalarField& loopWeights = cellEdgeWeights[index];
-          FOR_ALL(loop, i)
-          {
+          FOR_ALL(loop, i) {
             label cut = loop[i];
-            if (ev.isEdge(cut))
-            {
+            if (ev.isEdge(cut)) {
               edgeIsCut[ev.getEdge(cut)] = true;
               edgeWeight[ev.getEdge(cut)] = loopWeights[i];
-            }
-            else
-            {
+            } else {
               vertIsCut[ev.getVertex(cut)] = true;
             }
           }
@@ -391,6 +348,8 @@ void collectCuts
   cellLoops.shrink();
   cellEdgeWeights.shrink();
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -431,20 +390,14 @@ int main(int argc, char *argv[])
   Info << "Trying to split cells with internal angles > feature angle\n" << nl
     << "featureAngle      : " << featureAngle << nl
     << "edge snapping tol : " << edgeTol << nl;
-  if (readSet)
-  {
+  if (readSet) {
     Info << "candidate cells   : cellSet " << args["set"] << nl;
-  }
-  else
-  {
+  } else {
     Info << "candidate cells   : all cells" << nl;
   }
-  if (geometry)
-  {
+  if (geometry) {
     Info << "hex cuts          : geometric; using edge tolerance" << nl;
-  }
-  else
-  {
+  } else {
     Info << "hex cuts          : topological; cut to opposite edge" << nl;
   }
   Info << endl;
@@ -454,19 +407,15 @@ int main(int argc, char *argv[])
   geomCellLooper::setSnapTol(edgeTol);
   // Candidate cells to cut
   cellSet cellsToCut{mesh, "cellsToCut", mesh.nCells()/100};
-  if (readSet)
-  {
+  if (readSet) {
     // Read cells to cut from cellSet
     cellSet cells{mesh, args["set"]};
     cellsToCut = cells;
   }
-  while (true)
-  {
-    if (!readSet)
-    {
+  while (true) {
+    if (!readSet) {
       // Try all cells for cutting
-      for (label cellI = 0; cellI < mesh.nCells(); cellI++)
-      {
+      for (label cellI = 0; cellI < mesh.nCells(); cellI++) {
         cellsToCut.insert(cellI);
       }
     }
@@ -475,20 +424,19 @@ int main(int argc, char *argv[])
     DynamicList<labelList> cellLoops{mesh.nCells()/10 + 10};
     DynamicList<scalarField> cellEdgeWeights{mesh.nCells()/10 + 10};
     collectCuts
-    (
-      mesh,
-      cellCutter,
-      geometry,
-      minCos,
-      minSin,
-      cellsToCut,
-      cutCells,
-      cellLoops,
-      cellEdgeWeights
-    );
+      (
+        mesh,
+        cellCutter,
+        geometry,
+        minCos,
+        minSin,
+        cellsToCut,
+        cutCells,
+        cellLoops,
+        cellEdgeWeights
+      );
     cellSet cutSet{mesh, "cutSet", cutCells.size()};
-    FOR_ALL(cutCells, i)
-    {
+    FOR_ALL(cutCells, i) {
       cutSet.insert(cutCells[i]);
     }
     // Gets cuts across cells from cuts through edges.
@@ -505,17 +453,12 @@ int main(int argc, char *argv[])
       cellEdgeWeights
     };
     Info << "Actually cut cells:" << cuts.nLoops() << nl << endl;
-    if (cuts.nLoops() == 0)
-    {
+    if (cuts.nLoops() == 0) {
       break;
     }
     // Remove cut cells from cellsToCut  (Note:only relevant if -readSet)
-    FOR_ALL(cuts.cellLoops(), cellI)
-    {
-      if (cuts.cellLoops()[cellI].size())
-      {
-        //Info<< "Removing cut cell " << cellI << " from wishlist"
-        //    << endl;
+    FOR_ALL(cuts.cellLoops(), cellI) {
+      if (cuts.cellLoops()[cellI].size()) {
         cellsToCut.erase(cellI);
       }
     }
@@ -527,13 +470,11 @@ int main(int argc, char *argv[])
     cutter.setRefinement(cuts, meshMod);
     // Do all changes
     Info << "Morphing ..." << endl;
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
     }
     autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
-    if (morphMap().hasMotionPoints())
-    {
+    if (morphMap().hasMotionPoints()) {
       mesh.movePoints(morphMap().preMotionPoints());
     }
     // Update stored labels on meshCutter
@@ -542,8 +483,7 @@ int main(int argc, char *argv[])
     cellsToCut.updateMesh(morphMap());
     Info << "Remaining:" << cellsToCut.size() << endl;
     // Write resulting mesh
-    if (overwrite)
-    {
+    if (overwrite) {
       mesh.setInstance(oldInstance);
     }
     Info << "Writing refined morphMesh to time " << runTime.timeName()
@@ -553,3 +493,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

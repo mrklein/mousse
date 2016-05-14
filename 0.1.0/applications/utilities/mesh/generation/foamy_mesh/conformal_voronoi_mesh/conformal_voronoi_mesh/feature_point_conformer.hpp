@@ -10,9 +10,7 @@
 //   The Delaunay vertices required to conform to a feature point can be
 //   determined upon initialisation because the feature points are fixed and
 //   do not change throughout the meshing process.
-// SourceFiles
-//   feature_point_conformer.cpp
-//   feature_point_conformer_specialisations.cpp
+
 // Include uint.H before CGAL headers to define __STDC_LIMIT_MACROS
 #include "uint.hpp"
 #include "cgal_triangulation_3d_defs.hpp"
@@ -21,13 +19,17 @@
 #include "list.hpp"
 #include "extended_feature_edge_mesh.hpp"
 #include "point_pairs.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class conformalVoronoiMesh;
 class cvControls;
 class conformationSurfaces;
 class pointFeatureEdgesTypes;
 class backgroundMeshDecomposition;
+
+
 class featurePointConformer
 {
   // Static data
@@ -110,16 +112,20 @@ public:
       //- Reindex the feature point pairs using the map.
       void reIndexPointPairs(const Map<label>& oldToNewIndices);
 };
+
 }  // namespace mousse
+
 
 const mousse::List<Vb>& mousse::featurePointConformer::featurePointVertices() const
 {
   return featurePointVertices_;
 }
 
+
 const mousse::pointPairs<Delaunay>&
 mousse::featurePointConformer::featurePointPairs() const
 {
   return ftPtPairs_;
 }
+
 #endif

@@ -17,18 +17,19 @@
 //     - all edges and points inbetween different patches are
 //      featureEdges/points.
 //   In same way you can also preserve internal faces (e.g. faceZones)
-// SourceFiles
-//   mesh_dualiser.cpp
 
 #include "dynamic_list.hpp"
 #include "packed_bool_list.hpp"
 #include "bool_list.hpp"
 #include "type_info.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class polyMesh;
 class polyTopoChange;
+
+
 class meshDualiser
 {
   // Private data
@@ -174,5 +175,8 @@ public:
         polyTopoChange& meshMod
       );
 };
+
 }  // namespace mousse
+
 #endif
+

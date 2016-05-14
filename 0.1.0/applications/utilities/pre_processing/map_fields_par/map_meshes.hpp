@@ -10,8 +10,9 @@
 #include "un_mapped.hpp"
 #include "point_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<template<class> class CombineOp>
 void MapMesh
 (
@@ -25,7 +26,6 @@ void MapMesh
     // Search for list of objects for this time
     IOobjectList objects{meshSource, meshSource.time().timeName()};
     // Map volFields
-    // ~~~~~~~~~~~~~
     MapVolFields<scalar>
     (
       objects,
@@ -81,10 +81,12 @@ void MapMesh
     UnMapped<pointSymmTensorField>(objects);
     UnMapped<pointTensorField>(objects);
   }
-  if (!noLagrangian)
-  {
+  if (!noLagrangian) {
     mapLagrangian(interp);
   }
 }
+
 }  // namespace mousse
+
 #endif
+

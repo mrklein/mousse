@@ -25,7 +25,11 @@
 #include "empty_poly_patch.hpp"
 #include "remove_cells.hpp"
 #include "mesh_search.hpp"
+
+
 using namespace mousse;
+
+
 // Max cos angle for edges to be considered aligned with axis.
 static const scalar edgeTol = 1e-3;
 void writeSet(const cellSet& cells, const string& msg)
@@ -35,27 +39,25 @@ void writeSet(const cellSet& cells, const string& msg)
     << endl;
   cells.write();
 }
+
+
 direction getNormalDir(const twoDPointCorrector* correct2DPtr)
 {
   direction dir = 3;
-  if (correct2DPtr)
-  {
+  if (correct2DPtr) {
     const vector& normal = correct2DPtr->planeNormal();
-    if (mag(normal & vector(1, 0, 0)) > 1-edgeTol)
-    {
+    if (mag(normal & vector(1, 0, 0)) > 1-edgeTol) {
       dir = 0;
-    }
-    else if (mag(normal & vector(0, 1, 0)) > 1-edgeTol)
-    {
+    } else if (mag(normal & vector(0, 1, 0)) > 1-edgeTol) {
       dir = 1;
-    }
-    else if (mag(normal & vector(0, 0, 1)) > 1-edgeTol)
-    {
+    } else if (mag(normal & vector(0, 0, 1)) > 1-edgeTol) {
       dir = 2;
     }
   }
   return dir;
 }
+
+
 // Calculate some edge statistics on mesh. Return min. edge length over all
 // directions but exclude component (0=x, 1=y, 2=z, other=none)
 scalar getEdgeStats(const primitiveMesh& mesh, const direction excludeCmpt)
@@ -75,32 +77,24 @@ scalar getEdgeStats(const primitiveMesh& mesh, const direction excludeCmpt)
   scalar minOther = GREAT;
   scalar maxOther = -GREAT;
   const edgeList& edges = mesh.edges();
-  FOR_ALL(edges, edgeI)
-  {
+  FOR_ALL(edges, edgeI) {
     const edge& e = edges[edgeI];
     vector eVec{e.vec(mesh.points())};
     scalar eMag = mag(eVec);
     eVec /= eMag;
-    if (mag(eVec & x) > 1-edgeTol)
-    {
+    if (mag(eVec & x) > 1-edgeTol) {
       minX = min(minX, eMag);
       maxX = max(maxX, eMag);
       nX++;
-    }
-    else if (mag(eVec & y) > 1-edgeTol)
-    {
+    } else if (mag(eVec & y) > 1 - edgeTol) {
       minY = min(minY, eMag);
       maxY = max(maxY, eMag);
       nY++;
-    }
-    else if (mag(eVec & z) > 1-edgeTol)
-    {
+    } else if (mag(eVec & z) > 1 - edgeTol) {
       minZ = min(minZ, eMag);
       maxZ = max(maxZ, eMag);
       nZ++;
-    }
-    else
-    {
+    } else {
       minOther = min(minOther, eMag);
       maxOther = max(maxOther, eMag);
     }
@@ -116,29 +110,23 @@ scalar getEdgeStats(const primitiveMesh& mesh, const direction excludeCmpt)
     << "    other     :  number:" << mesh.nEdges() - nX - nY - nZ
     << "\tminLen:" << minOther
     << "\tmaxLen:" << maxOther << nl << endl;
-  if (excludeCmpt == 0)
-  {
+  if (excludeCmpt == 0) {
     return min(minY, min(minZ, minOther));
-  }
-  else if (excludeCmpt == 1)
-  {
+  } else if (excludeCmpt == 1) {
     return min(minX, min(minZ, minOther));
-  }
-  else if (excludeCmpt == 2)
-  {
+  } else if (excludeCmpt == 2) {
     return min(minX, min(minY, minOther));
-  }
-  else
-  {
+  } else {
     return min(minX, min(minY, min(minZ, minOther)));
   }
 }
+
+
 // Adds empty patch if not yet there. Returns patchID.
 label addPatch(polyMesh& mesh, const word& patchName)
 {
   label patchI = mesh.boundaryMesh().findPatchID(patchName);
-  if (patchI == -1)
-  {
+  if (patchI == -1) {
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     List<polyPatch*> newPatches{patches.size() + 1};
     // Add empty patch as 0th entry (Note: only since subsetMesh wants this)
@@ -153,10 +141,9 @@ label addPatch(polyMesh& mesh, const word& patchName)
         patches,
         emptyPolyPatch::typeName
       };
-    FOR_ALL(patches, i)
-    {
+    FOR_ALL(patches, i) {
       const polyPatch& pp = patches[i];
-      newPatches[i+1] =
+      newPatches[i + 1] =
         pp.clone
         (
           patches,
@@ -168,13 +155,13 @@ label addPatch(polyMesh& mesh, const word& patchName)
     mesh.removeBoundary();
     mesh.addPatches(newPatches);
     Info << "Created patch oldInternalFaces at " << patchI << endl;
-  }
-  else
-  {
+  } else {
     Info << "Reusing patch oldInternalFaces at " << patchI << endl;
   }
   return patchI;
 }
+
+
 // Take surface and select cells based on surface curvature.
 void selectCurvatureCells
 (
@@ -196,7 +183,7 @@ void selectCurvatureCells
     surfName,
     querySurf.surface(),
     querySurf,
-    pointField(1, mesh.cellCentres()[0]),
+    pointField{1, mesh.cellCentres()[0]},
     false,              // includeCut
     false,              // includeInside
     false,              // includeOutside
@@ -206,6 +193,8 @@ void selectCurvatureCells
   };
   cutSource.applyToSet(topoSetSource::ADD, cells);
 }
+
+
 // cutCells contains currently selected cells to be refined. Add neighbours
 // on the inside or outside to them.
 void addCutNeighbours
@@ -220,26 +209,19 @@ void addCutNeighbours
 {
   // Pick up face neighbours of cutCells
   labelHashSet addCutFaces{cutCells.size()};
-  FOR_ALL_CONST_ITER(labelHashSet, cutCells, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, cutCells, iter) {
     const label cellI = iter.key();
     const labelList& cFaces = mesh.cells()[cellI];
-    FOR_ALL(cFaces, i)
-    {
+    FOR_ALL(cFaces, i) {
       const label faceI = cFaces[i];
-      if (mesh.isInternalFace(faceI))
-      {
+      if (mesh.isInternalFace(faceI)) {
         label nbr = mesh.faceOwner()[faceI];
-        if (nbr == cellI)
-        {
+        if (nbr == cellI) {
           nbr = mesh.faceNeighbour()[faceI];
         }
-        if (selectInside && inside.found(nbr))
-        {
+        if (selectInside && inside.found(nbr)) {
           addCutFaces.insert(nbr);
-        }
-        else if (selectOutside && outside.found(nbr))
-        {
+        } else if (selectOutside && outside.found(nbr)) {
           addCutFaces.insert(nbr);
         }
       }
@@ -247,11 +229,12 @@ void addCutNeighbours
   }
   Info << "    Selected an additional " << addCutFaces.size()
     << " neighbours of cutCells to refine" << endl;
-  FOR_ALL_CONST_ITER(labelHashSet, addCutFaces, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, addCutFaces, iter) {
     cutCells.insert(iter.key());
   }
 }
+
+
 // Return true if any cells had to be split to keep a difference between
 // neighbouring refinement levels < limitDiff.
 // Gets cells which will be refined (so increase the refinement level) and
@@ -266,67 +249,56 @@ bool limitRefinementLevel
 )
 {
   // Do simple check on validity of refinement level.
-  FOR_ALL(refLevel, cellI)
-  {
-    if (!excludeCells.found(cellI))
-    {
-      const labelList& cCells = mesh.cellCells()[cellI];
-      FOR_ALL(cCells, i)
-      {
-        label nbr = cCells[i];
-        if (!excludeCells.found(nbr))
-        {
-          if (refLevel[cellI] - refLevel[nbr] >= limitDiff)
-          {
-            FATAL_ERROR_IN("limitRefinementLevel")
-              << "Level difference between neighbouring cells "
-              << cellI << " and " << nbr
-              << " greater than or equal to " << limitDiff << endl
-              << "refLevels:" << refLevel[cellI] << ' '
-              <<  refLevel[nbr] << abort(FatalError);
-          }
-        }
+  FOR_ALL(refLevel, cellI) {
+    if (excludeCells.found(cellI))
+      continue;
+    const labelList& cCells = mesh.cellCells()[cellI];
+    FOR_ALL(cCells, i) {
+      label nbr = cCells[i];
+      if (excludeCells.found(nbr))
+        continue;
+      if (refLevel[cellI] - refLevel[nbr] >= limitDiff) {
+        FATAL_ERROR_IN("limitRefinementLevel")
+          << "Level difference between neighbouring cells "
+          << cellI << " and " << nbr
+          << " greater than or equal to " << limitDiff << endl
+          << "refLevels:" << refLevel[cellI] << ' '
+          <<  refLevel[nbr] << abort(FatalError);
       }
     }
   }
   labelHashSet addCutCells{cutCells.size()};
-  FOR_ALL_CONST_ITER(labelHashSet, cutCells, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, cutCells, iter) {
     // cellI will be refined.
     const label cellI = iter.key();
     const labelList& cCells = mesh.cellCells()[cellI];
-    FOR_ALL(cCells, i)
-    {
+    FOR_ALL(cCells, i) {
       const label nbr = cCells[i];
-      if (!excludeCells.found(nbr) && !cutCells.found(nbr))
-      {
-        if (refLevel[cellI] + 1 - refLevel[nbr] >= limitDiff)
-        {
+      if (!excludeCells.found(nbr) && !cutCells.found(nbr)) {
+        if (refLevel[cellI] + 1 - refLevel[nbr] >= limitDiff) {
           addCutCells.insert(nbr);
         }
       }
     }
   }
-  if (addCutCells.size())
-  {
+  if (addCutCells.size()) {
     // Add cells to cutCells.
     Info << "Added an additional " << addCutCells.size() << " cells"
       << " to satisfy 1:" << limitDiff << " refinement level"
       << endl;
-    FOR_ALL_CONST_ITER(labelHashSet, addCutCells, iter)
-    {
+    FOR_ALL_CONST_ITER(labelHashSet, addCutCells, iter) {
       cutCells.insert(iter.key());
     }
     return true;
-  }
-  else
-  {
+  } else {
     Info << "Added no additional cells"
       << " to satisfy 1:" << limitDiff << " refinement level"
       << endl;
     return false;
   }
 }
+
+
 // Do all refinement (i.e. refCells) according to refineDict and update
 // refLevel afterwards for added cells
 void doRefinement
@@ -349,26 +321,24 @@ void doRefinement
   // Update refLevel for split cells
   //
   refLevel.setSize(mesh.nCells());
-  for (label cellI = oldCells; cellI < mesh.nCells(); cellI++)
-  {
+  for (label cellI = oldCells; cellI < mesh.nCells(); cellI++) {
     refLevel[cellI] = 0;
   }
   const labelListList& addedCells = multiRef.addedCells();
-  FOR_ALL(addedCells, oldCellI)
-  {
+  FOR_ALL(addedCells, oldCellI) {
     const labelList& added = addedCells[oldCellI];
-    if (added.size())
-    {
-      // Give all cells resulting from split the refinement level
-      // of the master.
-      label masterLevel = ++refLevel[oldCellI];
-      FOR_ALL(added, i)
-      {
-        refLevel[added[i]] = masterLevel;
-      }
+    if (!added.size())
+      continue;
+    // Give all cells resulting from split the refinement level
+    // of the master.
+    label masterLevel = ++refLevel[oldCellI];
+    FOR_ALL(added, i) {
+      refLevel[added[i]] = masterLevel;
     }
   }
 }
+
+
 // Subset mesh and update refLevel and cutCells
 void subsetMesh
 (
@@ -388,18 +358,17 @@ void subsetMesh
   labelList exposedFaces{cellRemover.getExposedFaces(cellLabels)};
   polyTopoChange meshMod{mesh};
   cellRemover.setRefinement
-  (
-    cellLabels,
-    exposedFaces,
-    labelList(exposedFaces.size(), patchI),
-    meshMod
-  );
+    (
+      cellLabels,
+      exposedFaces,
+      labelList(exposedFaces.size(), patchI),
+      meshMod
+    );
   // Do all changes
   Info << "Morphing ..." << endl;
   const Time& runTime = mesh.time();
   autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
-  if (morphMap().hasMotionPoints())
-  {
+  if (morphMap().hasMotionPoints()) {
     mesh.movePoints(morphMap().preMotionPoints());
   }
   // Update topology on cellRemover
@@ -407,14 +376,12 @@ void subsetMesh
   // Update refLevel for removed cells.
   const labelList& cellMap = morphMap().cellMap();
   labelList newRefLevel{cellMap.size()};
-  FOR_ALL(cellMap, i)
-  {
+  FOR_ALL(cellMap, i) {
     newRefLevel[i] = refLevel[cellMap[i]];
   }
   // Transfer back to refLevel
   refLevel.transfer(newRefLevel);
-  if (writeMesh)
-  {
+  if (writeMesh) {
     Info << "Writing refined mesh to time " << runTime.timeName() << nl
       << endl;
     IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
@@ -424,6 +391,8 @@ void subsetMesh
   // Update cutCells for removed cells.
   cutCells.updateMesh(morphMap());
 }
+
+
 // Divide the cells according to status compared to surface. Constructs sets:
 // - cutCells : all cells cut by surface
 // - inside   : all cells inside surface
@@ -448,28 +417,25 @@ void classifyCells
 {
   // Cut faces with surface and classify cells
   surfaceSets::getSurfaceSets
-  (
-    mesh,
-    surfName,
-    querySurf.surface(),
-    querySurf,
-    outsidePts,
-    nCutLayers,
-    inside,
-    outside,
-    cutCells
-  );
+    (
+      mesh,
+      surfName,
+      querySurf.surface(),
+      querySurf,
+      outsidePts,
+      nCutLayers,
+      inside,
+      outside,
+      cutCells
+    );
   // Combine wanted parts into selected
-  if (selectCut)
-  {
+  if (selectCut) {
     selected.addSet(cutCells);
   }
-  if (selectInside)
-  {
+  if (selectInside) {
     selected.addSet(inside);
   }
-  if (selectOutside)
-  {
+  if (selectOutside) {
     selected.addSet(outside);
   }
   Info << "Determined cell status:" << endl
@@ -483,6 +449,8 @@ void classifyCells
   writeSet(cutCells, "cut cells");
   writeSet(selected, "selected cells");
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -491,9 +459,7 @@ int main(int argc, char *argv[])
   #include "create_poly_mesh.inc"
   // If nessecary add oldInternalFaces patch
   label newPatchI = addPatch(mesh, "oldInternalFaces");
-  //
   // Read motionProperties dictionary
-  //
   Info << "Checking for motionProperties\n" << endl;
   IOobject motionObj
   {
@@ -504,17 +470,15 @@ int main(int argc, char *argv[])
     IOobject::NO_WRITE
   };
   // corrector for mesh motion
-  twoDPointCorrector* correct2DPtr = NULL;
-  if (motionObj.headerOk())
-  {
-    Info << "Reading " << runTime.constant() / "motionProperties"
+  twoDPointCorrector* correct2DPtr = nullptr;
+  if (motionObj.headerOk()) {
+    Info << "Reading " << runTime.constant()/"motionProperties"
       << endl << endl;
     IOdictionary motionProperties{motionObj};
     Switch twoDMotion{motionProperties.lookup("twoDMotion")};
-    if (twoDMotion)
-    {
+    if (twoDMotion) {
       Info << "Correcting for 2D motion" << endl << endl;
-      correct2DPtr = new twoDPointCorrector(mesh);
+      correct2DPtr = new twoDPointCorrector{mesh};
     }
   }
   IOdictionary refineDict
@@ -547,8 +511,7 @@ int main(int argc, char *argv[])
     << "    cells outside of surface        : " << selectOutside << nl
     << "    hanging cells                   : " << selectHanging << nl
     << endl;
-  if (nCutLayers > 0 && selectInside)
-  {
+  if (nCutLayers > 0 && selectInside) {
     WARNING_IN(args.executable())
       << "Illogical settings : Both nCutLayers>0 and selectInside true."
       << endl
@@ -562,11 +525,9 @@ int main(int argc, char *argv[])
   // Search engine on mesh. No face decomposition since mesh unwarped.
   meshSearch queryMesh{mesh, polyMesh::FACE_PLANES};
   // Check all 'outside' points
-  FOR_ALL(outsidePts, outsideI)
-  {
+  FOR_ALL(outsidePts, outsideI) {
     const point& outsidePoint = outsidePts[outsideI];
-    if (queryMesh.findCell(outsidePoint, -1, false) == -1)
-    {
+    if (queryMesh.findCell(outsidePoint, -1, false) == -1) {
       FATAL_ERROR_IN(args.executable())
         << "outsidePoint " << outsidePoint
         << " is not inside any cell"
@@ -587,16 +548,13 @@ int main(int argc, char *argv[])
     labelList{mesh.nCells(), 0}
   };
   label maxLevel = max(refLevel);
-  if (maxLevel > 0)
-  {
+  if (maxLevel > 0) {
     Info << "Read existing refinement level from file "
       << refLevel.objectPath() << nl
       << "   min level : " << min(refLevel) << nl
       << "   max level : " << maxLevel << nl
       << endl;
-  }
-  else
-  {
+  } else {
     Info << "Created zero refinement level in file "
       << refLevel.objectPath() << nl
       << endl;
@@ -604,97 +562,82 @@ int main(int argc, char *argv[])
   // Print edge stats on original mesh. Leave out 2d-normal direction
   direction normalDir{getNormalDir(correct2DPtr)};
   scalar meshMinEdgeLen = getEdgeStats(mesh, normalDir);
-  while (meshMinEdgeLen > minEdgeLen)
-  {
+  while (meshMinEdgeLen > minEdgeLen) {
     // Get inside/outside/cutCells cellSets.
     cellSet inside{mesh, "inside", mesh.nCells()/10};
     cellSet outside{mesh, "outside", mesh.nCells()/10};
     cellSet cutCells{mesh, "cutCells", mesh.nCells()/10};
     cellSet selected{mesh, "selected", mesh.nCells()/10};
     classifyCells
-    (
-      mesh,
-      surfName,
-      querySurf,
-      outsidePts,
-      selectCut,      // for determination of selected
-      selectInside,   // for determination of selected
-      selectOutside,  // for determination of selected
-      nCutLayers,     // How many layers of cutCells to include
-      inside,
-      outside,
-      cutCells,
-      selected        // not used but determined anyway.
-    );
+      (
+        mesh,
+        surfName,
+        querySurf,
+        outsidePts,
+        selectCut,      // for determination of selected
+        selectInside,   // for determination of selected
+        selectOutside,  // for determination of selected
+        nCutLayers,     // How many layers of cutCells to include
+        inside,
+        outside,
+        cutCells,
+        selected        // not used but determined anyway.
+      );
     Info << "    Selected " << cutCells.name() << " with "
       << cutCells.size() << " cells" << endl;
-    if ((curvDist > 0) && (meshMinEdgeLen < maxEdgeLen))
-    {
+    if ((curvDist > 0) && (meshMinEdgeLen < maxEdgeLen)) {
       // Done refining enough close to surface. Now switch to more
       // intelligent refinement where only cutCells on surface curvature
       // are refined.
       cellSet curveCells{mesh, "curveCells", mesh.nCells()/10};
       selectCurvatureCells
-      (
-        mesh,
-        surfName,
-        querySurf,
-        maxEdgeLen,
-        curvature,
-        curveCells
-      );
+        (
+          mesh,
+          surfName,
+          querySurf,
+          maxEdgeLen,
+          curvature,
+          curveCells
+        );
       Info << "    Selected " << curveCells.name() << " with "
         << curveCells.size() << " cells" << endl;
       // Add neighbours to cutCells. This is if selectCut is not
       // true and so outside and/or inside cells get exposed there is
       // also refinement in them.
-      if (!selectCut)
-      {
+      if (!selectCut) {
         addCutNeighbours
-        (
-          mesh,
-          selectInside,
-          selectOutside,
-          inside,
-          outside,
-          cutCells
-        );
+          (
+            mesh,
+            selectInside,
+            selectOutside,
+            inside,
+            outside,
+            cutCells
+          );
       }
       // Subset cutCells to only curveCells
       cutCells.subset(curveCells);
       Info << "    Removed cells not on surface curvature. Selected "
         << cutCells.size() << endl;
     }
-    if (nCutLayers > 0)
-    {
+    if (nCutLayers > 0) {
       // Subset mesh to remove inside cells altogether. Updates cutCells,
       // refLevel.
       subsetMesh(mesh, writeMesh, newPatchI, inside, cutCells, refLevel);
     }
     // Added cells from 2:1 refinement level restriction.
-    while
-    (
-      limitRefinementLevel
-      (
-        mesh,
-        refinementLimit,
-        labelHashSet(),
-        refLevel,
-        cutCells
-      )
-    )
+    while (limitRefinementLevel(mesh, refinementLimit, labelHashSet(),
+                                refLevel, cutCells))
     {}
     Info << "    Current cells           : " << mesh.nCells() << nl
       << "    Selected for refinement :" << cutCells.size() << nl
       << endl;
-    if (cutCells.empty())
-    {
+    if (cutCells.empty()) {
       Info << "Stopping refining since 0 cells selected to be refined ..."
         << nl << endl;
       break;
     }
-    if ((mesh.nCells() + 8*cutCells.size()) > cellLimit)
-    {
+    if ((mesh.nCells() + 8*cutCells.size()) > cellLimit) {
       Info << "Stopping refining since cell limit reached ..." << nl
         << "Would refine from " << mesh.nCells()
         << " to " << mesh.nCells() + 8*cutCells.size() << " cells."
@@ -702,16 +645,15 @@ int main(int argc, char *argv[])
       break;
     }
     doRefinement
-    (
-      mesh,
-      refineDict,
-      cutCells,
-      refLevel
-    );
+      (
+        mesh,
+        refineDict,
+        cutCells,
+        refLevel
+      );
     Info << "    After refinement:" << mesh.nCells() << nl
       << endl;
-    if (writeMesh)
-    {
+    if (writeMesh) {
       Info << "    Writing refined mesh to time " << runTime.timeName()
         << nl << endl;
       IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
@@ -721,28 +663,27 @@ int main(int argc, char *argv[])
     // Update mesh edge stats.
     meshMinEdgeLen = getEdgeStats(mesh, normalDir);
   }
-  if (selectHanging)
-  {
+  if (selectHanging) {
     // Get inside/outside/cutCells cellSets.
     cellSet inside{mesh, "inside", mesh.nCells()/10};
     cellSet outside{mesh, "outside", mesh.nCells()/10};
     cellSet cutCells{mesh, "cutCells", mesh.nCells()/10};
     cellSet selected{mesh, "selected", mesh.nCells()/10};
     classifyCells
-    (
-      mesh,
-      surfName,
-      querySurf,
-      outsidePts,
-      selectCut,
-      selectInside,
-      selectOutside,
-      nCutLayers,
-      inside,
-      outside,
-      cutCells,
-      selected
-    );
+      (
+        mesh,
+        surfName,
+        querySurf,
+        outsidePts,
+        selectCut,
+        selectInside,
+        selectOutside,
+        nCutLayers,
+        inside,
+        outside,
+        cutCells,
+        selected
+      );
     // Find any cells which have all their points on the outside of the
     // selected set and refine them
     labelHashSet hanging = surfaceSets::getHangingCells(mesh, selected);
@@ -754,17 +695,9 @@ int main(int argc, char *argv[])
     Info << "Refining " << hanging.size() << " hanging cells" << nl
       << endl;
     // Added cells from 2:1 refinement level restriction.
-    while
-    (
-      limitRefinementLevel
-      (
-        mesh,
-        refinementLimit,
-        labelHashSet(),
-        refLevel,
-        hanging
-      )
-    )
+    while (limitRefinementLevel(mesh, refinementLimit, labelHashSet(),
+                                refLevel,
+                                hanging))
     {}
     doRefinement(mesh, refineDict, hanging, refLevel);
     Info << "Writing refined mesh to time " << runTime.timeName() << nl
@@ -773,9 +706,7 @@ int main(int argc, char *argv[])
     IOstream::defaultPrecision(max(10u, IOstream::defaultPrecision()));
     mesh.write();
     refLevel.write();
-  }
-  else if (!writeMesh)
-  {
+  } else if (!writeMesh) {
     Info << "Writing refined mesh to time " << runTime.timeName() << nl
       << endl;
     // Write final mesh. (will have been written already if writeMesh=true)
@@ -786,3 +717,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

@@ -4,13 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   read_fields.cpp
+
 #include "fv_mesh.hpp"
 #include "ptr_list.hpp"
 #include "ioobject_list.hpp"
 #include "hash_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Read the fields and optionally subset and put on the pointer list
 template<class GeoField>
 void readFields
@@ -21,8 +23,9 @@ void readFields
   const HashSet<word>& selectedFields,
   PtrList<GeoField>& fields
 );
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "read_fields.cpp"
-#endif
+
+#include "read_fields.ipp"
+
 #endif

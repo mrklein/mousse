@@ -4,10 +4,14 @@
 
 #include "initial_points_method.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(initialPointsMethod, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(initialPointsMethod, dictionary);
+
+
 // Constructors 
 initialPointsMethod::initialPointsMethod
 (
@@ -20,15 +24,15 @@ initialPointsMethod::initialPointsMethod
   const autoPtr<backgroundMeshDecomposition>& decomposition
 )
 :
-  dictionary(initialPointsDict),
-  runTime_(runTime),
-  rndGen_(rndGen),
-  geometryToConformTo_(geometryToConformTo),
-  cellShapeControls_(cellShapeControls),
-  decomposition_(decomposition),
-  detailsDict_(subDict(type + "Coeffs")),
+  dictionary{initialPointsDict},
+  runTime_{runTime},
+  rndGen_{rndGen},
+  geometryToConformTo_{geometryToConformTo},
+  cellShapeControls_{cellShapeControls},
+  decomposition_{decomposition},
+  detailsDict_{subDict(type + "Coeffs")},
   minimumSurfaceDistanceCoeffSqr_
-  (
+  {
     sqr
     (
       readScalar
@@ -36,9 +40,11 @@ initialPointsMethod::initialPointsMethod
         initialPointsDict.lookup("minimumSurfaceDistanceCoeff")
       )
     )
-  ),
-  fixInitialPoints_(Switch(initialPointsDict.lookup("fixInitialPoints")))
+  },
+  fixInitialPoints_{Switch(initialPointsDict.lookup("fixInitialPoints"))}
 {}
+
+
 // Selectors
 autoPtr<initialPointsMethod> initialPointsMethod::New
 (
@@ -51,29 +57,29 @@ autoPtr<initialPointsMethod> initialPointsMethod::New
 )
 {
   word initialPointsMethodTypeName
-  (
+  {
     initialPointsDict.lookup("initialPointsMethod")
-  );
-  Info<< nl << "Selecting initialPointsMethod "
+  };
+  Info << nl << "Selecting initialPointsMethod "
     << initialPointsMethodTypeName << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(initialPointsMethodTypeName);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "initialPointsMethod::New(dictionary&, "
       "const conformalVoronoiMesh&)"
-    )   << "Unknown initialPointsMethod type "
-      << initialPointsMethodTypeName
-      << endl << endl
-      << "Valid initialPointsMethod types are :" << endl
-      << dictionaryConstructorTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown initialPointsMethod type "
+    << initialPointsMethodTypeName
+    << endl << endl
+    << "Valid initialPointsMethod types are :" << endl
+    << dictionaryConstructorTablePtr_->toc()
+    << exit(FatalError);
   }
   return
     autoPtr<initialPointsMethod>
-    (
+    {
       cstrIter()
       (
         initialPointsDict,
@@ -83,9 +89,13 @@ autoPtr<initialPointsMethod> initialPointsMethod::New
         cellShapeControls,
         decomposition
       )
-    );
+    };
 }
+
+
 // Destructor 
 initialPointsMethod::~initialPointsMethod()
 {}
+
 }  // namespace mousse
+

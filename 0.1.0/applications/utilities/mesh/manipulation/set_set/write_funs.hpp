@@ -12,8 +12,6 @@
 //   It is not clear how 64bit labels should be handled, currently they are
 //   split into two 32bit words and swapWord applied to these two.
 //   writeFuns should be a namespace rather than a class.
-// SourceFiles
-//   write_funs.cpp
 
 #include "label_list.hpp"
 #include "float_scalar.hpp"
@@ -21,8 +19,9 @@
 #include "dynamic_list.hpp"
 #include "point.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class writeFuns
 {
   // Private member functions
@@ -66,5 +65,8 @@ public:
     DynamicList<floatScalar>&
   );
 };
+
 }  // namespace mousse
+
 #endif
+

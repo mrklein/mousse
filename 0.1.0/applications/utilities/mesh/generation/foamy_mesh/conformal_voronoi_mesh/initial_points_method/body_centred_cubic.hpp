@@ -9,11 +9,12 @@
 // Description
 //   Generate a BCC lattice of points inside the surfaces to be
 //   conformed to of the conformalVoronoiMesh
-// SourceFiles
-//   body_centred_cubic.cpp
+
 #include "initial_points_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class bodyCentredCubic
 :
   public initialPointsMethod
@@ -47,5 +48,8 @@ public:
     //- Return the initial points for the conformalVoronoiMesh
     virtual List<Vb::Point> initialPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

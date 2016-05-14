@@ -6,14 +6,14 @@
 #include "engine_time.hpp"
 #include "engine_mesh.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_engine_time.inc"
   #include "create_engine_mesh.inc"
   Info << "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
+  while (runTime.loop()) {
     Info << "Time = " << runTime.theta() << " CA-deg\n" << endl;
     mesh.move();
     runTime.write();
@@ -24,3 +24,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

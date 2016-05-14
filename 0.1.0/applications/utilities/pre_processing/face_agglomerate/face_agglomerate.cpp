@@ -13,7 +13,9 @@
 #include "sync_tools.hpp"
 #include "global_index.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -41,69 +43,56 @@ int main(int argc, char *argv[])
     boundary.size()
   };
   label nCoarseFaces = 0;
-  FOR_ALL_CONST_ITER(dictionary, agglomDict, iter)
-  {
+  FOR_ALL_CONST_ITER(dictionary, agglomDict, iter) {
     labelList patchIds = boundary.findIndices(iter().keyword());
-    FOR_ALL(patchIds, i)
-    {
+    FOR_ALL(patchIds, i) {
       label patchI =  patchIds[i];
       const polyPatch& pp = boundary[patchI];
-      if (!pp.coupled())
+      if (pp.coupled())
+        continue;
+      Info << "\nAgglomerating patch : " << pp.name() << endl;
+      pairPatchAgglomeration agglomObject
       {
-        Info << "\nAgglomerating patch : " << pp.name() << endl;
-        pairPatchAgglomeration agglomObject
-        {
-          pp,
-          agglomDict.subDict(pp.name())
-        };
-        agglomObject.agglomerate();
-        finalAgglom[patchI] = agglomObject.restrictTopBottomAddressing();
-        if (finalAgglom[patchI].size())
-        {
-          nCoarseFaces += max(finalAgglom[patchI] + 1);
-        }
+        pp,
+        agglomDict.subDict(pp.name())
+      };
+      agglomObject.agglomerate();
+      finalAgglom[patchI] = agglomObject.restrictTopBottomAddressing();
+      if (finalAgglom[patchI].size()) {
+        nCoarseFaces += max(finalAgglom[patchI] + 1);
       }
     }
   }
   // - All patches which are not agglomarated are identity for finalAgglom
-  FOR_ALL(boundary, patchId)
-  {
-    if (finalAgglom[patchId].size() == 0)
-    {
+  FOR_ALL(boundary, patchId) {
+    if (finalAgglom[patchId].size() == 0) {
       finalAgglom[patchId] = identity(boundary[patchId].size());
     }
   }
   // Sync agglomeration across coupled patches
   labelList nbrAgglom{mesh.nFaces() - mesh.nInternalFaces(), -1};
-  FOR_ALL(boundary, patchId)
-  {
+  FOR_ALL(boundary, patchId) {
     const polyPatch& pp = boundary[patchId];
-    if (pp.coupled())
-    {
+    if (pp.coupled()) {
       finalAgglom[patchId] = identity(pp.size());
-      FOR_ALL(pp, i)
-      {
+      FOR_ALL(pp, i) {
         nbrAgglom[pp.start() - mesh.nInternalFaces() + i] =
           finalAgglom[patchId][i];
       }
     }
   }
   syncTools::swapBoundaryFaceList(mesh, nbrAgglom);
-  FOR_ALL(boundary, patchId)
-  {
+  FOR_ALL(boundary, patchId) {
     const polyPatch& pp = boundary[patchId];
-    if (pp.coupled() && !refCast<const coupledPolyPatch>(pp).owner())
-    {
-      FOR_ALL(pp, i)
-      {
+    if (pp.coupled() && !refCast<const coupledPolyPatch>(pp).owner()) {
+      FOR_ALL(pp, i) {
         finalAgglom[patchId][i] =
           nbrAgglom[pp.start() - mesh.nInternalFaces() + i];
       }
     }
   }
   finalAgglom.write();
-  if (writeAgglom)
-  {
+  if (writeAgglom) {
     globalIndex index{nCoarseFaces};
     volScalarField facesAgglomeration
     {
@@ -118,24 +107,21 @@ int main(int argc, char *argv[])
       {"facesAgglomeration", dimless, 0}
     };
     label coarsePatchIndex = 0;
-    FOR_ALL(boundary, patchId)
-    {
+    FOR_ALL(boundary, patchId) {
       const polyPatch& pp = boundary[patchId];
-      if (pp.size() > 0)
-      {
-        fvPatchScalarField& bFacesAgglomeration =
-          facesAgglomeration.boundaryField()[patchId];
-        FOR_ALL(bFacesAgglomeration, j)
-        {
-          bFacesAgglomeration[j] =
-            index.toGlobal
-            (
-              Pstream::myProcNo(),
-              finalAgglom[patchId][j] + coarsePatchIndex
-            );
-        }
-        coarsePatchIndex += max(finalAgglom[patchId]) + 1;
+      if (pp.size() <= 0)
+        continue;
+      fvPatchScalarField& bFacesAgglomeration =
+        facesAgglomeration.boundaryField()[patchId];
+      FOR_ALL(bFacesAgglomeration, j) {
+        bFacesAgglomeration[j] =
+          index.toGlobal
+          (
+            Pstream::myProcNo(),
+            finalAgglom[patchId][j] + coarsePatchIndex
+          );
       }
+      coarsePatchIndex += max(finalAgglom[patchId]) + 1;
     }
     Info << "\nWriting facesAgglomeration" << endl;
     facesAgglomeration.write();
@@ -143,3 +129,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

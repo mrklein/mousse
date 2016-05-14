@@ -4,8 +4,10 @@
 
 #include "cell_shape_recognition.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 cellShape extrudedQuadCellShape
 (
   const label cellIndex,
@@ -17,15 +19,13 @@ cellShape extrudedQuadCellShape
   faceList& frontAndBackFaces
 )
 {
-  static const cellModel* hexModelPtr_ = NULL;
-  if (!hexModelPtr_)
-  {
+  static const cellModel* hexModelPtr_ = nullptr;
+  if (!hexModelPtr_) {
     hexModelPtr_ = cellModeller::lookup("hex");
   }
   const cellModel& hex = *hexModelPtr_;
   // Checking
-  if (faceLabels.size() != 4)
-  {
+  if (faceLabels.size() != 4) {
     FATAL_ERROR_IN
     (
       "extrudedQuadCellShape(const label cellIndex, "
@@ -38,12 +38,10 @@ cellShape extrudedQuadCellShape
   }
   // make a list of outward-pointing faces
   labelListList localFaces{4};
-  FOR_ALL(faceLabels, faceI)
-  {
+  FOR_ALL(faceLabels, faceI) {
     const label curFaceLabel = faceLabels[faceI];
     const face& curFace = faces[curFaceLabel];
-    if (curFace.size() != 2)
-    {
+    if (curFace.size() != 2) {
       FATAL_ERROR_IN
       (
         "extrudedQuadCellShape(const label cellIndex, "
@@ -55,23 +53,17 @@ cellShape extrudedQuadCellShape
       << "does not have 2 vertices. Number of vertices: " << curFace
       << abort(FatalError);
     }
-    if (owner[curFaceLabel] == cellIndex)
-    {
+    if (owner[curFaceLabel] == cellIndex) {
       localFaces[faceI] = curFace;
-    }
-    else if (neighbour[curFaceLabel] == cellIndex)
-    {
+    } else if (neighbour[curFaceLabel] == cellIndex) {
       // Reverse the face.  Note: it is necessary to reverse by
       // hand to preserve connectivity of a 2-D mesh.
       //
       localFaces[faceI].setSize(curFace.size());
-      FOR_ALL_REVERSE(curFace, i)
-      {
+      FOR_ALL_REVERSE(curFace, i) {
         localFaces[faceI][curFace.size() - i - 1] = curFace[i];
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN
       (
         "extrudedQuadCellShape(const label cellIndex, "
@@ -91,8 +83,7 @@ cellShape extrudedQuadCellShape
   // Knowing the opposite pair of edges (with normals poining outward
   // is enough to make a cell
   if (localFaces[0][0] != localFaces[1][1]
-      && localFaces[0][1] != localFaces[1][0])
-  {
+      && localFaces[0][1] != localFaces[1][0]) {
     // Set front and back plane faces
     labelList missingPlaneFace{4};
     // front plane
@@ -117,7 +108,7 @@ cellShape extrudedQuadCellShape
     cellShapeLabels[5] = localFaces[0][1] + pointOffset;
     cellShapeLabels[6] = localFaces[1][0] + pointOffset;
     cellShapeLabels[7] = localFaces[1][1] + pointOffset;
-    return cellShape(hex, cellShapeLabels);
+    return {hex, cellShapeLabels};
   }
   else if (localFaces[0][0] != localFaces[2][1]
            && localFaces[0][1] != localFaces[2][0])
@@ -146,11 +137,9 @@ cellShape extrudedQuadCellShape
     cellShapeLabels[5] = localFaces[0][1] + pointOffset;
     cellShapeLabels[6] = localFaces[2][0] + pointOffset;
     cellShapeLabels[7] = localFaces[2][1] + pointOffset;
-    return cellShape(hex, cellShapeLabels);
-  }
-  else if (localFaces[0][0] != localFaces[3][1]
-           && localFaces[0][1] != localFaces[3][0])
-  {
+    return {hex, cellShapeLabels};
+  } else if (localFaces[0][0] != localFaces[3][1]
+             && localFaces[0][1] != localFaces[3][0]) {
     // Set front and back plane faces
     labelList missingPlaneFace(4);
     // front plane
@@ -166,7 +155,7 @@ cellShape extrudedQuadCellShape
     missingPlaneFace[3] = localFaces[3][1] + pointOffset;
     frontAndBackFaces[2*cellIndex + 1] = face(missingPlaneFace);
     // make a cell
-    labelList cellShapeLabels(8);
+    labelList cellShapeLabels{8};
     cellShapeLabels[0] = localFaces[0][0];
     cellShapeLabels[1] = localFaces[0][1];
     cellShapeLabels[2] = localFaces[3][0];
@@ -175,10 +164,8 @@ cellShape extrudedQuadCellShape
     cellShapeLabels[5] = localFaces[0][1] + pointOffset;
     cellShapeLabels[6] = localFaces[3][0] + pointOffset;
     cellShapeLabels[7] = localFaces[3][1] + pointOffset;
-    return cellShape(hex, cellShapeLabels);
-  }
-  else
-  {
+    return {hex, cellShapeLabels};
+  } else {
     FATAL_ERROR_IN
     (
       "extrudedQuadCellShape(const label cellIndex, "
@@ -190,6 +177,8 @@ cellShape extrudedQuadCellShape
     << abort(FatalError);
   }
   // Return added to keep compiler happy
-  return cellShape{hex, labelList(0)};
+  return {hex, labelList(0)};
 }
+
 }  // namespace mousse
+

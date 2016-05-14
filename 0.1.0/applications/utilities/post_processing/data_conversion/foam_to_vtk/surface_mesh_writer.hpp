@@ -8,19 +8,23 @@
 //   mousse::surfaceMeshWriter
 // Description
 //   Write faces with fields
-// SourceFiles
-//   surface_mesh_writer.cpp
-//   surface_mesh_writer_templates.cpp
+
 #include "point_mesh.hpp"
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "vtk_mesh.hpp"
 #include "indirect_primitive_patch.hpp"
+
+
 using namespace mousse;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class volPointInterpolation;
+
+
 class surfaceMeshWriter
 {
   const bool binary_;
@@ -38,13 +42,10 @@ public:
       const fileName&
     );
   // Member Functions
-    std::ofstream& os()
-    {
-      return os_;
-    }
+    std::ofstream& os() { return os_; }
     //- Extract face data
     template<class Type>
-    tmp<Field<Type> > getFaceField
+    tmp<Field<Type>> getFaceField
     (
       const GeometricField<Type, fvsPatchField, surfaceMesh>&
     ) const;
@@ -52,11 +53,12 @@ public:
     template<class Type>
     void write
     (
-      const PtrList<GeometricField<Type, fvsPatchField, surfaceMesh> >&
+      const PtrList<GeometricField<Type, fvsPatchField, surfaceMesh>>&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "surface_mesh_writer_templates.cpp"
-#endif
+
+#include "surface_mesh_writer.ipp"
+
 #endif

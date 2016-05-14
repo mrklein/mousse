@@ -5,15 +5,19 @@
 #include "face_zone_selection.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_mesh.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace faceSelections
-{
+namespace mousse {
+namespace faceSelections {
+
 DEFINE_TYPE_NAME_AND_DEBUG(faceZoneSelection, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(faceSelection, faceZoneSelection, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::faceSelections::faceZoneSelection::faceZoneSelection
 (
@@ -25,9 +29,13 @@ mousse::faceSelections::faceZoneSelection::faceZoneSelection
   faceSelection{name, mesh, dict},
   zoneName_{dict_.lookup("zoneName")}
 {}
+
+
 // Destructor 
 mousse::faceSelections::faceZoneSelection::~faceZoneSelection()
 {}
+
+
 // Member Functions 
 void mousse::faceSelections::faceZoneSelection::select
 (
@@ -37,8 +45,7 @@ void mousse::faceSelections::faceZoneSelection::select
 ) const
 {
   label readID = mesh_.faceZones().findZoneID(zoneName_);
-  if (readID == -1)
-  {
+  if (readID == -1) {
     FATAL_ERROR_IN
     (
       "faceSelections::faceZoneSelection::select(labelList&) const"
@@ -48,16 +55,12 @@ void mousse::faceSelections::faceZoneSelection::select
     << exit(FatalError);
   }
   const faceZone& fZone = mesh_.faceZones()[readID];
-  FOR_ALL(fZone, i)
-  {
+  FOR_ALL(fZone, i) {
     label faceI = fZone[i];
-    if (faceToZoneID[faceI] == -1)
-    {
+    if (faceToZoneID[faceI] == -1) {
       faceToZoneID[faceI] = zoneID;
       faceToFlip[faceI] = fZone.flipMap()[i];
-    }
-    else if (faceToZoneID[faceI] != zoneID)
-    {
+    } else if (faceToZoneID[faceI] != zoneID) {
       FATAL_ERROR_IN
       (
         "faceSelections::faceZoneSelection::select(labelList&) const"
@@ -69,3 +72,4 @@ void mousse::faceSelections::faceZoneSelection::select
   }
   faceSelection::select(zoneID, faceToZoneID, faceToFlip);
 }
+

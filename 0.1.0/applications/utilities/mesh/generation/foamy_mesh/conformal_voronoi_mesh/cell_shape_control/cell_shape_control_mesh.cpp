@@ -11,45 +11,39 @@
 #include "plane.hpp"
 #include "transform.hpp"
 #include "mesh_tools.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(cellShapeControlMesh, 0);
 word cellShapeControlMesh::meshSubDir = "cellShapeControlMesh";
+
 }
+
+
 // Private Member Functions 
 mousse::label mousse::cellShapeControlMesh::removePoints()
 {
   label nRemoved = 0;
-  for
-  (
-    CellSizeDelaunay::Finite_vertices_iterator vit =
-      finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
-  {
+  for (auto vit = finite_vertices_begin();
+       vit != finite_vertices_end();
+       ++vit) {
     std::list<Vertex_handle> verts;
     adjacent_vertices(vit, std::back_inserter(verts));
     bool removePt = true;
-    for
-    (
-      std::list<Vertex_handle>::iterator aVit = verts.begin();
-      aVit != verts.end();
-      ++aVit
-    )
-    {
+    for (auto aVit = verts.begin();
+         aVit != verts.end();
+         ++aVit) {
       Vertex_handle avh = *aVit;
       scalar diff =
         mag(avh->targetCellSize() - vit->targetCellSize())
-       /max(vit->targetCellSize(), 1e-6);
-      if (diff > 0.05)
-      {
+        /max(vit->targetCellSize(), 1e-6);
+      if (diff > 0.05) {
         removePt = false;
       }
     }
-    if (removePt)
-    {
+    if (removePt) {
       remove(vit);
       nRemoved++;
     }
@@ -57,39 +51,40 @@ mousse::label mousse::cellShapeControlMesh::removePoints()
   return nRemoved;
 }
 
+
 mousse::tmp<mousse::pointField> mousse::cellShapeControlMesh::cellCentres() const
 {
-  tmp<pointField> tcellCentres(new pointField(number_of_finite_cells()));
+  tmp<pointField> tcellCentres
+  {
+    new pointField{static_cast<label>(number_of_finite_cells())}
+  };
   pointField& cellCentres = tcellCentres();
   label count = 0;
-  for
-  (
-    CellSizeDelaunay::Finite_cells_iterator c = finite_cells_begin();
-    c != finite_cells_end();
-    ++c
-  )
-  {
-    if (c->hasFarPoint())
-    {
+  for (auto c = finite_cells_begin();
+       c != finite_cells_end();
+       ++c) {
+    if (c->hasFarPoint()) {
       continue;
     }
     scalarList bary;
     cellShapeControlMesh::Cell_handle ch;
-    const mousse::point centre = topoint
-    (
-      CGAL::centroid<baseK>
+    const auto centre =
+      topoint
       (
-        c->vertex(0)->point(),
-        c->vertex(1)->point(),
-        c->vertex(2)->point(),
-        c->vertex(3)->point()
-      )
-    );
+        CGAL::centroid<baseK>
+        (
+          c->vertex(0)->point(),
+          c->vertex(1)->point(),
+          c->vertex(2)->point(),
+          c->vertex(3)->point()
+        )
+      );
     cellCentres[count++] = centre;
   }
   cellCentres.resize(count);
   return tcellCentres;
 }
+
 
 void mousse::cellShapeControlMesh::writeTriangulation()
 {
@@ -98,32 +93,26 @@ void mousse::cellShapeControlMesh::writeTriangulation()
     "refinementTriangulation_" + name(Pstream::myProcNo()) + ".obj"
   };
   label count = 0;
-  Info<< "Write refinementTriangulation" << endl;
-  for (auto e = finite_edges_begin(); e != finite_edges_end(); ++e)
-  {
+  Info << "Write refinementTriangulation" << endl;
+  for (auto e = finite_edges_begin(); e != finite_edges_end(); ++e) {
     Cell_handle c = e->first;
     Vertex_handle vA = c->vertex(e->second);
     Vertex_handle vB = c->vertex(e->third);
     // Don't write far edges
-    if (vA->farPoint() || vB->farPoint())
-    {
+    if (vA->farPoint() || vB->farPoint()) {
       continue;
     }
     // Don't write unowned edges
-    if (vA->referred() && vB->referred())
-    {
+    if (vA->referred() && vB->referred()) {
       continue;
     }
     pointFromPoint p1 = topoint(vA->point());
     pointFromPoint p2 = topoint(vB->point());
     meshTools::writeOBJ(str, p1, p2, count);
   }
-  if (is_valid())
-  {
-    Info<< "    Triangulation is valid" << endl;
-  }
-  else
-  {
+  if (is_valid()) {
+    Info << "    Triangulation is valid" << endl;
+  } else {
     FATAL_ERROR_IN
     (
       "mousse::triangulatedMesh::writeRefinementTriangulation()"
@@ -132,6 +121,7 @@ void mousse::cellShapeControlMesh::writeTriangulation()
     << abort(FatalError);
   }
 }
+
 
 // Constructors 
 mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
@@ -143,8 +133,7 @@ mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
   },
   runTime_{runTime}
 {
-  if (this->vertexCount())
-  {
+  if (this->vertexCount()) {
     fvMesh mesh
     {
       {
@@ -155,8 +144,7 @@ mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
         IOobject::NO_WRITE
       }
     };
-    if (mesh.nPoints() == this->vertexCount())
-    {
+    if (mesh.nPoints() == this->vertexCount()) {
       pointScalarField sizes
       {
         {
@@ -183,8 +171,7 @@ mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
         }
       };
       if (sizes.size() == this->vertexCount()
-          && alignments.size() == this->vertexCount())
-      {
+          && alignments.size() == this->vertexCount()) {
         for (auto vit = finite_vertices_begin();
              vit != finite_vertices_end();
              ++vit)
@@ -192,9 +179,7 @@ mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
           vit->targetCellSize() = sizes[vit->index()];
           vit->alignment() = alignments[vit->index()];
         }
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN
         (
           "mousse::cellShapeControlMesh::cellShapeControlMesh"
@@ -208,9 +193,11 @@ mousse::cellShapeControlMesh::cellShapeControlMesh(const Time& runTime)
   }
 }
 
+
 // Destructor 
 mousse::cellShapeControlMesh::~cellShapeControlMesh()
 {}
+
 
 // Member Functions 
 void mousse::cellShapeControlMesh::barycentricCoords
@@ -223,35 +210,34 @@ void mousse::cellShapeControlMesh::barycentricCoords
   // Use the previous cell handle as a hint on where to start searching
   // Giving a hint causes strange errors...
   ch = locate(toPoint(pt));
-  if (dimension() > 2 && !is_infinite(ch))
+  if (dimension() <= 2 || is_infinite(ch))
+    return;
+  oldCellHandle_ = ch;
+  tetPointRef tet
   {
-    oldCellHandle_ = ch;
-    tetPointRef tet
-    {
-      topoint(ch->vertex(0)->point()),
-      topoint(ch->vertex(1)->point()),
-      topoint(ch->vertex(2)->point()),
-      topoint(ch->vertex(3)->point())
-    };
-    tet.barycentric(pt, bary);
-  }
+    topoint(ch->vertex(0)->point()),
+    topoint(ch->vertex(1)->point()),
+    topoint(ch->vertex(2)->point()),
+    topoint(ch->vertex(3)->point())
+  };
+  tet.barycentric(pt, bary);
 }
+
 
 mousse::boundBox mousse::cellShapeControlMesh::bounds() const
 {
   DynamicList<mousse::point> pts{static_cast<label>(number_of_vertices())};
   for (auto vit = finite_vertices_begin();
        vit != finite_vertices_end();
-       ++vit)
-  {
-    if (vit->real())
-    {
+       ++vit) {
+    if (vit->real()) {
       pts.append(topoint(vit->point()));
     }
   }
   boundBox bb{pts};
   return bb;
 }
+
 
 void mousse::cellShapeControlMesh::distribute
 (
@@ -264,25 +250,21 @@ void mousse::cellShapeControlMesh::distribute
   DynamicList<Vb> farPts{8};
   for (auto vit = finite_vertices_begin();
        vit != finite_vertices_end();
-       ++vit)
-  {
-    if (vit->real())
-    {
+       ++vit) {
+    if (vit->real()) {
       points.append(topoint(vit->point()));
       sizes.append(vit->targetCellSize());
       alignments.append(vit->alignment());
-    }
-    else if (vit->farPoint())
-    {
+    } else if (vit->farPoint()) {
       farPts.append
       (
         Vb
-        (
+        {
           vit->point(),
           -1,
           Vb::vtFar,
           Pstream::myProcNo()
-        )
+        }
       );
       farPts.last().targetCellSize() = vit->targetCellSize();
       farPts.last().alignment() = vit->alignment();
@@ -299,49 +281,54 @@ void mousse::cellShapeControlMesh::distribute
   // Reset the entire tessellation
   DelaunayMesh<CellSizeDelaunay>::reset();
   // Internal points have to be inserted first
-  DynamicList<Vb> verticesToInsert(points.size());
-  FOR_ALL(farPts, ptI)
-  {
+  DynamicList<Vb> verticesToInsert{points.size()};
+  FOR_ALL(farPts, ptI) {
     verticesToInsert.append(farPts[ptI]);
   }
-  FOR_ALL(points, pI)
-  {
+  FOR_ALL(points, pI) {
     verticesToInsert.append
     (
       Vb
-      (
+      {
         toPoint(points[pI]),
         -1,
         Vb::vtInternal,
         Pstream::myProcNo()
-      )
+      }
     );
     verticesToInsert.last().targetCellSize() = sizes[pI];
     verticesToInsert.last().alignment() = alignments[pI];
   }
   Info << nl << "    Inserting distributed background tessellation..." << endl;
   this->rangeInsertWithInfo
-  (
-    verticesToInsert.begin(),
-    verticesToInsert.end(),
-    true
-  );
+    (
+      verticesToInsert.begin(),
+      verticesToInsert.end(),
+      true
+    );
   sync(decomposition.procBounds());
   Info << "    Total number of vertices after redistribution "
     << returnReduce(label(number_of_vertices()), sumOp<label>()) << endl;
 }
+
+
 mousse::tensorField mousse::cellShapeControlMesh::dumpAlignments() const
 {
-  tensorField alignmentsTmp(number_of_vertices(), tensor::zero);
+  tensorField alignmentsTmp
+  {
+    static_cast<label>(number_of_vertices()),
+    tensor::zero
+  };
   label count = 0;
   for (auto vit = finite_vertices_begin();
        vit != finite_vertices_end();
-       ++vit)
-  {
+       ++vit) {
     alignmentsTmp[count++] = vit->alignment();
   }
   return alignmentsTmp;
 }
+
+
 void mousse::cellShapeControlMesh::write() const
 {
   Info << "Writing " << meshSubDir << endl;
@@ -349,21 +336,20 @@ void mousse::cellShapeControlMesh::write() const
   label cellCount = 0;
   for (auto cit = finite_cells_begin();
        cit != finite_cells_end();
-       ++cit)
-  {
-    if (!cit->hasFarPoint() && !is_infinite(cit))
-    {
+       ++cit) {
+    if (!cit->hasFarPoint() && !is_infinite(cit)) {
       cit->cellIndex() = cellCount++;
     }
   }
   DelaunayMesh<CellSizeDelaunay>::labelTolabelPairHashTable vertexMap;
   labelList cellMap;
-  autoPtr<polyMesh> meshPtr = DelaunayMesh<CellSizeDelaunay>::createMesh
-  (
-    meshSubDir,
-    vertexMap,
-    cellMap
-  );
+  autoPtr<polyMesh> meshPtr =
+    DelaunayMesh<CellSizeDelaunay>::createMesh
+    (
+      meshSubDir,
+      vertexMap,
+      cellMap
+    );
   const polyMesh& mesh = meshPtr();
   pointScalarField sizes
   {
@@ -391,13 +377,10 @@ void mousse::cellShapeControlMesh::write() const
     sizes.size()
   };
   // Write alignments
-//    OFstream str(runTime_.path()/"alignments.obj");
   for (auto vit = finite_vertices_begin();
        vit != finite_vertices_end();
-       ++vit)
-  {
-    if (!vit->farPoint())
-    {
+       ++vit) {
+    if (!vit->farPoint()) {
       // Populate sizes
       sizes[vertexMap[labelPair(vit->index(), vit->procIndex())]] =
         vit->targetCellSize();
@@ -409,6 +392,8 @@ void mousse::cellShapeControlMesh::write() const
   sizes.write();
   alignments.write();
 }
+
+
 mousse::label mousse::cellShapeControlMesh::estimateCellCount
 (
   const autoPtr<backgroundMeshDecomposition>& decomposition
@@ -418,37 +403,30 @@ mousse::label mousse::cellShapeControlMesh::estimateCellCount
   scalar cellCount = 0;
   for (auto cit = finite_cells_begin();
        cit != finite_cells_end();
-       ++cit)
-  {
-    if (!cit->hasFarPoint() && !is_infinite(cit))
+       ++cit) {
+    if (cit->hasFarPoint() || is_infinite(cit))
+      continue;
+    // @todo Check if tet centre is on the processor..
+    CGAL::Tetrahedron_3<baseK> tet
     {
-      // @todo Check if tet centre is on the processor..
-      CGAL::Tetrahedron_3<baseK> tet
-      (
-        cit->vertex(0)->point(),
-        cit->vertex(1)->point(),
-        cit->vertex(2)->point(),
-        cit->vertex(3)->point()
-      );
-      pointFromPoint centre = topoint(CGAL::centroid(tet));
-      if
-      (
-        Pstream::parRun() && !decomposition().positionOnThisProcessor(centre)
-      )
-      {
-        continue;
-      }
-      scalar volume = CGAL::to_double(tet.volume());
-      scalar averagedPointCellSize = 0;
-      //scalar averagedPointCellSize = 1;
-      // Get an average volume by averaging the cell size of the vertices
-      for (label vI = 0; vI < 4; ++vI)
-      {
-        averagedPointCellSize += cit->vertex(vI)->targetCellSize();
-      }
-      averagedPointCellSize /= 4;
-      cellCount += volume/pow(averagedPointCellSize, 3);
+      cit->vertex(0)->point(),
+      cit->vertex(1)->point(),
+      cit->vertex(2)->point(),
+      cit->vertex(3)->point()
+    };
+    pointFromPoint centre = topoint(CGAL::centroid(tet));
+    if (Pstream::parRun() && !decomposition().positionOnThisProcessor(centre))
+      continue;
+    scalar volume = CGAL::to_double(tet.volume());
+    scalar averagedPointCellSize = 0;
+    //scalar averagedPointCellSize = 1;
+    // Get an average volume by averaging the cell size of the vertices
+    for (label vI = 0; vI < 4; ++vI) {
+      averagedPointCellSize += cit->vertex(vI)->targetCellSize();
     }
+    averagedPointCellSize /= 4;
+    cellCount += volume/pow(averagedPointCellSize, 3);
   }
   return cellCount;
 }
+

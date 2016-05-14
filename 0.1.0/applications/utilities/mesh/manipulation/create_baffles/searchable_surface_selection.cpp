@@ -8,11 +8,12 @@
 #include "searchable_surface.hpp"
 #include "fv_mesh.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace faceSelections
-{
+namespace mousse {
+namespace faceSelections {
+
 DEFINE_TYPE_NAME_AND_DEBUG(searchableSurfaceSelection, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -20,8 +21,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   searchableSurfaceSelection,
   dictionary
 );
+
 }
 }
+
+
 // Constructors 
 mousse::faceSelections::searchableSurfaceSelection::searchableSurfaceSelection
 (
@@ -35,7 +39,7 @@ mousse::faceSelections::searchableSurfaceSelection::searchableSurfaceSelection
   {
     searchableSurface::New
     (
-      word(dict.lookup("surface")),
+      word{dict.lookup("surface")},
       {
         dict.lookupOrDefault("name", mesh.objectRegistry::db().name()),
         mesh.time().constant(),
@@ -48,9 +52,13 @@ mousse::faceSelections::searchableSurfaceSelection::searchableSurfaceSelection
     )
   }
 {}
+
+
 // Destructor 
 mousse::faceSelections::searchableSurfaceSelection::~searchableSurfaceSelection()
 {}
+
+
 // Member Functions 
 void mousse::faceSelections::searchableSurfaceSelection::select
 (
@@ -63,8 +71,7 @@ void mousse::faceSelections::searchableSurfaceSelection::select
   pointField start{mesh_.nFaces()};
   pointField end{mesh_.nFaces()};
   // Internal faces
-  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++)
-  {
+  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++) {
     start[faceI] = mesh_.cellCentres()[mesh_.faceOwner()[faceI]];
     end[faceI] = mesh_.cellCentres()[mesh_.faceNeighbour()[faceI]];
   }
@@ -77,22 +84,16 @@ void mousse::faceSelections::searchableSurfaceSelection::select
     neighbourCellCentres
   );
   const polyBoundaryMesh& pbm = mesh_.boundaryMesh();
-  FOR_ALL(pbm, patchI)
-  {
+  FOR_ALL(pbm, patchI) {
     const polyPatch& pp = pbm[patchI];
-    if (pp.coupled())
-    {
-      FOR_ALL(pp, i)
-      {
+    if (pp.coupled()) {
+      FOR_ALL(pp, i) {
         label faceI = pp.start()+i;
         start[faceI] = mesh_.cellCentres()[mesh_.faceOwner()[faceI]];
         end[faceI] = neighbourCellCentres[faceI-mesh_.nInternalFaces()];
       }
-    }
-    else
-    {
-      FOR_ALL(pp, i)
-      {
+    } else {
+      FOR_ALL(pp, i) {
         label faceI = pp.start()+i;
         start[faceI] = mesh_.cellCentres()[mesh_.faceOwner()[faceI]];
         end[faceI] = mesh_.faceCentres()[faceI];
@@ -104,25 +105,19 @@ void mousse::faceSelections::searchableSurfaceSelection::select
   pointField normals;
   surfacePtr_().getNormal(hits, normals);
   //- Note: do not select boundary faces.
-  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++)
-  {
-    if (hits[faceI].hit())
-    {
+  for (label faceI = 0; faceI < mesh_.nInternalFaces(); faceI++) {
+    if (hits[faceI].hit()) {
       faceToZoneID[faceI] = zoneID;
       vector d = end[faceI]-start[faceI];
       faceToFlip[faceI] = ((normals[faceI] & d) < 0);
     }
   }
-  FOR_ALL(pbm, patchI)
-  {
+  FOR_ALL(pbm, patchI) {
     const polyPatch& pp = pbm[patchI];
-    if (pp.coupled())
-    {
-      FOR_ALL(pp, i)
-      {
+    if (pp.coupled()) {
+      FOR_ALL(pp, i) {
         label faceI = pp.start()+i;
-        if (hits[faceI].hit())
-        {
+        if (hits[faceI].hit()) {
           faceToZoneID[faceI] = zoneID;
           vector d = end[faceI]-start[faceI];
           faceToFlip[faceI] = ((normals[faceI] & d) < 0);
@@ -132,3 +127,4 @@ void mousse::faceSelections::searchableSurfaceSelection::select
   }
   faceSelection::select(zoneID, faceToZoneID, faceToFlip);
 }
+

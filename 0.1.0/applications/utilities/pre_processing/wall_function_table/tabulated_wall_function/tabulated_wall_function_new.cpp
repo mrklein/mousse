@@ -4,10 +4,10 @@
 
 #include "tabulated_wall_function.hpp"
 
-namespace mousse
-{
-namespace tabulatedWallFunctions
-{
+
+namespace mousse {
+namespace tabulatedWallFunctions {
+
 // Constructors 
 autoPtr<tabulatedWallFunction> tabulatedWallFunction::New
 (
@@ -19,8 +19,7 @@ autoPtr<tabulatedWallFunction> tabulatedWallFunction::New
   Info << "Selecting tabulatedWallFunction " << twfTypeName << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(twfTypeName);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "tabulatedWallFunction::New(const dictionary&, const polyMesh&)"
@@ -32,5 +31,7 @@ autoPtr<tabulatedWallFunction> tabulatedWallFunction::New
   }
   return autoPtr<tabulatedWallFunction>{cstrIter()(dict, mesh)};
 }
+
 }  // namespace tabulatedWallFunctions
 }  // namespace mousse
+

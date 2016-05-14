@@ -6,7 +6,9 @@
 #include "time_selector.hpp"
 #include "io_probes.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -24,14 +26,12 @@ int main(int argc, char *argv[])
     IOobject::MUST_READ,
     true
   };
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     // Handle geometry/topology changes
     polyMesh::readUpdateState state = mesh.readUpdate();
-    if (state == polyMesh::POINTS_MOVED || state == polyMesh::TOPO_CHANGE)
-    {
+    if (state == polyMesh::POINTS_MOVED || state == polyMesh::TOPO_CHANGE) {
       sniff.read();
     }
     sniff.write();
@@ -40,3 +40,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

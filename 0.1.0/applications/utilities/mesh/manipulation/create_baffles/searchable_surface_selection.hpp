@@ -8,14 +8,16 @@
 //   mousse::faceSelections::searchableSurfaceSelection
 // Description
 //   Selects all (internal or coupled) faces intersecting the searchableSurface.
-// SourceFiles
-//   searchable_surface_selection.cpp
+
 #include "face_selection.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class searchableSurface;
-namespace faceSelections
-{
+
+namespace faceSelections {
+
 class searchableSurfaceSelection
 :
   public faceSelection
@@ -37,13 +39,16 @@ public:
     autoPtr<faceSelection> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<faceSelection> clone() const");
-      return autoPtr<faceSelection>{NULL};
+      return autoPtr<faceSelection>{nullptr};
     }
   //- Destructor
   virtual ~searchableSurfaceSelection();
   // Member Functions
     virtual void select(const label zoneID, labelList&, boolList&) const;
 };
+
 }  // namespace faceSelections
 }  // namespace mousse
+
 #endif
+

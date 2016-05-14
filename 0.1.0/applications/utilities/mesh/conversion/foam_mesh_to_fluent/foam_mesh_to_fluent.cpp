@@ -6,13 +6,16 @@
 #include "time.hpp"
 #include "fluent_fv_mesh.hpp"
 
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
   #include "set_root_case.inc"
   #include "create_time.inc"
-  Info<< "Create mesh for time = " << runTime.timeName() << nl << endl;
+  Info << "Create mesh for time = " << runTime.timeName() << nl << endl;
   fluentFvMesh mesh
   {
     {
@@ -22,6 +25,7 @@ int main(int argc, char *argv[])
     }
   };
   mesh.writeFluentMesh();
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

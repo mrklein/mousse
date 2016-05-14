@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::uniformValue
-// Description
-// SourceFiles
-//   uniform_value.cpp
+
 #include "surface_cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniformValue
 :
   public surfaceCellSizeFunction
@@ -40,5 +40,8 @@ public:
       const label index
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

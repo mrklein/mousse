@@ -21,15 +21,13 @@
 //       kappa           0.41;           // Von Karman constant
 //       E               9.8;            // Law-of-the-wall E coefficient
 //     }
-// SourceFiles
-//   spaldings_law.cpp
 
 #include "tabulated_wall_function.hpp"
 
-namespace mousse
-{
-namespace tabulatedWallFunctions
-{
+
+namespace mousse {
+namespace tabulatedWallFunctions {
+
 class SpaldingsLaw
 :
   public tabulatedWallFunction
@@ -65,7 +63,9 @@ public:
       //- Write to Ostream
       virtual void writeData(Ostream& os) const;
 };
+
 }  // namespace tabulatedWallFunctions
 }  // namespace mousse
 
 #endif
+

@@ -12,7 +12,11 @@
 #include "tensor_io_field.hpp"
 #include "ensight_parts.hpp"
 #include "ensight_output_functions.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   // enable -constant
@@ -70,8 +74,7 @@ int main(int argc, char *argv[])
   instantList timeDirs = timeSelector::select0(runTime, args);
   // default to binary output, unless otherwise specified
   IOstream::streamFormat format = IOstream::BINARY;
-  if (args.optionFound("ascii"))
-  {
+  if (args.optionFound("ascii")) {
     format = IOstream::ASCII;
   }
   // control for renumbering iterations
@@ -80,15 +83,13 @@ int main(int argc, char *argv[])
   // always write the geometry, unless the -noMesh option is specified
   bool optNoMesh = args.optionFound("noMesh");
   // adjust output width
-  if (args.optionFound("width"))
-  {
+  if (args.optionFound("width")) {
     ensightFile::subDirWidth(args.optionRead<label>("width"));
   }
   // define sub-directory name to use for Ensight data
   fileName ensightDir = "Ensight";
   args.optionReadIfPresent("name", ensightDir);
-  if (!ensightDir.isAbsolute())
-  {
+  if (!ensightDir.isAbsolute()) {
     ensightDir = args.rootPath()/args.globalCaseName()/ensightDir;
   }
   fileName dataDir = ensightDir/"data";
@@ -97,9 +98,8 @@ int main(int argc, char *argv[])
   // Ensight and Ensight/data directories must exist
   // do not remove old data - we might wish to convert new results
   // or a particular time interval
-  if (isDir(ensightDir))
-  {
-    Info<<"Warning: re-using existing directory" << nl
+  if (isDir(ensightDir)) {
+    Info <<"Warning: re-using existing directory" << nl
       << "    " << ensightDir << endl;
   }
   mkDir(ensightDir);
@@ -107,24 +107,21 @@ int main(int argc, char *argv[])
   #include "create_named_mesh.inc"
   // Mesh instance (region0 gets filtered out)
   fileName regionPrefix;
-  if (regionName != polyMesh::defaultRegion)
-  {
+  if (regionName != polyMesh::defaultRegion) {
     regionPrefix = regionName;
   }
   // Construct the list of ensight parts for the entire mesh
-  ensightParts partsList(mesh);
+  ensightParts partsList{mesh};
   // write summary information
   {
-    OFstream partsInfoFile(ensightDir/"partsInfo");
-    partsInfoFile
-      << "// summary of ensight parts" << nl << nl;
+    OFstream partsInfoFile{ensightDir/"partsInfo"};
+    partsInfoFile << "// summary of ensight parts" << nl << nl;
     partsList.writeSummary(partsInfoFile);
   }
   #include "check_has_moving_mesh.inc"
   #include "find_fields.inc"
-  if (hasMovingMesh && optNoMesh)
-  {
-    Info<< "mesh is moving: ignoring '-noMesh' option" << endl;
+  if (hasMovingMesh && optNoMesh) {
+    Info << "mesh is moving: ignoring '-noMesh' option" << endl;
     optNoMesh = false;
   }
   // map times used
@@ -134,12 +131,10 @@ int main(int argc, char *argv[])
   // Track the time indices used by each cloud
   HashTable<DynamicList<label>> cloudTimesUsed;
   // Create a new DynamicList for each cloud
-  FOR_ALL_CONST_ITER(HashTable<HashTable<word>>, cloudFields, cloudIter)
-  {
+  FOR_ALL_CONST_ITER(HashTable<HashTable<word>>, cloudFields, cloudIter) {
     cloudTimesUsed.insert(cloudIter.key(), DynamicList<label>());
   }
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     #include "get_time_index.inc"
     // remember the time index
@@ -155,27 +150,22 @@ int main(int argc, char *argv[])
         << subDir.c_str() << " " << runTime.timeName() << nl;
     }
     #include "move_mesh.inc"
-    if (timeI == 0 || mesh.moving())
-    {
-      if (mesh.moving())
-      {
+    if (timeI == 0 || mesh.moving()) {
+      if (mesh.moving()) {
         partsList.recalculate(mesh);
       }
-      if (!optNoMesh)
-      {
+      if (!optNoMesh) {
         fileName geomDir;
-        if (hasMovingMesh)
-        {
+        if (hasMovingMesh) {
           geomDir = dataDir/subDir;
         }
-        ensightGeoFile geoFile(ensightDir/geomDir/geometryName, format);
+        ensightGeoFile geoFile{ensightDir/geomDir/geometryName, format};
         partsList.writeGeometry(geoFile);
-        Info<< nl;
+        Info << nl;
       }
     }
-    Info<< "write volume field (" << flush;
-    FOR_ALL_CONST_ITER(HashTable<word>, volumeFields, fieldIter)
-    {
+    Info << "write volume field (" << flush;
+    FOR_ALL_CONST_ITER(HashTable<word>, volumeFields, fieldIter) {
       const word& fieldName = fieldIter.key();
       const word& fieldType = fieldIter();
       IOobject fieldObject
@@ -186,8 +176,7 @@ int main(int argc, char *argv[])
         IOobject::MUST_READ,
         IOobject::NO_WRITE
       };
-      if (fieldType == volScalarField::typeName)
-      {
+      if (fieldType == volScalarField::typeName) {
         ensightVolField<scalar>
         (
           partsList,
@@ -197,9 +186,7 @@ int main(int argc, char *argv[])
           subDir,
           format
         );
-      }
-      else if (fieldType == volVectorField::typeName)
-      {
+      } else if (fieldType == volVectorField::typeName) {
         ensightVolField<vector>
         (
           partsList,
@@ -209,9 +196,7 @@ int main(int argc, char *argv[])
           subDir,
           format
         );
-      }
-      else if (fieldType == volSphericalTensorField::typeName)
-      {
+      } else if (fieldType == volSphericalTensorField::typeName) {
         ensightVolField<sphericalTensor>
         (
           partsList,
@@ -221,9 +206,7 @@ int main(int argc, char *argv[])
           subDir,
           format
         );
-      }
-      else if (fieldType == volSymmTensorField::typeName)
-      {
+      } else if (fieldType == volSymmTensorField::typeName) {
         ensightVolField<symmTensor>
         (
           partsList,
@@ -233,9 +216,7 @@ int main(int argc, char *argv[])
           subDir,
           format
         );
-      }
-      else if (fieldType == volTensorField::typeName)
-      {
+      } else if (fieldType == volTensorField::typeName) {
         ensightVolField<tensor>
         (
           partsList,
@@ -247,20 +228,11 @@ int main(int argc, char *argv[])
         );
       }
     }
-    Info<< " )" << endl;
+    Info << " )" << endl;
     // check for clouds
-    FOR_ALL_CONST_ITER(HashTable<HashTable<word> >, cloudFields, cloudIter)
-    {
+    FOR_ALL_CONST_ITER(HashTable<HashTable<word> >, cloudFields, cloudIter) {
       const word& cloudName = cloudIter.key();
-      if
-      (
-        !isDir
-        (
-          runTime.timePath()/regionPrefix/
-          cloud::prefix/cloudName
-        )
-      )
-      {
+      if (!isDir(runTime.timePath()/regionPrefix/cloud::prefix/cloudName)) {
         continue;
       }
       IOobjectList cloudObjs
@@ -271,8 +243,7 @@ int main(int argc, char *argv[])
       };
       // check that the positions field is present for this time
       IOobject* positionPtr = cloudObjs.lookup(word("positions"));
-      if (positionPtr != NULL)
-      {
+      if (positionPtr != nullptr) {
         ensightParticlePositions
         (
           mesh,
@@ -281,26 +252,20 @@ int main(int argc, char *argv[])
           cloudName,
           format
         );
-      }
-      else
-      {
+      } else {
         continue;
       }
-      Info<< "write " << cloudName << " (" << flush;
-      FOR_ALL_CONST_ITER(HashTable<word>, cloudIter(), fieldIter)
-      {
+      Info << "write " << cloudName << " (" << flush;
+      FOR_ALL_CONST_ITER(HashTable<word>, cloudIter(), fieldIter) {
         const word& fieldName = fieldIter.key();
         const word& fieldType = fieldIter();
         IOobject *fieldObject = cloudObjs.lookup(fieldName);
-        if (!fieldObject)
-        {
-          Info<< "missing "
-            << runTime.timeName()/cloud::prefix/cloudName/fieldName
-            << endl;
+        if (!fieldObject) {
+          Info << "missing "
+            << runTime.timeName()/cloud::prefix/cloudName/fieldName << endl;
           continue;
         }
-        if (fieldType == scalarIOField::typeName)
-        {
+        if (fieldType == scalarIOField::typeName) {
           ensightLagrangianField<scalar>
           (
             *fieldObject,
@@ -309,9 +274,7 @@ int main(int argc, char *argv[])
             cloudName,
             format
           );
-        }
-        else if (fieldType == vectorIOField::typeName)
-        {
+        } else if (fieldType == vectorIOField::typeName) {
           ensightLagrangianField<vector>
           (
             *fieldObject,
@@ -320,9 +283,7 @@ int main(int argc, char *argv[])
             cloudName,
             format
           );
-        }
-        else if (fieldType == tensorIOField::typeName)
-        {
+        } else if (fieldType == tensorIOField::typeName) {
           ensightLagrangianField<tensor>
           (
             *fieldObject,
@@ -333,12 +294,13 @@ int main(int argc, char *argv[])
           );
         }
       }
-      Info<< " )" << endl;
+      Info << " )" << endl;
       // remember the time index
       cloudTimesUsed[cloudName].append(timeIndex);
     }
   }
   #include "ensight_output_case.inc"
-  Info<< "\nEnd\n"<< endl;
+  Info << "\nEnd\n"<< endl;
   return 0;
 }
+

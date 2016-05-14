@@ -6,9 +6,7 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cellShapeControl
-// Description
-// SourceFiles
-//   cell_shape_control.cpp
+
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"
 #include "tensor.hpp"
@@ -23,8 +21,10 @@
 #include "cell_shape_control_mesh.hpp"
 #include "background_mesh_decomposition.hpp"
 #include "cv_controls.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellShapeControl
 :
   public dictionary
@@ -78,7 +78,9 @@ public:
         tensor& alignment
       ) const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline mousse::cellShapeControlMesh&
@@ -87,16 +89,19 @@ mousse::cellShapeControl::shapeControlMesh()
   return shapeControlMesh_;
 }
 
+
 inline const mousse::cellShapeControlMesh&
 mousse::cellShapeControl::shapeControlMesh() const
 {
   return shapeControlMesh_;
 }
 
+
 inline const mousse::scalar& mousse::cellShapeControl::defaultCellSize() const
 {
   return defaultCellSize_;
 }
+
 
 inline const mousse::cellAspectRatioControl&
 mousse::cellShapeControl::aspectRatio() const
@@ -104,14 +109,18 @@ mousse::cellShapeControl::aspectRatio() const
   return aspectRatio_;
 }
 
+
 inline const mousse::cellSizeAndAlignmentControls&
 mousse::cellShapeControl::sizeAndAlignment() const
 {
   return sizeAndAlignment_;
 }
 
+
 inline const mousse::scalar& mousse::cellShapeControl::minimumCellSize() const
 {
   return minimumCellSize_;
 }
+
 #endif
+

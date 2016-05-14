@@ -8,16 +8,18 @@
 //   mousse::lagrangianFieldDecomposer
 // Description
 //   Lagrangian field decomposer.
-// SourceFiles
-//   lagrangian_field_decomposer.cpp
-//   lagrangian_field_decomposer_decompose_fields.cpp
+
 #include "cloud.hpp"
 #include "compact_io_field.hpp"
 #include "indexed_particle.hpp"
 #include "passive_particle.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOobjectList;
+
+
 class lagrangianFieldDecomposer
 {
   // Private data
@@ -27,11 +29,6 @@ class lagrangianFieldDecomposer
     Cloud<passiveParticle> positions_;
     //- The indices of the particles on this processor
     labelList particleIndices_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    lagrangianFieldDecomposer(const lagrangianFieldDecomposer&);
-    //- Disallow default bitwise assignment
-    void operator=(const lagrangianFieldDecomposer&);
 public:
   // Constructors
     //- Construct from components
@@ -45,6 +42,10 @@ public:
       const Cloud<indexedParticle>& lagrangianPositions,
       const List<SLList<indexedParticle*>*>& cellParticles
     );
+    //- Disallow default bitwise copy construct
+    lagrangianFieldDecomposer(const lagrangianFieldDecomposer&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const lagrangianFieldDecomposer&) = delete;
   // Member Functions
     // Read the fields and hold on the pointer list
     template<class Type>
@@ -52,8 +53,7 @@ public:
     (
       const label cloudI,
       const IOobjectList& lagrangianObjects,
-      PtrList<PtrList<IOField<Type> > >& lagrangianFields
-//            PtrList<IOField<Type> >& lagrangianFields
+      PtrList<PtrList<IOField<Type>>>& lagrangianFields
     );
     template<class Type>
     static void readFieldFields
@@ -62,19 +62,18 @@ public:
       const IOobjectList& lagrangianObjects,
       PtrList
       <
-        PtrList<CompactIOField<Field<Type>, Type> >
+        PtrList<CompactIOField<Field<Type>, Type>>
       >& lagrangianFields
-//            PtrList<CompactIOField<Field<Type>, Type > >& lagrangianFields
     );
     //- Decompose volume field
     template<class Type>
-    tmp<IOField<Type> > decomposeField
+    tmp<IOField<Type>> decomposeField
     (
       const word& cloudName,
       const IOField<Type>& field
     ) const;
     template<class Type>
-    tmp<CompactIOField<Field<Type>, Type> > decomposeFieldField
+    tmp<CompactIOField<Field<Type>, Type>> decomposeFieldField
     (
       const word& cloudName,
       const CompactIOField<Field<Type>, Type>& field
@@ -92,8 +91,9 @@ public:
       const PtrList<GeoField>& fields
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "lagrangian_field_decomposer_decompose_fields.cpp"
-#endif
+
+#include "lagrangian_field_decomposer_decompose_fields.ipp"
+
 #endif

@@ -11,7 +11,9 @@
 #include "fv_mesh.hpp"
 #include "vol_fields.hpp"
 
+
 using namespace mousse;
+
 
 // Return true if any cells had to be split to keep a difference between
 // neighbouring refinement levels < limitDiff. Puts cells into refCells and
@@ -25,13 +27,10 @@ bool limitRefinementLevel
 {
   const labelListList& cellCells = mesh.cellCells();
   label oldNCells = refCells.size();
-  FOR_ALL(cellCells, cellI)
-  {
+  FOR_ALL(cellCells, cellI) {
     const labelList& cCells = cellCells[cellI];
-    FOR_ALL(cCells, i)
-    {
-      if (refLevel[cCells[i]] > (refLevel[cellI]+1))
-      {
+    FOR_ALL(cCells, i) {
+      if (refLevel[cCells[i]] > (refLevel[cellI]+1)) {
         // Found neighbour with >=2 difference in refLevel.
         refCells.insert(cellI);
         refLevel[cellI]++;
@@ -39,18 +38,17 @@ bool limitRefinementLevel
       }
     }
   }
-  if (refCells.size() > oldNCells)
-  {
+  if (refCells.size() > oldNCells) {
     Info << "Added an additional " << refCells.size() - oldNCells
       << " cells to satisfy 1:2 refinement level"
       << endl;
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::addBoolOption
@@ -76,13 +74,11 @@ int main(int argc, char *argv[])
   DynamicList<scalar> lowerLimits;
   DynamicList<scalar> upperLimits;
   // Create bin0. Have upperlimit as factor times lowerlimit.
-  bins.append(DynamicList<label>());
+  bins.append(DynamicList<label>{});
   lowerLimits.append(sortedVols[0]);
-  upperLimits.append(1.1 * lowerLimits.last());
-  FOR_ALL(sortedVols, i)
-  {
-    if (sortedVols[i] > upperLimits.last())
-    {
+  upperLimits.append(1.1*lowerLimits.last());
+  FOR_ALL(sortedVols, i) {
+    if (sortedVols[i] > upperLimits.last()) {
       // New value outside of current bin
       // Shrink old bin.
       DynamicList<label>& bin = bins.last();
@@ -91,9 +87,9 @@ int main(int argc, char *argv[])
         << lowerLimits.last() << " .. "
         << upperLimits.last() << endl;
       // Create new bin.
-      bins.append(DynamicList<label>());
+      bins.append(DynamicList<label>{});
       lowerLimits.append(sortedVols[i]);
-      upperLimits.append(1.1 * lowerLimits.last());
+      upperLimits.append(1.1*lowerLimits.last());
       Info << "Creating new bin " << lowerLimits.last()
         << " .. " << upperLimits.last()
         << endl;
@@ -107,16 +103,12 @@ int main(int argc, char *argv[])
   bins.shrink();
   lowerLimits.shrink();
   upperLimits.shrink();
-  //
   // Write to cellSets.
-  //
   Info << "Volume bins:" << nl;
-  FOR_ALL(bins, binI)
-  {
+  FOR_ALL(bins, binI) {
     const DynamicList<label>& bin = bins[binI];
     cellSet cells{mesh, "vol" + name(binI), bin.size()};
-    FOR_ALL(bin, i)
-    {
+    FOR_ALL(bin, i) {
       cells.insert(bin[i]);
     }
     Info << "    " << lowerLimits[binI] << " .. " << upperLimits[binI]
@@ -124,9 +116,7 @@ int main(int argc, char *argv[])
       << cells.name() << endl;
     cells.write();
   }
-  //
   // Convert bins into refinement level.
-  //
   // Construct fvMesh to be able to construct volScalarField
   fvMesh fMesh
   {
@@ -142,8 +132,7 @@ int main(int argc, char *argv[])
   // Add the boundary patches
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
   List<polyPatch*> p{patches.size()};
-  FOR_ALL(p, patchI)
-  {
+  FOR_ALL(p, patchI) {
     p[patchI] = patches[patchI].clone(fMesh.boundaryMesh()).ptr();
   }
   fMesh.addFvPatches(p);
@@ -155,8 +144,7 @@ int main(int argc, char *argv[])
     polyMesh::defaultRegion,
     runTime
   };
-  if (!readLevel && refHeader.headerOk())
-  {
+  if (!readLevel && refHeader.headerOk()) {
     WARNING_IN(args.executable())
       << "Detected " << refHeader.name() << " file in "
       << polyMesh::defaultRegion <<  " directory. Please remove to"
@@ -175,8 +163,7 @@ int main(int argc, char *argv[])
     },
     labelList{mesh.nCells(), 0}
   };
-  if (readLevel)
-  {
+  if (readLevel) {
     refLevel = labelIOList(refHeader);
   }
   // Construct volScalarField with same info for post processing
@@ -193,11 +180,9 @@ int main(int argc, char *argv[])
     {"zero", dimless/dimTime, 0}
   };
   // Set cell values
-  FOR_ALL(bins, binI)
-  {
+  FOR_ALL(bins, binI) {
     const DynamicList<label>& bin = bins[binI];
-    FOR_ALL(bin, i)
-    {
+    FOR_ALL(bin, i) {
       refLevel[bin[i]] = bins.size() - binI - 1;
       postRefLevel[bin[i]] = refLevel[bin[i]];
     }
@@ -205,13 +190,11 @@ int main(int argc, char *argv[])
   // For volScalarField: set boundary values to same as cell.
   // Note: could also put
   // zeroGradient b.c. on postRefLevel and do evaluate.
-  FOR_ALL(postRefLevel.boundaryField(), patchI)
-  {
+  FOR_ALL(postRefLevel.boundaryField(), patchI) {
     const polyPatch& pp = patches[patchI];
     fvPatchScalarField& bField = postRefLevel.boundaryField()[patchI];
     Info << "Setting field for patch "<< endl;
-    FOR_ALL(bField, faceI)
-    {
+    FOR_ALL(bField, faceI) {
       label own = mesh.faceOwner()[pp.start() + faceI];
       bField[faceI] = postRefLevel[own];
     }
@@ -227,18 +210,14 @@ int main(int argc, char *argv[])
   // Find out cells to refine to keep to 2:1 refinement level restriction
   // Cells to refine
   cellSet refCells{mesh, "refCells", 100};
-  while
-  (
-    limitRefinementLevel
-    (
-      mesh,
-      refLevel,       // current refinement level
-      refCells        // cells to refine
-    )
-  )
+  while (limitRefinementLevel
+         (
+           mesh,
+           refLevel,       // current refinement level
+           refCells        // cells to refine
+         ))
   {}
-  if (refCells.size())
-  {
+  if (refCells.size()) {
     Info << "Collected " << refCells.size() << " cells that need to be"
       << " refined to get closer to overall 2:1 refinement level limit"
       << nl
@@ -247,12 +226,11 @@ int main(int argc, char *argv[])
     refCells.write();
     Info << "After refinement this tool can be run again to see if the 2:1"
       << " limit is observed all over the mesh" << nl << endl;
-  }
-  else
-  {
+  } else {
     Info << "All cells in the mesh observe the 2:1 refinement level limit"
       << nl << endl;
   }
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

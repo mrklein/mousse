@@ -12,6 +12,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -22,8 +23,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (kheader.headerOk())
-  {
+  if (kheader.headerOk()) {
     Info << "    Reading k" << endl;
     volScalarField k{kheader, mesh};
     Info << "    Calculating uprime" << endl;
@@ -39,14 +39,12 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     Info << "uprime max/min : "
       << max(uprime).value() << " "
       << min(uprime).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       uprime.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No k" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

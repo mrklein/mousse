@@ -9,15 +9,16 @@
 // Description
 //   Abstract base class for providing relaxation values to the cell motion
 //   controller
-// SourceFiles
-//   relaxation_model.cpp
+
 #include "point.hpp"
 #include "time.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class relaxationModel
 :
   public dictionary
@@ -73,5 +74,8 @@ public:
     //- Return the current relaxation coefficient
     virtual scalar relaxation() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

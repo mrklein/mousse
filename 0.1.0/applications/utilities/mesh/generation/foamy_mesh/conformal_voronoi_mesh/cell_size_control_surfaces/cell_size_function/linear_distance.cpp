@@ -7,11 +7,15 @@
 #include "tri_surface_mesh.hpp"
 #include "tri_surface_fields.hpp"
 #include "volume_type.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(linearDistance, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(cellSizeFunction, linearDistance, dictionary);
+
+
 // Constructors 
 linearDistance::linearDistance
 (
@@ -22,24 +26,25 @@ linearDistance::linearDistance
 )
 :
   cellSizeFunction
-  (
+  {
     typeName,
     initialPointsDict,
     surface,
     defaultCellSize,
     regionIndices
-  ),
+  },
   distanceCellSize_
-  (
-    readScalar(coeffsDict().lookup("distanceCellSizeCoeff"))
-   *defaultCellSize
-  ),
+  {
+    readScalar(coeffsDict().lookup("distanceCellSizeCoeff"))*defaultCellSize
+  },
   distance_
-  (
+  {
     readScalar(coeffsDict().lookup("distanceCoeff"))*defaultCellSize
-  ),
+  },
   distanceSqr_(sqr(distance_))
 {}
+
+
 // Private Member Functions 
 scalar linearDistance::sizeFunction
 (
@@ -51,11 +56,12 @@ scalar linearDistance::sizeFunction
   const scalar interpolatedSize
     = surfaceCellSizeFunction_().interpolate(pt, index);
   scalar gradient
-    = (distanceCellSize_ - interpolatedSize)
-     /distance_;
+    = (distanceCellSize_ - interpolatedSize)/distance_;
   scalar size = gradient*d + interpolatedSize;
   return size;
 }
+
+
 // Member Functions 
 bool linearDistance::sizeLocations
 (
@@ -66,24 +72,19 @@ bool linearDistance::sizeLocations
 ) const
 {
   const mousse::point& pt = hitPt.hitPoint();
-  if (sideMode_ == rmBothsides)
-  {
+  if (sideMode_ == rmBothsides) {
     shapePts.resize(2);
     shapeSizes.resize(2);
     shapePts[0] = pt - n*distance_;
     shapeSizes[0] = distanceCellSize_;
     shapePts[1] = pt + n*distance_;
     shapeSizes[1] = distanceCellSize_;
-  }
-  else if (sideMode_ == smInside)
-  {
+  } else if (sideMode_ == smInside) {
     shapePts.resize(1);
     shapeSizes.resize(1);
     shapePts[0] = pt - n*distance_;
     shapeSizes[0] = distanceCellSize_;
-  }
-  else if (sideMode_ == smOutside)
-  {
+  } else if (sideMode_ == smOutside) {
     shapePts.resize(1);
     shapeSizes.resize(1);
     shapePts[0] = pt + n*distance_;
@@ -91,32 +92,31 @@ bool linearDistance::sizeLocations
   }
   return false;
 }
+
+
 bool linearDistance::cellSize(const point& pt, scalar& size) const
 {
   size = 0;
   List<pointIndexHit> hits;
   surface_.findNearest
-  (
-    pointField(1, pt),
-    scalarField(1, distanceSqr_),
-    regionIndices_,
-    hits
-  );
+    (
+      pointField(1, pt),
+      scalarField(1, distanceSqr_),
+      regionIndices_,
+      hits
+    );
   const pointIndexHit& hitInfo = hits[0];
-  if (hitInfo.hit())
-  {
+  if (hitInfo.hit()) {
     const point& hitPt = hitInfo.hitPoint();
     const label hitIndex = hitInfo.index();
     const scalar dist = mag(pt - hitPt);
-    if (sideMode_ == rmBothsides)
-    {
+    if (sideMode_ == rmBothsides) {
       size = sizeFunction(hitPt, dist, hitIndex);
       return true;
     }
     // If the nearest point is essentially on the surface, do not do a
     // getVolumeType calculation, as it will be prone to error.
-    if (dist < snapToSurfaceTol_)
-    {
+    if (dist < snapToSurfaceTol_) {
       size = sizeFunction(hitPt, 0, hitIndex);
       return true;
     }
@@ -124,21 +124,11 @@ bool linearDistance::cellSize(const point& pt, scalar& size) const
     List<volumeType> vTL;
     surface_.getVolumeType(ptF, vTL);
     bool functionApplied = false;
-    if
-    (
-      sideMode_ == smInside
-    && vTL[0] == volumeType::INSIDE
-    )
-    {
+    if (sideMode_ == smInside && vTL[0] == volumeType::INSIDE) {
       size = sizeFunction(hitPt, dist, hitIndex);
       functionApplied = true;
     }
-    else if
-    (
-      sideMode_ == smOutside
-    && vTL[0] == volumeType::OUTSIDE
-    )
-    {
+    else if (sideMode_ == smOutside && vTL[0] == volumeType::OUTSIDE) {
       size = sizeFunction(hitPt, dist, hitIndex);
       functionApplied = true;
     }
@@ -146,8 +136,12 @@ bool linearDistance::cellSize(const point& pt, scalar& size) const
   }
   return false;
 }
+
+
 bool linearDistance::setCellSize(const pointField& /*pts*/)
 {
   return false;
 }
+
 }  // namespace mousse
+

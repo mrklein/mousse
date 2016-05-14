@@ -8,13 +8,13 @@
 //   mousse::mergePolyMesh
 // Description
 //   Add a given mesh to the original mesh to create a single new mesh
-// SourceFiles
-//   merge_poly_mesh.cpp
+
 #include "poly_mesh.hpp"
 #include "poly_topo_change.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class mergePolyMesh
 :
@@ -57,5 +57,8 @@ public:
     //- Merge meshes
     void merge();
 };
+
 }  // namespace mousse
+
 #endif
+

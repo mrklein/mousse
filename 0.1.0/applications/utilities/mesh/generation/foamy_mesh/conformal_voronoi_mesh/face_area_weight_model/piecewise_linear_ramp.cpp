@@ -4,8 +4,10 @@
 
 #include "piecewise_linear_ramp.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(piecewiseLinearRamp, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -14,30 +16,31 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   piecewiseLinearRamp,
   dictionary
 );
+
+
 // Constructors 
 piecewiseLinearRamp::piecewiseLinearRamp
 (
   const dictionary& faceAreaWeightDict
 )
 :
-  faceAreaWeightModel(typeName, faceAreaWeightDict),
-  lAF_(readScalar(coeffDict().lookup("lowerAreaFraction"))),
-  uAF_(readScalar(coeffDict().lookup("upperAreaFraction")))
+  faceAreaWeightModel{typeName, faceAreaWeightDict},
+  lAF_{readScalar(coeffDict().lookup("lowerAreaFraction"))},
+  uAF_{readScalar(coeffDict().lookup("upperAreaFraction"))}
 {}
+
+
 // Member Functions 
 scalar piecewiseLinearRamp::faceAreaWeight(scalar faceAreaFraction) const
 {
-  if (faceAreaFraction < lAF_)
-  {
+  if (faceAreaFraction < lAF_) {
     return 0;
-  }
-  else if (faceAreaFraction < uAF_)
-  {
+  } else if (faceAreaFraction < uAF_) {
     return faceAreaFraction/((uAF_ - lAF_)) - lAF_/(uAF_ - lAF_);
-  }
-  else
-  {
+  } else {
     return 1;
   }
 }
+
 }  // namespace mousse
+

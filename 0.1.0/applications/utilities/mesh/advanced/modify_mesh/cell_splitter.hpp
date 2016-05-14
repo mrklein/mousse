@@ -9,19 +9,20 @@
 // Description
 //   Does pyramidal decomposition of selected cells. So all faces will become
 //   base of pyramid with as top a user-supplied point (usually the cell centre)
-// SourceFiles
-//   cell_splitter.cpp
 
 #include "map.hpp"
 #include "edge.hpp"
 #include "type_info.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class polyTopoChange;
 class mapPolyMesh;
 class polyMesh;
+
+
 class cellSplitter
 {
   // Private data
@@ -80,5 +81,8 @@ public:
         return addedPoints_;
       }
 };
+
 }  // namespace mousse
+
 #endif
+

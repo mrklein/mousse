@@ -8,7 +8,10 @@
 #include "dictionary.hpp"
 #include "include_entry.hpp"
 
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   argList::addNote
@@ -27,17 +30,15 @@ int main(int argc, char *argv[])
   argList args(argc, argv);
   const string dictName = args[1];
   const bool listOpt = args.optionFound("list");
-  if (listOpt)
-  {
+  if (listOpt) {
     mousse::functionEntries::includeEntry::report = true;
   }
   dictionary dict{IFstream(dictName)(), true};
-  if (!listOpt)
-  {
-    IOobject::writeBanner(Info)
-      <<"//\n// " << dictName << "\n//\n";
+  if (!listOpt) {
+    IOobject::writeBanner(Info) <<"//\n// " << dictName << "\n//\n";
     dict.write(Info, false);
     IOobject::writeDivider(Info);
   }
   return 0;
 }
+

@@ -7,8 +7,9 @@
 #include "write_funs.hpp"
 #include "primitive_face_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Global Functions 
 void writePatch
 (
@@ -24,12 +25,9 @@ void writePatch
   pStream
     << "# vtk DataFile Version 2.0" << std::endl
     << setName << std::endl;
-  if (binary)
-  {
+  if (binary) {
     pStream << "BINARY" << std::endl;
-  }
-  else
-  {
+  } else {
     pStream << "ASCII" << std::endl;
   }
   pStream << "DATASET POLYDATA" << std::endl;
@@ -44,15 +42,12 @@ void writePatch
   writeFuns::insert(fp.localPoints(), ptField);
   writeFuns::write(pStream, binary, ptField);
   label nFaceVerts = 0;
-  FOR_ALL(fp.localFaces(), faceI)
-  {
+  FOR_ALL(fp.localFaces(), faceI) {
     nFaceVerts += fp.localFaces()[faceI].size() + 1;
   }
-  pStream << "POLYGONS " << fp.size() << ' ' << nFaceVerts
-    << std::endl;
+  pStream << "POLYGONS " << fp.size() << ' ' << nFaceVerts << std::endl;
   DynamicList<label> vertLabels{nFaceVerts};
-  FOR_ALL(fp.localFaces(), faceI)
-  {
+  FOR_ALL(fp.localFaces(), faceI) {
     const face& f = fp.localFaces()[faceI];
     vertLabels.append(f.size());
     writeFuns::insert(f, vertLabels);
@@ -71,4 +66,6 @@ void writePatch
   pStream << fieldName << " 1 " << fp.size() << " int" << std::endl;
   writeFuns::write(pStream, binary, fieldValues);
 }
+
 }  // namespace mousse
+

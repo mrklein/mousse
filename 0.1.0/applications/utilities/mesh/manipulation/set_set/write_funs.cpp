@@ -8,8 +8,8 @@
 #include <sys/endian.h>
 #endif
 #if defined(LITTLE_ENDIAN) \
-|| defined(_LITTLE_ENDIAN) \
-|| defined(__LITTLE_ENDIAN)
+  || defined(_LITTLE_ENDIAN) \
+  || defined(__LITTLE_ENDIAN)
 #   define LITTLEENDIAN 1
 #elif defined(BIG_ENDIAN) || defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN)
 #   undef LITTLEENDIAN
@@ -17,6 +17,7 @@
 #   error "Cannot find LITTLE_ENDIAN or BIG_ENDIAN symbol defined."
 #   error "Please add to compilation options"
 #endif
+
 
 void mousse::writeFuns::swapWord(int32_t& word32)
 {
@@ -29,13 +30,14 @@ void mousse::writeFuns::swapWord(int32_t& word32)
   mem[2] = a;
 }
 
+
 void mousse::writeFuns::swapWords(const label nWords, int32_t* words32)
 {
-  for (label i=0; i<nWords; i++)
-  {
+  for (label i=0; i<nWords; i++) {
     swapWord(words32[i]);
   }
 }
+
 
 void mousse::writeFuns::write
 (
@@ -44,8 +46,7 @@ void mousse::writeFuns::write
   List<floatScalar>& fField
 )
 {
-  if (binary)
-  {
+  if (binary) {
     #ifdef LITTLEENDIAN
     swapWords(fField.size(), reinterpret_cast<int32_t*>(fField.begin()));
     #endif
@@ -55,20 +56,17 @@ void mousse::writeFuns::write
       fField.size()*sizeof(float)
     );
     os << std::endl;
-  }
-  else
-  {
-    FOR_ALL(fField, i)
-    {
+  } else {
+    FOR_ALL(fField, i) {
       os << fField[i] << ' ';
-      if (i > 0 && (i % 10) == 0)
-      {
+      if (i > 0 && (i % 10) == 0) {
         os << std::endl;
       }
     }
     os << std::endl;
   }
 }
+
 
 void mousse::writeFuns::write
 (
@@ -81,6 +79,7 @@ void mousse::writeFuns::write
   write(os, binary, fld);
 }
 
+
 void mousse::writeFuns::write
 (
   std::ostream& os,
@@ -88,8 +87,7 @@ void mousse::writeFuns::write
   labelList& elems
 )
 {
-  if (binary)
-  {
+  if (binary) {
     #ifdef LITTLEENDIAN
     swapWords
     (
@@ -103,20 +101,18 @@ void mousse::writeFuns::write
       elems.size()*sizeof(label)
     );
     os << std::endl;
-  }
-  else
-  {
-    FOR_ALL(elems, i)
-    {
+  } else {
+    FOR_ALL(elems, i) {
       os << elems[i] << ' ';
-      if (i > 0 && (i % 10) == 0)
-      {
+      if (i > 0 && (i % 10) == 0) {
         os << std::endl;
       }
     }
     os << std::endl;
   }
 }
+
+
 void mousse::writeFuns::write
 (
   std::ostream& os,
@@ -127,30 +123,36 @@ void mousse::writeFuns::write
   labelList& fld = elems.shrink();
   write(os, binary, fld);
 }
+
+
 void mousse::writeFuns::insert(const point& pt, DynamicList<floatScalar>& dest)
 {
   dest.append(float(pt.x()));
   dest.append(float(pt.y()));
   dest.append(float(pt.z()));
 }
+
+
 void mousse::writeFuns::insert(const labelList& source, DynamicList<label>& dest)
 {
-  FOR_ALL(source, i)
-  {
+  FOR_ALL(source, i) {
     dest.append(source[i]);
   }
 }
+
+
 void mousse::writeFuns::insert
 (
   const List<scalar>& source,
   DynamicList<floatScalar>& dest
 )
 {
-  FOR_ALL(source, i)
-  {
+  FOR_ALL(source, i) {
     dest.append(float(source[i]));
   }
 }
+
+
 void mousse::writeFuns::insert
 (
   const labelList& map,
@@ -158,22 +160,24 @@ void mousse::writeFuns::insert
   DynamicList<floatScalar>& dest
 )
 {
-  FOR_ALL(map, i)
-  {
+  FOR_ALL(map, i) {
     dest.append(float(source[map[i]]));
   }
 }
+
+
 void mousse::writeFuns::insert
 (
   const List<point>& source,
   DynamicList<floatScalar>& dest
 )
 {
-  FOR_ALL(source, i)
-  {
+  FOR_ALL(source, i) {
    insert(source[i], dest);
   }
 }
+
+
 void mousse::writeFuns::insert
 (
   const labelList& map,
@@ -181,8 +185,8 @@ void mousse::writeFuns::insert
   DynamicList<floatScalar>& dest
 )
 {
-  FOR_ALL(map, i)
-  {
+  FOR_ALL(map, i) {
    insert(source[map[i]], dest);
   }
 }
+

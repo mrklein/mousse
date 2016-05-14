@@ -10,10 +10,13 @@
 #include "single_cell_fv_mesh.hpp"
 #include "time_selector.hpp"
 
+
 using namespace mousse;
+
 
 // Name of region to create
 const string singleCellName = "singleCell";
+
 
 template<class GeoField>
 void interpolateFields
@@ -22,14 +25,14 @@ void interpolateFields
   const PtrList<GeoField>& flds
 )
 {
-  FOR_ALL(flds, i)
-  {
+  FOR_ALL(flds, i) {
     tmp<GeoField> scFld = scMesh.interpolate(flds[i]);
     GeoField* scFldPtr = scFld.ptr();
     scFldPtr->writeOpt() = IOobject::AUTO_WRITE;
     scFldPtr->store();
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -39,8 +42,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
-  if (regionName == singleCellName)
-  {
+  if (regionName == singleCellName) {
     FATAL_ERROR_IN(args.executable())
       << "Cannot convert region " << singleCellName
       << " since result would overwrite it. Please rename your region."
@@ -63,23 +65,19 @@ int main(int argc, char *argv[])
     }
   };
   // For convenience create any fv* files
-  if (!exists(scMesh().fvSolution::objectPath()))
-  {
+  if (!exists(scMesh().fvSolution::objectPath())) {
     mkDir(scMesh().fvSolution::path());
     ln("../fvSolution", scMesh().fvSolution::objectPath());
   }
-  if (!exists(scMesh().fvSchemes::objectPath()))
-  {
+  if (!exists(scMesh().fvSchemes::objectPath())) {
     mkDir(scMesh().fvSolution::path());
     ln("../fvSchemes", scMesh().fvSchemes::objectPath());
   }
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << nl << "Time = " << runTime.timeName() << endl;
     // Check for new mesh
-    if (mesh.readUpdate() != polyMesh::UNCHANGED)
-    {
+    if (mesh.readUpdate() != polyMesh::UNCHANGED) {
       Info << "Detected changed mesh. Recreating singleCell mesh." << endl;
       scMesh.clear(); // remove any registered objects
       scMesh.reset
@@ -123,3 +121,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

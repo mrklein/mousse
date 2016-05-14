@@ -8,8 +8,7 @@
 //   mousse::faceSelection
 // Description
 //   Face selection method for createBaffles
-// SourceFiles
-//   face_selection.cpp
+
 #include "dictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
@@ -17,10 +16,14 @@
 #include "bool_list.hpp"
 #include "label_list.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
+
+
 class faceSelection
 {
 protected:
@@ -61,7 +64,7 @@ public:
     autoPtr<faceSelection> clone() const
     {
       NOT_IMPLEMENTED("autoPtr<faceSelection> clone() const");
-      return autoPtr<faceSelection>(NULL);
+      return autoPtr<faceSelection>{nullptr};
     }
   // Selectors
     //- Return a reference to the selected faceSelection
@@ -84,5 +87,8 @@ public:
     }
     virtual void select(const label, labelList&, boolList&) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -9,19 +9,24 @@
 #include "vol_fields.hpp"
 #include "ostream.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 void writeFluentField
 (
   const volScalarField& phi,
   const label fluentFieldIdentifier,
   Ostream& stream
 );
+
 void writeFluentField
 (
   const volVectorField& phi,
   const label fluentFieldIdentifier,
   Ostream& stream
 );
+
 }  // namespace mousse
+
 #endif
+

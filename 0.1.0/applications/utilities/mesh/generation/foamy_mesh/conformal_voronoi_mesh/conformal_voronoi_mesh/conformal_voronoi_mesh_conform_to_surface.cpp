@@ -8,43 +8,40 @@
 #include "indexed_cell_checks.hpp"
 #include "iomanip.hpp"
 #include "obj_stream.hpp"
+
+
 using namespace mousse::vectorTools;
+
+
 const mousse::scalar mousse::conformalVoronoiMesh::searchConeAngle
   = mousse::cos(degToRad(30));
+
 const mousse::scalar mousse::conformalVoronoiMesh::searchAngleOppositeSurface
   = mousse::cos(degToRad(150));
+
+
 // Private Member Functions 
 void mousse::conformalVoronoiMesh::conformToSurface()
 {
   this->resetCellCount();
   // Index the cells
-  for
-  (
-    Delaunay::Finite_cells_iterator cit = finite_cells_begin();
-    cit != finite_cells_end();
-    ++cit
-  )
-  {
+  for (auto cit = finite_cells_begin();
+       cit != finite_cells_end();
+       ++cit) {
     cit->cellIndex() = Cb::ctUnassigned;
   }
-  if (!reconformToSurface())
-  {
+  if (!reconformToSurface()) {
     // Reinsert stored surface conformation
     reinsertSurfaceConformation();
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       sync(decomposition().procBounds());
     }
-  }
-  else
-  {
+  } else {
     ptPairs_.clear();
     // Rebuild, insert and store new surface conformation
     buildSurfaceConformation();
-    if (distributeBackground(*this))
-    {
-      if (Pstream::parRun())
-      {
+    if (distributeBackground(*this)) {
+      if (Pstream::parRun()) {
         sync(decomposition().procBounds());
       }
     }
@@ -52,124 +49,62 @@ void mousse::conformalVoronoiMesh::conformToSurface()
     // (potentially) redistributed.
     storeSurfaceConformation();
   }
-  // reportSurfaceConformationQuality();
 }
+
+
 bool mousse::conformalVoronoiMesh::reconformToSurface() const
 {
-  if
-  (
-    runTime_.timeIndex()
-   % foamyHexMeshControls().surfaceConformationRebuildFrequency() == 0
-  )
-  {
-    return true;
-  }
-  return false;
+  const auto& freq =
+    foamyHexMeshControls().surfaceConformationRebuildFrequency();
+  return runTime_.timeIndex() % freq == 0;
 }
+
+
 // @todo Investigate topological tests
 mousse::label mousse::conformalVoronoiMesh::findVerticesNearBoundaries()
 {
   label countNearBoundaryVertices = 0;
-  for
-  (
-    Delaunay::Finite_facets_iterator fit = finite_facets_begin();
-    fit != finite_facets_end();
-    ++fit
-  )
-  {
+  for (auto fit = finite_facets_begin();
+       fit != finite_facets_end();
+       ++fit) {
     Cell_handle c1 = fit->first;
     Cell_handle c2 = fit->first->neighbor(fit->second);
-    if (is_infinite(c1) || is_infinite(c2))
-    {
+    if (is_infinite(c1) || is_infinite(c2)) {
       continue;
     }
     pointFromPoint dE0 = c1->dual();
     pointFromPoint dE1 = c2->dual();
-    if (!geometryToConformTo_.findSurfaceAnyIntersection(dE0, dE1))
-    {
+    if (!geometryToConformTo_.findSurfaceAnyIntersection(dE0, dE1)) {
       continue;
     }
-    for (label cellI = 0; cellI < 4; ++cellI)
-    {
+    for (label cellI = 0; cellI < 4; ++cellI) {
       Vertex_handle v = c1->vertex(cellI);
-      if
-      (
-        !is_infinite(v)
-      && v->internalPoint()
-      && fit->second != cellI
-      )
-      {
+      if (!is_infinite(v) && v->internalPoint() && fit->second != cellI) {
         v->setNearBoundary();
       }
     }
-    for (label cellI = 0; cellI < 4; ++cellI)
-    {
+    for (label cellI = 0; cellI < 4; ++cellI) {
       Vertex_handle v = c2->vertex(cellI);
-      if
-      (
-        !is_infinite(v)
-      && v->internalPoint()
-      && fit->second != cellI
-      )
-      {
+      if (!is_infinite(v) && v->internalPoint() && fit->second != cellI) {
         v->setNearBoundary();
       }
     }
   }
-  for
-  (
-    Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    ++vit
-  )
-  {
-    if (vit->nearBoundary())
-    {
+  for (auto vit = finite_vertices_begin();
+       vit != finite_vertices_end();
+       ++vit) {
+    if (vit->nearBoundary()) {
       countNearBoundaryVertices++;
     }
   }
-  // Geometric test.
-//    for
-//    (
-//        Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-//        vit != finite_vertices_end();
-//        ++vit
-//    )
-//    {
-//        if (vit->internalPoint() && !vit->nearBoundary())
-//        {
-//            pointFromPoint pt = topoint(vit->point());
-//
-//            const scalar range = sqr
-//            (
-//                foamyHexMeshControls().nearBoundaryDistanceCoeff()
-//               *targetCellSize(pt)
-//            );
-//
-//            pointIndexHit pHit;
-//            label hitSurface;
-//
-//            geometryToConformTo_.findSurfaceNearest
-//            (
-//                pt,
-//                range,
-//                pHit,
-//                hitSurface
-//            );
-//
-//            if (pHit.hit())
-//            {
-//                vit->setNearBoundary();
-//                countNearBoundaryVertices++;
-//            }
-//        }
-//    }
   return countNearBoundaryVertices;
 }
+
+
 void mousse::conformalVoronoiMesh::buildSurfaceConformation()
 {
   timeCheck("Start buildSurfaceConformation");
-  Info<< nl
+  Info << nl
     << "Rebuilding surface conformation for more iterations"
     << endl;
   existingEdgeLocations_.clearStorage();
@@ -205,7 +140,7 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
   //     ---x----
   // Find vertices near boundaries to speed up subsequent checks.
   label countNearBoundaryVertices = findVerticesNearBoundaries();
-  Info<< "    Vertices marked as being near a boundary: "
+  Info << "    Vertices marked as being near a boundary: "
     << returnReduce(countNearBoundaryVertices, sumOp<label>())
     << " (estimated)" << endl;
   timeCheck("After set near boundary");
@@ -213,97 +148,78 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
     foamyHexMeshControls().edgeSearchDistCoeffSqr();
   const scalar surfacePtReplaceDistCoeffSqr =
     foamyHexMeshControls().surfacePtReplaceDistCoeffSqr();
-  const label AtoV = label(6/mousse::pow(scalar(number_of_vertices()), 3));
+  const label AtoV =
+    static_cast<label>(6/mousse::pow(scalar(number_of_vertices()), 3));
+
   // Initial surface protrusion conformation - nearest surface point
   {
-    pointIndexHitAndFeatureDynList featureEdgeHits(AtoV/4);
-    pointIndexHitAndFeatureDynList surfaceHits(AtoV);
-    DynamicList<label> edgeToTreeShape(AtoV/4);
-    DynamicList<label> surfaceToTreeShape(AtoV);
-    Map<scalar> surfacePtToEdgePtDist(AtoV/4);
-    for
-    (
-      Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-      vit != finite_vertices_end();
-      vit++
-    )
-    {
-      if (vit->nearBoundary())
-      {
-        pointIndexHitAndFeatureDynList surfaceIntersections(AtoV);
-        if
-        (
-          dualCellSurfaceAllIntersections
-          (
-            vit,
-            surfaceIntersections
-          )
-        )
-        {
-          // meshTools::writeOBJ(Pout, vert);
-          // meshTools::writeOBJ(Pout, surfHit.hitPoint());
-          // Pout<< "l cr0 cr1" << endl;
+    pointIndexHitAndFeatureDynList featureEdgeHits{AtoV/4};
+    pointIndexHitAndFeatureDynList surfaceHits{AtoV};
+    DynamicList<label> edgeToTreeShape{AtoV/4};
+    DynamicList<label> surfaceToTreeShape{AtoV};
+    Map<scalar> surfacePtToEdgePtDist{AtoV/4};
+    for (auto vit = finite_vertices_begin();
+         vit != finite_vertices_end();
+         vit++) {
+      if (vit->nearBoundary()) {
+        pointIndexHitAndFeatureDynList surfaceIntersections{AtoV};
+        if (dualCellSurfaceAllIntersections(vit, surfaceIntersections)) {
           addSurfaceAndEdgeHits
-          (
-            topoint(vit->point()),
-            surfaceIntersections,
-            surfacePtReplaceDistCoeffSqr,
-            edgeSearchDistCoeffSqr,
-            surfaceHits,
-            featureEdgeHits,
-            surfaceToTreeShape,
-            edgeToTreeShape,
-            surfacePtToEdgePtDist,
-            true
-          );
-        }
-        else
-        {
+            (
+              topoint(vit->point()),
+              surfaceIntersections,
+              surfacePtReplaceDistCoeffSqr,
+              edgeSearchDistCoeffSqr,
+              surfaceHits,
+              featureEdgeHits,
+              surfaceToTreeShape,
+              edgeToTreeShape,
+              surfacePtToEdgePtDist,
+              true
+            );
+        } else {
           vit->setInternal();
           countNearBoundaryVertices--;
         }
       }
     }
-    Info<< "    Vertices marked as being near a boundary: "
+    Info << "    Vertices marked as being near a boundary: "
       << returnReduce(countNearBoundaryVertices, sumOp<label>())
       << " (after dual surface intersection)" << endl;
     label nVerts = number_of_vertices();
     label nSurfHits = surfaceHits.size();
     label nFeatEdHits = featureEdgeHits.size();
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       reduce(nVerts, sumOp<label>());
       reduce(nSurfHits, sumOp<label>());
       reduce(nFeatEdHits, sumOp<label>());
     }
-    Info<< nl << "Initial conformation" << nl
+    Info << nl << "Initial conformation" << nl
       << "    Number of vertices " << nVerts << nl
       << "    Number of surface hits " << nSurfHits << nl
       << "    Number of edge hits " << nFeatEdHits
       << endl;
     // In parallel, synchronise the surface trees
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       synchroniseSurfaceTrees(surfaceToTreeShape, surfaceHits);
     }
-    DynamicList<Vb> pts(2*surfaceHits.size() + 3*featureEdgeHits.size());
+    DynamicList<Vb> pts{2*surfaceHits.size() + 3*featureEdgeHits.size()};
     insertSurfacePointPairs
-    (
-      surfaceHits,
-      "surfaceConformationLocations_initial.obj",
-      pts
-    );
+      (
+        surfaceHits,
+        "surfaceConformationLocations_initial.obj",
+        pts
+      );
     // In parallel, synchronise the edge trees
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       synchroniseEdgeTrees(edgeToTreeShape, featureEdgeHits);
     }
     insertEdgePointGroups
-    (
-      featureEdgeHits,
-      "edgeConformationLocations_initial.obj",
-      pts
-    );
+      (
+        featureEdgeHits,
+        "edgeConformationLocations_initial.obj",
+        pts
+      );
     pts.shrink();
     Map<label> oldToNewIndices = insertPointPairs(pts, true, true);
     // Re-index the point pairs
@@ -315,41 +231,45 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
   }
   // Remember which vertices were referred to each processor so only updates
   // are sent.
-  PtrList<labelPairHashSet> referralVertices(Pstream::nProcs());
+  PtrList<labelPairHashSet> referralVertices{Pstream::nProcs()};
   // Store the vertices that have been received and added from each processor
   // already so that there is no attempt to add them more than once.
   autoPtr<labelPairHashSet> receivedVertices;
-  if (Pstream::parRun())
-  {
-    FOR_ALL(referralVertices, procI)
-    {
-      if (procI != Pstream::myProcNo())
-      {
+  if (Pstream::parRun()) {
+    FOR_ALL(referralVertices, procI) {
+      if (procI != Pstream::myProcNo()) {
         referralVertices.set
         (
           procI,
-          new labelPairHashSet(number_of_vertices()/Pstream::nProcs())
+          new labelPairHashSet
+          {
+            static_cast<label>(number_of_vertices())/Pstream::nProcs()
+          }
         );
       }
     }
     receivedVertices.set
     (
-      new labelPairHashSet(number_of_vertices()/Pstream::nProcs())
+      new labelPairHashSet
+      {
+        static_cast<label>(number_of_vertices())/Pstream::nProcs()
+      }
     );
     // Build the parallel interface the initial surface conformation
     sync
-    (
-      decomposition_().procBounds(),
-      referralVertices,
-      receivedVertices()
-    );
+      (
+        decomposition_().procBounds(),
+        referralVertices,
+        receivedVertices()
+      );
   }
   label iterationNo = 0;
   label maxIterations = foamyHexMeshControls().maxConformationIterations();
   scalar iterationToInitialHitRatioLimit =
     foamyHexMeshControls().iterationToInitialHitRatioLimit();
-  label hitLimit = label(iterationToInitialHitRatioLimit*initialTotalHits);
-  Info<< nl << "Stopping iterations when: " << nl
+  label hitLimit =
+    static_cast<label>(iterationToInitialHitRatioLimit*initialTotalHits);
+  Info << nl << "Stopping iterations when: " << nl
     << "    total number of hits drops below "
     << iterationToInitialHitRatioLimit
     << " of initial hits (" << hitLimit << ")" << nl
@@ -360,185 +280,152 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
   // Set totalHits to a large enough positive value to enter the while loop on
   // the first iteration
   label totalHits = initialTotalHits;
-  while
-  (
-    totalHits > 0
-  && totalHits >= hitLimit
-  && iterationNo < maxIterations
-  )
-  {
-    pointIndexHitAndFeatureDynList surfaceHits(0.5*AtoV);
-    pointIndexHitAndFeatureDynList featureEdgeHits(0.25*AtoV);
-    DynamicList<label> surfaceToTreeShape(AtoV/2);
-    DynamicList<label> edgeToTreeShape(AtoV/4);
+  while (totalHits > 0 && totalHits >= hitLimit && iterationNo < maxIterations) {
+    pointIndexHitAndFeatureDynList surfaceHits{AtoV/2};
+    pointIndexHitAndFeatureDynList featureEdgeHits{AtoV/4};
+    DynamicList<label> surfaceToTreeShape{AtoV/2};
+    DynamicList<label> edgeToTreeShape{AtoV/4};
     Map<scalar> surfacePtToEdgePtDist;
-    for
-    (
-      Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-      vit != finite_vertices_end();
-      ++vit
-    )
-    {
+    for (auto vit = finite_vertices_begin();
+         vit != finite_vertices_end();
+         ++vit) {
       // The initial surface conformation has already identified the
       // nearBoundary set of vertices.  Previously inserted boundary
       // points and referred internal vertices from other processors can
       // also generate protrusions and must be assessed too.
-      if
-      (
-        vit->nearBoundary()
-      || vit->internalBoundaryPoint()
-      || (vit->internalOrBoundaryPoint() && vit->referred())
-      )
-      {
-        pointIndexHitAndFeatureDynList surfaceIntersections(0.5*AtoV);
+      if (vit->nearBoundary() || vit->internalBoundaryPoint()
+          || (vit->internalOrBoundaryPoint() && vit->referred())) {
+        pointIndexHitAndFeatureDynList surfaceIntersections{AtoV/2};
         pointIndexHit surfHit;
         label hitSurface;
         // Find segments of dual face outside the geometry and find the
         // the middle of this
         dualCellLargestSurfaceProtrusion(vit, surfHit, hitSurface);
-        if (surfHit.hit())
-        {
+        if (surfHit.hit()) {
           surfaceIntersections.append
           (
             pointIndexHitAndFeature(surfHit, hitSurface)
           );
           addSurfaceAndEdgeHits
-          (
-            topoint(vit->point()),
-            surfaceIntersections,
-            surfacePtReplaceDistCoeffSqr,
-            edgeSearchDistCoeffSqr,
-            surfaceHits,
-            featureEdgeHits,
-            surfaceToTreeShape,
-            edgeToTreeShape,
-            surfacePtToEdgePtDist,
-            false
-          );
-        }
-        else
-        {
+            (
+              topoint(vit->point()),
+              surfaceIntersections,
+              surfacePtReplaceDistCoeffSqr,
+              edgeSearchDistCoeffSqr,
+              surfaceHits,
+              featureEdgeHits,
+              surfaceToTreeShape,
+              edgeToTreeShape,
+              surfacePtToEdgePtDist,
+              false
+            );
+        } else {
           // No surface hit detected so if internal then don't check
           // again
-          if (vit->nearBoundary())
-          {
+          if (vit->nearBoundary()) {
             vit->setInternal();
           }
         }
-      }
-      else if
-      (
-        vit->externalBoundaryPoint()
-      || (vit->externalBoundaryPoint() && vit->referred())
-      )
-      {
-        pointIndexHitAndFeatureDynList surfaceIntersections(0.5*AtoV);
+      } else if (vit->externalBoundaryPoint()
+                 || (vit->externalBoundaryPoint() && vit->referred())) {
+        pointIndexHitAndFeatureDynList surfaceIntersections{AtoV/2};
         pointIndexHit surfHit;
         label hitSurface;
         // Detect slave (external vertices) whose dual face incurs
         // into nearby (other than originating) geometry
         dualCellLargestSurfaceIncursion(vit, surfHit, hitSurface);
-        if (surfHit.hit())
-        {
+        if (surfHit.hit()) {
           surfaceIntersections.append
           (
             pointIndexHitAndFeature(surfHit, hitSurface)
           );
           addSurfaceAndEdgeHits
-          (
-            topoint(vit->point()),
-            surfaceIntersections,
-            surfacePtReplaceDistCoeffSqr,
-            edgeSearchDistCoeffSqr,
-            surfaceHits,
-            featureEdgeHits,
-            surfaceToTreeShape,
-            edgeToTreeShape,
-            surfacePtToEdgePtDist,
-            false
-          );
+            (
+              topoint(vit->point()),
+              surfaceIntersections,
+              surfacePtReplaceDistCoeffSqr,
+              edgeSearchDistCoeffSqr,
+              surfaceHits,
+              featureEdgeHits,
+              surfaceToTreeShape,
+              edgeToTreeShape,
+              surfacePtToEdgePtDist,
+              false
+            );
         }
       }
     }
     label nVerts = number_of_vertices();
     label nSurfHits = surfaceHits.size();
     label nFeatEdHits = featureEdgeHits.size();
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       reduce(nVerts, sumOp<label>());
       reduce(nSurfHits, sumOp<label>());
       reduce(nFeatEdHits, sumOp<label>());
     }
-    Info<< nl << "Conformation iteration " << iterationNo << nl
+    Info << nl << "Conformation iteration " << iterationNo << nl
       << "    Number of vertices " << nVerts << nl
       << "    Number of surface hits " << nSurfHits << nl
       << "    Number of edge hits " << nFeatEdHits
       << endl;
     totalHits = nSurfHits + nFeatEdHits;
     label nNotInserted = 0;
-    if (totalHits > 0)
-    {
+    if (totalHits > 0) {
       // In parallel, synchronise the surface trees
-      if (Pstream::parRun())
-      {
+      if (Pstream::parRun()) {
         nNotInserted +=
           synchroniseSurfaceTrees(surfaceToTreeShape, surfaceHits);
       }
       DynamicList<Vb> pts
-      (
-        2*surfaceHits.size() + 3*featureEdgeHits.size()
-      );
-      insertSurfacePointPairs
-      (
-        surfaceHits,
-        "surfaceConformationLocations_" + name(iterationNo) + ".obj",
-        pts
-      );
-      // In parallel, synchronise the edge trees
-      if (Pstream::parRun())
       {
+        2*surfaceHits.size() + 3*featureEdgeHits.size()
+      };
+      insertSurfacePointPairs
+        (
+          surfaceHits,
+          "surfaceConformationLocations_" + name(iterationNo) + ".obj",
+          pts
+        );
+      // In parallel, synchronise the edge trees
+      if (Pstream::parRun()) {
         nNotInserted +=
           synchroniseEdgeTrees(edgeToTreeShape, featureEdgeHits);
       }
       insertEdgePointGroups
-      (
-        featureEdgeHits,
-        "edgeConformationLocations_" + name(iterationNo) + ".obj",
-        pts
-      );
+        (
+          featureEdgeHits,
+          "edgeConformationLocations_" + name(iterationNo) + ".obj",
+          pts
+        );
       pts.shrink();
       Map<label> oldToNewIndices = insertPointPairs(pts, true, true);
       // Reindex the point pairs
       ptPairs_.reIndex(oldToNewIndices);
       //writePointPairs("pointPairs_" + name(iterationNo) + ".obj");
-      if (Pstream::parRun())
-      {
+      if (Pstream::parRun()) {
         sync
-        (
-          decomposition_().procBounds(),
-          referralVertices,
-          receivedVertices()
-        );
+          (
+            decomposition_().procBounds(),
+            referralVertices,
+            receivedVertices()
+          );
       }
     }
     timeCheck("Conformation iteration " + name(iterationNo));
     iterationNo++;
-    if (iterationNo == maxIterations)
-    {
+    if (iterationNo == maxIterations) {
       WARNING_IN("conformalVoronoiMesh::conformToSurface()")
         << "Maximum surface conformation iterations ("
         << maxIterations <<  ") reached." << endl;
     }
-    if (totalHits <= nNotInserted)
-    {
-      Info<< nl << "Total hits (" << totalHits
+    if (totalHits <= nNotInserted) {
+      Info << nl << "Total hits (" << totalHits
         << ") less than number of failed insertions (" << nNotInserted
         << "), stopping iterations" << endl;
       break;
     }
-    if (totalHits < hitLimit)
-    {
-      Info<< nl << "Total hits (" << totalHits
+    if (totalHits < hitLimit) {
+      Info << nl << "Total hits (" << totalHits
         << ") less than limit (" << hitLimit
         << "), stopping iterations" << endl;
     }
@@ -546,45 +433,42 @@ void mousse::conformalVoronoiMesh::buildSurfaceConformation()
   edgeLocationTreePtr_.clear();
   surfacePtLocationTreePtr_.clear();
 }
+
+
 mousse::label mousse::conformalVoronoiMesh::synchroniseSurfaceTrees
 (
   const DynamicList<label>& surfaceToTreeShape,
   pointIndexHitAndFeatureList& surfaceHits
 )
 {
-  Info<< "    Surface tree synchronisation" << endl;
+  Info << "    Surface tree synchronisation" << endl;
   pointIndexHitAndFeatureDynList synchronisedSurfLocations
-  (
+  {
     surfaceHits.size()
-  );
-  List<pointIndexHitAndFeatureDynList> procSurfLocations(Pstream::nProcs());
+  };
+  List<pointIndexHitAndFeatureDynList> procSurfLocations{Pstream::nProcs()};
   procSurfLocations[Pstream::myProcNo()] = surfaceHits;
   Pstream::gatherList(procSurfLocations);
   Pstream::scatterList(procSurfLocations);
-  List<labelHashSet> hits(Pstream::nProcs());
+  List<labelHashSet> hits{Pstream::nProcs()};
   label nStoppedInsertion = 0;
   // Do the nearness tests here
-  for (label procI = 0; procI < Pstream::nProcs(); ++procI)
-  {
+  for (label procI = 0; procI < Pstream::nProcs(); ++procI) {
     // Skip own points
-    if (procI >= Pstream::myProcNo())
-    {
+    if (procI >= Pstream::myProcNo()) {
       continue;
     }
     const pointIndexHitAndFeatureList& otherSurfEdges =
       procSurfLocations[procI];
-    FOR_ALL(otherSurfEdges, peI)
-    {
+    FOR_ALL(otherSurfEdges, peI) {
       const mousse::point& pt = otherSurfEdges[peI].first().hitPoint();
       pointIndexHit nearest;
       pointIsNearSurfaceLocation(pt, nearest);
       pointIndexHit nearestEdge;
       pointIsNearFeatureEdgeLocation(pt, nearestEdge);
-      if (nearest.hit() || nearestEdge.hit())
-      {
+      if (nearest.hit() || nearestEdge.hit()) {
         nStoppedInsertion++;
-        if (!hits[procI].found(peI))
-        {
+        if (!hits[procI].found(peI)) {
           hits[procI].insert(peI);
         }
       }
@@ -592,72 +476,52 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseSurfaceTrees
   }
   Pstream::listCombineGather(hits, plusEqOp<labelHashSet>());
   Pstream::listCombineScatter(hits);
-  FOR_ALL(surfaceHits, eI)
-  {
-    if (!hits[Pstream::myProcNo()].found(eI))
-    {
+  FOR_ALL(surfaceHits, eI) {
+    if (!hits[Pstream::myProcNo()].found(eI)) {
       synchronisedSurfLocations.append(surfaceHits[eI]);
-    }
-    else
-    {
+    } else {
       surfacePtLocationTreePtr_().remove(surfaceToTreeShape[eI]);
     }
   }
-//    FOR_ALL(synchronisedSurfLocations, pI)
-//    {
-//        appendToSurfacePtTree
-//        (
-//            synchronisedSurfLocations[pI].first().hitPoint()
-//        );
-//    }
   const label nNotInserted = returnReduce(nStoppedInsertion, sumOp<label>());
-  Info<< "        Not inserting total of " << nNotInserted << " locations"
+  Info << "        Not inserting total of " << nNotInserted << " locations"
     << endl;
   surfaceHits = synchronisedSurfLocations;
   return nNotInserted;
 }
+
+
 mousse::label mousse::conformalVoronoiMesh::synchroniseEdgeTrees
 (
   const DynamicList<label>& edgeToTreeShape,
   pointIndexHitAndFeatureList& featureEdgeHits
 )
 {
-  Info<< "    Edge tree synchronisation" << endl;
+  Info << "    Edge tree synchronisation" << endl;
   pointIndexHitAndFeatureDynList synchronisedEdgeLocations
-  (
+  {
     featureEdgeHits.size()
-  );
-  List<pointIndexHitAndFeatureDynList> procEdgeLocations(Pstream::nProcs());
+  };
+  List<pointIndexHitAndFeatureDynList> procEdgeLocations{Pstream::nProcs()};
   procEdgeLocations[Pstream::myProcNo()] = featureEdgeHits;
   Pstream::gatherList(procEdgeLocations);
   Pstream::scatterList(procEdgeLocations);
-  List<labelHashSet> hits(Pstream::nProcs());
+  List<labelHashSet> hits{Pstream::nProcs()};
   label nStoppedInsertion = 0;
   // Do the nearness tests here
-  for (label procI = 0; procI < Pstream::nProcs(); ++procI)
-  {
+  for (label procI = 0; procI < Pstream::nProcs(); ++procI) {
     // Skip own points
-    if (procI >= Pstream::myProcNo())
-    {
+    if (procI >= Pstream::myProcNo()) {
       continue;
     }
     pointIndexHitAndFeatureList& otherProcEdges = procEdgeLocations[procI];
-    FOR_ALL(otherProcEdges, peI)
-    {
+    FOR_ALL(otherProcEdges, peI) {
       const mousse::point& pt = otherProcEdges[peI].first().hitPoint();
       pointIndexHit nearest;
       pointIsNearFeatureEdgeLocation(pt, nearest);
-      if (nearest.hit())
-      {
-//                Pout<< "Not inserting " << peI << " " << pt << " "
-//                    << nearest.rawPoint() << " on proc " << procI
-//                    << ", near edge = " << nearest
-//                    << " near ftPt = "<< info
-//                    << " " << featureEdgeExclusionDistanceSqr(pt)
-//                    << endl;
+      if (nearest.hit()) {
         nStoppedInsertion++;
-        if (!hits[procI].found(peI))
-        {
+        if (!hits[procI].found(peI)) {
           hits[procI].insert(peI);
         }
       }
@@ -665,55 +529,46 @@ mousse::label mousse::conformalVoronoiMesh::synchroniseEdgeTrees
   }
   Pstream::listCombineGather(hits, plusEqOp<labelHashSet>());
   Pstream::listCombineScatter(hits);
-  FOR_ALL(featureEdgeHits, eI)
-  {
-    if (!hits[Pstream::myProcNo()].found(eI))
-    {
+  FOR_ALL(featureEdgeHits, eI) {
+    if (!hits[Pstream::myProcNo()].found(eI)) {
       synchronisedEdgeLocations.append(featureEdgeHits[eI]);
-    }
-    else
-    {
+    } else {
       edgeLocationTreePtr_().remove(edgeToTreeShape[eI]);
     }
   }
-//    FOR_ALL(synchronisedEdgeLocations, pI)
-//    {
-//        appendToEdgeLocationTree
-//        (
-//            synchronisedEdgeLocations[pI].first().hitPoint()
-//        );
-//    }
   const label nNotInserted = returnReduce(nStoppedInsertion, sumOp<label>());
-  Info<< "        Not inserting total of " << nNotInserted << " locations"
+  Info << "        Not inserting total of " << nNotInserted << " locations"
     << endl;
   featureEdgeHits = synchronisedEdgeLocations;
   return nNotInserted;
 }
+
+
 bool mousse::conformalVoronoiMesh::surfaceLocationConformsToInside
 (
   const pointIndexHitAndFeature& info
 ) const
 {
-  if (info.first().hit())
-  {
-    vectorField norm(1);
+  if (info.first().hit()) {
+    vectorField norm{1};
     geometryToConformTo_.getNormal
-    (
-      info.second(),
-      List<pointIndexHit>(1, info.first()),
-      norm
-    );
+      (
+        info.second(),
+        List<pointIndexHit>(1, info.first()),
+        norm
+      );
     const vector& n = norm[0];
     const scalar ppDist = pointPairDistance(info.first().hitPoint());
     const mousse::point innerPoint = info.first().hitPoint() - ppDist*n;
-    if (!geometryToConformTo_.inside(innerPoint))
-    {
+    if (!geometryToConformTo_.inside(innerPoint)) {
       return false;
     }
     return true;
   }
   return false;
 }
+
+
 bool mousse::conformalVoronoiMesh::dualCellSurfaceAnyIntersection
 (
   const Delaunay::Finite_vertices_iterator& vit
@@ -721,50 +576,36 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAnyIntersection
 {
   std::list<Facet> facets;
   incident_facets(vit, std::back_inserter(facets));
-  for
-  (
-    std::list<Facet>::iterator fit=facets.begin();
-    fit != facets.end();
-    ++fit
-  )
-  {
-    if
-    (
-      is_infinite(fit->first)
-    || is_infinite(fit->first->neighbor(fit->second))
-    || !fit->first->hasInternalPoint()
-    || !fit->first->neighbor(fit->second)->hasInternalPoint()
-    )
-    {
+  for (auto fit = facets.begin();
+       fit != facets.end();
+       ++fit) {
+    if (is_infinite(fit->first)
+        || is_infinite(fit->first->neighbor(fit->second))
+        || !fit->first->hasInternalPoint()
+        || !fit->first->neighbor(fit->second)->hasInternalPoint()) {
       continue;
     }
     mousse::point dE0 = fit->first->dual();
     mousse::point dE1 = fit->first->neighbor(fit->second)->dual();
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       mousse::point& a = dE0;
       mousse::point& b = dE1;
       bool inProc = clipLineToProc(topoint(vit->point()), a, b);
       // Check for the edge passing through a surface
-      if
-      (
-        inProc
-      && geometryToConformTo_.findSurfaceAnyIntersection(a, b)
-      )
-      {
+      if (inProc
+          && geometryToConformTo_.findSurfaceAnyIntersection(a, b)) {
         return true;
       }
-    }
-    else
-    {
-      if (geometryToConformTo_.findSurfaceAnyIntersection(dE0, dE1))
-      {
+    } else {
+      if (geometryToConformTo_.findSurfaceAnyIntersection(dE0, dE1)) {
         return true;
       }
     }
   }
   return false;
 }
+
+
 bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
 (
   const Delaunay::Finite_vertices_iterator& vit,
@@ -774,21 +615,13 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
   bool flagIntersection = false;
   std::list<Facet> facets;
   incident_facets(vit, std::back_inserter(facets));
-  for
-  (
-    std::list<Facet>::iterator fit = facets.begin();
-    fit != facets.end();
-    ++fit
-  )
-  {
-    if
-    (
-      is_infinite(fit->first)
-    || is_infinite(fit->first->neighbor(fit->second))
-    || !fit->first->hasInternalPoint()
-    || !fit->first->neighbor(fit->second)->hasInternalPoint()
-    )
-    {
+  for (auto fit = facets.begin();
+       fit != facets.end();
+       ++fit) {
+    if (is_infinite(fit->first)
+        || is_infinite(fit->first->neighbor(fit->second))
+        || !fit->first->hasInternalPoint()
+        || !fit->first->neighbor(fit->second)->hasInternalPoint()) {
       continue;
     }
     // Construct the dual edge and search for intersections of the edge
@@ -797,80 +630,66 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
     mousse::point dE1 = fit->first->neighbor(fit->second)->dual();
     pointIndexHit infoIntersection;
     label hitSurfaceIntersection = -1;
-    if (Pstream::parRun())
-    {
+    if (Pstream::parRun()) {
       bool inProc = clipLineToProc(topoint(vit->point()), dE0, dE1);
-      if (!inProc)
-      {
+      if (!inProc) {
         continue;
       }
     }
     geometryToConformTo_.findSurfaceNearestIntersection
-    (
-      dE0,
-      dE1,
-      infoIntersection,
-      hitSurfaceIntersection
-    );
-    if (infoIntersection.hit())
-    {
-      vectorField norm(1);
-      geometryToConformTo_.getNormal
       (
-        hitSurfaceIntersection,
-        List<pointIndexHit>(1, infoIntersection),
-        norm
+        dE0,
+        dE1,
+        infoIntersection,
+        hitSurfaceIntersection
       );
+    if (infoIntersection.hit()) {
+      vectorField norm{1};
+      geometryToConformTo_.getNormal
+        (
+          hitSurfaceIntersection,
+          List<pointIndexHit>(1, infoIntersection),
+          norm
+        );
       const vector& n = norm[0];
       pointFromPoint vertex = topoint(vit->point());
-      const plane p(infoIntersection.hitPoint(), n);
-      const plane::ray r(vertex, n);
+      const plane p{infoIntersection.hitPoint(), n};
+      const plane::ray r{vertex, n};
       const scalar d = p.normalIntersect(r);
       mousse::point newPoint = vertex + d*n;
       pointIndexHitAndFeature info;
       geometryToConformTo_.findSurfaceNearest
-      (
-        newPoint,
-        4.0*magSqr(newPoint - vertex),
-        info.first(),
-        info.second()
-      );
+        (
+          newPoint,
+          4.0*magSqr(newPoint - vertex),
+          info.first(),
+          info.second()
+        );
       bool rejectPoint = false;
-      if (!surfaceLocationConformsToInside(info))
-      {
+      if (!surfaceLocationConformsToInside(info)) {
         rejectPoint = true;
       }
-      if (!rejectPoint && info.first().hit())
-      {
-        if (!infoList.empty())
-        {
-          FOR_ALL(infoList, hitI)
-          {
+      if (!rejectPoint && info.first().hit()) {
+        if (!infoList.empty()) {
+          FOR_ALL(infoList, hitI) {
             // Reject point if the point is already added
-            if
-            (
-              infoList[hitI].first().index()
-            == info.first().index()
-            )
-            {
+            if (infoList[hitI].first().index() == info.first().index()) {
               rejectPoint = true;
               break;
             }
-            const mousse::point& p
-              = infoList[hitI].first().hitPoint();
+            const mousse::point& p =
+              infoList[hitI].first().hitPoint();
             const scalar separationDistance =
               mag(p - info.first().hitPoint());
             const scalar minSepDist =
               sqr
               (
-                foamyHexMeshControls().removalDistCoeff()
-               *targetCellSize(p)
+                foamyHexMeshControls().removalDistCoeff()*targetCellSize(p)
               );
             // Reject the point if it is too close to another
             // surface point.
             // Could merge the points?
-            if (separationDistance < minSepDist)
-            {
+            if (separationDistance < minSepDist) {
               rejectPoint = true;
               break;
             }
@@ -879,8 +698,7 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
       }
       // The normal ray from the vertex will not always result in a hit
       // because another surface may be in the way.
-      if (!rejectPoint && info.first().hit())
-      {
+      if (!rejectPoint && info.first().hit()) {
         flagIntersection = true;
         infoList.append(info);
       }
@@ -888,6 +706,8 @@ bool mousse::conformalVoronoiMesh::dualCellSurfaceAllIntersections
   }
   return flagIntersection;
 }
+
+
 bool mousse::conformalVoronoiMesh::clipLineToProc
 (
   const mousse::point& pt,
@@ -897,34 +717,23 @@ bool mousse::conformalVoronoiMesh::clipLineToProc
 {
   bool inProc = false;
   pointIndexHit findAnyIntersection = decomposition_().findLine(a, b);
-  if (!findAnyIntersection.hit())
-  {
+  if (!findAnyIntersection.hit()) {
     pointIndexHit info = decomposition_().findLine(a, pt);
-    if (!info.hit())
-    {
-      inProc = true;
-    }
-    else
-    {
-      inProc = false;
-    }
-  }
-  else
-  {
+    inProc = !info.hit();
+  } else {
     pointIndexHit info = decomposition_().findLine(a, pt);
-    if (!info.hit())
-    {
+    if (!info.hit()) {
       inProc = true;
       b = findAnyIntersection.hitPoint();
-    }
-    else
-    {
+    } else {
       inProc = true;
       a = findAnyIntersection.hitPoint();
     }
   }
   return inProc;
 }
+
+
 void mousse::conformalVoronoiMesh::dualCellLargestSurfaceProtrusion
 (
   const Delaunay::Finite_vertices_iterator& vit,
@@ -939,87 +748,64 @@ void mousse::conformalVoronoiMesh::dualCellLargestSurfaceProtrusion
   finite_incident_facets(vit, std::back_inserter(facets));
   pointFromPoint vert = topoint(vit->point());
   scalar maxProtrusionDistance = maxSurfaceProtrusion(vert);
-  for
-  (
-    std::list<Facet>::iterator fit = facets.begin();
-    fit != facets.end();
-    ++fit
-  )
-  {
+  for (auto fit = facets.begin();
+       fit != facets.end();
+       ++fit) {
     Cell_handle c1 = fit->first;
     Cell_handle c2 = fit->first->neighbor(fit->second);
-    if
-    (
-      is_infinite(c1) || is_infinite(c2)
-    || (
-        !c1->internalOrBoundaryDualVertex()
-      || !c2->internalOrBoundaryDualVertex()
-      )
-    || !c1->real() || !c2->real()
-    )
-    {
+    if (is_infinite(c1) || is_infinite(c2)
+        || (!c1->internalOrBoundaryDualVertex()
+            || !c2->internalOrBoundaryDualVertex())
+        || !c1->real() || !c2->real()) {
       continue;
     }
-//        mousse::point endPt = 0.5*(c1->dual() + c2->dual());
     mousse::point endPt = c1->dual();
-    if (magSqr(vert - c1->dual()) < magSqr(vert - c2->dual()))
-    {
+    if (magSqr(vert - c1->dual()) < magSqr(vert - c2->dual())) {
       endPt = c2->dual();
     }
-    if
-    (
-      magSqr(vert - endPt)
-     > magSqr(geometryToConformTo().globalBounds().mag())
-    )
-    {
+    if (magSqr(vert - endPt)
+        > magSqr(geometryToConformTo().globalBounds().mag())) {
       continue;
     }
     pointIndexHit surfHit;
     label hitSurface;
     geometryToConformTo_.findSurfaceNearestIntersection
-    (
-      vert,
-      endPt,
-      surfHit,
-      hitSurface
-    );
-    if (surfHit.hit())
-    {
-      vectorField norm(1);
-      allGeometry_[hitSurface].getNormal
       (
-        List<pointIndexHit>(1, surfHit),
-        norm
+        vert,
+        endPt,
+        surfHit,
+        hitSurface
       );
+    if (surfHit.hit()) {
+      vectorField norm{1};
+      allGeometry_[hitSurface].getNormal
+        (
+          List<pointIndexHit>{1, surfHit},
+          norm
+        );
       const vector& n = norm[0];
       const scalar normalProtrusionDistance
-      (
-        (endPt - surfHit.hitPoint()) & n
-      );
-      if (normalProtrusionDistance > maxProtrusionDistance)
       {
-        const plane p(surfHit.hitPoint(), n);
-        const plane::ray r(endPt, -n);
+        (endPt - surfHit.hitPoint()) & n
+      };
+      if (normalProtrusionDistance > maxProtrusionDistance) {
+        const plane p{surfHit.hitPoint(), n};
+        const plane::ray r{endPt, -n};
         const scalar d = p.normalIntersect(r);
         mousse::point newPoint = endPt - d*n;
         pointIndexHitAndFeature info;
         geometryToConformTo_.findSurfaceNearest
-        (
-          newPoint,
-          4.0*magSqr(newPoint - endPt),
-          info.first(),
-          info.second()
-        );
-        if (info.first().hit())
-        {
-          if
           (
-            surfaceLocationConformsToInside
-            (
-              pointIndexHitAndFeature(info.first(), info.second())
-            )
-          )
-          {
+            newPoint,
+            4.0*magSqr(newPoint - endPt),
+            info.first(),
+            info.second()
+          );
+        if (info.first().hit()) {
+          if (surfaceLocationConformsToInside
+              (
+                pointIndexHitAndFeature(info.first(), info.second())
+              )) {
             surfHitLargest = info.first();
             hitSurfaceLargest = info.second();
             maxProtrusionDistance = normalProtrusionDistance;
@@ -1030,15 +816,9 @@ void mousse::conformalVoronoiMesh::dualCellLargestSurfaceProtrusion
   }
   // Relying on short-circuit evaluation to not call for hitPoint when this
   // is a miss
-  if
-  (
-    surfHitLargest.hit()
-  && (
-      Pstream::parRun()
-    && !decomposition().positionOnThisProcessor(surfHitLargest.hitPoint())
-    )
-  )
-  {
+  if (surfHitLargest.hit()
+      && (Pstream::parRun()
+          && !decomposition().positionOnThisProcessor(surfHitLargest.hitPoint()))) {
     // A protrusion was identified, but not penetrating on this processor,
     // so set no-hit data and allow the other that should have this point
     // referred to generate it.
@@ -1046,6 +826,8 @@ void mousse::conformalVoronoiMesh::dualCellLargestSurfaceProtrusion
     hitSurfaceLargest = -1;
   }
 }
+
+
 void mousse::conformalVoronoiMesh::dualCellLargestSurfaceIncursion
 (
   const Delaunay::Finite_vertices_iterator& vit,
@@ -1060,106 +842,71 @@ void mousse::conformalVoronoiMesh::dualCellLargestSurfaceIncursion
   finite_incident_facets(vit, std::back_inserter(facets));
   pointFromPoint vert = topoint(vit->point());
   scalar minIncursionDistance = -maxSurfaceProtrusion(vert);
-  for
-  (
-    std::list<Facet>::iterator fit = facets.begin();
-    fit != facets.end();
-    ++fit
-  )
-  {
+  for (auto fit = facets.begin();
+       fit != facets.end();
+       ++fit) {
     Cell_handle c1 = fit->first;
     Cell_handle c2 = fit->first->neighbor(fit->second);
-    if
-    (
-      is_infinite(c1) || is_infinite(c2)
-    || (
-        !c1->internalOrBoundaryDualVertex()
-      || !c2->internalOrBoundaryDualVertex()
-      )
-    || !c1->real() || !c2->real()
-    )
-    {
+    if (is_infinite(c1) || is_infinite(c2)
+        || (!c1->internalOrBoundaryDualVertex()
+            || !c2->internalOrBoundaryDualVertex())
+        || !c1->real() || !c2->real()) {
       continue;
     }
-//        mousse::point endPt = 0.5*(c1->dual() + c2->dual());
     mousse::point endPt = c1->dual();
-    if (magSqr(vert - c1->dual()) < magSqr(vert - c2->dual()))
-    {
+    if (magSqr(vert - c1->dual()) < magSqr(vert - c2->dual())) {
       endPt = c2->dual();
     }
-    if
-    (
-      magSqr(vert - endPt)
-     > magSqr(geometryToConformTo().globalBounds().mag())
-    )
-    {
+    if (magSqr(vert - endPt)
+        > magSqr(geometryToConformTo().globalBounds().mag())) {
       continue;
     }
     pointIndexHit surfHit;
     label hitSurface;
     geometryToConformTo_.findSurfaceNearestIntersection
-    (
-      vert,
-      endPt,
-      surfHit,
-      hitSurface
-    );
-    if (surfHit.hit())
-    {
-      vectorField norm(1);
-      allGeometry_[hitSurface].getNormal
       (
-        List<pointIndexHit>(1, surfHit),
-        norm
+        vert,
+        endPt,
+        surfHit,
+        hitSurface
       );
-      const vector& n = norm[0];
-      scalar normalIncursionDistance
+    if (!surfHit.hit())
+      continue;
+    vectorField norm{1};
+    allGeometry_[hitSurface].getNormal(List<pointIndexHit>{1, surfHit}, norm);
+    const vector& n = norm[0];
+    scalar normalIncursionDistance{(endPt - surfHit.hitPoint()) & n};
+    if (normalIncursionDistance >= minIncursionDistance)
+      continue;
+    const plane p{surfHit.hitPoint(), n};
+    const plane::ray r{endPt, n};
+    const scalar d = p.normalIntersect(r);
+    mousse::point newPoint = endPt + d*n;
+    pointIndexHitAndFeature info;
+    geometryToConformTo_.findSurfaceNearest
       (
-        (endPt - surfHit.hitPoint()) & n
+        newPoint,
+        4.0*magSqr(newPoint - endPt),
+        info.first(),
+        info.second()
       );
-      if (normalIncursionDistance < minIncursionDistance)
-      {
-        const plane p(surfHit.hitPoint(), n);
-        const plane::ray r(endPt, n);
-        const scalar d = p.normalIntersect(r);
-        mousse::point newPoint = endPt + d*n;
-        pointIndexHitAndFeature info;
-        geometryToConformTo_.findSurfaceNearest
+    if (!info.first().hit())
+      continue;
+    if (surfaceLocationConformsToInside
         (
-          newPoint,
-          4.0*magSqr(newPoint - endPt),
-          info.first(),
-          info.second()
-        );
-        if (info.first().hit())
-        {
-          if
-          (
-            surfaceLocationConformsToInside
-            (
-              pointIndexHitAndFeature(info.first(), info.second())
-            )
-          )
-          {
-            surfHitLargest = info.first();
-            hitSurfaceLargest = info.second();
-            minIncursionDistance = normalIncursionDistance;
-          }
-        }
-      }
+          pointIndexHitAndFeature(info.first(), info.second())
+        )) {
+      surfHitLargest = info.first();
+      hitSurfaceLargest = info.second();
+      minIncursionDistance = normalIncursionDistance;
     }
   }
   // Relying on short-circuit evaluation to not call for hitPoint when this
   // is a miss
-  if
-  (
-    surfHitLargest.hit()
-  && (
-      Pstream::parRun()
-    && !decomposition().positionOnThisProcessor(surfHitLargest.hitPoint())
-    )
-  )
-  {
+  const auto& hP = surfHitLargest.hitPoint();
+  if (surfHitLargest.hit()
+      && (Pstream::parRun()
+          && !decomposition().positionOnThisProcessor(hP))) {
     // A protrusion was identified, but not penetrating on this processor,
     // so set no-hit data and allow the other that should have this point
     // referred to generate it.
@@ -1167,133 +914,23 @@ void mousse::conformalVoronoiMesh::dualCellLargestSurfaceIncursion
     hitSurfaceLargest = -1;
   }
 }
+
+
 void mousse::conformalVoronoiMesh::reportProcessorOccupancy()
 {
-  for
-  (
-    Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    vit++
-  )
-  {
-    if (vit->real())
-    {
-      if
-      (
-        Pstream::parRun()
-      && !decomposition().positionOnThisProcessor(topoint(vit->point()))
-      )
-      {
-        Pout<< topoint(vit->point()) << " is not on this processor "
-          << endl;
-      }
+  for (auto vit = finite_vertices_begin();
+       vit != finite_vertices_end();
+       vit++) {
+    if (!vit->real())
+      continue;
+    if (Pstream::parRun()
+        && !decomposition().positionOnThisProcessor(topoint(vit->point()))) {
+      Pout << topoint(vit->point()) << " is not on this processor " << endl;
     }
   }
 }
-//void mousse::conformalVoronoiMesh::reportSurfaceConformationQuality()
-//{
-//    Info<< nl << "Check surface conformation quality" << endl;
-//
-//    for
-//    (
-//        Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-//        vit != finite_vertices_end();
-//        vit++
-//    )
-//    {
-//        if (vit->internalOrBoundaryPoint())
-//        {
-//            mousse::point vert(topoint(vit->point()));
-//            pointIndexHit surfHit;
-//            label hitSurface;
-//
-//            dualCellLargestSurfaceProtrusion(vit, surfHit, hitSurface);
-//
-//            if (surfHit.hit())
-//            {
-//                Pout<< nl << "Residual penetration: " << nl
-//                    << vit->index() << nl
-//                    << vit->type() << nl
-//                    << vit->ppMaster() << nl
-//                    << "nearFeaturePt "
-//                    << nearFeaturePt(surfHit.hitPoint()) << nl
-//                    << vert << nl
-//                    << surfHit.hitPoint()
-//                    << endl;
-//            }
-//        }
-//    }
-//
-//    {
-//        // Assess close surface points
-//
-//        setVertexSizeAndAlignment();
-//
-//        for
-//        (
-//            Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-//            vit != finite_vertices_end();
-//            vit++
-//        )
-//        {
-//            if (vit->ppMaster())
-//            {
-//                std::list<Vertex_handle> adjacentVertices;
-//
-//                adjacent_vertices(vit, std::back_inserter(adjacentVertices));
-//
-//                mousse::point pt = topoint(vit->point());
-//
-//                // Pout<< nl << "vit: " << vit->index() << " "
-//                //     << topoint(vit->point())
-//                //     << endl;
-//
-//                // Pout<< adjacentVertices.size() << endl;
-//
-//                for
-//                (
-//                    std::list<Vertex_handle>::iterator
-//                    avit = adjacentVertices.begin();
-//                    avit != adjacentVertices.end();
-//                    ++avit
-//                )
-//                {
-//                    Vertex_handle avh = *avit;
-//
-//                    // The lower indexed vertex will perform the assessment
-//                    if
-//                    (
-//                        avh->ppMaster()
-//                     && vit->index() < avh->index()
-//                     && vit->type() != avh->type()
-//                    )
-//                    {
-//                        scalar targetSize = 0.2*averageAnyCellSize(vit, avh);
-//
-//                        // Pout<< "diff " << mag(pt - topoint(avh->point()))
-//                        //     << " " << targetSize << endl;
-//
-//                        if
-//                        (
-//                            magSqr(pt - topoint(avh->point()))
-//                          < sqr(targetSize)
-//                        )
-//                        {
-//                            Pout<< nl << "vit: " << vit->index() << " "
-//                                << topoint(vit->point())
-//                                << endl;
-//
-//                            Pout<< "    adjacent too close: "
-//                                << avh->index() << " "
-//                                << topoint(avh->point())
-//                                << endl;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+
+
 void mousse::conformalVoronoiMesh::limitDisplacement
 (
   const Delaunay::Finite_vertices_iterator& vit,
@@ -1303,8 +940,7 @@ void mousse::conformalVoronoiMesh::limitDisplacement
 {
   callCount++;
   // Do not allow infinite recursion
-  if (callCount > 7)
-  {
+  if (callCount > 7) {
     displacement = vector::zero;
     return;
   }
@@ -1313,52 +949,46 @@ void mousse::conformalVoronoiMesh::limitDisplacement
   bool limit = false;
   pointIndexHit surfHit;
   label hitSurface;
-  if (!geometryToConformTo_.globalBounds().contains(dispPt))
-  {
+  if (!geometryToConformTo_.globalBounds().contains(dispPt)) {
     // If dispPt is outside bounding box then displacement cuts boundary
     limit = true;
-  }
-  else if (geometryToConformTo_.findSurfaceAnyIntersection(pt, dispPt))
-  {
+  } else if (geometryToConformTo_.findSurfaceAnyIntersection(pt, dispPt)) {
     // Full surface penetration test
     limit = true;
-  }
-  else
-  {
+  } else {
     // Testing if the displaced position is too close to the surface.
     // Within twice the local surface point pair insertion distance is
     // considered "too close"
-    scalar searchDistanceSqr = sqr
-    (
-      2*vit->targetCellSize()
-     *foamyHexMeshControls().pointPairDistanceCoeff()
-    );
+    scalar searchDistanceSqr =
+      sqr
+      (
+        2*vit->targetCellSize()*foamyHexMeshControls().pointPairDistanceCoeff()
+      );
     geometryToConformTo_.findSurfaceNearest
-    (
-      dispPt,
-      searchDistanceSqr,
-      surfHit,
-      hitSurface
-    );
-    if (surfHit.hit())
-    {
+      (
+        dispPt,
+        searchDistanceSqr,
+        surfHit,
+        hitSurface
+      );
+    if (surfHit.hit()) {
       limit = true;
-      if (magSqr(pt - surfHit.hitPoint()) <= searchDistanceSqr)
-      {
+      if (magSqr(pt - surfHit.hitPoint()) <= searchDistanceSqr) {
         // Cannot limit displacement, point closer than tolerance
         displacement = vector::zero;
         return;
       }
     }
   }
-  if (limit)
-  {
+  if (limit) {
     // Halve the displacement and call this function again.  Will continue
     // recursively until the displacement is small enough.
     displacement *= 0.5;
     limitDisplacement(vit, displacement, callCount);
   }
 }
+
+
 mousse::scalar mousse::conformalVoronoiMesh::angleBetweenSurfacePoints
 (
   mousse::point pA,
@@ -1369,44 +999,44 @@ mousse::scalar mousse::conformalVoronoiMesh::angleBetweenSurfacePoints
   label pAsurfaceHit = -1;
   const scalar searchDist = 5.0*targetCellSize(pA);
   geometryToConformTo_.findSurfaceNearest
-  (
-    pA,
-    searchDist,
-    pAhit,
-    pAsurfaceHit
-  );
-  if (!pAhit.hit())
-  {
+    (
+      pA,
+      searchDist,
+      pAhit,
+      pAsurfaceHit
+    );
+  if (!pAhit.hit()) {
     return constant::mathematical::pi;
   }
-  vectorField norm(1);
+  vectorField norm{1};
   allGeometry_[pAsurfaceHit].getNormal
-  (
-    List<pointIndexHit>(1, pAhit),
-    norm
-  );
+    (
+      List<pointIndexHit>(1, pAhit),
+      norm
+    );
   const vector nA = norm[0];
   pointIndexHit pBhit;
   label pBsurfaceHit = -1;
   geometryToConformTo_.findSurfaceNearest
-  (
-    pB,
-    searchDist,
-    pBhit,
-    pBsurfaceHit
-  );
-  if (!pBhit.hit())
-  {
+    (
+      pB,
+      searchDist,
+      pBhit,
+      pBsurfaceHit
+    );
+  if (!pBhit.hit()) {
     return constant::mathematical::pi;
   }
   allGeometry_[pBsurfaceHit].getNormal
-  (
-    List<pointIndexHit>(1, pBhit),
-    norm
-  );
+    (
+      List<pointIndexHit>(1, pBhit),
+      norm
+    );
   const vector nB = norm[0];
   return vectorTools::cosPhi(nA, nB);
 }
+
+
 bool mousse::conformalVoronoiMesh::nearSurfacePoint
 (
   pointIndexHitAndFeature& pHit
@@ -1415,48 +1045,39 @@ bool mousse::conformalVoronoiMesh::nearSurfacePoint
   const mousse::point& pt = pHit.first().hitPoint();
   pointIndexHit closePoint;
   const bool closeToSurfacePt = pointIsNearSurfaceLocation(pt, closePoint);
-  if
-  (
-    closeToSurfacePt
-  && (
-      magSqr(pt - closePoint.hitPoint())
-     > sqr(pointPairDistance(pt))
-    )
-  )
-  {
+  if (closeToSurfacePt
+      && (magSqr(pt - closePoint.hitPoint()) > sqr(pointPairDistance(pt)))) {
     const scalar cosAngle =
       angleBetweenSurfacePoints(pt, closePoint.hitPoint());
     // @todo make this tolerance run-time selectable?
-    if (cosAngle < searchAngleOppositeSurface)
-    {
+    if (cosAngle < searchAngleOppositeSurface) {
       pointIndexHit pCloseHit;
       label pCloseSurfaceHit = -1;
       const scalar searchDist = targetCellSize(closePoint.hitPoint());
       geometryToConformTo_.findSurfaceNearest
-      (
-        closePoint.hitPoint(),
-        searchDist,
-        pCloseHit,
-        pCloseSurfaceHit
-      );
-      vectorField norm(1);
+        (
+          closePoint.hitPoint(),
+          searchDist,
+          pCloseHit,
+          pCloseSurfaceHit
+        );
+      vectorField norm{1};
       allGeometry_[pCloseSurfaceHit].getNormal
-      (
-        List<pointIndexHit>(1, pCloseHit),
-        norm
-      );
+        (
+          List<pointIndexHit>(1, pCloseHit),
+          norm
+        );
       const vector& nA = norm[0];
       pointIndexHit oppositeHit;
       label oppositeSurfaceHit = -1;
       geometryToConformTo_.findSurfaceNearestIntersection
-      (
-        closePoint.hitPoint() + 0.5*pointPairDistance(pt)*nA,
-        closePoint.hitPoint() + 5*targetCellSize(pt)*nA,
-        oppositeHit,
-        oppositeSurfaceHit
-      );
-      if (oppositeHit.hit())
-      {
+        (
+          closePoint.hitPoint() + 0.5*pointPairDistance(pt)*nA,
+          closePoint.hitPoint() + 5*targetCellSize(pt)*nA,
+          oppositeHit,
+          oppositeSurfaceHit
+        );
+      if (oppositeHit.hit()) {
         // Replace point
         pHit.first() = oppositeHit;
         pHit.second() = oppositeSurfaceHit;
@@ -1466,26 +1087,32 @@ bool mousse::conformalVoronoiMesh::nearSurfacePoint
   }
   return closeToSurfacePt;
 }
+
+
 bool mousse::conformalVoronoiMesh::appendToSurfacePtTree
 (
   const mousse::point& pt
 ) const
 {
- label startIndex = existingSurfacePtLocations_.size();
- existingSurfacePtLocations_.append(pt);
- label endIndex = existingSurfacePtLocations_.size();
- return surfacePtLocationTreePtr_().insert(startIndex, endIndex);
+  label startIndex = existingSurfacePtLocations_.size();
+  existingSurfacePtLocations_.append(pt);
+  label endIndex = existingSurfacePtLocations_.size();
+  return surfacePtLocationTreePtr_().insert(startIndex, endIndex);
 }
+
+
 bool mousse::conformalVoronoiMesh::appendToEdgeLocationTree
 (
   const mousse::point& pt
 ) const
 {
- label startIndex = existingEdgeLocations_.size();
- existingEdgeLocations_.append(pt);
- label endIndex = existingEdgeLocations_.size();
- return edgeLocationTreePtr_().insert(startIndex, endIndex);
+  label startIndex = existingEdgeLocations_.size();
+  existingEdgeLocations_.append(pt);
+  label endIndex = existingEdgeLocations_.size();
+  return edgeLocationTreePtr_().insert(startIndex, endIndex);
 }
+
+
 mousse::List<mousse::pointIndexHit>
 mousse::conformalVoronoiMesh::nearestFeatureEdgeLocations
 (
@@ -1496,26 +1123,29 @@ mousse::conformalVoronoiMesh::nearestFeatureEdgeLocations
   labelList elems
     = edgeLocationTreePtr_().findSphere(pt, exclusionRangeSqr);
   DynamicList<pointIndexHit> dynPointHit;
-  FOR_ALL(elems, elemI)
-  {
+  FOR_ALL(elems, elemI) {
     label index = elems[elemI];
-    const mousse::point& pointI
-      = edgeLocationTreePtr_().shapes().shapePoints()[index];
+    const mousse::point& pointI =
+      edgeLocationTreePtr_().shapes().shapePoints()[index];
     pointIndexHit nearHit(true, pointI, index);
     dynPointHit.append(nearHit);
   }
   return dynPointHit;
 }
+
+
 bool mousse::conformalVoronoiMesh::pointIsNearFeatureEdgeLocation
 (
   const mousse::point& pt
 ) const
 {
   const scalar exclusionRangeSqr = featureEdgeExclusionDistanceSqr(pt);
-  pointIndexHit info
-    = edgeLocationTreePtr_().findNearest(pt, exclusionRangeSqr);
+  pointIndexHit info =
+    edgeLocationTreePtr_().findNearest(pt, exclusionRangeSqr);
   return info.hit();
 }
+
+
 bool mousse::conformalVoronoiMesh::pointIsNearFeatureEdgeLocation
 (
   const mousse::point& pt,
@@ -1526,6 +1156,8 @@ bool mousse::conformalVoronoiMesh::pointIsNearFeatureEdgeLocation
   info = edgeLocationTreePtr_().findNearest(pt, exclusionRangeSqr);
   return info.hit();
 }
+
+
 bool mousse::conformalVoronoiMesh::pointIsNearSurfaceLocation
 (
   const mousse::point& pt
@@ -1535,6 +1167,8 @@ bool mousse::conformalVoronoiMesh::pointIsNearSurfaceLocation
   pointIsNearSurfaceLocation(pt, info);
   return info.hit();
 }
+
+
 bool mousse::conformalVoronoiMesh::pointIsNearSurfaceLocation
 (
   const mousse::point& pt,
@@ -1545,6 +1179,8 @@ bool mousse::conformalVoronoiMesh::pointIsNearSurfaceLocation
   info = surfacePtLocationTreePtr_().findNearest(pt, exclusionRangeSqr);
   return info.hit();
 }
+
+
 bool mousse::conformalVoronoiMesh::nearFeatureEdgeLocation
 (
   const pointIndexHit& pHit,
@@ -1555,47 +1191,31 @@ bool mousse::conformalVoronoiMesh::nearFeatureEdgeLocation
   const scalar exclusionRangeSqr = featureEdgeExclusionDistanceSqr(pt);
   bool closeToFeatureEdge =
     pointIsNearFeatureEdgeLocation(pt, nearestEdgeHit);
-  if (closeToFeatureEdge)
-  {
+  if (closeToFeatureEdge) {
     List<pointIndexHit> nearHits = nearestFeatureEdgeLocations(pt);
-    FOR_ALL(nearHits, elemI)
-    {
+    FOR_ALL(nearHits, elemI) {
       pointIndexHit& info = nearHits[elemI];
       // Check if the edge location that the new edge location is near to
       // "might" be on a different edge. If so, add it anyway.
       pointIndexHit edgeHit;
       label featureHit = -1;
       geometryToConformTo_.findEdgeNearest
-      (
-        pt,
-        exclusionRangeSqr,
-        edgeHit,
-        featureHit
-      );
-      const extendedFeatureEdgeMesh& eMesh
-        = geometryToConformTo_.features()[featureHit];
+        (
+          pt,
+          exclusionRangeSqr,
+          edgeHit,
+          featureHit
+        );
+      const extendedFeatureEdgeMesh& eMesh =
+        geometryToConformTo_.features()[featureHit];
       const vector& edgeDir = eMesh.edgeDirections()[edgeHit.index()];
       const vector lineBetweenPoints = pt - info.hitPoint();
-      const scalar cosAngle
-        = vectorTools::cosPhi(edgeDir, lineBetweenPoints);
-      // Allow the point to be added if it is almost at right angles to
-      // the other point. Also check it is not the same point.
-  //        Info<< cosAngle<< " "
-  //            << radToDeg(acos(cosAngle)) << " "
-  //            << searchConeAngle << " "
-  //            << radToDeg(acos(searchConeAngle)) << endl;
-      if
-      (
-        mag(cosAngle) < searchConeAngle
-      && (mag(lineBetweenPoints) > pointPairDistance(pt))
-      )
-      {
-        //pt = edgeHit.hitPoint();
-        //pHit.setPoint(pt);
+      const scalar cosAngle =
+        vectorTools::cosPhi(edgeDir, lineBetweenPoints);
+      if (mag(cosAngle) < searchConeAngle
+          && (mag(lineBetweenPoints) > pointPairDistance(pt))) {
         closeToFeatureEdge = false;
-      }
-      else
-      {
+      } else {
         closeToFeatureEdge = true;
         break;
       }
@@ -1603,52 +1223,58 @@ bool mousse::conformalVoronoiMesh::nearFeatureEdgeLocation
   }
   return closeToFeatureEdge;
 }
+
+
 void mousse::conformalVoronoiMesh::buildEdgeLocationTree
 (
   const DynamicList<mousse::point>& existingEdgeLocations
 ) const
 {
   treeBoundBox overallBb
-  (
+  {
     geometryToConformTo_.globalBounds().extend(rndGen_, 1e-4)
-  );
+  };
   overallBb.min() -= mousse::point(ROOTVSMALL, ROOTVSMALL, ROOTVSMALL);
   overallBb.max() += mousse::point(ROOTVSMALL, ROOTVSMALL, ROOTVSMALL);
   edgeLocationTreePtr_.reset
   (
     new dynamicIndexedOctree<dynamicTreeDataPoint>
-    (
-      dynamicTreeDataPoint(existingEdgeLocations),
+    {
+      dynamicTreeDataPoint{existingEdgeLocations},
       overallBb,  // overall search domain
       10,         // max levels, n/a
       20.0,       // maximum ratio of cubes v.s. cells
       100.0       // max. duplicity; n/a since no bounding boxes.
-    )
+    }
   );
 }
+
+
 void mousse::conformalVoronoiMesh::buildSurfacePtLocationTree
 (
   const DynamicList<mousse::point>& existingSurfacePtLocations
 ) const
 {
   treeBoundBox overallBb
-  (
+  {
     geometryToConformTo_.globalBounds().extend(rndGen_, 1e-4)
-  );
+  };
   overallBb.min() -= mousse::point(ROOTVSMALL, ROOTVSMALL, ROOTVSMALL);
   overallBb.max() += mousse::point(ROOTVSMALL, ROOTVSMALL, ROOTVSMALL);
   surfacePtLocationTreePtr_.reset
   (
     new dynamicIndexedOctree<dynamicTreeDataPoint>
-    (
-      dynamicTreeDataPoint(existingSurfacePtLocations),
+    {
+      dynamicTreeDataPoint{existingSurfacePtLocations},
       overallBb,  // overall search domain
       10,         // max levels, n/a
       20.0,       // maximum ratio of cubes v.s. cells
       100.0       // max. duplicity; n/a since no bounding boxes.
-    )
+    }
   );
 }
+
+
 void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
 (
   const mousse::point& vit,
@@ -1665,59 +1291,44 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
 {
   const scalar cellSize = targetCellSize(vit);
   const scalar cellSizeSqr = sqr(cellSize);
-  FOR_ALL(surfaceIntersections, sI)
-  {
+  FOR_ALL(surfaceIntersections, sI) {
     pointIndexHitAndFeature surfHitI = surfaceIntersections[sI];
     bool keepSurfacePoint = true;
-    if (!surfHitI.first().hit())
-    {
+    if (!surfHitI.first().hit()) {
       continue;
     }
     const mousse::point& surfPt = surfHitI.first().hitPoint();
     bool isNearFeaturePt = nearFeaturePt(surfPt);
     bool isNearFeatureEdge = surfacePtNearFeatureEdge(surfPt);
     bool isNearSurfacePt = nearSurfacePoint(surfHitI);
-    if (isNearFeaturePt || isNearSurfacePt || isNearFeatureEdge)
-    {
+    if (isNearFeaturePt || isNearSurfacePt || isNearFeatureEdge) {
       keepSurfacePoint = false;
     }
-    List<List<pointIndexHit> > edHitsByFeature;
+    List<List<pointIndexHit>> edHitsByFeature;
     labelList featuresHit;
     const scalar searchRadiusSqr = edgeSearchDistCoeffSqr*cellSizeSqr;
     geometryToConformTo_.findAllNearestEdges
-    (
-      surfPt,
-      searchRadiusSqr,
-      edHitsByFeature,
-      featuresHit
-    );
-    FOR_ALL(edHitsByFeature, i)
-    {
+      (
+        surfPt,
+        searchRadiusSqr,
+        edHitsByFeature,
+        featuresHit
+      );
+    FOR_ALL(edHitsByFeature, i) {
       const label featureHit = featuresHit[i];
       List<pointIndexHit>& edHits = edHitsByFeature[i];
-      FOR_ALL(edHits, eHitI)
-      {
+      FOR_ALL(edHits, eHitI) {
         pointIndexHit& edHit = edHits[eHitI];
-        if (edHit.hit())
-        {
+        if (edHit.hit()) {
           const mousse::point& edPt = edHit.hitPoint();
-          if
-          (
-            Pstream::parRun()
-          && !decomposition().positionOnThisProcessor(edPt)
-          )
-          {
+          if (Pstream::parRun()
+              && !decomposition().positionOnThisProcessor(edPt)) {
             // Do not insert
             continue;
           }
-          if (!nearFeaturePt(edPt))
-          {
-            if
-            (
-              magSqr(edPt - surfPt)
-             < surfacePtReplaceDistCoeffSqr*cellSizeSqr
-            )
-            {
+          if (!nearFeaturePt(edPt)) {
+            if (magSqr(edPt - surfPt)
+                < surfacePtReplaceDistCoeffSqr*cellSizeSqr) {
               // If the point is within a given distance of a
               // feature edge, give control to edge control points
               // instead, this will prevent "pits" forming.
@@ -1725,16 +1336,7 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
               keepSurfacePoint = false;
             }
             pointIndexHit nearestEdgeHit;
-            if
-            (
-//                            !pointIsNearFeatureEdgeLocation
-//                            (
-//                                edPt,
-//                                nearestEdgeHit
-//                            )
-              !nearFeatureEdgeLocation(edHit, nearestEdgeHit)
-            )
-            {
+            if (!nearFeatureEdgeLocation(edHit, nearestEdgeHit)) {
               appendToEdgeLocationTree(edPt);
               edgeToTreeShape.append
               (
@@ -1746,26 +1348,17 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
               (
                 pointIndexHitAndFeature(edHit, featureHit)
               );
-//                            Info<< "Add " << existingEdgeLocations_.size() - 1
-//                                << " " << magSqr(edPt - surfPt) << endl;
               surfacePtToEdgePtDist.insert
               (
                 existingEdgeLocations_.size() - 1,
                 magSqr(edPt - surfPt)
               );
-            }
-            else if (firstPass)
-            {
+            } else if (firstPass) {
               label hitIndex = nearestEdgeHit.index();
-//                            Info<< "Close to " << nearestEdgeHit << endl;
-              if
-              (
-                magSqr(edPt - surfPt)
-               < surfacePtToEdgePtDist[hitIndex]
-              )
-              {
+              if (magSqr(edPt - surfPt)
+                  < surfacePtToEdgePtDist[hitIndex]) {
                 featureEdgeHits[hitIndex] =
-                 pointIndexHitAndFeature(edHit, featureHit);
+                  pointIndexHitAndFeature(edHit, featureHit);
                 existingEdgeLocations_[hitIndex] =
                   edHit.hitPoint();
                 surfacePtToEdgePtDist[hitIndex] =
@@ -1785,92 +1378,75 @@ void mousse::conformalVoronoiMesh::addSurfaceAndEdgeHits
         }
       }
     }
-    if (keepSurfacePoint)
-    {
+    if (keepSurfacePoint) {
       surfaceHits.append(surfHitI);
       appendToSurfacePtTree(surfPt);
       surfaceToTreeShape.append(existingSurfacePtLocations_.size() - 1);
-//            addedPoints.write(surfPt);
-    }
-    else
-    {
-//            removedPoints.write(surfPt);
     }
   }
 }
+
+
 void mousse::conformalVoronoiMesh::storeSurfaceConformation()
 {
-  Info<< nl << "Storing surface conformation" << endl;
+  Info << nl << "Storing surface conformation" << endl;
   surfaceConformationVertices_.clear();
   // Use a temporary dynamic list to speed up insertion.
-  DynamicList<Vb> tempSurfaceVertices(number_of_vertices()/10);
-  for
-  (
-    Delaunay::Finite_vertices_iterator vit = finite_vertices_begin();
-    vit != finite_vertices_end();
-    vit++
-  )
+  DynamicList<Vb> tempSurfaceVertices
   {
+    static_cast<label>(number_of_vertices())/10
+  };
+  for (auto vit = finite_vertices_begin();
+       vit != finite_vertices_end();
+       vit++) {
     // Store points that are not referred, part of a pair, but not feature
     // points
-    if
-    (
-      !vit->referred()
-    && vit->boundaryPoint()
-    && !vit->featurePoint()
-    && !vit->constrained()
-    )
-    {
+    if (!vit->referred() && vit->boundaryPoint()
+        && !vit->featurePoint() && !vit->constrained()) {
       tempSurfaceVertices.append
       (
         Vb
-        (
+        {
           vit->point(),
           vit->index(),
           vit->type(),
           Pstream::myProcNo()
-        )
+        }
       );
     }
   }
   tempSurfaceVertices.shrink();
   surfaceConformationVertices_.transfer(tempSurfaceVertices);
-  Info<< "    Stored "
-    << returnReduce
-    (
-      label(surfaceConformationVertices_.size()),
-      sumOp<label>()
-    )
+  Info << "    Stored "
+    << returnReduce(label(surfaceConformationVertices_.size()), sumOp<label>())
     << " vertices" << nl << endl;
 }
+
+
 void mousse::conformalVoronoiMesh::reinsertSurfaceConformation()
 {
-  Info<< nl << "Reinserting stored surface conformation" << endl;
+  Info << nl << "Reinserting stored surface conformation" << endl;
   Map<label> oldToNewIndices =
     insertPointPairs(surfaceConformationVertices_, true, true);
   ptPairs_.reIndex(oldToNewIndices);
-  PackedBoolList selectedElems(surfaceConformationVertices_.size(), true);
-  FOR_ALL(surfaceConformationVertices_, vI)
-  {
+  PackedBoolList selectedElems{surfaceConformationVertices_.size(), true};
+  FOR_ALL(surfaceConformationVertices_, vI) {
     Vb& v = surfaceConformationVertices_[vI];
     label& vIndex = v.index();
     Map<label>::const_iterator iter = oldToNewIndices.find(vIndex);
-    if (iter != oldToNewIndices.end())
-    {
+    if (iter != oldToNewIndices.end()) {
       const label newIndex = iter();
-      if (newIndex != -1)
-      {
+      if (newIndex != -1) {
         vIndex = newIndex;
-      }
-      else
-      {
+      } else {
         selectedElems[vI] = false;
       }
     }
   }
-  inplaceSubset<PackedBoolList, List<Vb> >
+  inplaceSubset<PackedBoolList, List<Vb>>
   (
     selectedElems,
     surfaceConformationVertices_
   );
 }
+

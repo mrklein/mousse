@@ -10,13 +10,12 @@
 //   Dummy version of turbulentIntensityKineticEnergyInlet patch type for
 //   symmetric tensors provided for compatibility with R utility.
 //   Value is given by a fixed-value condition.
-// SourceFiles
-//   turbulent_intensity_kinetic_energy_inlet_fv_patch_symm_tensor_field.cpp
 
 #include "fixed_value_fv_patch_fields.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
 :
   public fixedValueFvPatchSymmTensorField
@@ -56,13 +55,14 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchSymmTensorField> clone() const
     {
-      return tmp<fvPatchSymmTensorField>
-      {
-        new turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
+      return
+        tmp<fvPatchSymmTensorField>
         {
-          *this
-        }
-      };
+          new turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
+          {
+            *this
+          }
+        };
     }
     //- Construct as copy setting internal field reference
     turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
@@ -76,18 +76,22 @@ public:
       const DimensionedField<symmTensor, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchSymmTensorField>
-      {
-        new turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
+      return
+        tmp<fvPatchSymmTensorField>
         {
-          *this,
-          iF
-        }
-      };
+          new turbulentIntensityKineticEnergyInletFvPatchSymmTensorField
+          {
+            *this,
+              iF
+          }
+        };
     }
   // Member functions
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

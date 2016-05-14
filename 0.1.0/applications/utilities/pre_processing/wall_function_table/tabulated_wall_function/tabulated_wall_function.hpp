@@ -8,8 +8,6 @@
 //   mousse::tabulatedWallFunctions::tabulatedWallFunction
 // Description
 //   Base class for models that generate tabulated wall function data.
-// SourceFiles
-//   tabulated_wall_function.cpp
 
 #include "dictionary.hpp"
 #include "poly_mesh.hpp"
@@ -17,10 +15,10 @@
 #include "switch.hpp"
 #include "uniform_interpolation_table.hpp"
 
-namespace mousse
-{
-namespace tabulatedWallFunctions
-{
+
+namespace mousse {
+namespace tabulatedWallFunctions {
+
 class tabulatedWallFunction
 {
 protected:
@@ -76,8 +74,10 @@ public:
       //- Write
       virtual void write();
 };
+
 }  // namespace tabulatedWallFunctions
 }  // namespace mousse
+
 
 inline const mousse::word&
 mousse::tabulatedWallFunctions::tabulatedWallFunction::invertedTableName() const
@@ -85,9 +85,11 @@ mousse::tabulatedWallFunctions::tabulatedWallFunction::invertedTableName() const
   return invertedTableName_;
 }
 
+
 inline const mousse::uniformInterpolationTable<mousse::scalar>&
 mousse::tabulatedWallFunctions::tabulatedWallFunction::invertedTable() const
 {
   return invertedTable_;
 }
+
 #endif

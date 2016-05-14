@@ -4,7 +4,11 @@
 
 #include "word.hpp"
 #include "label.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 word itoa(const label n);
+
 }  // namespace mousse
+

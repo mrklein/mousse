@@ -21,8 +21,7 @@
 //    overlaps any part of the space defined by the structure, and whether a
 //    ray (Voronoi edge) penetrates any part of the space defined by the
 //    structure, this is what determines if points get referred to a processor.
-// SourceFiles
-//   background_mesh_decomposition.cpp
+
 #include "fv_mesh.hpp"
 #include "hex_ref8.hpp"
 #include "cell_set.hpp"
@@ -43,13 +42,17 @@
 #include "tree_data_primitive_patch.hpp"
 #include "volume_type.hpp"
 #include "cgal_triangulation_3d_defs.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef PrimitivePatch<face, List, const pointField, point> bPatch;
 typedef treeDataPrimitivePatch<bPatch> treeDataBPatch;
 class Time;
 class Random;
 class conformationSurfaces;
+
+
 class backgroundMeshDecomposition
 {
   // Private data
@@ -70,7 +73,7 @@ class backgroundMeshDecomposition
     //  mesh of this processor
     autoPtr<bPatch> boundaryFacesPtr_;
     //- Search tree for the boundaryFaces_ patch
-    autoPtr<indexedOctree<treeDataBPatch> > bFTreePtr_;
+    autoPtr<indexedOctree<treeDataBPatch>> bFTreePtr_;
     //- The bounds of all background meshes on all processors
     treeBoundBoxList allBackgroundMeshBounds_;
     //- The overall bounds of all of the background meshes, used to test if
@@ -186,7 +189,7 @@ public:
     //  launched from, it is assumed that the point is on that processor.
     //  The index data member of the pointIndexHit is replaced with the
     //  processor index.
-    List<List<pointIndexHit> > intersectsProcessors
+    List<List<pointIndexHit>> intersectsProcessors
     (
       const List<point>& starts,
       const List<point>& ends,
@@ -216,7 +219,9 @@ public:
       //- Return the current decomposition method
       inline const decompositionMethod& decomposer() const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 const mousse::fvMesh& mousse::backgroundMeshDecomposition::mesh() const
@@ -224,11 +229,13 @@ const mousse::fvMesh& mousse::backgroundMeshDecomposition::mesh() const
   return mesh_;
 }
 
+
 const mousse::indexedOctree<mousse::treeDataBPatch>&
 mousse::backgroundMeshDecomposition::tree() const
 {
   return bFTreePtr_();
 }
+
 
 const mousse::treeBoundBox&
 mousse::backgroundMeshDecomposition::procBounds() const
@@ -236,15 +243,18 @@ mousse::backgroundMeshDecomposition::procBounds() const
   return allBackgroundMeshBounds_[Pstream::myProcNo()];
 }
 
+
 const mousse::labelList& mousse::backgroundMeshDecomposition::cellLevel() const
 {
   return meshCutter_.cellLevel();
 }
 
+
 const mousse::labelList& mousse::backgroundMeshDecomposition::pointLevel() const
 {
   return meshCutter_.pointLevel();
 }
+
 
 const mousse::decompositionMethod&
 mousse::backgroundMeshDecomposition::decomposer() const
@@ -252,7 +262,6 @@ mousse::backgroundMeshDecomposition::decomposer() const
   return decomposerPtr_();
 }
 
-#ifdef NoRepository
-  #include "background_mesh_decomposition_templates.cpp"
-#endif
+#include "background_mesh_decomposition.ipp"
+
 #endif

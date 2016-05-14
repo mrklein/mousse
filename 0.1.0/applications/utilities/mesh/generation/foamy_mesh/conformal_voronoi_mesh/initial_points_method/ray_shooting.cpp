@@ -5,11 +5,15 @@
 #include "ray_shooting.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "tri_surface_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(rayShooting, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(initialPointsMethod, rayShooting, dictionary);
+
+
 // Private Member Functions 
 void rayShooting::splitLine
 (
@@ -18,74 +22,46 @@ void rayShooting::splitLine
   DynamicList<Vb::Point>& initialPoints
 ) const
 {
-  mousse::point midPoint(l.centre());
-  const scalar localCellSize(cellShapeControls().cellSize(midPoint));
+  mousse::point midPoint{l.centre()};
+  const scalar localCellSize{cellShapeControls().cellSize(midPoint)};
   const scalar minDistFromSurfaceSqr
-  (
-    minimumSurfaceDistanceCoeffSqr_
-   *sqr(localCellSize)
-  );
-  if
-  (
-    magSqr(midPoint - l.start()) > minDistFromSurfaceSqr
-  && magSqr(midPoint - l.end()) > minDistFromSurfaceSqr
-  )
   {
-    // Add extra points if line length is much bigger than local cell size
-//        const scalar lineLength(l.mag());
-//
-//        if (lineLength > 4.0*localCellSize)
-//        {
-//            splitLine
-//            (
-//                line<point, point>(l.start(), midPoint),
-//                pert,
-//                initialPoints
-//            );
-//
-//            splitLine
-//            (
-//                line<point, point>(midPoint, l.end()),
-//                pert,
-//                initialPoints
-//            );
-//        }
-    if (randomiseInitialGrid_)
-    {
+    minimumSurfaceDistanceCoeffSqr_*sqr(localCellSize)
+  };
+  if (magSqr(midPoint - l.start()) > minDistFromSurfaceSqr
+      && magSqr(midPoint - l.end()) > minDistFromSurfaceSqr) {
+    if (randomiseInitialGrid_) {
       mousse::point newPt
-      (
+      {
         midPoint.x() + pert*(rndGen().scalar01() - 0.5),
         midPoint.y() + pert*(rndGen().scalar01() - 0.5),
         midPoint.z() + pert*(rndGen().scalar01() - 0.5)
-      );
-      if
-      (
-        !geometryToConformTo().findSurfaceAnyIntersection
-        (
-          midPoint,
-          newPt
-        )
-      )
-      {
+      };
+      if (!geometryToConformTo().findSurfaceAnyIntersection
+          (
+            midPoint,
+            newPt
+          )) {
         midPoint = newPt;
-      }
-      else
-      {
+      } else {
         WARNING_IN
         (
           "rayShooting::splitLine"
           "("
-          "   const line<point,point>&,"
-          "   const scalar&,"
-          "   DynamicList<Vb::Point>&"
+          "  const line<point,point>&,"
+          "  const scalar&,"
+          "  DynamicList<Vb::Point>&"
           ")"
-        )   << "Point perturbation crosses a surface. Not inserting."
-          << endl;
+        )
+        << "Point perturbation crosses a surface. Not inserting."
+        << endl;
       }
     }
     initialPoints.append(toPoint(midPoint));
   }
 }
+
+
 // Constructors 
 rayShooting::rayShooting
 (
@@ -98,7 +74,7 @@ rayShooting::rayShooting
 )
 :
   initialPointsMethod
-  (
+  {
     typeName,
     initialPointsDict,
     runTime,
@@ -106,50 +82,44 @@ rayShooting::rayShooting
     geometryToConformTo,
     cellShapeControls,
     decomposition
-  ),
-  randomiseInitialGrid_(detailsDict().lookup("randomiseInitialGrid")),
+  },
+  randomiseInitialGrid_{detailsDict().lookup("randomiseInitialGrid")},
   randomPerturbationCoeff_
-  (
+  {
     readScalar(detailsDict().lookup("randomPerturbationCoeff"))
-  )
+  }
 {}
+
+
 // Member Functions 
 List<Vb::Point> rayShooting::initialPoints() const
 {
   // Loop over surface faces
   const searchableSurfaces& surfaces = geometryToConformTo().geometry();
   const labelList& surfacesToConformTo = geometryToConformTo().surfaces();
-  const scalar maxRayLength(surfaces.bounds().mag());
+  const scalar maxRayLength{surfaces.bounds().mag()};
   // Initialise points list
   label initialPointsSize = 0;
-  FOR_ALL(surfaces, surfI)
-  {
+  FOR_ALL(surfaces, surfI) {
     initialPointsSize += surfaces[surfI].size();
   }
-  DynamicList<Vb::Point> initialPoints(initialPointsSize);
-  FOR_ALL(surfacesToConformTo, surfI)
-  {
+  DynamicList<Vb::Point> initialPoints{initialPointsSize};
+  FOR_ALL(surfacesToConformTo, surfI) {
     const searchableSurface& s = surfaces[surfacesToConformTo[surfI]];
-    tmp<pointField> faceCentresTmp(s.coordinates());
+    tmp<pointField> faceCentresTmp{s.coordinates()};
     const pointField& faceCentres = faceCentresTmp();
-    Info<< "    Shoot rays from " << s.name() << nl
+    Info << "    Shoot rays from " << s.name() << nl
       << "        nRays = " << faceCentres.size() << endl;
-    FOR_ALL(faceCentres, fcI)
-    {
+    FOR_ALL(faceCentres, fcI) {
       const mousse::point& fC = faceCentres[fcI];
-      if
-      (
-        Pstream::parRun()
-      && !decomposition().positionOnThisProcessor(fC)
-      )
-      {
+      if (Pstream::parRun()
+          && !decomposition().positionOnThisProcessor(fC)) {
         continue;
       }
       const scalar pert
-      (
-        randomPerturbationCoeff_
-       *cellShapeControls().cellSize(fC)
-      );
+      {
+        randomPerturbationCoeff_*cellShapeControls().cellSize(fC)
+      };
       pointIndexHit surfHitStart;
       label hitSurfaceStart;
       // Face centres should be on the surface so search distance can be
@@ -161,11 +131,11 @@ List<Vb::Point> rayShooting::initialPoints() const
         surfHitStart,
         hitSurfaceStart
       );
-      vectorField normStart(1, vector::min);
+      vectorField normStart{1, vector::min};
       geometryToConformTo().getNormal
       (
         hitSurfaceStart,
-        List<pointIndexHit>(1, surfHitStart),
+        List<pointIndexHit>{1, surfHitStart},
         normStart
       );
       pointIndexHit surfHitEnd;
@@ -177,20 +147,17 @@ List<Vb::Point> rayShooting::initialPoints() const
         surfHitEnd,
         hitSurfaceEnd
       );
-      if (surfHitEnd.hit())
-      {
-        vectorField normEnd(1, vector::min);
+      if (surfHitEnd.hit()) {
+        vectorField normEnd{1, vector::min};
         geometryToConformTo().getNormal
         (
           hitSurfaceEnd,
           List<pointIndexHit>(1, surfHitEnd),
           normEnd
         );
-        if ((normStart[0] & normEnd[0]) < 0)
-        {
-          line<point, point> l(fC, surfHitEnd.hitPoint());
-          if (Pstream::parRun())
-          {
+        if ((normStart[0] & normEnd[0]) < 0) {
+          line<point, point> l{fC, surfHitEnd.hitPoint()};
+          if (Pstream::parRun()) {
             // Clip the line in parallel
             pointIndexHit procIntersection =
               decomposition().findLine
@@ -198,14 +165,8 @@ List<Vb::Point> rayShooting::initialPoints() const
                 l.start(),
                 l.end()
               );
-            if (procIntersection.hit())
-            {
-              l =
-                line<point, point>
-                (
-                  l.start(),
-                  procIntersection.hitPoint()
-                );
+            if (procIntersection.hit()) {
+              l = line<point, point>{l.start(), procIntersection.hitPoint()};
             }
           }
           splitLine
@@ -220,4 +181,6 @@ List<Vb::Point> rayShooting::initialPoints() const
   }
   return initialPoints.shrink();
 }
+
 }  // namespace mousse
+

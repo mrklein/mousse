@@ -10,7 +10,9 @@
 #include "face_set.hpp"
 #include "vol_fields.hpp"
 
+
 using namespace mousse;
+
 
 template<class Type>
 bool setCellFieldType
@@ -22,8 +24,7 @@ bool setCellFieldType
 )
 {
   typedef GeometricField<Type, fvPatchField, volMesh> fieldType;
-  if (fieldTypeDesc != fieldType::typeName + "Value")
-  {
+  if (fieldTypeDesc != fieldType::typeName + "Value") {
     return false;
   }
   word fieldName{fieldValueStream};
@@ -36,42 +37,35 @@ bool setCellFieldType
     IOobject::MUST_READ
   };
   // Check the "constant" directory
-  if (!fieldHeader.headerOk())
-  {
-    fieldHeader = IOobject
-    {
-      fieldName,
-      mesh.time().constant(),
-      mesh,
-      IOobject::MUST_READ
-    };
+  if (!fieldHeader.headerOk()) {
+    fieldHeader =
+      IOobject
+      {
+        fieldName,
+        mesh.time().constant(),
+        mesh,
+        IOobject::MUST_READ
+      };
   }
   // Check field exists
-  if (fieldHeader.headerOk())
-  {
+  if (fieldHeader.headerOk()) {
     Info << "    Setting internal values of "
       << fieldHeader.headerClassName()
       << " " << fieldName << endl;
     fieldType field{fieldHeader, mesh};
     const Type& value = pTraits<Type>(fieldValueStream);
-    if (selectedCells.size() == field.size())
-    {
+    if (selectedCells.size() == field.size()) {
       field.internalField() = value;
-    }
-    else
-    {
-      FOR_ALL(selectedCells, celli)
-      {
+    } else {
+      FOR_ALL(selectedCells, celli) {
         field[selectedCells[celli]] = value;
       }
     }
-    FOR_ALL(field.boundaryField(), patchi)
-    {
+    FOR_ALL(field.boundaryField(), patchi) {
       field.boundaryField()[patchi] =
         field.boundaryField()[patchi].patchInternalField();
     }
-    if (!field.write())
-    {
+    if (!field.write()) {
       FATAL_ERROR_IN
       (
         "void setCellFieldType"
@@ -80,9 +74,7 @@ bool setCellFieldType
       )
       << "Failed writing field " << fieldName << endl;
     }
-  }
-  else
-  {
+  } else {
     WARNING_IN
     (
       "void setCellFieldType"
@@ -95,6 +87,7 @@ bool setCellFieldType
   }
   return true;
 }
+
 
 class setCellField
 {
@@ -115,33 +108,24 @@ public:
       mesh_{mesh},
       selectedCells_{selectedCells}
     {}
-    autoPtr<setCellField> operator()(Istream& fieldValues) const
+    autoPtr<setCellField> operator()(Istream& vals) const
     {
-      word fieldType{fieldValues};
-      if
-      (
-       !(
-          setCellFieldType<scalar>
-            (fieldType, mesh_, selectedCells_, fieldValues)
-        || setCellFieldType<vector>
-            (fieldType, mesh_, selectedCells_, fieldValues)
-        || setCellFieldType<sphericalTensor>
-            (fieldType, mesh_, selectedCells_, fieldValues)
-        || setCellFieldType<symmTensor>
-            (fieldType, mesh_, selectedCells_, fieldValues)
-        || setCellFieldType<tensor>
-            (fieldType, mesh_, selectedCells_, fieldValues)
-        )
-      )
-      {
+      word fT{vals};
+      const auto& sC = selectedCells_;
+      if (!(setCellFieldType<scalar>(fT, mesh_, sC, vals)
+            || setCellFieldType<vector>(fT, mesh_, sC, vals)
+            || setCellFieldType<sphericalTensor>(fT, mesh_, sC, vals)
+            || setCellFieldType<symmTensor>(fT, mesh_, sC, vals)
+            || setCellFieldType<tensor>(fT, mesh_, sC, vals))) {
         WARNING_IN("setCellField::iNew::operator()(Istream& is)")
-          << "field type " << fieldType << " not currently supported"
+          << "field type " << fT << " not currently supported"
           << endl;
       }
       return autoPtr<setCellField>{new setCellField{}};
     }
   };
 };
+
 
 template<class Type>
 bool setFaceFieldType
@@ -153,8 +137,7 @@ bool setFaceFieldType
 )
 {
   typedef GeometricField<Type, fvPatchField, volMesh> fieldType;
-  if (fieldTypeDesc != fieldType::typeName + "Value")
-  {
+  if (fieldTypeDesc != fieldType::typeName + "Value") {
     return false;
   }
   word fieldName{fieldValueStream};
@@ -167,35 +150,32 @@ bool setFaceFieldType
     IOobject::MUST_READ
   };
   // Check the "constant" directory
-  if (!fieldHeader.headerOk())
-  {
-    fieldHeader = IOobject
-    {
-      fieldName,
-      mesh.time().constant(),
-      mesh,
-      IOobject::MUST_READ
-    };
+  if (!fieldHeader.headerOk()) {
+    fieldHeader =
+      IOobject
+      {
+        fieldName,
+        mesh.time().constant(),
+        mesh,
+        IOobject::MUST_READ
+      };
   }
   // Check field exists
-  if (fieldHeader.headerOk())
-  {
+  if (fieldHeader.headerOk()) {
     Info << "    Setting patchField values of "
       << fieldHeader.headerClassName()
       << " " << fieldName << endl;
     fieldType field{fieldHeader, mesh};
     const Type& value = pTraits<Type>(fieldValueStream);
     // Create flat list of selected faces and their value.
-    Field<Type> allBoundaryValues{mesh.nFaces()-mesh.nInternalFaces()};
-    FOR_ALL(field.boundaryField(), patchi)
-    {
+    Field<Type> allBoundaryValues{mesh.nFaces() - mesh.nInternalFaces()};
+    FOR_ALL(field.boundaryField(), patchi) {
       SubField<Type>
-      (
+      {
         allBoundaryValues,
         field.boundaryField()[patchi].size(),
-        field.boundaryField()[patchi].patch().start()
-        - mesh.nInternalFaces()
-      ).assign(field.boundaryField()[patchi]);
+        field.boundaryField()[patchi].patch().start() - mesh.nInternalFaces()
+      }.assign(field.boundaryField()[patchi]);
     }
     // Override
     bool hasWarned = false;
@@ -204,21 +184,16 @@ bool setFaceFieldType
       returnReduce(field.boundaryField().size(), maxOp<label>()),
       0
     };
-    FOR_ALL(selectedFaces, i)
-    {
+    FOR_ALL(selectedFaces, i) {
       label facei = selectedFaces[i];
-      if (mesh.isInternalFace(facei))
-      {
-        if (!hasWarned)
-        {
+      if (mesh.isInternalFace(facei)) {
+        if (!hasWarned) {
           hasWarned = true;
           WARNING_IN("setFaceFieldType(..)")
             << "Ignoring internal face " << facei
             << ". Suppressing further warnings." << endl;
         }
-      }
-      else
-      {
+      } else {
         label bFaceI = facei-mesh.nInternalFaces();
         allBoundaryValues[bFaceI] = value;
         nChanged[mesh.boundaryMesh().patchID()[bFaceI]]++;
@@ -227,10 +202,8 @@ bool setFaceFieldType
     Pstream::listCombineGather(nChanged, plusEqOp<label>());
     Pstream::listCombineScatter(nChanged);
     // Reassign.
-    FOR_ALL(field.boundaryField(), patchi)
-    {
-      if (nChanged[patchi] > 0)
-      {
+    FOR_ALL(field.boundaryField(), patchi) {
+      if (nChanged[patchi] > 0) {
         Info << "    On patch "
           << field.boundaryField()[patchi].patch().name()
           << " set " << nChanged[patchi] << " values" << endl;
@@ -243,8 +216,7 @@ bool setFaceFieldType
         );
       }
     }
-    if (!field.write())
-    {
+    if (!field.write()) {
       FATAL_ERROR_IN
       (
         "void setFaceFieldType"
@@ -253,9 +225,7 @@ bool setFaceFieldType
       )
       << "Failed writing field " << field.name() << exit(FatalError);
     }
-  }
-  else
-  {
+  } else {
     WARNING_IN
     (
       "void setFaceFieldType"
@@ -269,6 +239,7 @@ bool setFaceFieldType
   return true;
 }
 
+
 class setFaceField
 {
 public:
@@ -276,7 +247,7 @@ public:
   {}
   autoPtr<setFaceField> clone() const
   {
-    return autoPtr<setFaceField>{new setFaceField()};
+    return autoPtr<setFaceField>{new setFaceField{}};
   }
   class iNew
   {
@@ -288,33 +259,23 @@ public:
       mesh_{mesh},
       selectedFaces_{selectedFaces}
     {}
-    autoPtr<setFaceField> operator()(Istream& fieldValues) const
+    autoPtr<setFaceField> operator()(Istream& vals) const
     {
-      word fieldType{fieldValues};
-      if
-      (
-       !(
-          setFaceFieldType<scalar>
-            (fieldType, mesh_, selectedFaces_, fieldValues)
-        || setFaceFieldType<vector>
-            (fieldType, mesh_, selectedFaces_, fieldValues)
-        || setFaceFieldType<sphericalTensor>
-            (fieldType, mesh_, selectedFaces_, fieldValues)
-        || setFaceFieldType<symmTensor>
-            (fieldType, mesh_, selectedFaces_, fieldValues)
-        || setFaceFieldType<tensor>
-            (fieldType, mesh_, selectedFaces_, fieldValues)
-        )
-      )
-      {
+      word fT{vals};
+      if (!(setFaceFieldType<scalar>(fT, mesh_, selectedFaces_, vals)
+            || setFaceFieldType<vector>(fT, mesh_, selectedFaces_, vals)
+            || setFaceFieldType<sphericalTensor>(fT, mesh_, selectedFaces_, vals)
+            || setFaceFieldType<symmTensor>(fT, mesh_, selectedFaces_, vals)
+            || setFaceFieldType<tensor>(fT, mesh_, selectedFaces_, vals))) {
         WARNING_IN("setFaceField::iNew::operator()(Istream& is)")
-          << "field type " << fieldType << " not currently supported"
+          << "field type " << fT << " not currently supported"
           << endl;
       }
-      return autoPtr<setFaceField>{new setFaceField()};
+      return autoPtr<setFaceField>{new setFaceField{}};
     }
   };
 };
+
 
 int main(int argc, char *argv[])
 {
@@ -325,7 +286,6 @@ int main(int argc, char *argv[])
   Info << "Reading setFieldsDict\n" << endl;
   IOdictionary setFieldsDict
   {
-    // IOobject
     {
       "setFieldsDict",
       runTime.system(),
@@ -334,25 +294,22 @@ int main(int argc, char *argv[])
       IOobject::NO_WRITE
     }
   };
-  if (setFieldsDict.found("defaultFieldValues"))
-  {
+  if (setFieldsDict.found("defaultFieldValues")) {
     Info << "Setting field default values" << endl;
     PtrList<setCellField> defaultFieldValues
-    (
+    {
       setFieldsDict.lookup("defaultFieldValues"),
-      setCellField::iNew(mesh, labelList(mesh.nCells()))
-    );
+      setCellField::iNew(mesh, labelList{mesh.nCells()})
+    };
     Info << endl;
   }
   Info << "Setting field region values" << endl;
   PtrList<entry> regions{setFieldsDict.lookup("regions")};
-  FOR_ALL(regions, regionI)
-  {
+  FOR_ALL(regions, regionI) {
     const entry& region = regions[regionI];
     autoPtr<topoSetSource> source =
       topoSetSource::New(region.keyword(), mesh, region.dict());
-    if (source().setType() == topoSetSource::CELLSETSOURCE)
-    {
+    if (source().setType() == topoSetSource::CELLSETSOURCE) {
       cellSet selectedCellSet
       {
         mesh,
@@ -369,9 +326,7 @@ int main(int argc, char *argv[])
         region.dict().lookup("fieldValues"),
         setCellField::iNew(mesh, selectedCellSet.toc())
       };
-    }
-    else if (source().setType() == topoSetSource::FACESETSOURCE)
-    {
+    } else if (source().setType() == topoSetSource::FACESETSOURCE) {
       faceSet selectedFaceSet
       {
         mesh,
@@ -393,3 +348,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

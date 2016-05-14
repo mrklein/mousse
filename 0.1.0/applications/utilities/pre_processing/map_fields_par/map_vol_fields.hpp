@@ -9,8 +9,9 @@
 #include "mesh_to_mesh.hpp"
 #include "ioobject_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class CombineOp>
 void MapVolFields
 (
@@ -24,35 +25,33 @@ void MapVolFields
   const fvMesh& meshSource = static_cast<const fvMesh&>(interp.srcRegion());
   const fvMesh& meshTarget = static_cast<const fvMesh&>(interp.tgtRegion());
   IOobjectList fields = objects.lookupClass(fieldType::typeName);
-  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-  {
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
     const word& fieldName = fieldIter()->name();
-    if (selectedFields.empty() || selectedFields.found(fieldName))
+    if (!selectedFields.empty() && !selectedFields.found(fieldName))
+      continue;
+    Info << "    interpolating " << fieldName << endl;
+    const fieldType fieldSource{*fieldIter(), meshSource};
+    IOobject targetIO
     {
-      Info << "    interpolating " << fieldName << endl;
-      const fieldType fieldSource(*fieldIter(), meshSource);
-      IOobject targetIO
-      {
-        fieldName,
-        meshTarget.time().timeName(),
-        meshTarget,
-        IOobject::MUST_READ
-      };
-      if (targetIO.headerOk())
-      {
-        fieldType fieldTarget{targetIO, meshTarget};
-        interp.mapSrcToTgt(fieldSource, cop, fieldTarget);
-        fieldTarget.write();
-      }
-      else
-      {
-        targetIO.readOpt() = IOobject::NO_READ;
-        tmp<fieldType> tfieldTarget(interp.mapSrcToTgt(fieldSource, cop));
-        fieldType fieldTarget(targetIO, tfieldTarget);
-        fieldTarget.write();
-      }
+      fieldName,
+      meshTarget.time().timeName(),
+      meshTarget,
+      IOobject::MUST_READ
+    };
+    if (targetIO.headerOk()) {
+      fieldType fieldTarget{targetIO, meshTarget};
+      interp.mapSrcToTgt(fieldSource, cop, fieldTarget);
+      fieldTarget.write();
+    } else {
+      targetIO.readOpt() = IOobject::NO_READ;
+      tmp<fieldType> tfieldTarget{interp.mapSrcToTgt(fieldSource, cop)};
+      fieldType fieldTarget{targetIO, tfieldTarget};
+      fieldTarget.write();
     }
   }
 }
+
 }  // namespace mousse
+
 #endif
+

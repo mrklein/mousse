@@ -6,14 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::mirrorFvMesh
-// Description
-// SourceFiles
-//   mirror_fv_mesh.cpp
 
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 class mirrorFvMesh
 :
   public fvMesh
@@ -23,23 +21,22 @@ class mirrorFvMesh
     IOdictionary mirrorMeshDict_;
     //- Mirrored mesh
     fvMesh* mirrorMeshPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    mirrorFvMesh(const mirrorFvMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const mirrorFvMesh&);
 public:
   // Constructors
     //- Construct from IOobject
     mirrorFvMesh(const IOobject& io);
+    //- Disallow default bitwise copy construct
+    mirrorFvMesh(const mirrorFvMesh&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const mirrorFvMesh&) = delete;
   //- Destructor
   ~mirrorFvMesh();
   // Member Functions
     //- Return reference to mirror mesh
-    const fvMesh& mirrorMesh() const
-    {
-      return *mirrorMeshPtr_;
-    }
+    const fvMesh& mirrorMesh() const { return *mirrorMeshPtr_; }
 };
+
 }  // namespace mousse
+
 #endif
+

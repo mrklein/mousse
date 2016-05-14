@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_feature_edges_types.hpp"
+
+
 // Constructors 
 mousse::pointFeatureEdgesTypes::pointFeatureEdgesTypes
 (
@@ -10,21 +12,24 @@ mousse::pointFeatureEdgesTypes::pointFeatureEdgesTypes
   const label pointLabel
 )
 :
-  HashTable<label, extendedFeatureEdgeMesh::edgeStatus>(),
-  feMesh_(feMesh),
-  pointLabel_(pointLabel)
+  HashTable<label, extendedFeatureEdgeMesh::edgeStatus>{},
+  feMesh_{feMesh},
+  pointLabel_{pointLabel}
 {}
+
+
 // Destructor 
 mousse::pointFeatureEdgesTypes::~pointFeatureEdgesTypes()
 {}
+
+
 // Member Functions 
 mousse::List<mousse::extendedFeatureEdgeMesh::edgeStatus>
 mousse::pointFeatureEdgesTypes::calcPointFeatureEdgesTypes()
 {
   const labelList& pEds = feMesh_.pointEdges()[pointLabel_];
-  List<extendedFeatureEdgeMesh::edgeStatus> allEdStat(pEds.size());
-  FOR_ALL(pEds, i)
-  {
+  List<extendedFeatureEdgeMesh::edgeStatus> allEdStat{pEds.size()};
+  FOR_ALL(pEds, i) {
     label edgeI = pEds[i];
     extendedFeatureEdgeMesh::edgeStatus& eS = allEdStat[i];
     eS = feMesh_.getEdgeStatus(edgeI);
@@ -32,6 +37,8 @@ mousse::pointFeatureEdgesTypes::calcPointFeatureEdgesTypes()
   }
   return allEdStat;
 }
+
+
 // Friend Functions 
 mousse::Ostream& mousse::operator<<
 (
@@ -39,16 +46,11 @@ mousse::Ostream& mousse::operator<<
   const pointFeatureEdgesTypes& p
 )
 {
-  os  << "Point = " << p.pointLabel_ << endl;
-  for
-  (
-    HashTable<label, extendedFeatureEdgeMesh::edgeStatus>
-      ::const_iterator iter = p.cbegin();
-    iter != p.cend();
-    ++iter
-  )
-  {
-    os  << "    "
+  os << "Point = " << p.pointLabel_ << endl;
+  for (auto iter = p.cbegin();
+       iter != p.cend();
+       ++iter) {
+    os << "    "
       << extendedFeatureEdgeMesh::edgeStatusNames_[iter.key()]
       << " = "
       << iter()
@@ -56,3 +58,4 @@ mousse::Ostream& mousse::operator<<
   }
   return os;
 }
+

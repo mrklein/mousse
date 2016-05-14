@@ -11,3 +11,4 @@ const word cloudName{propsDict.lookup("cloudName")};
 label sampleFrequency{readLabel(propsDict.lookup("sampleFrequency"))};
 label maxPositions{readLabel(propsDict.lookup("maxPositions"))};
 word setFormat{propsDict.lookupOrDefault<word>("setFormat", "vtk")};
+

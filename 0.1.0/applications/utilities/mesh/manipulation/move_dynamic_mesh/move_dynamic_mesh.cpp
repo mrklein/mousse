@@ -9,7 +9,9 @@
 #include "vtk_surface_writer.hpp"
 #include "cyclic_ami_poly_patch.hpp"
 
+
 using namespace mousse;
+
 
 // Dump patch + weights to vtk file
 void writeWeights
@@ -34,43 +36,41 @@ void writeWeights
   );
 }
 
+
 void writeWeights(const polyMesh& mesh)
 {
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
   const word tmName(mesh.time().timeName());
-  FOR_ALL(pbm, patchI)
-  {
-    if (isA<cyclicAMIPolyPatch>(pbm[patchI]))
-    {
-      const cyclicAMIPolyPatch& cpp =
-        refCast<const cyclicAMIPolyPatch>(pbm[patchI]);
-      if (cpp.owner())
-      {
-        Info << "Calculating AMI weights between owner patch: "
-          << cpp.name() << " and neighbour patch: "
-          << cpp.neighbPatch().name() << endl;
-        const AMIPatchToPatchInterpolation& ami =
-          cpp.AMI();
-        writeWeights
-        (
-          ami.tgtWeightsSum(),
-          cpp.neighbPatch(),
-          "postProcessing",
-          "tgt",
-          tmName
-        );
-        writeWeights
-        (
-          ami.srcWeightsSum(),
-          cpp,
-          "postProcessing",
-          "src",
-          tmName
-        );
-      }
-    }
+  FOR_ALL(pbm, patchI) {
+    if (!isA<cyclicAMIPolyPatch>(pbm[patchI]))
+      continue;
+    const cyclicAMIPolyPatch& cpp =
+      refCast<const cyclicAMIPolyPatch>(pbm[patchI]);
+    if (!cpp.owner())
+      continue;
+    Info << "Calculating AMI weights between owner patch: "
+      << cpp.name() << " and neighbour patch: "
+      << cpp.neighbPatch().name() << endl;
+    const AMIPatchToPatchInterpolation& ami = cpp.AMI();
+    writeWeights
+    (
+      ami.tgtWeightsSum(),
+      cpp.neighbPatch(),
+      "postProcessing",
+      "tgt",
+      tmName
+    );
+    writeWeights
+    (
+      ami.srcWeightsSum(),
+      cpp,
+      "postProcessing",
+      "src",
+      tmName
+    );
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -84,8 +84,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   #include "create_named_dynamic_fv_mesh.inc"
   const bool checkAMI  = args.optionFound("checkAMI");
-  if (checkAMI)
-  {
+  if (checkAMI) {
     Info << "Writing VTK files with weights of AMI patches." << nl << endl;
   }
   pimpleControl pimple{mesh};
@@ -93,19 +92,15 @@ int main(int argc, char *argv[])
   {
     pimple.dict().lookupOrDefault<Switch>("moveMeshOuterCorrectors", false)
   };
-  while (runTime.loop())
-  {
+  while (runTime.loop()) {
     Info << "Time = " << runTime.timeName() << endl;
-    while (pimple.loop())
-    {
-      if (pimple.firstIter() || moveMeshOuterCorrectors)
-      {
+    while (pimple.loop()) {
+      if (pimple.firstIter() || moveMeshOuterCorrectors) {
         mesh.update();
       }
     }
     mesh.checkMesh(true);
-    if (checkAMI)
-    {
+    if (checkAMI) {
       writeWeights(mesh);
     }
     runTime.write();
@@ -116,3 +111,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

@@ -4,8 +4,10 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   ensight_particle_positions.cpp
+
 #include "fv_mesh.hpp"
+
+
 void ensightParticlePositions
 (
   const mousse::fvMesh& mesh,
@@ -14,4 +16,6 @@ void ensightParticlePositions
   const mousse::word& CloudName,
   const bool dataExists
 );
+
 #endif
+

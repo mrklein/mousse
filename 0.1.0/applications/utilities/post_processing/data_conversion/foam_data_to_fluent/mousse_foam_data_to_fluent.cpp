@@ -7,6 +7,7 @@
 #include "ofstream.hpp"
 #include "ioobject_list.hpp"
 
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -17,30 +18,25 @@ int main(int argc, char *argv[])
   #include "create_mesh.inc"
   // make a directory called proInterface in the case
   mkDir(runTime.rootPath()/runTime.caseName()/"fluent_interface");
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info<< "Time = " << runTime.timeName() << endl;
-    if (mesh.readUpdate())
-    {
-      Info<< "    Read new mesh" << endl;
+    if (mesh.readUpdate()) {
+      Info << "    Read new mesh" << endl;
     }
     // make a directory called proInterface in the case
     mkDir(runTime.rootPath()/runTime.caseName()/"fluent_interface");
     // open a file for the mesh
+    const auto fluent_data_file_name =
+      runTime.caseName() + runTime.timeName() + ".dat";
     OFstream fluentDataFile
     {
-      runTime.rootPath()/
-      runTime.caseName()/
-      "fluent_interface"/
-      runTime.caseName() + runTime.timeName() + ".dat"
+      runTime.path()/"fluent_interface"/fluent_data_file_name
     };
-    fluentDataFile
-      << "(0 \"FOAM to Fluent data File\")" << endl << endl;
+    fluentDataFile << "(0 \"FOAM to Fluent data File\")" << endl << endl;
     // Writing number of faces
     label nFaces = mesh.nFaces();
-    FOR_ALL(mesh.boundary(), patchI)
-    {
+    FOR_ALL(mesh.boundary(), patchI) {
       nFaces += mesh.boundary()[patchI].size();
     }
     fluentDataFile
@@ -62,37 +58,34 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Search list of objects for volScalarFields
     IOobjectList scalarFields{objects.lookupClass("volScalarField")};
-    FOR_ALL_ITER(IOobjectList, scalarFields, iter)
-    {
+    FOR_ALL_ITER(IOobjectList, scalarFields, iter) {
       // Read field
       volScalarField field{*iter(), mesh};
       // lookup field from dictionary and convert field
       label unitNumber;
       if (foamDataToFluentDict.readIfPresent(field.name(), unitNumber)
-          && unitNumber > 0)
-      {
-        Info<< "    Converting field " << field.name() << endl;
+          && unitNumber > 0) {
+        Info << "    Converting field " << field.name() << endl;
         writeFluentField(field, unitNumber, fluentDataFile);
       }
     }
     // Converting volVectorField
     // Search list of objects for volVectorFields
     IOobjectList vectorFields{objects.lookupClass("volVectorField")};
-    FOR_ALL_ITER(IOobjectList, vectorFields, iter)
-    {
+    FOR_ALL_ITER(IOobjectList, vectorFields, iter) {
       // Read field
       volVectorField field{*iter(), mesh};
       // lookup field from dictionary and convert field
       label unitNumber;
       if (foamDataToFluentDict.readIfPresent(field.name(), unitNumber)
-          && unitNumber > 0)
-      {
-        Info<< "    Converting field " << field.name() << endl;
+          && unitNumber > 0) {
+        Info << "    Converting field " << field.name() << endl;
         writeFluentField(field, unitNumber, fluentDataFile);
       }
     }
-    Info<< endl;
+    Info << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

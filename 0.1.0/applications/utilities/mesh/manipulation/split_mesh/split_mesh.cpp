@@ -13,18 +13,18 @@
 #include "region_side.hpp"
 #include "primitive_face_patch.hpp"
 
+
 using namespace mousse;
+
 
 // Find edge between points v0 and v1.
 label findEdge(const primitiveMesh& mesh, const label v0, const label v1)
 {
   const labelList& pEdges = mesh.pointEdges()[v0];
-  FOR_ALL(pEdges, pEdgeI)
-  {
+  FOR_ALL(pEdges, pEdgeI) {
     label edgeI = pEdges[pEdgeI];
     const edge& e = mesh.edges()[edgeI];
-    if (e.otherVertex(v0) == v1)
-    {
+    if (e.otherVertex(v0) == v1) {
       return edgeI;
     }
   }
@@ -37,25 +37,25 @@ label findEdge(const primitiveMesh& mesh, const label v0, const label v1)
   return -1;
 }
 
+
 // Checks whether patch present
 void checkPatch(const polyBoundaryMesh& bMesh, const word& name)
 {
   const label patchI = bMesh.findPatchID(name);
-  if (patchI == -1)
-  {
+  if (patchI == -1) {
     FATAL_ERROR_IN("checkPatch(const polyBoundaryMesh&, const word&)")
       << "Cannot find patch " << name << nl
       << "It should be present but of zero size" << endl
       << "Valid patches are " << bMesh.names()
       << exit(FatalError);
   }
-  if (bMesh[patchI].size())
-  {
+  if (bMesh[patchI].size()) {
     FATAL_ERROR_IN("checkPatch(const polyBoundaryMesh&, const word&)")
       << "Patch " << name << " is present but non-zero size"
       << exit(FatalError);
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -78,10 +78,8 @@ int main(int argc, char *argv[])
   Info << "Read " << facesSet.size() << " faces to split" << endl << endl;
   // Convert into labelList and check
   labelList faces{facesSet.toc()};
-  FOR_ALL(faces, i)
-  {
-    if (!mesh.isInternalFace(faces[i]))
-    {
+  FOR_ALL(faces, i) {
+    if (!mesh.isInternalFace(faces[i])) {
       FATAL_ERROR_IN(args.executable())
         << "Face " << faces[i] << " in faceSet " << setName
         << " is not an internal face."
@@ -98,14 +96,7 @@ int main(int argc, char *argv[])
   // Addressing on faces only in mesh vertices.
   primitiveFacePatch fPatch
   {
-    faceList
-    {
-      UIndirectList<face>
-      (
-        mesh.faces(),
-        faces
-      )
-    },
+    faceList{UIndirectList<face>{mesh.faces(), faces}},
     mesh.points()
   };
   const labelList& meshPoints = fPatch.meshPoints();
@@ -113,10 +104,8 @@ int main(int argc, char *argv[])
   // of polyMesh
   labelHashSet fenceEdges{fPatch.size()};
   const labelListList& allEdgeFaces = fPatch.edgeFaces();
-  FOR_ALL(allEdgeFaces, patchEdgeI)
-  {
-    if (allEdgeFaces[patchEdgeI].size() == 1)
-    {
+  FOR_ALL(allEdgeFaces, patchEdgeI) {
+    if (allEdgeFaces[patchEdgeI].size() == 1) {
       const edge& e = fPatch.edges()[patchEdgeI];
       label edgeI =
         findEdge
@@ -140,8 +129,7 @@ int main(int argc, char *argv[])
   };
   // Determine flip state for all faces in faceSet
   boolList zoneFlip{faces.size()};
-  FOR_ALL(faces, i)
-  {
+  FOR_ALL(faces, i) {
     zoneFlip[i] = !regionInfo.sideOwner().found(faces[i]);
   }
   // Create and add face zones and mesh modifiers
@@ -179,22 +167,17 @@ int main(int argc, char *argv[])
   );
   Info << nl << "Constructed topologyModifier:" << endl;
   splitter[0].writeDict(Info);
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   splitter.attach();
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
-  }
-  else
-  {
+  } else {
     mesh.setInstance(runTime.timeName());
   }
   Info << "Writing mesh to " << runTime.timeName() << endl;
-  if (!mesh.write())
-  {
+  if (!mesh.write()) {
     FATAL_ERROR_IN(args.executable())
       << "Failed writing polyMesh."
       << exit(FatalError);
@@ -202,3 +185,4 @@ int main(int argc, char *argv[])
   Info << nl << "end" << endl;
   return 0;
 }
+

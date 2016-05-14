@@ -4,13 +4,19 @@
 
 #include "tabulated_wall_function.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
 namespace mousse {
 namespace tabulatedWallFunctions {
+
 DEFINE_TYPE_NAME_AND_DEBUG(tabulatedWallFunction, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(tabulatedWallFunction, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::tabulatedWallFunctions::tabulatedWallFunction::tabulatedWallFunction
 (
@@ -25,19 +31,20 @@ mousse::tabulatedWallFunctions::tabulatedWallFunction::tabulatedWallFunction
   invertedTableName_{dict.lookup("invertedTableName")},
   invertedTable_{invertedTableName_, mesh_, dict, true}
 {}
+
+
 // Destructor 
 mousse::tabulatedWallFunctions::tabulatedWallFunction::~tabulatedWallFunction()
 {}
+
+
 // Member Functions 
 void mousse::tabulatedWallFunctions::tabulatedWallFunction::write()
 {
-  if (invertedTable_.log10())
-  {
+  if (invertedTable_.log10()) {
     invertedTable_.note() =
       "U+ as a function of log10(Re) computed using " + type();
-  }
-  else
-  {
+  } else {
     invertedTable_.note() =
       "U+ as a function of Re computed using " + type();
   }
@@ -45,3 +52,4 @@ void mousse::tabulatedWallFunctions::tabulatedWallFunction::write()
     << endl;
   invertedTable_.write();
 }
+
