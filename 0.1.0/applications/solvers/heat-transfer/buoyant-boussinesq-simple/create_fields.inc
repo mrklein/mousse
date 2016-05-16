@@ -89,7 +89,7 @@ setRefCell
   pRefCell,
   pRefValue
 );
-if (p_rgh.needReference()) 
+if (p_rgh.needReference()) {
   p +=
     dimensionedScalar
     {

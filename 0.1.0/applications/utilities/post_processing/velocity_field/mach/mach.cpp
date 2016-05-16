@@ -6,11 +6,11 @@
 #include "fluid_thermo.hpp"
 
 
-inline bool hasThermo(const Time& time, const fvMesh& mesh)
+inline bool hasThermo(const mousse::Time& time, const mousse::fvMesh& mesh)
 {
-  IOobject thermo
+  mousse::IOobject thermo
   {
-    basicThermo::dictName,
+    mousse::basicThermo::dictName,
     time.constant(),
     mesh
   };

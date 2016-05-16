@@ -1,20 +1,19 @@
+#ifndef substance_hpp_
+#define substance_hpp_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::substance
-// Description
-// SourceFiles
-//   substance_i.hpp
-//   substance.cpp
-//   substance_io.cpp
-#ifndef substance_hpp_
-#define substance_hpp_
+
 #include "scalar.hpp"
 #include "word.hpp"
 #include "istream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class substance
 {
   // Private data
@@ -27,14 +26,8 @@ public:
     {}
   // Member Functions
     // Access
-      const word& name() const
-      {
-        return name_;
-      }
-      scalar volFrac() const
-      {
-        return volFrac_;
-      }
+      const word& name() const { return name_; }
+      scalar volFrac() const { return volFrac_; }
       bool operator==(const substance& s) const
       {
         return name_ == s.name_ && volFrac_ == s.volFrac_;
@@ -55,5 +48,8 @@ public:
       return os;
     }
 };
+
 }  // namespace mousse
+
 #endif
+
