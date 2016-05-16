@@ -4,7 +4,7 @@
 
 scalar meshCoNum = 0.0;
 scalar meanMeshCoNum = 0.0;
-if (mesh.nInternalFaces()) 
+if (mesh.nInternalFaces()) {
   scalar dt = runTime.deltaTValue();
   scalarField sumPhi{fvc::surfaceSum(mag(mesh.phi()))().internalField()};
   meshCoNum = 0.5*gMax(sumPhi/mesh.V().field())*dt;
@@ -12,3 +12,4 @@ if (mesh.nInternalFaces())
 }
 Info << "Mesh Courant Number mean: " << meanMeshCoNum << " max: " << meshCoNum
   << endl;
+
