@@ -1,3 +1,6 @@
+#ifndef BINGHAM_PLASTIC_HPP_
+#define BINGHAM_PLASTIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,15 +9,13 @@
 // Description
 //   Viscosity correction model for Bingham plastics.
 //   The strain-rate used is defined as sqrt(2.0)*mag(symm(grad(U)))
-// SourceFiles
-//   bingham_plastic.cpp
-#ifndef BINGHAM_PLASTIC_HPP_
-#define BINGHAM_PLASTIC_HPP_
+
 #include "plastic.hpp"
-namespace mousse
-{
-namespace mixtureViscosityModels
-{
+
+
+namespace mousse {
+namespace mixtureViscosityModels {
+
 class BinghamPlastic
 :
   public plastic
@@ -51,6 +52,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace mixtureViscosityModels
 }  // namespace mousse
+
 #endif
+

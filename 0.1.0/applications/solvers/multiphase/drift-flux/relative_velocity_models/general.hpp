@@ -1,3 +1,6 @@
+#ifndef GENERAL_HPP_
+#define GENERAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,15 +8,13 @@
 //   mousse::general
 // Description
 //   General relative velocity model
-// SourceFiles
-//   general.cpp
-#ifndef GENERAL_HPP_
-#define GENERAL_HPP_
+
 #include "relative_velocity_model.hpp"
-namespace mousse
-{
-namespace relativeVelocityModels
-{
+
+
+namespace mousse {
+namespace relativeVelocityModels {
+
 class general
 :
   public relativeVelocityModel
@@ -43,6 +44,9 @@ public:
     //- Update the diffusion velocity
     virtual void correct();
 };
+
 }  // namespace relativeVelocityModels
 }  // namespace mousse
+
 #endif
+

@@ -1,4 +1,4 @@
-Info<< "Reading transportProperties\n" << endl;
+Info << "Reading transportProperties\n" << endl;
 IOdictionary transportProperties
 {
   {
@@ -9,9 +9,4 @@ IOdictionary transportProperties
     IOobject::NO_WRITE
   }
 };
-dimensionedScalar mu
-{
-  "mu",
-  dimDynamicViscosity,
-  transportProperties
-};
+dimensionedScalar mu{"mu", dimDynamicViscosity, transportProperties};

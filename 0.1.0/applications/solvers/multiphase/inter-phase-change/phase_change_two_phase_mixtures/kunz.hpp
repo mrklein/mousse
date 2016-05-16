@@ -1,3 +1,6 @@
+#ifndef KUNZ_HPP_
+#define KUNZ_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,16 +21,13 @@
 //     Computers and Fluids,
 //     29(8):849-875, 2000.
 //   \endverbatim
-// SourceFiles
-//   kunz.cpp
-#ifndef KUNZ_HPP_
-#define KUNZ_HPP_
+
 #include "phase_change_two_phase_mixture.hpp"
-// * * * * * * * * * * * * * * * * *  * * * * * * * * * * * * * * * * //
-namespace mousse
-{
-namespace phaseChangeTwoPhaseMixtures
-{
+
+
+namespace mousse {
+namespace phaseChangeTwoPhaseMixtures {
+
 class Kunz
 :
   public phaseChangeTwoPhaseMixture
@@ -45,11 +45,7 @@ public:
   TYPE_NAME("Kunz");
   // Constructors
     //- Construct from components
-    Kunz
-    (
-      const volVectorField& U,
-      const surfaceScalarField& phi
-    );
+    Kunz(const volVectorField& U, const surfaceScalarField& phi);
   //- Destructor
   virtual ~Kunz()
   {}
@@ -66,6 +62,9 @@ public:
     //- Read the transportProperties dictionary and update
     virtual bool read();
 };
+
 }  // namespace phaseChangeTwoPhaseMixtures
 }  // namespace mousse
+
 #endif
+

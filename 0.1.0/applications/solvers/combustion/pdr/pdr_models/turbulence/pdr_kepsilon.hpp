@@ -1,3 +1,6 @@
+#ifndef COMPRESSIBLEPD_RK_EPSILON_HPP_
+#define COMPRESSIBLEPD_RK_EPSILON_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -26,18 +29,15 @@
 //   In the \f$ \epsilon  \f$ equation \f$ C_{1} G_{R} \f$ is added as a source
 //   term.
 //   In the \f$ \kappa \f$ equation \f$ G_{R} \f$ is added as a source term.
-// SourceFiles
-//   pd_rk_epsilon.cpp
-#ifndef COMPRESSIBLEPD_RK_EPSILON_HPP_
-#define COMPRESSIBLEPD_RK_EPSILON_HPP_
+
 #include "k_epsilon.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
-namespace mousse
-{
-namespace compressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace compressible {
+namespace RASModels {
+
 class PDRkEpsilon
 :
   public mousse::RASModels::kEpsilon
@@ -75,7 +75,10 @@ public:
     //- Read turbulenceProperties dictionary
     bool read();
 };
+
 }  // namespace RASModels
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

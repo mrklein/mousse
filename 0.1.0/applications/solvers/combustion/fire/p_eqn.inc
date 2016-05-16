@@ -24,22 +24,19 @@ setSnGrad<fixedFluxPressureFvPatchScalarField>
     *rho.boundaryField()
   )/(mesh.magSf().boundaryField()*rhorAUf.boundaryField())
 );
-while (pimple.correctNonOrthogonal())
-{
-  fvScalarMatrix p_rghEqn
-  {
+while (pimple.correctNonOrthogonal()) {
+  fvScalarMatrix p_rghEqn {
     fvc::ddt(psi, rho)*gh
-    + fvc::div(phiHbyA)
-    + fvm::ddt(psi, p_rgh)
-    - fvm::laplacian(rhorAUf, p_rgh)
-    ==
+  + fvc::div(phiHbyA)
+  + fvm::ddt(psi, p_rgh)
+  - fvm::laplacian(rhorAUf, p_rgh)
+  ==
     parcels.Srho()
-    + surfaceFilm.Srho()
-    + fvOptions(psi, p_rgh, rho.name())
+  + surfaceFilm.Srho()
+  + fvOptions(psi, p_rgh, rho.name())
   };
   p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-  if (pimple.finalNonOrthogonalIter())
-  {
+  if (pimple.finalNonOrthogonalIter()) {
     phi = phiHbyA + p_rghEqn.flux();
     U = HbyA + rAU*fvc::reconstruct((p_rghEqn.flux() + phig)/rhorAUf);
     U.correctBoundaryConditions();
@@ -50,7 +47,6 @@ p = p_rgh + rho*gh;
 #include "rho_eqn.inc"
 #include "compressible_continuity_errs.inc"
 K = 0.5*magSqr(U);
-if (thermo.dpdt())
-{
+if (thermo.dpdt()) {
   dpdt = fvc::ddt(p);
 }

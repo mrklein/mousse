@@ -5,13 +5,13 @@
 #include "fv_cfd.hpp"
 #include "md.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_mesh.inc"
-
-  Info<< "\nReading field U\n" << endl;
+  Info << "\nReading field U\n" << endl;
   volVectorField U
   {
     {
@@ -27,23 +27,22 @@ int main(int argc, char *argv[])
   moleculeCloud molecules{mesh, pot};
   #include "temperature_and_pressure_variables.inc"
   label nAveragingSteps = 0;
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.loop()) {
     nAveragingSteps++;
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     molecules.evolve();
     #include "mean_momentum_energy_and_n_mols.inc"
     #include "temperature_and_pressure.inc"
     runTime.write();
-    if (runTime.outputTime())
-    {
+    if (runTime.outputTime()) {
       nAveragingSteps = 0;
     }
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

@@ -5,15 +5,19 @@
 #include "basic_xi_sub_g.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiGModels
-{
+namespace mousse {
+namespace XiGModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(basicSubGrid, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiGModel, basicSubGrid, dictionary);
+
 };
 };
+
+
 // Constructors 
 mousse::XiGModels::basicSubGrid::basicSubGrid
 (
@@ -27,9 +31,13 @@ mousse::XiGModels::basicSubGrid::basicSubGrid
   k1{readScalar(XiGModelCoeffs_.lookup("k1"))},
   XiGModel_{XiGModel::New(XiGModelCoeffs_, thermo, turbulence, Su)}
 {}
+
+
 // Destructor 
 mousse::XiGModels::basicSubGrid::~basicSubGrid()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiGModels::basicSubGrid::G() const
 {
@@ -59,15 +67,15 @@ mousse::tmp<mousse::volScalarField> mousse::XiGModels::basicSubGrid::G() const
   };
   volScalarField& N = tN();
   N.internalField() = Nv.internalField()*Cw;
-  FOR_ALL(N, celli)
-  {
-    if (N[celli] > 1e-3)
-    {
+  FOR_ALL(N, celli) {
+    if (N[celli] > 1e-3) {
       Gtot[celli] += k1*mag(U[celli])/Lobs[celli];
     }
   }
   return tGtot;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::XiGModels::basicSubGrid::Db() const
 {
   const objectRegistry& db = Su_.db();
@@ -78,9 +86,12 @@ mousse::tmp<mousse::volScalarField> mousse::XiGModels::basicSubGrid::Db() const
   return XiGModel_->Db()
     + rho*Su_*(Xi - 1.0)*mgb*(0.5*Lobs)*Lobs/(mgb*Lobs + 1.0);
 }
+
+
 bool mousse::XiGModels::basicSubGrid::read(const dictionary& XiGProperties)
 {
   XiGModel::read(XiGProperties);
   XiGModelCoeffs_.lookup("k1") >> k1;
   return true;
 }
+

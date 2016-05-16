@@ -1,3 +1,6 @@
+#ifndef XI_G_MODEL_HPP_
+#define XI_G_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,16 +11,15 @@
 //   See Technical Report SH/RE/01R for details on the PDR modelling. For details
 //   on the use of XiGModel see \link XiModel.H \endlink. The model available is
 //   \link instabilityG.H \endlink
-// SourceFiles
-//   xi_g_model.cpp
-#ifndef XI_G_MODEL_HPP_
-#define XI_G_MODEL_HPP_
+
 #include "iodictionary.hpp"
 #include "psiu_reaction_thermo.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class XiGModel
 {
 protected:
@@ -83,5 +85,8 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& XiGProperties) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

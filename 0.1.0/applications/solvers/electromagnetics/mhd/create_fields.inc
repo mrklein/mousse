@@ -1,4 +1,4 @@
-Info<< "Reading transportProperties\n" << endl;
+Info << "Reading transportProperties\n" << endl;
 IOdictionary transportProperties
 {
   {
@@ -8,18 +8,8 @@ IOdictionary transportProperties
     IOobject::MUST_READ_IF_MODIFIED
   }
 };
-dimensionedScalar rho
-{
-  "rho",
-  dimDensity,
-  transportProperties
-};
-dimensionedScalar nu
-{
-  "nu",
-  dimViscosity,
-  transportProperties
-};
+dimensionedScalar rho{"rho", dimDensity, transportProperties};
+dimensionedScalar nu{"nu", dimViscosity, transportProperties};
 dimensionedScalar mu
 {
   "mu",
@@ -32,7 +22,7 @@ dimensionedScalar sigma
   dimensionSet(-1, -3, 3, 0, 0, 2, 0),
   transportProperties
 };
-Info<< "Reading field p\n" << endl;
+Info << "Reading field p\n" << endl;
 volScalarField p
 {
   {
@@ -44,7 +34,7 @@ volScalarField p
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -57,7 +47,7 @@ volVectorField U
   mesh
 };
 #include "create_phi.inc"
-Info<< "Reading field pB\n" << endl;
+Info << "Reading field pB\n" << endl;
 volScalarField pB
 {
   {
@@ -69,7 +59,7 @@ volScalarField pB
   },
   mesh
 };
-Info<< "Reading field B\n" << endl;
+Info << "Reading field B\n" << endl;
 volVectorField B
 {
   {

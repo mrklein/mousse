@@ -1,3 +1,6 @@
+#ifndef FIXED_HPP_
+#define FIXED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,15 +9,13 @@
 // Description
 //   Fixed value model for Xi. See \link XiModel.H \endlink for more details
 //   on flame wrinkling modelling.
-// SourceFiles
-//   fixed.cpp
-#ifndef FIXED_HPP_
-#define FIXED_HPP_
+
 #include "xi_model.hpp"
-namespace mousse
-{
-namespace XiModels
-{
+
+
+namespace mousse {
+namespace XiModels {
+
 class fixed
 :
   public XiModel
@@ -50,6 +51,9 @@ public:
     virtual void writeFields()
     {}
 };
+
 }  // namespace XiModels
 }  // namespace mousse
+
 #endif
+

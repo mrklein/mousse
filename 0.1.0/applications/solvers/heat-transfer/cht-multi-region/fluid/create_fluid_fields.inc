@@ -17,17 +17,16 @@ List<bool> frozenFlowFluid{fluidRegions.size(), false};
 PtrList<IOMRFZoneList> MRFfluid{fluidRegions.size()};
 PtrList<fv::IOoptionList> fluidFvOptions{fluidRegions.size()};
 // Populate fluid field pointer lists
-FOR_ALL(fluidRegions, i)
-{
-  Info<< "*** Reading fluid mesh thermophysical properties for region "
+FOR_ALL(fluidRegions, i) {
+  Info << "*** Reading fluid mesh thermophysical properties for region "
     << fluidRegions[i].name() << nl << endl;
-  Info<< "    Adding to thermoFluid\n" << endl;
+  Info << "    Adding to thermoFluid\n" << endl;
   thermoFluid.set
   (
     i,
     rhoThermo::New(fluidRegions[i]).ptr()
   );
-  Info<< "    Adding to rhoFluid\n" << endl;
+  Info << "    Adding to rhoFluid\n" << endl;
   rhoFluid.set
   (
     i,
@@ -43,7 +42,7 @@ FOR_ALL(fluidRegions, i)
       thermoFluid[i].rho()
     }
   );
-  Info<< "    Adding to UFluid\n" << endl;
+  Info << "    Adding to UFluid\n" << endl;
   UFluid.set
   (
     i,
@@ -59,7 +58,7 @@ FOR_ALL(fluidRegions, i)
       fluidRegions[i]
     }
   );
-  Info<< "    Adding to phiFluid\n" << endl;
+  Info << "    Adding to phiFluid\n" << endl;
   phiFluid.set
   (
     i,
@@ -75,7 +74,7 @@ FOR_ALL(fluidRegions, i)
       linearInterpolate(rhoFluid[i]*UFluid[i]) & fluidRegions[i].Sf()
     }
   );
-  Info<< "    Adding to gFluid\n" << endl;
+  Info << "    Adding to gFluid\n" << endl;
   gFluid.set
   (
     i,
@@ -90,7 +89,7 @@ FOR_ALL(fluidRegions, i)
       }
     }
   );
-  Info<< "    Adding to hRefFluid\n" << endl;
+  Info << "    Adding to hRefFluid\n" << endl;
   hRefFluid.set
   (
     i,
@@ -112,7 +111,7 @@ FOR_ALL(fluidRegions, i)
     ? gFluid[i] & (cmptMag(gFluid[i].value())/mag(gFluid[i].value()))*hRefFluid[i]
     : dimensionedScalar("ghRef", gFluid[i].dimensions()*dimLength, 0)
   };
-  Info<< "    Adding to ghFluid\n" << endl;
+  Info << "    Adding to ghFluid\n" << endl;
   ghFluid.set
   (
     i,
@@ -122,7 +121,7 @@ FOR_ALL(fluidRegions, i)
       (gFluid[i] & fluidRegions[i].C()) - ghRef
     }
   );
-  Info<< "    Adding to ghfFluid\n" << endl;
+  Info << "    Adding to ghfFluid\n" << endl;
   ghfFluid.set
   (
     i,
@@ -132,7 +131,7 @@ FOR_ALL(fluidRegions, i)
       (gFluid[i] & fluidRegions[i].Cf()) - ghRef
     }
   );
-  Info<< "    Adding to turbulence\n" << endl;
+  Info << "    Adding to turbulence\n" << endl;
   turbulence.set
   (
     i,
@@ -168,17 +167,13 @@ FOR_ALL(fluidRegions, i)
     radiation::radiationModel::New(thermoFluid[i].T())
   );
   initialMassFluid[i] = fvc::domainIntegrate(rhoFluid[i]).value();
-  Info<< "    Adding to KFluid\n" << endl;
+  Info << "    Adding to KFluid\n" << endl;
   KFluid.set
   (
     i,
-    new volScalarField
-    {
-      "K",
-      0.5*magSqr(UFluid[i])
-    }
+    new volScalarField{"K", 0.5*magSqr(UFluid[i])}
   );
-  Info<< "    Adding to dpdtFluid\n" << endl;
+  Info << "    Adding to dpdtFluid\n" << endl;
   dpdtFluid.set
   (
     i,
@@ -196,13 +191,13 @@ FOR_ALL(fluidRegions, i)
   const dictionary& pimpleDict =
     fluidRegions[i].solutionDict().subDict("PIMPLE");
   pimpleDict.readIfPresent("frozenFlow", frozenFlowFluid[i]);
-  Info<< "    Adding MRF\n" << endl;
+  Info << "    Adding MRF\n" << endl;
   MRFfluid.set
   (
     i,
     new IOMRFZoneList{fluidRegions[i]}
   );
-  Info<< "    Adding fvOptions\n" << endl;
+  Info << "    Adding fvOptions\n" << endl;
   fluidFvOptions.set
   (
     i,

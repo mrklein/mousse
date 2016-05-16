@@ -1,4 +1,4 @@
-  Info<< "Reading field U\n" << endl;
+  Info << "Reading field U\n" << endl;
   volVectorField U
   {
     {
@@ -12,12 +12,7 @@
   };
   #include "create_phi.inc"
   singlePhaseTransportModel laminarTransport{U, phi};
-  dimensionedScalar rhoInfValue
-  {
-    "rhoInf",
-    dimDensity,
-    laminarTransport
-  };
+  dimensionedScalar rhoInfValue{"rhoInf", dimDensity, laminarTransport};
   volScalarField rhoInf
   {
     {
@@ -65,9 +60,8 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<volVectorField> HPtr;
-  if (Hheader.headerOk())
-  {
-    Info<< "\nReading field H\n" << endl;
+  if (Hheader.headerOk()) {
+    Info << "\nReading field H\n" << endl;
     HPtr.reset(new volVectorField{Hheader, mesh});
   }
   IOobject HdotGradHheader
@@ -79,9 +73,8 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<volVectorField> HdotGradHPtr;
-  if (HdotGradHheader.headerOk())
-  {
-    Info<< "Reading field HdotGradH" << endl;
+  if (HdotGradHheader.headerOk()) {
+    Info << "Reading field HdotGradH" << endl;
     HdotGradHPtr.reset(new volVectorField{HdotGradHheader, mesh});
   }
   #include "create_non_inertial_frame_fields.inc"

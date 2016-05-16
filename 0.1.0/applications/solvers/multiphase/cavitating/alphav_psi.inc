@@ -13,5 +13,4 @@
   Info << "max-min alphav: " << max(alphav).value() << " "
     << min(alphav).value() << endl;
   psiModel->correct();
-  //Info<< "min a: " << 1.0/sqrt(max(psi)).value() << endl;
 }

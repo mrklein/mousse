@@ -11,9 +11,7 @@
   };
   surfaceScalarField phig
   {
-    (
-      interface.surfaceTensionForce() - ghf*fvc::snGrad(rho)
-    )*rAUf*mesh.magSf()
+    (interface.surfaceTensionForce() - ghf*fvc::snGrad(rho))*rAUf*mesh.magSf()
   };
   phiHbyA += phig;
   // Update the fixedFluxPressure BCs to ensure flux consistency
@@ -29,8 +27,7 @@
   fvc::makeRelative(phiHbyA, U);
   tmp<fvScalarMatrix> p_rghEqnComp1;
   tmp<fvScalarMatrix> p_rghEqnComp2;
-  if (pimple.transonic())
-  {
+  if (pimple.transonic()) {
     surfaceScalarField phid1{"phid1", fvc::interpolate(psi1)*phi};
     surfaceScalarField phid2{"phid2", fvc::interpolate(psi2)*phi};
     p_rghEqnComp1 =
@@ -51,9 +48,7 @@
       );
     deleteDemandDrivenData(p_rghEqnComp2().faceFluxCorrectionPtr());
     p_rghEqnComp2().relax();
-  }
-  else
-  {
+  } else {
     p_rghEqnComp1 =
       fvc::ddt(rho1) + psi1*correction(fvm::ddt(p_rgh))
       + fvc::div(phi, rho1) - fvc::Sp(fvc::div(phi), rho1);
@@ -63,8 +58,7 @@
   }
   // Cache p_rgh prior to solve for density update
   volScalarField p_rgh_0{p_rgh};
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqnIncomp
     {
       fvc::div(phiHbyA) - fvm::laplacian(rAUf, p_rgh)
@@ -78,8 +72,7 @@
       + p_rghEqnIncomp,
       mesh.solver(p_rgh.select(pimple.finalInnerIter()))
     );
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       p = max(p_rgh + (alpha1*rho1 + alpha2*rho2)*gh, pMin);
       p_rgh = p - (alpha1*rho1 + alpha2*rho2)*gh;
       dgdt =
@@ -106,3 +99,4 @@
   Info << "max(U) " << max(mag(U)).value() << endl;
   Info << "min(p_rgh) " << min(p_rgh).value() << endl;
 }
+

@@ -12,8 +12,9 @@
 
 #include "dimensioned_vector.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class Istream;
 class Ostream;
@@ -21,6 +22,8 @@ class Ostream;
 class magnet;
 Istream& operator>>(Istream&, magnet&);
 Ostream& operator<<(Ostream&, const magnet&);
+
+
 class magnet
 {
   // Private data
@@ -60,25 +63,13 @@ public:
     }
   // Member Functions
     //- Return name
-    inline const word& name() const
-    {
-      return name_;
-    }
+    inline const word& name() const { return name_; }
     //- Return relative permeability
-    inline scalar mur() const
-    {
-      return relativePermeability_;
-    }
+    inline scalar mur() const { return relativePermeability_; }
     //- Return remenance
-    inline const dimensionedScalar& Mr() const
-    {
-      return remanence_;
-    }
+    inline const dimensionedScalar& Mr() const { return remanence_; }
     //- Return orientation
-    inline const vector& orientation() const
-    {
-      return orientation_;
-    }
+    inline const vector& orientation() const { return orientation_; }
   // IOstream operators
     inline friend Istream& operator>>(Istream& is, magnet& m)
     {
@@ -103,5 +94,8 @@ public:
       return os;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

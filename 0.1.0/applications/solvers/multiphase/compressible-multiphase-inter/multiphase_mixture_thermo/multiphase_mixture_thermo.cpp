@@ -13,25 +13,32 @@
 #include "fvc_flux.hpp"
 #include "fvc_mesh_phi.hpp"
 #include "surface_interpolate.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(multiphaseMixtureThermo, 0);
+
 }
+
 const mousse::scalar mousse::multiphaseMixtureThermo::convertToRad =
   mousse::constant::mathematical::pi/180.0;
+
+
 // Private Member Functions 
 void mousse::multiphaseMixtureThermo::calcAlphas()
 {
   scalar level = 0.0;
   alphas_ == 0.0;
-  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     alphas_ += level*phase();
     level += 1.0;
   }
   alphas_.correctBoundaryConditions();
 }
+
+
 // Constructors 
 mousse::multiphaseMixtureThermo::multiphaseMixtureThermo
 (
@@ -79,49 +86,54 @@ mousse::multiphaseMixtureThermo::multiphaseMixtureThermo
   alphas_.write();
   correct();
 }
+
+
 // Member Functions 
 void mousse::multiphaseMixtureThermo::correct()
 {
-  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phasei)
-  {
+  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phasei) {
     phasei().correct();
   }
   PtrDictionary<phaseModel>::iterator phasei = phases_.begin();
   psi_ = phasei()*phasei().thermo().psi();
   mu_ = phasei()*phasei().thermo().mu();
   alpha_ = phasei()*phasei().thermo().alpha();
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     psi_ += phasei()*phasei().thermo().psi();
     mu_ += phasei()*phasei().thermo().mu();
     alpha_ += phasei()*phasei().thermo().alpha();
   }
 }
+
+
 void mousse::multiphaseMixtureThermo::correctRho(const volScalarField& dp)
 {
-  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phasei)
-  {
+  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phasei) {
     phasei().thermo().rho() +=  phasei().thermo().psi()*dp;
   }
 }
+
+
 bool mousse::multiphaseMixtureThermo::incompressible() const
 {
   bool ico = true;
-  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     ico &= phase().thermo().incompressible();
   }
   return ico;
 }
+
+
 bool mousse::multiphaseMixtureThermo::isochoric() const
 {
   bool iso = true;
-  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     iso &= phase().thermo().incompressible();
   }
   return iso;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::he
 (
   const volScalarField& p,
@@ -130,12 +142,13 @@ mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::he
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> the{phasei()*phasei().thermo().he(p, T)};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     the() += phasei()*phasei().thermo().he(p, T);
   }
   return the;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::he
 (
   const scalarField& p,
@@ -148,12 +161,13 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::he
   {
     scalarField(phasei(), cells)*phasei().thermo().he(p, T, cells)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     the() += scalarField(phasei(), cells)*phasei().thermo().he(p, T, cells);
   }
   return the;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::he
 (
   const scalarField& p,
@@ -166,23 +180,25 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::he
   {
     phasei().boundaryField()[patchi]*phasei().thermo().he(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     the() +=
       phasei().boundaryField()[patchi]*phasei().thermo().he(p, T, patchi);
   }
   return the;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::hc() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> thc{phasei()*phasei().thermo().hc()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     thc() += phasei()*phasei().thermo().hc();
   }
   return thc;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::THE
 (
   const scalarField& /*h*/,
@@ -194,6 +210,8 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::THE
   NOT_IMPLEMENTED("multiphaseMixtureThermo::THE(...)");
   return T0;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::THE
 (
   const scalarField& /*h*/,
@@ -205,16 +223,19 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::THE
   NOT_IMPLEMENTED("multiphaseMixtureThermo::THE(...)");
   return T0;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::rho() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> trho{phasei()*phasei().thermo().rho()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     trho() += phasei()*phasei().thermo().rho();
   }
   return trho;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::rho
 (
   const label patchi
@@ -225,22 +246,24 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::rho
   {
     phasei().boundaryField()[patchi]*phasei().thermo().rho(patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     trho() += phasei().boundaryField()[patchi]*phasei().thermo().rho(patchi);
   }
   return trho;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::Cp() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tCp{phasei()*phasei().thermo().Cp()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCp() += phasei()*phasei().thermo().Cp();
   }
   return tCp;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cp
 (
   const scalarField& p,
@@ -253,23 +276,25 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cp
   {
     phasei().boundaryField()[patchi]*phasei().thermo().Cp(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCp() +=
       phasei().boundaryField()[patchi]*phasei().thermo().Cp(p, T, patchi);
   }
   return tCp;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::Cv() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tCv{phasei()*phasei().thermo().Cv()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCv() += phasei()*phasei().thermo().Cv();
   }
   return tCv;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cv
 (
   const scalarField& p,
@@ -282,22 +307,24 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cv
   {
     phasei().boundaryField()[patchi]*phasei().thermo().Cv(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCv() += phasei().boundaryField()[patchi]*phasei().thermo().Cv(p, T, patchi);
   }
   return tCv;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::gamma() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tgamma{phasei()*phasei().thermo().gamma()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tgamma() += phasei()*phasei().thermo().gamma();
   }
   return tgamma;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::gamma
 (
   const scalarField& p,
@@ -310,23 +337,25 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::gamma
   {
     phasei().boundaryField()[patchi]*phasei().thermo().gamma(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tgamma() +=
       phasei().boundaryField()[patchi]*phasei().thermo().gamma(p, T, patchi);
   }
   return tgamma;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::Cpv() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tCpv{phasei()*phasei().thermo().Cpv()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCpv() += phasei()*phasei().thermo().Cpv();
   }
   return tCpv;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cpv
 (
   const scalarField& p,
@@ -339,23 +368,25 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::Cpv
   {
     phasei().boundaryField()[patchi]*phasei().thermo().Cpv(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCpv() +=
       phasei().boundaryField()[patchi]*phasei().thermo().Cpv(p, T, patchi);
   }
   return tCpv;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::CpByCpv() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tCpByCpv{phasei()*phasei().thermo().CpByCpv()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCpByCpv() += phasei()*phasei().thermo().CpByCpv();
   }
   return tCpByCpv;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::CpByCpv
 (
   const scalarField& p,
@@ -368,17 +399,20 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::CpByCpv
   {
     phasei().boundaryField()[patchi]*phasei().thermo().CpByCpv(p, T, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tCpByCpv() +=
       phasei().boundaryField()[patchi]*phasei().thermo().CpByCpv(p, T, patchi);
   }
   return tCpByCpv;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::nu() const
 {
   return mu()/rho();
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::nu
 (
   const label patchi
@@ -386,16 +420,19 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::nu
 {
   return mu(patchi)/rho(patchi);
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::kappa() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tkappa{phasei()*phasei().thermo().kappa()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tkappa() += phasei()*phasei().thermo().kappa();
   }
   return tkappa;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::kappa
 (
   const label patchi
@@ -406,13 +443,14 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::kappa
   {
     phasei().boundaryField()[patchi]*phasei().thermo().kappa(patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tkappa() +=
       phasei().boundaryField()[patchi]*phasei().thermo().kappa(patchi);
   }
   return tkappa;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::kappaEff
 (
   const volScalarField& alphat
@@ -420,12 +458,13 @@ mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::kappaEff
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> tkappaEff{phasei()*phasei().thermo().kappaEff(alphat)};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tkappaEff() += phasei()*phasei().thermo().kappaEff(alphat);
   }
   return tkappaEff;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::kappaEff
 (
   const scalarField& alphat,
@@ -437,13 +476,14 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::kappaEff
   {
     phasei().boundaryField()[patchi]*phasei().thermo().kappaEff(alphat, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     tkappaEff() +=
       phasei().boundaryField()[patchi]*phasei().thermo().kappaEff(alphat, patchi);
   }
   return tkappaEff;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::alphaEff
 (
   const volScalarField& alphat
@@ -451,12 +491,13 @@ mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::alphaEff
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> talphaEff{phasei()*phasei().thermo().alphaEff(alphat)};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     talphaEff() += phasei()*phasei().thermo().alphaEff(alphat);
   }
   return talphaEff;
 }
+
+
 mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::alphaEff
 (
   const scalarField& alphat,
@@ -468,23 +509,25 @@ mousse::tmp<mousse::scalarField> mousse::multiphaseMixtureThermo::alphaEff
   {
     phasei().boundaryField()[patchi]*phasei().thermo().alphaEff(alphat, patchi)
   };
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     talphaEff() +=
       phasei().boundaryField()[patchi]*phasei().thermo().alphaEff(alphat, patchi);
   }
   return talphaEff;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::rCv() const
 {
   PtrDictionary<phaseModel>::const_iterator phasei = phases_.begin();
   tmp<volScalarField> trCv{phasei()/phasei().thermo().Cv()};
-  for (++phasei; phasei != phases_.end(); ++phasei)
-  {
+  for (++phasei; phasei != phases_.end(); ++phasei) {
     trCv() += phasei()/phasei().thermo().Cv();
   }
   return trCv;
 }
+
+
 mousse::tmp<mousse::surfaceScalarField>
 mousse::multiphaseMixtureThermo::surfaceTensionForce() const
 {
@@ -506,18 +549,15 @@ mousse::multiphaseMixtureThermo::surfaceTensionForce() const
     }
   };
   surfaceScalarField& stf = tstf();
-  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase1)
-  {
+  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase1) {
     const phaseModel& alpha1 = phase1();
     PtrDictionary<phaseModel>::const_iterator phase2 = phase1;
     ++phase2;
-    for (; phase2 != phases_.end(); ++phase2)
-    {
+    for (; phase2 != phases_.end(); ++phase2) {
       const phaseModel& alpha2 = phase2();
       sigmaTable::const_iterator sigma =
         sigmas_.find(interfacePair(alpha1, alpha2));
-      if (sigma == sigmas_.end())
-      {
+      if (sigma == sigmas_.end()) {
         FATAL_ERROR_IN
         (
           "multiphaseMixtureThermo::surfaceTensionForce() const"
@@ -536,6 +576,8 @@ mousse::multiphaseMixtureThermo::surfaceTensionForce() const
   }
   return tstf;
 }
+
+
 void mousse::multiphaseMixtureThermo::solve()
 {
   const Time& runTime = mesh_.time();
@@ -543,47 +585,37 @@ void mousse::multiphaseMixtureThermo::solve()
   label nAlphaSubCycles{readLabel(alphaControls.lookup("nAlphaSubCycles"))};
   scalar cAlpha{readScalar(alphaControls.lookup("cAlpha"))};
   volScalarField& alpha = phases_.first();
-  if (nAlphaSubCycles > 1)
-  {
+  if (nAlphaSubCycles > 1) {
     surfaceScalarField rhoPhiSum{0.0*rhoPhi_};
     dimensionedScalar totalDeltaT = runTime.deltaT();
-    for
-    (
-      subCycle<volScalarField> alphaSubCycle(alpha, nAlphaSubCycles);
-      !(++alphaSubCycle).end();
-    )
-    {
+    for (subCycle<volScalarField> alphaSubCycle(alpha, nAlphaSubCycles);
+         !(++alphaSubCycle).end();) {
       solveAlphas(cAlpha);
       rhoPhiSum += (runTime.deltaT()/totalDeltaT)*rhoPhi_;
     }
     rhoPhi_ = rhoPhiSum;
-  }
-  else
-  {
+  } else {
     solveAlphas(cAlpha);
   }
 }
+
+
 mousse::tmp<mousse::surfaceVectorField> mousse::multiphaseMixtureThermo::nHatfv
 (
   const volScalarField& alpha1,
   const volScalarField& alpha2
 ) const
 {
-  /*
-  // Cell gradient of alpha
-  volVectorField gradAlpha =
-    alpha2*fvc::grad(alpha1) - alpha1*fvc::grad(alpha2);
-  // Interpolated face-gradient of alpha
-  surfaceVectorField gradAlphaf = fvc::interpolate(gradAlpha);
-  */
   surfaceVectorField gradAlphaf
   {
     fvc::interpolate(alpha2)*fvc::interpolate(fvc::grad(alpha1))
-      - fvc::interpolate(alpha1)*fvc::interpolate(fvc::grad(alpha2))
+    - fvc::interpolate(alpha1)*fvc::interpolate(fvc::grad(alpha2))
   };
   // Face unit interface normal
   return gradAlphaf/(mag(gradAlphaf) + deltaN_);
 }
+
+
 mousse::tmp<mousse::surfaceScalarField> mousse::multiphaseMixtureThermo::nHatf
 (
   const volScalarField& alpha1,
@@ -593,6 +625,8 @@ mousse::tmp<mousse::surfaceScalarField> mousse::multiphaseMixtureThermo::nHatf
   // Face unit interface normal flux
   return nHatfv(alpha1, alpha2) & mesh_.Sf();
 }
+
+
 // Correction for the boundary condition on the unit normal nHat on
 // walls to produce the correct contact angle.
 // The dynamic contact angle is calculated from the component of the
@@ -607,77 +641,73 @@ void mousse::multiphaseMixtureThermo::correctContactAngle
   const volScalarField::GeometricBoundaryField& gbf
     = alpha1.boundaryField();
   const fvBoundaryMesh& boundary = mesh_.boundary();
-  FOR_ALL(boundary, patchi)
-  {
-    if (isA<alphaContactAngleFvPatchScalarField>(gbf[patchi]))
+  FOR_ALL(boundary, patchi) {
+    if (!isA<alphaContactAngleFvPatchScalarField>(gbf[patchi]))
+      continue;
+    const alphaContactAngleFvPatchScalarField& acap =
+      refCast<const alphaContactAngleFvPatchScalarField>(gbf[patchi]);
+    vectorField& nHatPatch = nHatb[patchi];
+    vectorField AfHatPatch
     {
-      const alphaContactAngleFvPatchScalarField& acap =
-        refCast<const alphaContactAngleFvPatchScalarField>(gbf[patchi]);
-      vectorField& nHatPatch = nHatb[patchi];
-      vectorField AfHatPatch
-      {
-        mesh_.Sf().boundaryField()[patchi]/mesh_.magSf().boundaryField()[patchi]
-      };
-      alphaContactAngleFvPatchScalarField::thetaPropsTable::
-        const_iterator tp =
-        acap.thetaProps().find(interfacePair(alpha1, alpha2));
-      if (tp == acap.thetaProps().end())
-      {
-        FATAL_ERROR_IN
-        (
-          "multiphaseMixtureThermo::correctContactAngle"
-          "(const phaseModel& alpha1, const phaseModel& alpha2, "
-          "fvPatchVectorFieldField& nHatb) const"
-        )
-        << "Cannot find interface " << interfacePair(alpha1, alpha2)
-        << "\n    in table of theta properties for patch "
-        << acap.patch().name()
-        << exit(FatalError);
-      }
-      bool matched = (tp.key().first() == alpha1.name());
-      scalar theta0 = convertToRad*tp().theta0(matched);
-      scalarField theta{boundary[patchi].size(), theta0};
-      scalar uTheta = tp().uTheta();
-      // Calculate the dynamic contact angle if required
-      if (uTheta > SMALL)
-      {
-        scalar thetaA = convertToRad*tp().thetaA(matched);
-        scalar thetaR = convertToRad*tp().thetaR(matched);
-        // Calculated the component of the velocity parallel to the wall
-        vectorField Uwall
-        {
-          U_.boundaryField()[patchi].patchInternalField()
-          - U_.boundaryField()[patchi]
-        };
-        Uwall -= (AfHatPatch & Uwall)*AfHatPatch;
-        // Find the direction of the interface parallel to the wall
-        vectorField nWall
-        {
-          nHatPatch - (AfHatPatch & nHatPatch)*AfHatPatch
-        };
-        // Normalise nWall
-        nWall /= (mag(nWall) + SMALL);
-        // Calculate Uwall resolved normal to the interface parallel to
-        // the interface
-        scalarField uwall{nWall & Uwall};
-        theta += (thetaA - thetaR)*tanh(uwall/uTheta);
-      }
-      // Reset nHatPatch to correspond to the contact angle
-      scalarField a12{nHatPatch & AfHatPatch};
-      scalarField b1{cos(theta)};
-      scalarField b2{nHatPatch.size()};
-      FOR_ALL(b2, facei)
-      {
-        b2[facei] = cos(acos(a12[facei]) - theta[facei]);
-      }
-      scalarField det{1.0 - a12*a12};
-      scalarField a{(b1 - a12*b2)/det};
-      scalarField b{(b2 - a12*b1)/det};
-      nHatPatch = a*AfHatPatch + b*nHatPatch;
-      nHatPatch /= (mag(nHatPatch) + deltaN_.value());
+      mesh_.Sf().boundaryField()[patchi]/mesh_.magSf().boundaryField()[patchi]
+    };
+    alphaContactAngleFvPatchScalarField::thetaPropsTable::
+      const_iterator tp = acap.thetaProps().find(interfacePair(alpha1, alpha2));
+    if (tp == acap.thetaProps().end()) {
+      FATAL_ERROR_IN
+      (
+        "multiphaseMixtureThermo::correctContactAngle"
+        "(const phaseModel& alpha1, const phaseModel& alpha2, "
+        "fvPatchVectorFieldField& nHatb) const"
+      )
+      << "Cannot find interface " << interfacePair(alpha1, alpha2)
+      << "\n    in table of theta properties for patch "
+      << acap.patch().name()
+      << exit(FatalError);
     }
+    bool matched = (tp.key().first() == alpha1.name());
+    scalar theta0 = convertToRad*tp().theta0(matched);
+    scalarField theta{boundary[patchi].size(), theta0};
+    scalar uTheta = tp().uTheta();
+    // Calculate the dynamic contact angle if required
+    if (uTheta > SMALL) {
+      scalar thetaA = convertToRad*tp().thetaA(matched);
+      scalar thetaR = convertToRad*tp().thetaR(matched);
+      // Calculated the component of the velocity parallel to the wall
+      vectorField Uwall
+      {
+        U_.boundaryField()[patchi].patchInternalField()
+        - U_.boundaryField()[patchi]
+      };
+      Uwall -= (AfHatPatch & Uwall)*AfHatPatch;
+      // Find the direction of the interface parallel to the wall
+      vectorField nWall
+      {
+        nHatPatch - (AfHatPatch & nHatPatch)*AfHatPatch
+      };
+      // Normalise nWall
+      nWall /= (mag(nWall) + SMALL);
+      // Calculate Uwall resolved normal to the interface parallel to
+      // the interface
+      scalarField uwall{nWall & Uwall};
+      theta += (thetaA - thetaR)*tanh(uwall/uTheta);
+    }
+    // Reset nHatPatch to correspond to the contact angle
+    scalarField a12{nHatPatch & AfHatPatch};
+    scalarField b1{cos(theta)};
+    scalarField b2{nHatPatch.size()};
+    FOR_ALL(b2, facei) {
+      b2[facei] = cos(acos(a12[facei]) - theta[facei]);
+    }
+    scalarField det{1.0 - a12*a12};
+    scalarField a{(b1 - a12*b2)/det};
+    scalarField b{(b2 - a12*b1)/det};
+    nHatPatch = a*AfHatPatch + b*nHatPatch;
+    nHatPatch /= (mag(nHatPatch) + deltaN_.value());
   }
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::K
 (
   const phaseModel& alpha1,
@@ -689,6 +719,8 @@ mousse::tmp<mousse::volScalarField> mousse::multiphaseMixtureThermo::K
   // Simple expression for curvature
   return -fvc::div(tnHatfv & mesh_.Sf());
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::multiphaseMixtureThermo::nearInterface() const
 {
@@ -705,12 +737,13 @@ mousse::multiphaseMixtureThermo::nearInterface() const
       {"nearInterface", dimless, 0.0}
     }
   };
-  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     tnearInt() = max(tnearInt(), pos(phase() - 0.01)*pos(0.99 - phase()));
   }
   return tnearInt;
 }
+
+
 void mousse::multiphaseMixtureThermo::solveAlphas
 (
   const scalar cAlpha
@@ -724,8 +757,7 @@ void mousse::multiphaseMixtureThermo::solveAlphas
   phic = min(cAlpha*phic, max(phic));
   PtrList<surfaceScalarField> alphaPhiCorrs{phases_.size()};
   int phasei = 0;
-  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     phaseModel& alpha = phase();
     alphaPhiCorrs.set
     (
@@ -742,10 +774,10 @@ void mousse::multiphaseMixtureThermo::solveAlphas
       }
     );
     surfaceScalarField& alphaPhiCorr = alphaPhiCorrs[phasei];
-    FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase2)
-    {
+    FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase2) {
       phaseModel& alpha2 = phase2();
-      if (&alpha2 == &alpha) continue;
+      if (&alpha2 == &alpha)
+        continue;
       surfaceScalarField phir{phic*nHatf(alpha, alpha2)};
       alphaPhiCorr += fvc::flux
       (
@@ -783,8 +815,7 @@ void mousse::multiphaseMixtureThermo::solveAlphas
   };
   volScalarField divU{fvc::div(fvc::absolute(phi_, U_))};
   phasei = 0;
-  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase)
-  {
+  FOR_ALL_ITER(PtrDictionary<phaseModel>, phases_, phase) {
     phaseModel& alpha = phase();
     surfaceScalarField& alphaPhi = alphaPhiCorrs[phasei];
     alphaPhi += upwind<scalar>(mesh_, phi_).flux(alpha);
@@ -812,34 +843,26 @@ void mousse::multiphaseMixtureThermo::solveAlphas
 
     {
       const scalarField& dgdt = alpha.dgdt();
-      FOR_ALL(dgdt, celli)
-      {
-        if (dgdt[celli] < 0.0 && alpha[celli] > 0.0)
-        {
+      FOR_ALL(dgdt, celli) {
+        if (dgdt[celli] < 0.0 && alpha[celli] > 0.0) {
           Sp[celli] += dgdt[celli]*alpha[celli];
           Su[celli] -= dgdt[celli]*alpha[celli];
-        }
-        else if (dgdt[celli] > 0.0 && alpha[celli] < 1.0)
-        {
+        } else if (dgdt[celli] > 0.0 && alpha[celli] < 1.0) {
           Sp[celli] -= dgdt[celli]*(1.0 - alpha[celli]);
         }
       }
     }
 
-    FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase2)
-    {
+    FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, phases_, phase2) {
       const phaseModel& alpha2 = phase2();
-      if (&alpha2 == &alpha) continue;
+      if (&alpha2 == &alpha)
+        continue;
       const scalarField& dgdt2 = alpha2.dgdt();
-      FOR_ALL(dgdt2, celli)
-      {
-        if (dgdt2[celli] > 0.0 && alpha2[celli] < 1.0)
-        {
+      FOR_ALL(dgdt2, celli) {
+        if (dgdt2[celli] > 0.0 && alpha2[celli] < 1.0) {
           Sp[celli] -= dgdt2[celli]*(1.0 - alpha2[celli]);
           Su[celli] += dgdt2[celli]*alpha[celli];
-        }
-        else if (dgdt2[celli] < 0.0 && alpha2[celli] > 0.0)
-        {
+        } else if (dgdt2[celli] < 0.0 && alpha2[celli] > 0.0) {
           Sp[celli] += dgdt2[celli]*alpha2[celli];
         }
       }
@@ -853,7 +876,7 @@ void mousse::multiphaseMixtureThermo::solveAlphas
       Su
     );
     rhoPhi_ += fvc::interpolate(alpha.thermo().rho())*alphaPhi;
-    Info<< alpha.name() << " volume fraction, min, max = "
+    Info << alpha.name() << " volume fraction, min, max = "
       << alpha.weightedAverage(mesh_.V()).value()
       << ' ' << min(alpha).value()
       << ' ' << max(alpha).value()
@@ -861,10 +884,11 @@ void mousse::multiphaseMixtureThermo::solveAlphas
     sumAlpha += alpha;
     phasei++;
   }
-  Info<< "Phase-sum volume fraction, min, max = "
+  Info << "Phase-sum volume fraction, min, max = "
     << sumAlpha.weightedAverage(mesh_.V()).value()
     << ' ' << min(sumAlpha).value()
     << ' ' << max(sumAlpha).value()
     << endl;
   calcAlphas();
 }
+

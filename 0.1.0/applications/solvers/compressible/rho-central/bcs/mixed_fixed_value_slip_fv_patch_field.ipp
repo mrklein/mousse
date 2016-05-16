@@ -4,8 +4,10 @@
 
 #include "mixed_fixed_value_slip_fv_patch_field.hpp"
 #include "symm_transform_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 template<class Type>
 mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
@@ -18,6 +20,8 @@ mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
   refValue_{p.size()},
   valueFraction_{p.size(), 1.0}
 {}
+
+
 template<class Type>
 mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
 (
@@ -31,6 +35,8 @@ mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
   refValue_{ptf.refValue_, mapper},
   valueFraction_{ptf.valueFraction_, mapper}
 {}
+
+
 template<class Type>
 mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
 (
@@ -43,6 +49,8 @@ mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
   refValue_{"refValue", dict, p.size()},
   valueFraction_{"valueFraction", dict, p.size()}
 {}
+
+
 template<class Type>
 mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
 (
@@ -53,6 +61,8 @@ mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
   refValue_{ptf.refValue_},
   valueFraction_{ptf.valueFraction_}
 {}
+
+
 template<class Type>
 mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
 (
@@ -64,6 +74,8 @@ mixedFixedValueSlipFvPatchField<Type>::mixedFixedValueSlipFvPatchField
   refValue_{ptf.refValue_},
   valueFraction_{ptf.valueFraction_}
 {}
+
+
 // Member Functions 
 // Map from self
 template<class Type>
@@ -76,6 +88,8 @@ void mixedFixedValueSlipFvPatchField<Type>::autoMap
   refValue_.autoMap(m);
   valueFraction_.autoMap(m);
 }
+
+
 // Reverse-map the given fvPatchField onto this fvPatchField
 template<class Type>
 void mixedFixedValueSlipFvPatchField<Type>::rmap
@@ -86,13 +100,15 @@ void mixedFixedValueSlipFvPatchField<Type>::rmap
 {
   transformFvPatchField<Type>::rmap(ptf, addr);
   const mixedFixedValueSlipFvPatchField<Type>& dmptf =
-    refCast<const mixedFixedValueSlipFvPatchField<Type> >(ptf);
+    refCast<const mixedFixedValueSlipFvPatchField<Type>>(ptf);
   refValue_.rmap(dmptf.refValue_, addr);
   valueFraction_.rmap(dmptf.valueFraction_, addr);
 }
+
+
 // Return gradient at boundary
 template<class Type>
-tmp<Field<Type> > mixedFixedValueSlipFvPatchField<Type>::snGrad() const
+tmp<Field<Type>> mixedFixedValueSlipFvPatchField<Type>::snGrad() const
 {
   tmp<vectorField> nHat = this->patch().nf();
   Field<Type> pif{this->patchInternalField()};
@@ -102,12 +118,13 @@ tmp<Field<Type> > mixedFixedValueSlipFvPatchField<Type>::snGrad() const
     + (1.0 - valueFraction_)*transform(I - sqr(nHat), pif) - pif
   )*this->patch().deltaCoeffs();
 }
+
+
 // Evaluate the field on the patch
 template<class Type>
 void mixedFixedValueSlipFvPatchField<Type>::evaluate(const Pstream::commsTypes)
 {
-  if (!this->updated())
-  {
+  if (!this->updated()) {
     this->updateCoeffs();
   }
   vectorField nHat{this->patch().nf()};
@@ -119,9 +136,11 @@ void mixedFixedValueSlipFvPatchField<Type>::evaluate(const Pstream::commsTypes)
   );
   transformFvPatchField<Type>::evaluate();
 }
+
+
 // Return defining fields
 template<class Type>
-tmp<Field<Type> >
+tmp<Field<Type>>
 mixedFixedValueSlipFvPatchField<Type>::snGradTransformDiag() const
 {
   vectorField nHat{this->patch().nf()};
@@ -134,6 +153,8 @@ mixedFixedValueSlipFvPatchField<Type>::snGradTransformDiag() const
     + (1.0 - valueFraction_)
       *transformFieldMask<Type>(pow<vector, pTraits<Type>::rank>(diag));
 }
+
+
 // Write
 template<class Type>
 void mixedFixedValueSlipFvPatchField<Type>::write(Ostream& os) const
@@ -142,4 +163,6 @@ void mixedFixedValueSlipFvPatchField<Type>::write(Ostream& os) const
   refValue_.writeEntry("refValue", os);
   valueFraction_.writeEntry("valueFraction", os);
 }
+
 }  // namespace mousse
+

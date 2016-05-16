@@ -9,15 +9,19 @@
 #include "fvm_div.hpp"
 #include "fvm_sup.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiModels
-{
+namespace mousse {
+namespace XiModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(transport, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiModel, transport, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiModels::transport::transport
 (
@@ -35,14 +39,20 @@ mousse::XiModels::transport::transport
   XiEqModel_{XiEqModel::New(XiProperties, thermo, turbulence, Su)},
   XiGModel_{XiGModel::New(XiProperties, thermo, turbulence, Su)}
 {}
+
+
 // Destructor 
 mousse::XiModels::transport::~transport()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiModels::transport::Db() const
 {
   return XiGModel_->Db();
 }
+
+
 void mousse::XiModels::transport::correct
 (
   const fv::convectionScheme<scalar>& mvConvection
@@ -70,21 +80,24 @@ void mousse::XiModels::transport::correct
   solve
   (
     betav*fvm::ddt(rho_, Xi_)
-    + mvConvection.fvmDiv(phi_, Xi_)
-    + fvm::div(phiXi, Xi_)
-    - fvm::Sp(fvc::div(phiXi), Xi_)
-    ==
+  + mvConvection.fvmDiv(phi_, Xi_)
+  + fvm::div(phiXi, Xi_)
+  - fvm::Sp(fvc::div(phiXi), Xi_)
+  ==
     betav*rho_*R
-    - fvm::Sp(betav*rho_*(R - G), Xi_)
+  - fvm::Sp(betav*rho_*(R - G), Xi_)
   );
   // Correct boundedness of Xi
   // ~~~~~~~~~~~~~~~~~~~~~~~~~
   Xi_.max(1.0);
   Xi_ = min(Xi_, 2.0*XiEq);
 }
+
+
 bool mousse::XiModels::transport::read(const dictionary& XiProperties)
 {
   XiModel::read(XiProperties);
   XiModelCoeffs_.lookup("XiShapeCoef") >> XiShapeCoef;
   return true;
 }
+

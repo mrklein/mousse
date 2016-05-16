@@ -7,7 +7,7 @@ psiReactionThermo& thermo = reaction->thermo();
 thermo.validate(args.executable(), "h", "e");
 basicMultiComponentMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
-word inertSpecie(thermo.lookup("inertSpecie"));
+word inertSpecie{thermo.lookup("inertSpecie")};
 volScalarField rho
 {
   {
@@ -61,8 +61,7 @@ volScalarField dpdt
 Info << "Creating field kinetic energy K\n" << endl;
 volScalarField K{"K", 0.5*magSqr(U)};
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
-FOR_ALL(Y, i)
-{
+FOR_ALL(Y, i) {
   fields.add(Y[i]);
 }
 fields.add(thermo.he());
@@ -78,3 +77,4 @@ volScalarField dQ
   mesh,
   {"dQ", dimEnergy/dimTime, 0.0}
 };
+

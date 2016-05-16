@@ -1,4 +1,4 @@
-  Info<< "Reading transportProperties\n" << endl;
+  Info << "Reading transportProperties\n" << endl;
   IOdictionary transportProperties
   {
     {
@@ -8,9 +8,4 @@
       IOobject::MUST_READ_IF_MODIFIED
     }
   };
-  dimensionedScalar nu
-  {
-    "nu",
-    dimViscosity,
-    transportProperties
-  };
+  dimensionedScalar nu{"nu", dimViscosity, transportProperties};

@@ -10,6 +10,8 @@
 #include "thermo_physics_types.hpp"
 #include "basic_multi_component_mixture.hpp"
 #include "cell_modeller.hpp"
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -19,14 +21,12 @@ int main(int argc, char *argv[])
   #include "create_fields.inc"
   #include "read_initial_conditions.inc"
   #include "create_controls.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_controls.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     #include "solve_chemistry.inc"
     #include "y_eqn.inc"
     #include "h_eqn.inc"
@@ -40,3 +40,4 @@ int main(int argc, char *argv[])
   Info << "End" << nl << endl;
   return 0;
 }
+

@@ -1,3 +1,6 @@
+#ifndef SCHNERR_SAUER_HPP_
+#define SCHNERR_SAUER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -12,17 +15,13 @@
 //     Proc. 4th International Conference on Multiphase Flow,
 //     New Orleans, U.S.A., 2001.
 //   \endverbatim
-// SourceFiles
-//   schnerr_sauer.cpp
-#ifndef SCHNERR_SAUER_HPP_
-#define SCHNERR_SAUER_HPP_
 
 #include "phase_change_two_phase_mixture.hpp"
 
-namespace mousse
-{
-namespace phaseChangeTwoPhaseMixtures
-{
+
+namespace mousse {
+namespace phaseChangeTwoPhaseMixtures {
+
 class SchnerrSauer
 :
   public phaseChangeTwoPhaseMixture
@@ -69,6 +68,9 @@ public:
     //- Read the transportProperties dictionary and update
     virtual bool read();
 };
+
 }  // namespace phaseChangeTwoPhaseMixtures
 }  // namespace mousse
+
 #endif
+

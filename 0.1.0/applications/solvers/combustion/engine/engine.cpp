@@ -32,35 +32,30 @@ int main(int argc, char *argv[])
   #include "set_initial_delta_t.inc"
   #include "start_summary.inc"
 
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_engine_time_controls.inc"
     #include "compressible_courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Crank angle = " << runTime.theta() << " CA-deg" << endl;
+    Info << "Crank angle = " << runTime.theta() << " CA-deg" << endl;
     mesh.move();
     #include "rho_eqn.inc"
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       #include "ft_eqn.inc"
       #include "b_eqn.inc"
       #include "eau_eqn.inc"
       #include "ea_eqn.inc"
-      if (!ign.ignited())
-      {
+      if (!ign.ignited()) {
         thermo.heu() == thermo.he();
       }
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -71,6 +66,7 @@ int main(int argc, char *argv[])
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

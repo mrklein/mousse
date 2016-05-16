@@ -6,11 +6,11 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fvc_grad.hpp"
 
+
 // Static Data Members
-namespace mousse
-{
-namespace mixtureViscosityModels
-{
+namespace mousse {
+namespace mixtureViscosityModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(BinghamPlastic, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -18,8 +18,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   BinghamPlastic,
   dictionary
 );
+
 }
 }
+
+
 // Constructors 
 mousse::mixtureViscosityModels::BinghamPlastic::BinghamPlastic
 (
@@ -50,6 +53,8 @@ mousse::mixtureViscosityModels::BinghamPlastic::BinghamPlastic
   },
   U_{U}
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField>
 mousse::mixtureViscosityModels::BinghamPlastic::mu

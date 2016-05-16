@@ -10,6 +10,7 @@
 #include "turbulent_transport_model.hpp"
 #include "les_model.hpp"
 
+
 MAKE_BASE_TURBULENCE_MODEL
 (
   volScalarField,
@@ -19,15 +20,23 @@ MAKE_BASE_TURBULENCE_MODEL
   singlePhaseTransportModel
 );
 
+
 #define MAKE_RAS_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (singlePhaseTransportModelPhaseIncompressibleTurbulenceModel, RAS, Type)
+
+
 #define MAKE_LES_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (singlePhaseTransportModelPhaseIncompressibleTurbulenceModel, LES, Type)
+
+
 #include "k_epsilon.hpp"
 MAKE_RAS_MODEL(kEpsilon);
+
 #include "smagorinsky.hpp"
 MAKE_LES_MODEL(Smagorinsky);
+
 #include "k_eqn.hpp"
 MAKE_LES_MODEL(kEqn);
+

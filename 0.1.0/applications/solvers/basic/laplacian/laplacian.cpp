@@ -12,22 +12,18 @@ int main(int argc, char *argv[])
   #include "create_mesh.inc"
   simpleControl simple(mesh);
   #include "create_fields.inc"
-    Info<< "\nCalculating temperature distribution\n" << endl;
-  while (simple.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
-    while (simple.correctNonOrthogonal())
-    {
-      solve
-      (
-        fvm::ddt(T) - fvm::laplacian(DT, T)
-      );
+  Info<< "\nCalculating temperature distribution\n" << endl;
+  while (simple.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
+    while (simple.correctNonOrthogonal()) {
+      solve(fvm::ddt(T) - fvm::laplacian(DT, T));
     }
     #include "write.inc"
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

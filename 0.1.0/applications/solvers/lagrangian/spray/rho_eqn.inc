@@ -6,10 +6,10 @@
   fvScalarMatrix rhoEqn
   {
     fvm::ddt(rho)
-    + fvc::div(phi)
-    ==
+  + fvc::div(phi)
+  ==
     parcels.Srho(rho)
-    + fvOptions(rho)
+  + fvOptions(rho)
   };
   rhoEqn.solve();
   fvOptions.correct(rho);

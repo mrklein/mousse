@@ -20,18 +20,16 @@
     )/(mesh.magSf().boundaryField()*rAUcf.boundaryField())
   );
   // Non-orthogonal pressure corrector loop
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix pEqn
     {
       fvm::laplacian(alphacf*rAUcf, p)
-      ==
+    ==
       fvc::ddt(alphac) + fvc::div(alphacf*phiHbyA)
     };
     pEqn.setReference(pRefCell, pRefValue);
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phic = phiHbyA - pEqn.flux()/alphacf;
       p.relax();
       Uc = HbyA + rAUc*fvc::reconstruct((phicForces - pEqn.flux()/alphacf)/rAUcf);

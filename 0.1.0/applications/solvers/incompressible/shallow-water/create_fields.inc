@@ -1,4 +1,4 @@
-Info<< "Reading field h\n" << endl;
+Info << "Reading field h\n" << endl;
 volScalarField h
 {
   {
@@ -10,7 +10,7 @@ volScalarField h
   },
   mesh
 };
-Info<< "Reading field h0 if present\n" << endl;
+Info << "Reading field h0 if present\n" << endl;
 volScalarField h0
 {
   {
@@ -22,7 +22,7 @@ volScalarField h0
   mesh,
   {"h0", dimLength, 0.0}
 };
-Info<< "Creating field hU\n" << endl;
+Info << "Creating field hU\n" << endl;
 volVectorField hU
 {
   {
@@ -34,7 +34,7 @@ volVectorField hU
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -46,7 +46,7 @@ volVectorField U
   },
   hU/h
 };
-Info<< "Creating field hTotal for post processing\n" << endl;
+Info << "Creating field hTotal for post processing\n" << endl;
 volScalarField hTotal
 {
   {
@@ -60,6 +60,6 @@ volScalarField hTotal
 };
 hTotal.write();
 #include "create_phi.inc"
-Info<< "Creating Coriolis Force" << endl;
+Info << "Creating Coriolis Force" << endl;
 const dimensionedVector F{"F", ((2.0*Omega) & gHat)*gHat};
 mesh.setFluxRequired(h.name());

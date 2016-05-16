@@ -9,25 +9,24 @@
 #include "srf_model.hpp"
 #include "fv_io_option_list.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_mesh.inc"
-  pimpleControl pimple(mesh);
+  pimpleControl pimple{mesh};
   #include "create_time_controls.inc"
   #include "create_fields.inc"
   #include "create_fv_options.inc"
   #include "init_continuity_errs.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_time_controls.inc"
     #include "courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
     while (pimple.loop()) {
       #include "urel_eqn.inc"
@@ -43,10 +42,10 @@ int main(int argc, char *argv[])
       }
     }
     runTime.write();
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

@@ -8,8 +8,7 @@ scalar maxAlphaCo
 };
 scalar alphaCoNum = 0.0;
 scalar meanAlphaCoNum = 0.0;
-if (mesh.nInternalFaces())
-{
+if (mesh.nInternalFaces()) {
   scalarField sumPhi
   {
     pos(alpha1 - 0.01)*pos(0.99 - alpha1)
@@ -21,3 +20,4 @@ if (mesh.nInternalFaces())
 }
 Info << "Interface Courant Number mean: " << meanAlphaCoNum
   << " max: " << alphaCoNum << endl;
+

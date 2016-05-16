@@ -4,15 +4,19 @@
 
 #include "scope_xi_eq.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiEqModels
-{
+namespace mousse {
+namespace XiEqModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(SCOPEXiEq, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiEqModel, SCOPEXiEq, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiEqModels::SCOPEXiEq::SCOPEXiEq
 (
@@ -35,17 +39,20 @@ mousse::XiEqModels::SCOPEXiEq::SCOPEXiEq
     thermo
   }
 {}
+
+
 // Destructor 
 mousse::XiEqModels::SCOPEXiEq::~SCOPEXiEq()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiEqModels::SCOPEXiEq::XiEq() const
 {
   const volScalarField& k = turbulence_.k();
   const volScalarField& epsilon = turbulence_.epsilon();
   volScalarField up{sqrt((2.0/3.0)*k)};
-  if (subGridSchelkin_)
-  {
+  if (subGridSchelkin_) {
     up.internalField() += calculateSchelkinEffect(uPrimeCoef_);
   }
   volScalarField l{lCoef_*sqrt(3.0/2.0)*up*k/epsilon};
@@ -67,30 +74,27 @@ mousse::tmp<mousse::volScalarField> mousse::XiEqModels::SCOPEXiEq::XiEq() const
     }
   };
   volScalarField& xieq = tXiEq();
-  FOR_ALL(xieq, celli)
-  {
-    if (Ma[celli] > 0.01)
-    {
+  FOR_ALL(xieq, celli) {
+    if (Ma[celli] > 0.01) {
       xieq[celli] = XiEqCoef_*pow(K[celli]*Ma[celli], -XiEqExp_)*upBySu[celli];
     }
   }
-  FOR_ALL(xieq.boundaryField(), patchi)
-  {
+  FOR_ALL(xieq.boundaryField(), patchi) {
     scalarField& xieqp = xieq.boundaryField()[patchi];
     const scalarField& Kp = K.boundaryField()[patchi];
     const scalarField& Map = Ma.boundaryField()[patchi];
     const scalarField& upBySup = upBySu.boundaryField()[patchi];
-    FOR_ALL(xieqp, facei)
-    {
-      if (Ma[facei] > 0.01)
-      {
-        xieqp[facei] = XiEqCoef_*pow(Kp[facei]*Map[facei], -XiEqExp_)
-          *upBySup[facei];
+    FOR_ALL(xieqp, facei) {
+      if (Ma[facei] > 0.01) {
+        xieqp[facei] =
+          XiEqCoef_*pow(Kp[facei]*Map[facei], -XiEqExp_)*upBySup[facei];
       }
     }
   }
   return tXiEq;
 }
+
+
 bool mousse::XiEqModels::SCOPEXiEq::read(const dictionary& XiEqProperties)
 {
   XiEqModel::read(XiEqProperties);
@@ -101,3 +105,4 @@ bool mousse::XiEqModels::SCOPEXiEq::read(const dictionary& XiEqProperties)
   XiEqModelCoeffs_.lookup("subGridSchelkin") >> subGridSchelkin_;
   return true;
 }
+

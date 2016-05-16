@@ -2,14 +2,13 @@
   alphat = turbulence->nut()/Prt;
   alphat.correctBoundaryConditions();
   volScalarField alphaEff{"alphaEff", turbulence->nu()/Pr + alphat};
-  fvScalarMatrix TEqn
-  {
+  fvScalarMatrix TEqn {
     fvm::ddt(T)
-    + fvm::div(phi, T)
-    - fvm::laplacian(alphaEff, T)
-    ==
+  + fvm::div(phi, T)
+  - fvm::laplacian(alphaEff, T)
+  ==
     radiation->ST(rhoCpRef, T)
-    + fvOptions(T)
+  + fvOptions(T)
   };
   TEqn.relax();
   fvOptions.constrain(TEqn);

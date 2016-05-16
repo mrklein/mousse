@@ -1,3 +1,6 @@
+#ifndef BASIC_XI_SUB_G_HPP_
+#define BASIC_XI_SUB_G_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -18,15 +21,13 @@
 //   \f]
 //   Finally, \f$ G_{sub} \f$ is added to generation rate \f$ G_{in} \f$
 //   due to the turbulence.
-// SourceFiles
-//   basic_sub_grid.cpp
-#ifndef BASICSUBGRID_H
-#define BASICSUBGRID_H
+
 #include "xi_g_model.hpp"
-namespace mousse
-{
-namespace XiGModels
-{
+
+
+namespace mousse {
+namespace XiGModels {
+
 class basicSubGrid
 :
   public XiGModel
@@ -62,6 +63,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& XiGProperties);
 };
+
 }  // namespace XiGModels
 }  // namespace mousse
+
 #endif
+

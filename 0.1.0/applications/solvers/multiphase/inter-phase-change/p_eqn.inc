@@ -27,17 +27,17 @@
   Pair<tmp<volScalarField>> vDotP = mixture->vDotP();
   const volScalarField& vDotcP = vDotP[0]();
   const volScalarField& vDotvP = vDotP[1]();
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqn
     {
-      fvc::div(phiHbyA) - fvm::laplacian(rAUf, p_rgh)
-      - (vDotvP - vDotcP)*(pSat - rho*gh) + fvm::Sp(vDotvP - vDotcP, p_rgh)
+      fvc::div(phiHbyA)
+    - fvm::laplacian(rAUf, p_rgh)
+    - (vDotvP - vDotcP)*(pSat - rho*gh)
+    + fvm::Sp(vDotvP - vDotcP, p_rgh)
     };
     p_rghEqn.setReference(pRefCell, pRefValue);
     p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + p_rghEqn.flux();
       U = HbyA + rAU*fvc::reconstruct((phig + p_rghEqn.flux())/rAUf);
       U.correctBoundaryConditions();
@@ -45,14 +45,15 @@
     }
   }
   p == p_rgh + rho*gh;
-  if (p_rgh.needReference())
-  {
-    p += dimensionedScalar
-    {
-      "p",
-      p.dimensions(),
-      pRefValue - getRefCellValue(p, pRefCell)
-    };
+  if (p_rgh.needReference()) {
+    p +=
+      dimensionedScalar
+      {
+        "p",
+        p.dimensions(),
+        pRefValue - getRefCellValue(p, pRefCell)
+      };
     p_rgh = p - rho*gh;
   }
 }
+

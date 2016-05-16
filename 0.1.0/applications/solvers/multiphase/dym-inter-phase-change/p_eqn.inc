@@ -9,8 +9,7 @@
     (fvc::interpolate(HbyA) & mesh.Sf())
     + fvc::interpolate(rho*rAU)*fvc::ddtCorr(U, Uf)
   };
-  if (p_rgh.needReference())
-  {
+  if (p_rgh.needReference()) {
     fvc::makeRelative(phiHbyA, U);
     adjustPhi(phiHbyA, U, p_rgh);
     fvc::makeAbsolute(phiHbyA, U);
@@ -32,8 +31,7 @@
   Pair<tmp<volScalarField>> vDotP = mixture->vDotP();
   const volScalarField& vDotcP = vDotP[0]();
   const volScalarField& vDotvP = vDotP[1]();
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqn
     {
       fvc::div(phiHbyA) - fvm::laplacian(rAUf, p_rgh)
@@ -41,8 +39,7 @@
     };
     p_rghEqn.setReference(pRefCell, pRefValue);
     p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + p_rghEqn.flux();
       U = HbyA + rAU*fvc::reconstruct((phig + p_rghEqn.flux())/rAUf);
       U.correctBoundaryConditions();
@@ -57,14 +54,15 @@
   // Make the fluxes relative to the mesh motion
   fvc::makeRelative(phi, U);
   p == p_rgh + rho*gh;
-  if (p_rgh.needReference())
-  {
-    p += dimensionedScalar
-    {
-      "p",
-      p.dimensions(),
-      pRefValue - getRefCellValue(p, pRefCell)
-    };
+  if (p_rgh.needReference()) {
+    p +=
+      dimensionedScalar
+      {
+        "p",
+        p.dimensions(),
+        pRefValue - getRefCellValue(p, pRefCell)
+      };
     p_rgh = p - rho*gh;
   }
 }
+

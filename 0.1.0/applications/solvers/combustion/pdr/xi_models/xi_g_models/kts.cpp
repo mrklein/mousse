@@ -4,15 +4,19 @@
 
 #include "kts.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiGModels
-{
+namespace mousse {
+namespace XiGModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(KTS, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiGModel, KTS, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiGModels::KTS::KTS
 (
@@ -25,9 +29,13 @@ mousse::XiGModels::KTS::KTS
   XiGModel{XiGProperties, thermo, turbulence, Su},
   GEtaCoef_{readScalar(XiGModelCoeffs_.lookup("GEtaCoef"))}
 {}
+
+
 // Destructor 
 mousse::XiGModels::KTS::~KTS()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiGModels::KTS::G() const
 {
@@ -36,9 +44,12 @@ mousse::tmp<mousse::volScalarField> mousse::XiGModels::KTS::G() const
   volScalarField tauEta{sqrt(mag(thermo_.muu()/(thermo_.rhou()*epsilon)))};
   return (GEtaCoef_/tauEta);
 }
+
+
 bool mousse::XiGModels::KTS::read(const dictionary& XiGProperties)
 {
   XiGModel::read(XiGProperties);
   XiGModelCoeffs_.lookup("GEtaCoef") >> GEtaCoef_;
   return true;
 }
+

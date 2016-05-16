@@ -7,21 +7,20 @@
   const volScalarField& vDotvAlphal = vDotAlphal[1]();
   const volScalarField vDotvmcAlphal{vDotvAlphal - vDotcAlphal};
   tmp<surfaceScalarField> talphaPhi;
-  if (MULESCorr)
-  {
+  if (MULESCorr) {
     fvScalarMatrix alpha1Eqn
     {
       fv::EulerDdtScheme<scalar>(mesh).fvmDdt(alpha1)
-      + fv::gaussConvectionScheme<scalar>
+    + fv::gaussConvectionScheme<scalar>
       {
         mesh,
         phi,
         upwind<scalar>(mesh, phi)
       }.fvmDiv(phi, alpha1)
-      - fvm::Sp(divU, alpha1)
-      ==
+    - fvm::Sp(divU, alpha1)
+    ==
       fvm::Sp(vDotvmcAlphal, alpha1)
-      + vDotcAlphal
+    + vDotcAlphal
     };
     alpha1Eqn.solve();
     Info << "Phase-1 volume fraction = "
@@ -32,8 +31,7 @@
     talphaPhi = alpha1Eqn.flux();
   }
   volScalarField alpha10{"alpha10", alpha1};
-  for (int aCorr=0; aCorr<nAlphaCorr; aCorr++)
-  {
+  for (int aCorr=0; aCorr<nAlphaCorr; aCorr++) {
     tmp<surfaceScalarField> talphaPhiCorr
     {
       fvc::flux
@@ -42,15 +40,14 @@
         alpha1,
         alphaScheme
       )
-      + fvc::flux
+    + fvc::flux
       (
         -fvc::flux(-phir, alpha2, alpharScheme),
         alpha1,
         alpharScheme
       )
     };
-    if (MULESCorr)
-    {
+    if (MULESCorr) {
       talphaPhiCorr() -= talphaPhi();
       volScalarField alpha100{"alpha100", alpha10};
       alpha10 = alpha1;
@@ -69,18 +66,13 @@
         0
       );
       // Under-relax the correction for all but the 1st corrector
-      if (aCorr == 0)
-      {
+      if (aCorr == 0) {
         talphaPhi() += talphaPhiCorr();
-      }
-      else
-      {
+      } else {
         alpha1 = 0.5*alpha1 + 0.5*alpha10;
         talphaPhi() += 0.5*talphaPhiCorr();
       }
-    }
-    else
-    {
+    } else {
       MULES::explicitSolve
       (
         geometricOneField(),
@@ -103,3 +95,4 @@
     << "  Max(" << alpha1.name() << ") = " << max(alpha1).value()
     << endl;
 }
+

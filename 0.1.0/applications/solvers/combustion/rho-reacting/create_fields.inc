@@ -1,4 +1,4 @@
-Info<< "Creating reaction model\n" << endl;
+Info << "Creating reaction model\n" << endl;
 autoPtr<combustionModels::rhoCombustionModel> reaction
 {
   combustionModels::rhoCombustionModel::New(mesh)
@@ -7,7 +7,7 @@ rhoReactionThermo& thermo = reaction->thermo();
 thermo.validate(args.executable(), "h", "e");
 basicMultiComponentMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
-word inertSpecie(thermo.lookup("inertSpecie"));
+word inertSpecie{thermo.lookup("inertSpecie")};
 volScalarField rho
 {
   {
@@ -17,7 +17,7 @@ volScalarField rho
   },
   thermo.rho()
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -47,7 +47,7 @@ autoPtr<compressible::turbulenceModel> turbulence
 };
 // Set the turbulence into the reaction model
 reaction->setTurbulence(turbulence());
-Info<< "Creating field dpdt\n" << endl;
+Info << "Creating field dpdt\n" << endl;
 volScalarField dpdt
 {
   {
@@ -61,8 +61,7 @@ volScalarField dpdt
 Info << "Creating field kinetic energy K\n" << endl;
 volScalarField K{"K", 0.5*magSqr(U)};
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
-FOR_ALL(Y, i)
-{
+FOR_ALL(Y, i) {
   fields.add(Y[i]);
 }
 fields.add(thermo.he());
@@ -78,3 +77,4 @@ volScalarField dQ
   mesh,
   {"dQ", dimEnergy/dimTime, 0.0}
 };
+

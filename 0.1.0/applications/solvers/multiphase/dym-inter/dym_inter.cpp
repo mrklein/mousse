@@ -18,6 +18,7 @@
 #include "local_euler_ddt_scheme.hpp"
 #include "fvc_smooth.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -45,21 +46,16 @@ int main(int argc, char *argv[])
   };
   #include "correct_phi.inc"
   #include "create_uf.inc"
-  if (!LTS)
-  {
+  if (!LTS) {
     #include "courant_no.inc"
     #include "set_initial_delta_t.inc"
   }
   Info << "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "read_controls.inc"
-    if (LTS)
-    {
+    if (LTS) {
       #include "set_rdelta_t.inc"
-    }
-    else
-    {
+    } else {
       #include "courant_no.inc"
       #include "alpha_courant_no.inc"
       #include "set_delta_t.inc"
@@ -67,22 +63,18 @@ int main(int argc, char *argv[])
     runTime++;
     Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
-      if (pimple.firstIter() || moveMeshOuterCorrectors)
-      {
+    while (pimple.loop()) {
+      if (pimple.firstIter() || moveMeshOuterCorrectors) {
         scalar timeBeforeMeshUpdate = runTime.elapsedCpuTime();
         mesh.update();
-        if (mesh.changing())
-        {
+        if (mesh.changing()) {
           Info << "Execution time for mesh.update() = "
             << runTime.elapsedCpuTime() - timeBeforeMeshUpdate
             << " s" << endl;
           gh = (g & mesh.C()) - ghRef;
           ghf = (g & mesh.Cf()) - ghRef;
         }
-        if (mesh.changing() && correctPhi)
-        {
+        if (mesh.changing() && correctPhi) {
           // Calculate absolute flux from the mapped surface velocity
           phi = mesh.Sf() & Uf;
           #include "correct_phi.inc"
@@ -90,8 +82,7 @@ int main(int argc, char *argv[])
           fvc::makeRelative(phi, U);
           mixture.correct();
         }
-        if (mesh.changing() && checkMeshCourantNo)
-        {
+        if (mesh.changing() && checkMeshCourantNo) {
           #include "mesh_courant_no.inc"
         }
       }
@@ -100,12 +91,10 @@ int main(int argc, char *argv[])
       mixture.correct();
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -117,3 +106,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

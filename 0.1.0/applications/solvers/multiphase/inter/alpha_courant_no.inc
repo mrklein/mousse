@@ -8,16 +8,16 @@ scalar maxAlphaCo
 };
 scalar alphaCoNum = 0.0;
 scalar meanAlphaCoNum = 0.0;
-if (mesh.nInternalFaces())
-{
+if (mesh.nInternalFaces()) {
+  const auto& V = mesh.V().field();
+  const auto dt = runTime.deltaTValue();
   scalarField sumPhi
   {
     mixture.nearInterface()().internalField()
     *fvc::surfaceSum(mag(phi))().internalField()
   };
-  alphaCoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
-  meanAlphaCoNum =
-    0.5*(gSum(sumPhi)/gSum(mesh.V().field()))*runTime.deltaTValue();
+  alphaCoNum = 0.5*gMax(sumPhi/V)*dt;
+  meanAlphaCoNum = 0.5*(gSum(sumPhi)/gSum(V))*dt;
 }
 Info << "Interface Courant Number mean: " << meanAlphaCoNum
   << " max: " << alphaCoNum << endl;

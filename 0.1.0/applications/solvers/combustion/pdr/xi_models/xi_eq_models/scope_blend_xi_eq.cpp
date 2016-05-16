@@ -4,15 +4,19 @@
 
 #include "scope_blend_xi_eq.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiEqModels
-{
+namespace mousse {
+namespace XiEqModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(SCOPEBlend, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiEqModel, SCOPEBlend, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiEqModels::SCOPEBlend::SCOPEBlend
 (
@@ -44,15 +48,17 @@ mousse::XiEqModels::SCOPEBlend::SCOPEBlend
     )
   }
 {}
+
+
 // Destructor 
 mousse::XiEqModels::SCOPEBlend::~SCOPEBlend()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiEqModels::SCOPEBlend::XiEq() const
 {
-  return pow
-  (
-    pow4(1.0/XiEqModelL_->XiEq()) + pow4(1.0/XiEqModelH_->XiEq()),
-    -0.25
-  );
+  return
+    pow(pow4(1.0/XiEqModelL_->XiEq()) + pow4(1.0/XiEqModelH_->XiEq()), -0.25);
 }
+

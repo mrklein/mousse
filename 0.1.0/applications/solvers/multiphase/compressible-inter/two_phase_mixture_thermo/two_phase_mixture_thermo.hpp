@@ -1,18 +1,19 @@
+#ifndef TWO_PHASE_MIXTURE_THERMO_HPP_
+#define TWO_PHASE_MIXTURE_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::twoPhaseMixtureThermo
-// Description
-// SourceFiles
-//   two_phase_mixture_thermo.cpp
-#ifndef TWO_PHASE_MIXTURE_THERMO_HPP_
-#define TWO_PHASE_MIXTURE_THERMO_HPP_
+
 #include "rho_thermo.hpp"
 #include "psi_thermo.hpp"
 #include "two_phase_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class twoPhaseMixtureThermo
 :
   public psiThermo,
@@ -28,29 +29,14 @@ public:
   TYPE_NAME("twoPhaseMixtureThermo");
   // Constructors
     //- Construct from mesh
-    twoPhaseMixtureThermo
-    (
-      const fvMesh& mesh
-    );
+    twoPhaseMixtureThermo(const fvMesh& mesh);
   //- Destructor
   virtual ~twoPhaseMixtureThermo();
   // Member Functions
-    const rhoThermo& thermo1() const
-    {
-      return thermo1_();
-    }
-    const rhoThermo& thermo2() const
-    {
-      return thermo2_();
-    }
-    rhoThermo& thermo1()
-    {
-      return thermo1_();
-    }
-    rhoThermo& thermo2()
-    {
-      return thermo2_();
-    }
+    const rhoThermo& thermo1() const { return thermo1_(); }
+    const rhoThermo& thermo2() const { return thermo2_(); }
+    rhoThermo& thermo1() { return thermo1_(); }
+    rhoThermo& thermo2() { return thermo2_(); }
     //- Update properties
     virtual void correct();
     //- Return true if the equation of state is incompressible
@@ -193,5 +179,8 @@ public:
         const label patchi
       ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

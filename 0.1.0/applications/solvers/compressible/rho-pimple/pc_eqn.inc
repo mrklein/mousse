@@ -6,12 +6,10 @@ volScalarField rAU{1.0/UEqn().A()};
 volScalarField rAtU{1.0/(1.0/rAU - UEqn().H1())};
 volVectorField HbyA{"HbyA", U};
 HbyA = rAU*UEqn().H();
-if (pimple.nCorrPISO() <= 1)
-{
+if (pimple.nCorrPISO() <= 1) {
   UEqn.clear();
 }
-if (pimple.transonic())
-{
+if (pimple.transonic()) {
   surfaceScalarField phid
   {
     "phid",
@@ -27,26 +25,21 @@ if (pimple.transonic())
   };
   HbyA -= (rAU - rAtU)*fvc::grad(p);
   volScalarField rhorAtU{"rhorAtU", rho*rAtU};
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvm::ddt(psi, p)
-      + fvm::div(phid, p)
-      + fvc::div(phic)
-      - fvm::laplacian(rhorAtU, p)
-      ==
+    + fvm::div(phid, p)
+    + fvc::div(phic)
+    - fvm::laplacian(rhorAtU, p)
+    ==
       fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi == phic + pEqn.flux();
     }
   }
-}
-else
-{
+} else {
   surfaceScalarField phiHbyA
   {
     "phiHbyA",
@@ -57,19 +50,16 @@ else
   phiHbyA += fvc::interpolate(rho*(rAtU - rAU))*fvc::snGrad(p)*mesh.magSf();
   HbyA -= (rAU - rAtU)*fvc::grad(p);
   volScalarField rhorAtU{"rhorAtU", rho*rAtU};
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvm::ddt(psi, p)
-      + fvc::div(phiHbyA)
-      - fvm::laplacian(rhorAtU, p)
-      ==
+    + fvc::div(phiHbyA)
+    - fvm::laplacian(rhorAtU, p)
+    ==
       fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }
@@ -82,16 +72,14 @@ U = HbyA - rAtU*fvc::grad(p);
 U.correctBoundaryConditions();
 fvOptions.correct(U);
 K = 0.5*magSqr(U);
-if (thermo.dpdt())
-{
+if (thermo.dpdt()) {
   dpdt = fvc::ddt(p);
 }
 // Recalculate density from the relaxed pressure
 rho = thermo.rho();
 rho = max(rho, rhoMin);
 rho = min(rho, rhoMax);
-if (!pimple.transonic())
-{
+if (!pimple.transonic()) {
   rho.relax();
 }
-Info<< "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;
+Info << "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;

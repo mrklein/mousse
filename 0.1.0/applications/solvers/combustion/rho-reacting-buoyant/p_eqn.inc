@@ -26,23 +26,18 @@
       *rho.boundaryField()
     )/(mesh.magSf().boundaryField()*rhorAUf.boundaryField())
   );
-  fvScalarMatrix p_rghDDtEqn
-  {
+  fvScalarMatrix p_rghDDtEqn {
     fvc::ddt(rho) + psi*correction(fvm::ddt(p_rgh))
-    + fvc::div(phiHbyA)
-    ==
+  + fvc::div(phiHbyA)
+  ==
     fvOptions(psi, p_rgh, rho.name())
   };
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix p_rghEqn
-    {
-      p_rghDDtEqn
-      - fvm::laplacian(rhorAUf, p_rgh)
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix p_rghEqn {
+      p_rghDDtEqn - fvm::laplacian(rhorAUf, p_rgh)
     };
     p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       // Calculate the conservative fluxes
       phi = phiHbyA + p_rghEqn.flux();
       // Explicitly relax pressure for momentum corrector
@@ -58,10 +53,10 @@
   p = p_rgh + rho*gh;
   // Second part of thermodynamic density update
   thermo.rho() += psi*p;
-  if (thermo.dpdt())
-  {
+  if (thermo.dpdt()) {
     dpdt = fvc::ddt(p);
   }
   #include "rho_eqn.inc"
   #include "compressible_continuity_errs.inc"
 }
+

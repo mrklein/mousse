@@ -24,7 +24,7 @@ mousse::scalar mousse::solidRegionDiffNo
   };
   DiNum = gMax(kapparhoCpbyDelta.internalField())*runTime.deltaT().value();
   meanDiNum = (average(kapparhoCpbyDelta)).value()*runTime.deltaT().value();
-  Info<< "Region: " << mesh.name() << " Diffusion Number mean: " << meanDiNum
+  Info << "Region: " << mesh.name() << " Diffusion Number mean: " << meanDiNum
     << " max: " << DiNum << endl;
   return DiNum;
 }

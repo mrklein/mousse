@@ -1,4 +1,4 @@
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -10,7 +10,7 @@ volVectorField U
   },
   mesh
 };
-Info<< "Creating face flux\n" << endl;
+Info << "Creating face flux\n" << endl;
 surfaceScalarField phi
 {
   {
@@ -23,11 +23,11 @@ surfaceScalarField phi
   mesh,
   {"zero", mesh.Sf().dimensions()*U.dimensions(), 0.0}
 };
-singlePhaseTransportModel laminarTransport(U, phi);
+singlePhaseTransportModel laminarTransport{U, phi};
 autoPtr<incompressible::turbulenceModel> turbulence
-(
+{
   incompressible::turbulenceModel::New(U, phi, laminarTransport)
-);
+};
 dimensionedVector Ubar{"Ubar", dimVelocity, laminarTransport};
 vector flowDirection = (Ubar/mag(Ubar)).value();
 tensor flowMask = sqr(flowDirection);

@@ -3,8 +3,7 @@
   surfaceScalarField rAUf{"rAUf", fvc::interpolate(rAU)};
   volVectorField HbyA{"HbyA", U};
   HbyA = rAU*UEqn().H();
-  if (pimple.nCorrPISO() <= 1)
-  {
+  if (pimple.nCorrPISO() <= 1) {
     UEqn.clear();
   }
   surfaceScalarField phiHbyA
@@ -13,8 +12,7 @@
     (fvc::interpolate(HbyA) & mesh.Sf()) + rAUf*fvc::ddtCorr(U, Uf)
   };
   MRF.makeRelative(phiHbyA);
-  if (p_gh.needReference())
-  {
+  if (p_gh.needReference()) {
     fvc::makeRelative(phiHbyA, U);
     adjustPhi(phiHbyA, U, p_gh);
     fvc::makeAbsolute(phiHbyA, U);
@@ -28,13 +26,16 @@
     )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
   );
   // Non-orthogonal pressure corrector loop
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix p_ghEqn{fvm::laplacian(rAUf, p_gh) == fvc::div(phiHbyA)};
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix p_ghEqn
+    {
+      fvm::laplacian(rAUf, p_gh)
+    ==
+      fvc::div(phiHbyA)
+    };
     p_ghEqn.setReference(p_ghRefCell, p_ghRefValue);
     p_ghEqn.solve(mesh.solver(p_gh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA - p_ghEqn.flux();
       // Explicitly relax pressure for momentum corrector
       p_gh.relax();
@@ -55,3 +56,4 @@
   fvc::makeRelative(phi, U);
   p = p_gh + (g & mesh.C());
 }
+

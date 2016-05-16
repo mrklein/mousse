@@ -10,6 +10,8 @@
 #include "fixed_rho_fv_patch_scalar_field.hpp"
 #include "direction_interpolate.hpp"
 #include "motion_solver.hpp"
+
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -22,13 +24,12 @@ int main(int argc, char *argv[])
   // Courant numbers used to adjust the time-step
   scalar CoNum = 0.0;
   scalar meanCoNum = 0.0;
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_time_controls.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // Do any mesh changes
     mesh.update();
     // --- Directed interpolation of primitive fields onto faces
@@ -48,8 +49,7 @@ int main(int argc, char *argv[])
     surfaceScalarField phiv_pos{"phiv_pos", U_pos & mesh.Sf()};
     surfaceScalarField phiv_neg{"phiv_neg", U_neg & mesh.Sf()};
     // Make fluxes relative to mesh-motion
-    if (mesh.moving())
-    {
+    if (mesh.moving()) {
       phiv_pos -= mesh.phi();
       phiv_neg -= mesh.phi();
     }
@@ -77,8 +77,7 @@ int main(int argc, char *argv[])
     surfaceScalarField a_pos{"a_pos", ap/(ap - am)};
     surfaceScalarField amaxSf{"amaxSf", max(mag(am), mag(ap))};
     surfaceScalarField aSf{"aSf", am*a_pos};
-    if (fluxScheme == "Tadmor")
-    {
+    if (fluxScheme == "Tadmor") {
       aSf = -0.5*amaxSf;
       a_pos = 0.5;
     }
@@ -105,8 +104,7 @@ int main(int argc, char *argv[])
       + aSf*p_pos - aSf*p_neg
     };
     // Make flux for pressure-work absolute
-    if (mesh.moving())
-    {
+    if (mesh.moving()) {
       phiEp += mesh.phi()*(a_pos*p_pos + a_neg*p_neg);
     }
     volScalarField muEff{"muEff", turbulence->muEff()};
@@ -119,13 +117,12 @@ int main(int argc, char *argv[])
       rhoU.dimensionedInternalField()/rho.dimensionedInternalField();
     U.correctBoundaryConditions();
     rhoU.boundaryField() == rho.boundaryField()*U.boundaryField();
-    if (!inviscid)
-    {
+    if (!inviscid) {
       solve
       (
         fvm::ddt(rho, U) - fvc::ddt(rho, U)
-        - fvm::laplacian(muEff, U)
-        - fvc::div(tauMC)
+      - fvm::laplacian(muEff, U)
+      - fvc::div(tauMC)
       );
       rhoU = rho*U;
     }
@@ -140,20 +137,19 @@ int main(int argc, char *argv[])
     solve
     (
       fvm::ddt(rhoE)
-      + fvc::div(phiEp)
-      - fvc::div(sigmaDotU)
+    + fvc::div(phiEp)
+    - fvc::div(sigmaDotU)
     );
     e = rhoE/rho - 0.5*magSqr(U);
     e.correctBoundaryConditions();
     thermo.correct();
     rhoE.boundaryField() ==
       rho.boundaryField()*(e.boundaryField() + 0.5*magSqr(U.boundaryField()));
-    if (!inviscid)
-    {
+    if (!inviscid) {
       solve
       (
         fvm::ddt(rho, e) - fvc::ddt(rho, e)
-        - fvm::laplacian(turbulence->alphaEff(), e)
+      - fvm::laplacian(turbulence->alphaEff(), e)
       );
       thermo.correct();
       rhoE = rho*(e + 0.5*magSqr(U));
@@ -171,3 +167,4 @@ int main(int argc, char *argv[])
   Info<< "End\n" << endl;
   return 0;
 }
+

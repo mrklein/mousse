@@ -15,26 +15,21 @@ int main(int argc, char *argv[])
   #include "read_transport_properties.inc"
   #include "create_fields.inc"
   #include "init_continuity_errs.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
     #include "compressible_courant_no.inc"
     solve(fvm::ddt(rho) + fvc::div(phi));
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
-      fvVectorMatrix UEqn
-      {
+    while (pimple.loop()) {
+      fvVectorMatrix UEqn {
         fvm::ddt(rho, U)
-        + fvm::div(phi, U)
-        - fvm::laplacian(mu, U)
+      + fvm::div(phi, U)
+      - fvm::laplacian(mu, U)
       };
       solve(UEqn == -fvc::grad(p));
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         volScalarField rAU{"rAU", 1.0/UEqn.A()};
         surfaceScalarField rhorAUf
         {
@@ -49,12 +44,11 @@ int main(int argc, char *argv[])
                + rhorAUf*fvc::ddtCorr(rho, U, phi)/fvc::interpolate(rho))
         };
         phi = (rhoO/psi)*phid;
-        fvScalarMatrix pEqn
-        {
+        fvScalarMatrix pEqn {
           fvm::ddt(psi, p)
-          + fvc::div(phi)
-          + fvm::div(phid, p)
-          - fvm::laplacian(rhorAUf, p)
+        + fvc::div(phi)
+        + fvm::div(phid, p)
+        - fvm::laplacian(rhorAUf, p)
         };
         pEqn.solve();
         phi += pEqn.flux();

@@ -8,6 +8,7 @@
 #include "pimple_control.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -18,10 +19,8 @@ int main(int argc, char *argv[])
   #include "create_fields.inc"
   #include "courant_no.inc"
   #include "set_initial_delta_t.inc"
-
   Info << "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "courant_no.inc"
     #include "alpha_courant_no.inc"
@@ -29,19 +28,16 @@ int main(int argc, char *argv[])
     runTime++;
     Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       mixture.solve();
       solve(fvm::ddt(rho) + fvc::div(mixture.rhoPhi()));
       #include "u_eqn.inc"
       #include "t_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }

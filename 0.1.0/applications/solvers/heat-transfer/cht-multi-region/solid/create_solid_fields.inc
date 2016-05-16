@@ -6,23 +6,21 @@
   PtrList<volScalarField> betavSolid{solidRegions.size()};
   PtrList<volSymmTensorField> aniAlphas{solidRegions.size()};
   // Populate solid field pointer lists
-  FOR_ALL(solidRegions, i)
-  {
-    Info<< "*** Reading solid mesh thermophysical properties for region "
+  FOR_ALL(solidRegions, i) {
+    Info << "*** Reading solid mesh thermophysical properties for region "
       << solidRegions[i].name() << nl << endl;
-    Info<< "    Adding to thermos\n" << endl;
+    Info << "    Adding to thermos\n" << endl;
     thermos.set(i, solidThermo::New(solidRegions[i]));
-    Info<< "    Adding to radiations\n" << endl;
+    Info << "    Adding to radiations\n" << endl;
     radiations.set(i, radiation::radiationModel::New(thermos[i].T()));
-    Info<< "    Adding fvOptions\n" << endl;
+    Info << "    Adding fvOptions\n" << endl;
     solidHeatSources.set
     (
       i,
       new fv::IOoptionList{solidRegions[i]}
     );
-    if (!thermos[i].isotropic())
-    {
-      Info<< "    Adding coordinateSystems\n" << endl;
+    if (!thermos[i].isotropic()) {
+      Info << "    Adding coordinateSystems\n" << endl;
       coordinates.set
       (
         i,
@@ -59,16 +57,13 @@
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
     };
-    if (betavSolidIO.headerOk())
-    {
+    if (betavSolidIO.headerOk()) {
       betavSolid.set
       (
         i,
         new volScalarField{betavSolidIO, solidRegions[i]}
       );
-    }
-    else
-    {
+    } else {
       betavSolid.set
       (
         i,

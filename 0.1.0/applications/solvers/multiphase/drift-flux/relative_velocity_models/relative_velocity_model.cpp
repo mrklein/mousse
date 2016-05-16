@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "relative_velocity_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(relativeVelocityModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(relativeVelocityModel, dictionary);
 }
@@ -35,6 +37,8 @@ mousse::relativeVelocityModel::relativeVelocityModel
     mixture.U().boundaryField().types()
   }
 {}
+
+
 // Selectors
 mousse::autoPtr<mousse::relativeVelocityModel> mousse::relativeVelocityModel::New
 (
@@ -43,11 +47,10 @@ mousse::autoPtr<mousse::relativeVelocityModel> mousse::relativeVelocityModel::Ne
 )
 {
   word modelType{dict.lookup(typeName)};
-  Info<< "Selecting relative velocity model " << modelType << endl;
+  Info << "Selecting relative velocity model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "relativeVelocityModel::New"
@@ -63,26 +66,34 @@ mousse::autoPtr<mousse::relativeVelocityModel> mousse::relativeVelocityModel::Ne
   }
   return {cstrIter()(dict.subDict(modelType + "Coeffs"), mixture)};
 }
+
+
 // Destructor 
 mousse::relativeVelocityModel::~relativeVelocityModel()
 {}
+
+
 // Member Functions 
 tmp<volScalarField> mousse::relativeVelocityModel::rho() const
 {
   return alphac_*rhoc_ + alphad_*rhod_;
 }
+
+
 tmp<volSymmTensorField> mousse::relativeVelocityModel::tauDm() const
 {
   volScalarField betac{alphac_*rhoc_};
   volScalarField betad{alphad_*rhod_};
   // Calculate the relative velocity of the continuous phase w.r.t the mean
   volVectorField Ucm{betad*Udm_/betac};
-  return tmp<volSymmTensorField>
-  {
-    new volSymmTensorField
+  return
+    tmp<volSymmTensorField>
     {
-      "tauDm",
-      betad*sqr(Udm_) + betac*sqr(Ucm)
-    }
-  };
+      new volSymmTensorField
+      {
+        "tauDm",
+        betad*sqr(Udm_) + betac*sqr(Ucm)
+      }
+    };
 }
+

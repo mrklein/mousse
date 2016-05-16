@@ -1,21 +1,22 @@
+#ifndef MULTIPHASE_MIXTURE_THERMO_HPP_
+#define MULTIPHASE_MIXTURE_THERMO_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2013-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::multiphaseMixtureThermo
-// Description
-// SourceFiles
-//   multiphase_mixture_thermo.cpp
-#ifndef MULTIPHASE_MIXTURE_THERMO_HPP_
-#define MULTIPHASE_MIXTURE_THERMO_HPP_
+
 #include "phase_model.hpp"
 #include "ptr_dictionary.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "rho_thermo.hpp"
 #include "psi_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class multiphaseMixtureThermo
 :
   public psiThermo
@@ -59,7 +60,7 @@ public:
         return
         (
           ((a.first() == b.first()) && (a.second() == b.second()))
-        || ((a.first() == b.second()) && (a.second() == b.first()))
+          || ((a.first() == b.second()) && (a.second() == b.first()))
         );
       }
       friend bool operator!=
@@ -126,29 +127,14 @@ public:
   {}
   // Member Functions
     //- Return the phases
-    const PtrDictionary<phaseModel>& phases() const
-    {
-      return phases_;
-    }
+    const PtrDictionary<phaseModel>& phases() const { return phases_; }
     //- Return non-const access to the phases
-    PtrDictionary<phaseModel>& phases()
-    {
-      return phases_;
-    }
+    PtrDictionary<phaseModel>& phases() { return phases_; }
     //- Return the velocity
-    const volVectorField& U() const
-    {
-      return U_;
-    }
+    const volVectorField& U() const { return U_; }
     //- Return the volumetric flux
-    const surfaceScalarField& phi() const
-    {
-      return phi_;
-    }
-    const surfaceScalarField& rhoPhi() const
-    {
-      return rhoPhi_;
-    }
+    const surfaceScalarField& phi() const { return phi_; }
+    const surfaceScalarField& rhoPhi() const { return rhoPhi_; }
     //- Update properties
     virtual void correct();
     //- Update densities for given pressure change
@@ -305,5 +291,8 @@ public:
     //- Solve for the mixture phase-fractions
     void solve();
 };
+
 }  // namespace mousse
+
 #endif
+

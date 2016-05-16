@@ -2,8 +2,7 @@ volScalarField rAU{1.0/UEqn().A()};
 surfaceScalarField rAUf{"rAUf", fvc::interpolate(rAU)};
 volVectorField HbyA{"HbyA", U};
 HbyA = rAU*UEqn().H();
-if (pimple.nCorrPISO() <= 1)
-{
+if (pimple.nCorrPISO() <= 1) {
   UEqn.clear();
 }
 surfaceScalarField phiHbyA
@@ -22,13 +21,16 @@ setSnGrad<fixedFluxPressureFvPatchScalarField>
   )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
 );
 // Non-orthogonal pressure corrector loop
-while (pimple.correctNonOrthogonal())
-{
-  fvScalarMatrix p_ghEqn{fvm::laplacian(rAUf, p_gh) == fvc::div(phiHbyA)};
+while (pimple.correctNonOrthogonal()) {
+  fvScalarMatrix p_ghEqn
+  {
+    fvm::laplacian(rAUf, p_gh)
+  ==
+    fvc::div(phiHbyA)
+  };
   p_ghEqn.setReference(p_ghRefCell, p_ghRefValue);
   p_ghEqn.solve(mesh.solver(p_gh.select(pimple.finalInnerIter())));
-  if (pimple.finalNonOrthogonalIter())
-  {
+  if (pimple.finalNonOrthogonalIter()) {
     phi = phiHbyA - p_ghEqn.flux();
   }
 }
@@ -39,3 +41,4 @@ p = p_gh + (g & mesh.C());
 U = HbyA - rAU*fvc::grad(p_gh);
 U.correctBoundaryConditions();
 fvOptions.correct(U);
+

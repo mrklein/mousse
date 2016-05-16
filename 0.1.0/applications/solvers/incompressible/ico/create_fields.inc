@@ -1,4 +1,4 @@
-Info<< "Reading transportProperties\n" << endl;
+Info << "Reading transportProperties\n" << endl;
 IOdictionary transportProperties
 {
   {
@@ -10,7 +10,7 @@ IOdictionary transportProperties
   }
 };
 dimensionedScalar nu{"nu", dimViscosity, transportProperties.lookup("nu")};
-Info<< "Reading field p\n" << endl;
+Info << "Reading field p\n" << endl;
 volScalarField p
 {
   {
@@ -22,7 +22,7 @@ volScalarField p
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {

@@ -1,12 +1,8 @@
-word fluxScheme("Kurganov");
-if (mesh.schemesDict().readIfPresent("fluxScheme", fluxScheme))
-{
-  if ((fluxScheme == "Tadmor") || (fluxScheme == "Kurganov"))
-  {
-    Info<< "fluxScheme: " << fluxScheme << endl;
-  }
-  else
-  {
+word fluxScheme{"Kurganov"};
+if (mesh.schemesDict().readIfPresent("fluxScheme", fluxScheme)) {
+  if ((fluxScheme == "Tadmor") || (fluxScheme == "Kurganov")) {
+    Info << "fluxScheme: " << fluxScheme << endl;
+  } else {
     FATAL_ERROR_IN
     (
       "rhoCentralmousse::readFluxScheme"
@@ -17,3 +13,4 @@ if (mesh.schemesDict().readIfPresent("fluxScheme", fluxScheme))
     << abort(FatalError);
   }
 }
+

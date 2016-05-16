@@ -40,13 +40,7 @@ volVectorField U
 Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
 // Set the turbulence into the combustion model
 combustion->setTurbulence(turbulence());
@@ -81,8 +75,7 @@ volScalarField p_rgh
 p_rgh = p - rho*gh;
 mesh.setFluxRequired(p_rgh.name());
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
-FOR_ALL(Y, i)
-{
+FOR_ALL(Y, i) {
   fields.add(Y[i]);
 }
 fields.add(thermo.he());

@@ -10,8 +10,7 @@
     },
     mixture.cAlpha()*mag(phi/mesh.magSf())*mixture.nHatf()
   };
-  for (int gCorr=0; gCorr<nAlphaCorr; gCorr++)
-  {
+  for (int gCorr=0; gCorr<nAlphaCorr; gCorr++) {
     // Create the limiter to be used for all phase-fractions
     scalarField allLambda{mesh.nFaces(), 1.0};
     // Split the limiter into a surfaceScalarField
@@ -39,13 +38,13 @@
         alpha1,
         alphaScheme
       )
-     + fvc::flux
+    + fvc::flux
       (
         -fvc::flux(-phir, alpha2, alpharScheme),
         alpha1,
         alpharScheme
       )
-     + fvc::flux
+    + fvc::flux
       (
         -fvc::flux(-phir, alpha3, alpharScheme),
         alpha1,
@@ -60,8 +59,7 @@
     // Calculate the flux correction for alpha1
     alphaPhi1 -= alphaPhi1BD;
     // Calculate the limiter for alpha1
-    if (LTS)
-    {
+    if (LTS) {
       const volScalarField& rDeltaT = fv::localEulerDdt::localRDeltaT(mesh);
       MULES::limiter
       (
@@ -76,9 +74,7 @@
         1,
         0
       );
-    }
-    else
-    {
+    } else {
       MULES::limiter
       (
         allLambda,
@@ -102,7 +98,7 @@
         alpha2,
         alphaScheme
       )
-      + fvc::flux
+    + fvc::flux
       (
         -fvc::flux(phir, alpha1, alpharScheme),
         alpha2,
@@ -114,8 +110,7 @@
     // Calculate the flux correction for alpha2
     alphaPhi2 -= alphaPhi2BD;
     // Further limit the limiter for alpha2
-    if (LTS)
-    {
+    if (LTS) {
       const volScalarField& rDeltaT = fv::localEulerDdt::localRDeltaT(mesh);
       MULES::limiter
       (
@@ -130,9 +125,7 @@
         1,
         0
       );
-    }
-    else
-    {
+    } else {
       MULES::limiter
       (
         allLambda,
@@ -153,16 +146,16 @@
     // Solve for alpha1
     solve(fvm::ddt(alpha1) + fvc::div(alphaPhi1));
     // Create the diffusion coefficients for alpha2<->alpha3
-    volScalarField Dc23{D23*max(alpha3, scalar(0))*pos(alpha2)};
-    volScalarField Dc32{D23*max(alpha2, scalar(0))*pos(alpha3)};
+    volScalarField Dc23{D23*max(alpha3, scalar{0})*pos(alpha2)};
+    volScalarField Dc32{D23*max(alpha2, scalar{0})*pos(alpha3)};
     // Add the diffusive flux for alpha3->alpha2
     alphaPhi2 -= fvc::interpolate(Dc32)*mesh.magSf()*fvc::snGrad(alpha1);
     // Solve for alpha2
     fvScalarMatrix alpha2Eqn
     {
       fvm::ddt(alpha2)
-      + fvc::div(alphaPhi2)
-      - fvm::laplacian(Dc23 + Dc32, alpha2)
+    + fvc::div(alphaPhi2)
+    - fvm::laplacian(Dc23 + Dc32, alpha2)
     };
     alpha2Eqn.solve();
     // Construct the complete mass flux
@@ -181,3 +174,4 @@
     << "  Max(" << alpha2.name() << ") = " << max(alpha2).value()
     << endl;
 }
+

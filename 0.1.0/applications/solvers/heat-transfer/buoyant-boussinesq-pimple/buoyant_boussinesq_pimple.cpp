@@ -10,6 +10,7 @@
 #include "pimple_control.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -24,35 +25,31 @@ int main(int argc, char *argv[])
   #include "create_time_controls.inc"
   #include "courant_no.inc"
   #include "set_initial_delta_t.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
     #include "create_time_controls.inc"
     #include "courant_no.inc"
     #include "set_delta_t.inc"
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       #include "t_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         laminarTransport.correct();
         turbulence->correct();
       }
     }
     runTime.write();
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

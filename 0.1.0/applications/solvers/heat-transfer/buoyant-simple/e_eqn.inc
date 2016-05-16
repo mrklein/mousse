@@ -3,14 +3,14 @@
   fvScalarMatrix EEqn
   {
     fvm::div(phi, he)
-    + (he.name() == "e"
-      ? fvc::div(phi, volScalarField{"Ekp", 0.5*magSqr(U) + p/rho})
-      : fvc::div(phi, volScalarField{"K", 0.5*magSqr(U)}))
-    - fvm::laplacian(turbulence->alphaEff(), he)
-    ==
+  + (he.name() == "e"
+    ? fvc::div(phi, volScalarField{"Ekp", 0.5*magSqr(U) + p/rho})
+    : fvc::div(phi, volScalarField{"K", 0.5*magSqr(U)}))
+  - fvm::laplacian(turbulence->alphaEff(), he)
+  ==
     rho*(U&g)
-    + radiation->Sh(thermo)
-    + fvOptions(rho, he)
+  + radiation->Sh(thermo)
+  + fvOptions(rho, he)
   };
   EEqn.relax();
   fvOptions.constrain(EEqn);

@@ -1,6 +1,5 @@
 {
-  if (pimple.nCorrPIMPLE() == 1)
-  {
+  if (pimple.nCorrPIMPLE() == 1) {
     p = (rho - alphal*rhol0 - ((alphav*psiv + alphal*psil) - psi)*pSat)/psi;
   }
   surfaceScalarField rhof{"rhof", fvc::interpolate(rho)};
@@ -13,19 +12,17 @@
   surfaceScalarField phiGradp{rhorAUf*mesh.magSf()*fvc::snGrad(p)};
   phi -= phiGradp/rhof;
   volScalarField rho0{rho - psi*p};
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix pEqn
     {
       fvc::ddt(rho)
-      + psi*correction(fvm::ddt(p))
-      + fvc::div(phi, rho)
-      + fvc::div(phiGradp)
-      - fvm::laplacian(rhorAUf, p)
+    + psi*correction(fvm::ddt(p))
+    + fvc::div(phi, rho)
+    + fvc::div(phiGradp)
+    - fvm::laplacian(rhorAUf, p)
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi += (phiGradp + pEqn.flux())/rhof;
     }
   }
@@ -40,8 +37,7 @@
   // Correct velocity
   U = HbyA - rAU*fvc::grad(p);
   // Remove the swirl component of velocity for "wedge" cases
-  if (pimple.dict().found("removeSwirl"))
-  {
+  if (pimple.dict().found("removeSwirl")) {
     label swirlCmpt{readLabel(pimple.dict().lookup("removeSwirl"))};
     Info << "Removing swirl component-" << swirlCmpt << " of U" << endl;
     U.field().replace(swirlCmpt, 0.0);

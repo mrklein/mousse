@@ -1,4 +1,4 @@
-Info<< "Reading thermophysical properties\n" << endl;
+Info << "Reading thermophysical properties\n" << endl;
 autoPtr<psiThermo> pThermo
 {
   psiThermo::New(mesh)
@@ -10,11 +10,10 @@ const volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
 const volScalarField& mu = thermo.mu();
 bool inviscid(true);
-if (max(mu.internalField()) > 0.0)
-{
+if (max(mu.internalField()) > 0.0) {
   inviscid = false;
 }
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -76,7 +75,7 @@ surfaceScalarField neg
   {"neg", dimless, -1.0}
 };
 surfaceScalarField phi{"phi", mesh.Sf() & fvc::interpolate(rhoU)};
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
   compressible::turbulenceModel::New
@@ -87,3 +86,4 @@ autoPtr<compressible::turbulenceModel> turbulence
     thermo
   )
 };
+

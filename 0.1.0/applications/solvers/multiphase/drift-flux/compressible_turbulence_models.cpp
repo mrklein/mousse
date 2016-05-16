@@ -10,6 +10,7 @@
 #include "ras_model.hpp"
 #include "les_model.hpp"
 
+
 MAKE_BASE_TURBULENCE_MODEL
 (
   geometricOneField,
@@ -19,6 +20,7 @@ MAKE_BASE_TURBULENCE_MODEL
   incompressibleTwoPhaseInteractingMixture
 );
 
+
 #define MAKE_RAS_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (                                                                           \
@@ -26,6 +28,8 @@ MAKE_BASE_TURBULENCE_MODEL
     RAS,                                                                      \
     Type                                                                      \
   )
+
+
 #define MAKE_LES_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (                                                                           \
@@ -33,11 +37,16 @@ MAKE_BASE_TURBULENCE_MODEL
     LES,                                                                      \
     Type                                                                      \
   )
+
+
 #include "k_epsilon.hpp"
 MAKE_RAS_MODEL(kEpsilon);
+
 #include "buoyant_k_epsilon.hpp"
 MAKE_RAS_MODEL(buoyantKEpsilon);
+
 #include "smagorinsky.hpp"
 MAKE_LES_MODEL(Smagorinsky);
+
 #include "k_eqn.hpp"
 MAKE_LES_MODEL(kEqn);

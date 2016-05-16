@@ -4,18 +4,15 @@ if (pressureImplicitPorosity)
 else
   HbyA = trAU()*UEqn().H();
 UEqn.clear();
-
 surfaceScalarField phiHbyA{"phiHbyA", fvc::interpolate(HbyA) & mesh.Sf()};
 MRF.makeRelative(phiHbyA);
 adjustPhi(phiHbyA, U, p);
 while (simple.correctNonOrthogonal()) {
   tmp<fvScalarMatrix> tpEqn;
-
   if (pressureImplicitPorosity)
     tpEqn = (fvm::laplacian(trTU(), p) == fvc::div(phiHbyA));
   else
     tpEqn = (fvm::laplacian(trAU(), p) == fvc::div(phiHbyA));
-
   tpEqn().setReference(pRefCell, pRefValue);
   tpEqn().solve();
   if (simple.finalNonOrthogonalIter())

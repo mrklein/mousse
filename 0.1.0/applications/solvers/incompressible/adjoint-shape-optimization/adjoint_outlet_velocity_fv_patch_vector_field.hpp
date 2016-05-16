@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::adjointOutletVelocityFvPatchVectorField
-// Description
-// SourceFiles
-//   adjoint_outlet_velocity_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class adjointOutletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -45,10 +45,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new adjointOutletVelocityFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new adjointOutletVelocityFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     adjointOutletVelocityFvPatchVectorField
@@ -62,10 +63,11 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new adjointOutletVelocityFvPatchVectorField(*this, iF)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new adjointOutletVelocityFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -73,5 +75,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

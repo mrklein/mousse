@@ -9,9 +9,13 @@
 #include "fvc_div.hpp"
 #include "fvc_grad.hpp"
 #include "fvc_sn_grad.hpp"
+
+
 // Static Member Data 
 const mousse::scalar mousse::threePhaseInterfaceProperties::convertToRad =
   mousse::constant::mathematical::pi/180.0;
+
+
 // Private Member Functions 
 void mousse::threePhaseInterfaceProperties::correctContactAngle
 (
@@ -28,48 +32,42 @@ void mousse::threePhaseInterfaceProperties::correctContactAngle
     mixture_.U().boundaryField();
   const fvMesh& mesh = mixture_.U().mesh();
   const fvBoundaryMesh& boundary = mesh.boundary();
-  FOR_ALL(boundary, patchi)
-  {
-    if (isA<alphaContactAngleFvPatchScalarField>(alpha1[patchi]))
+  FOR_ALL(boundary, patchi) {
+    if (!isA<alphaContactAngleFvPatchScalarField>(alpha1[patchi]))
+      continue;
+    const alphaContactAngleFvPatchScalarField& a2cap =
+      refCast<const alphaContactAngleFvPatchScalarField>(alpha2[patchi]);
+    const alphaContactAngleFvPatchScalarField& a3cap =
+      refCast<const alphaContactAngleFvPatchScalarField>(alpha3[patchi]);
+    scalarField twoPhaseAlpha2{max(a2cap, scalar{0})};
+    scalarField twoPhaseAlpha3{max(a3cap, scalar{0})};
+    scalarField sumTwoPhaseAlpha{twoPhaseAlpha2 + twoPhaseAlpha3 + SMALL};
+    twoPhaseAlpha2 /= sumTwoPhaseAlpha;
+    twoPhaseAlpha3 /= sumTwoPhaseAlpha;
+    fvsPatchVectorField& nHatp = nHatb[patchi];
+    scalarField theta
     {
-      const alphaContactAngleFvPatchScalarField& a2cap =
-        refCast<const alphaContactAngleFvPatchScalarField>
-        (alpha2[patchi]);
-      const alphaContactAngleFvPatchScalarField& a3cap =
-        refCast<const alphaContactAngleFvPatchScalarField>
-        (alpha3[patchi]);
-      scalarField twoPhaseAlpha2{max(a2cap, scalar(0))};
-      scalarField twoPhaseAlpha3{max(a3cap, scalar(0))};
-      scalarField sumTwoPhaseAlpha
-      {
-        twoPhaseAlpha2 + twoPhaseAlpha3 + SMALL
-      };
-      twoPhaseAlpha2 /= sumTwoPhaseAlpha;
-      twoPhaseAlpha3 /= sumTwoPhaseAlpha;
-      fvsPatchVectorField& nHatp = nHatb[patchi];
-      scalarField theta
-      {
-        convertToRad
-        *(twoPhaseAlpha2*(180 - a2cap.theta(U[patchi], nHatp))
-          + twoPhaseAlpha3*(180 - a3cap.theta(U[patchi], nHatp)))
-      };
-      vectorField nf{boundary[patchi].nf()};
-      // Reset nHatPatch to correspond to the contact angle
-      scalarField a12{nHatp & nf};
-      scalarField b1{cos(theta)};
-      scalarField b2{nHatp.size()};
-      FOR_ALL(b2, facei)
-      {
-        b2[facei] = cos(acos(a12[facei]) - theta[facei]);
-      }
-      scalarField det{1.0 - a12*a12};
-      scalarField a{(b1 - a12*b2)/det};
-      scalarField b{(b2 - a12*b1)/det};
-      nHatp = a*nf + b*nHatp;
-      nHatp /= (mag(nHatp) + deltaN_.value());
+      convertToRad
+      *(twoPhaseAlpha2*(180 - a2cap.theta(U[patchi], nHatp))
+        + twoPhaseAlpha3*(180 - a3cap.theta(U[patchi], nHatp)))
+    };
+    vectorField nf{boundary[patchi].nf()};
+    // Reset nHatPatch to correspond to the contact angle
+    scalarField a12{nHatp & nf};
+    scalarField b1{cos(theta)};
+    scalarField b2{nHatp.size()};
+    FOR_ALL(b2, facei) {
+      b2[facei] = cos(acos(a12[facei]) - theta[facei]);
     }
+    scalarField det{1.0 - a12*a12};
+    scalarField a{(b1 - a12*b2)/det};
+    scalarField b{(b2 - a12*b1)/det};
+    nHatp = a*nf + b*nHatp;
+    nHatp /= (mag(nHatp) + deltaN_.value());
   }
 }
+
+
 void mousse::threePhaseInterfaceProperties::calculateK()
 {
   const volScalarField& alpha1 = mixture_.alpha1();
@@ -92,6 +90,8 @@ void mousse::threePhaseInterfaceProperties::calculateK()
   // nHat.boundaryField() = nHatfv.boundaryField();
   // K_ = -fvc::div(nHatf_) + (nHat & fvc::grad(nHatfv) & nHat);
 }
+
+
 // Constructors 
 mousse::threePhaseInterfaceProperties::threePhaseInterfaceProperties
 (
@@ -139,12 +139,16 @@ mousse::threePhaseInterfaceProperties::threePhaseInterfaceProperties
 {
   calculateK();
 }
+
+
 // Member Functions 
 mousse::tmp<mousse::surfaceScalarField>
 mousse::threePhaseInterfaceProperties::surfaceTensionForce() const
 {
   return fvc::interpolate(sigmaK())*fvc::snGrad(mixture_.alpha1());
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::threePhaseInterfaceProperties::nearInterface() const
 {
@@ -154,3 +158,4 @@ mousse::threePhaseInterfaceProperties::nearInterface() const
     pos(mixture_.alpha2() - 0.01)*pos(0.99 - mixture_.alpha2())
   );
 }
+

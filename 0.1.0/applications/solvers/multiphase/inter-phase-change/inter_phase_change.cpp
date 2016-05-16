@@ -12,6 +12,7 @@
 #include "fv_io_option_list.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -23,18 +24,15 @@ int main(int argc, char *argv[])
   #include "create_time_controls.inc"
   #include "courant_no.inc"
   #include "set_initial_delta_t.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "alpha_controls.inc"
       surfaceScalarField rhoPhi
       {
@@ -51,12 +49,10 @@ int main(int argc, char *argv[])
       interface.correct();
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -68,3 +64,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

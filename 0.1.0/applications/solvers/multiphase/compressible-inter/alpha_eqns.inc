@@ -2,8 +2,7 @@
   word alphaScheme{"div(phi,alpha)"};
   word alpharScheme{"div(phirb,alpha)"};
   surfaceScalarField phir{phic*interface.nHatf()};
-  for (int gCorr=0; gCorr<nAlphaCorr; gCorr++)
-  {
+  for (int gCorr=0; gCorr<nAlphaCorr; gCorr++) {
     volScalarField::DimensionedInternalField Sp
     {
       {
@@ -25,15 +24,11 @@
       // consistent with the explicit transport solution
       divU*min(alpha1, scalar(1))
     };
-    FOR_ALL(dgdt, celli)
-    {
-      if (dgdt[celli] > 0.0 && alpha1[celli] > 0.0)
-      {
+    FOR_ALL(dgdt, celli) {
+      if (dgdt[celli] > 0.0 && alpha1[celli] > 0.0) {
         Sp[celli] -= dgdt[celli]*alpha1[celli];
         Su[celli] += dgdt[celli]*alpha1[celli];
-      }
-      else if (dgdt[celli] < 0.0 && alpha1[celli] < 1.0)
-      {
+      } else if (dgdt[celli] < 0.0 && alpha1[celli] < 1.0) {
         Sp[celli] += dgdt[celli]*(1.0 - alpha1[celli]);
       }
     }

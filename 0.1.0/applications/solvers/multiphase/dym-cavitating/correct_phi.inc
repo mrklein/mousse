@@ -1,4 +1,5 @@
 correctUphiBCs(U, phi);
+
 {
   volScalarField pcorr
   {
@@ -14,15 +15,13 @@ correctUphiBCs(U, phi);
   surfaceScalarField rhof{fvc::interpolate(rho, "div(phi,rho)")};
   dimensionedScalar rAUf{"rAUf", dimTime, 1.0};
   mesh.setFluxRequired(pcorr.name());
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix pcorrEqn
     {
       fvm::laplacian(rAUf, pcorr) == fvc::ddt(rho) + fvc::div(phi*rhof)
     };
     pcorrEqn.solve();
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi -= pcorrEqn.flux()/rhof;
     }
   }

@@ -14,6 +14,8 @@
 #include "pimple_control.hpp"
 #include "fv_io_option_list.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
+
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -34,8 +36,7 @@ int main(int argc, char *argv[])
   #include "read_pyrolysis_time_controls.inc"
 
   Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "compressible_courant_no.inc"
     #include "solid_region_diffusion_no.inc"
@@ -46,21 +47,17 @@ int main(int argc, char *argv[])
     parcels.evolve();
     surfaceFilm.evolve();
     pyrolysis.evolve();
-    if (solvePrimaryRegion)
-    {
+    if (solvePrimaryRegion) {
       #include "rho_eqn.inc"
       // --- PIMPLE loop
-      while (pimple.loop())
-      {
+      while (pimple.loop()) {
         #include "u_eqn.inc"
         #include "ye_eqn.inc"
         // --- Pressure corrector loop
-        while (pimple.correct())
-        {
+        while (pimple.correct()) {
           #include "p_eqn.inc"
         }
-        if (pimple.turbCorr())
-        {
+        if (pimple.turbCorr()) {
           turbulence->correct();
         }
       }
@@ -74,3 +71,4 @@ int main(int argc, char *argv[])
   Info << "End" << endl;
   return 0;
 }
+

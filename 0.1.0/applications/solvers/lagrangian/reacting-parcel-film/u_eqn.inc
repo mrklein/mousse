@@ -2,20 +2,19 @@
   fvVectorMatrix UEqn
   {
     fvm::ddt(rho, U) + fvm::div(phi, U)
-    + MRF.DDt(rho, U)
-    + turbulence->divDevRhoReff(U)
-    ==
+  + MRF.DDt(rho, U)
+  + turbulence->divDevRhoReff(U)
+  ==
     parcels.SU(U)
-    + fvOptions(rho, U)
+  + fvOptions(rho, U)
   };
   UEqn.relax();
   fvOptions.constrain(UEqn);
-  if (pimple.momentumPredictor())
-  {
+  if (pimple.momentumPredictor()) {
     solve
     (
       UEqn
-     ==
+    ==
       fvc::reconstruct
       (
         (-ghf*fvc::snGrad(rho) - fvc::snGrad(p_rgh))*mesh.magSf()

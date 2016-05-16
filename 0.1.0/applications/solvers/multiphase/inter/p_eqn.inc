@@ -22,19 +22,19 @@
     p_rgh.boundaryField(),
     (
       phiHbyA.boundaryField()
-     - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
+    - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
     )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
   );
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqn
     {
-      fvm::laplacian(rAUf, p_rgh) == fvc::div(phiHbyA)
+      fvm::laplacian(rAUf, p_rgh)
+    ==
+      fvc::div(phiHbyA)
     };
     p_rghEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
     p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA - p_rghEqn.flux();
       p_rgh.relax();
       U = HbyA + rAU*fvc::reconstruct((phig - p_rghEqn.flux())/rAUf);
@@ -44,14 +44,15 @@
   }
   #include "continuity_errs.inc"
   p == p_rgh + rho*gh;
-  if (p_rgh.needReference())
-  {
-    p += dimensionedScalar
-    {
-      "p",
-      p.dimensions(),
-      pRefValue - getRefCellValue(p, pRefCell)
-    };
+  if (p_rgh.needReference()) {
+    p +=
+      dimensionedScalar
+      {
+        "p",
+        p.dimensions(),
+        pRefValue - getRefCellValue(p, pRefCell)
+      };
     p_rgh = p - rho*gh;
   }
 }
+

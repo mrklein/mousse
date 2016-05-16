@@ -1,7 +1,8 @@
 #ifndef DIRECTION_INTERPOLATE_HPP_
 #define DIRECTION_INTERPOLATE_HPP_
-namespace mousse
-{
+
+namespace mousse {
+
 //- Interpolate field vf according to direction dir
 template<class Type>
 tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
@@ -18,13 +19,16 @@ tmp<GeometricField<Type, fvsPatchField, surfaceMesh> > interpolate
       vf,
       dir,
       "reconstruct("
-     + (reconFieldName != word::null ? reconFieldName : vf.name())
-     + ')'
+    + (reconFieldName != word::null ? reconFieldName : vf.name())
+    + ')'
     )
   };
   GeometricField<Type, fvsPatchField, surfaceMesh>& sf = tsf();
   sf.rename(vf.name() + '_' + dir.name());
   return tsf;
 }
+
 }
+
 #endif
+

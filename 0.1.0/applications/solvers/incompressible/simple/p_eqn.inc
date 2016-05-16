@@ -6,8 +6,7 @@
   MRF.makeRelative(phiHbyA);
   adjustPhi(phiHbyA, U, p);
   tmp<volScalarField> rAtU{rAU};
-  if (simple.consistent())
-  {
+  if (simple.consistent()) {
     rAtU = 1.0/(1.0/rAU - UEqn().H1());
     phiHbyA += fvc::interpolate(rAtU() - rAU)*fvc::snGrad(p)*mesh.magSf();
     HbyA -= (rAU - rAtU())*fvc::grad(p);

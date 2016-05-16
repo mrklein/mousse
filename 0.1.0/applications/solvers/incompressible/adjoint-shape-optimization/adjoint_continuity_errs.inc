@@ -8,7 +8,7 @@
   scalar globalContErr = runTime.deltaTValue()*
     fvc::div(phia)().weightedAverage(mesh.V()).value();
   cumulativeAdjointContErr += globalContErr;
-  Info<< "Adjoint continuity errors : sum local = " << sumLocalContErr
+  Info << "Adjoint continuity errors : sum local = " << sumLocalContErr
     << ", global = " << globalContErr
     << ", cumulative = " << cumulativeAdjointContErr
     << endl;

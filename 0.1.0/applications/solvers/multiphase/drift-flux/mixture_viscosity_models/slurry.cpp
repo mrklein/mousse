@@ -7,11 +7,12 @@
 #endif
 #include "slurry.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace mixtureViscosityModels
-{
+namespace mousse {
+namespace mixtureViscosityModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(slurry, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -19,8 +20,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   slurry,
   dictionary
 );
+
 }
 }
+
+
 // Constructors 
 mousse::mixtureViscosityModels::slurry::slurry
 (
@@ -44,6 +48,8 @@ mousse::mixtureViscosityModels::slurry::slurry
     )
   }
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField>
 mousse::mixtureViscosityModels::slurry::mu(const volScalarField& muc) const
@@ -51,6 +57,8 @@ mousse::mixtureViscosityModels::slurry::mu(const volScalarField& muc) const
   return
     muc*(1.0 + 2.5*alpha_ + 10.05*sqr(alpha_) + 0.00273*exp(16.6*alpha_));
 }
+
+
 bool mousse::mixtureViscosityModels::slurry::read
 (
   const dictionary& /*viscosityProperties*/
@@ -58,3 +66,4 @@ bool mousse::mixtureViscosityModels::slurry::read
 {
   return true;
 }
+

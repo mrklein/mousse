@@ -1,3 +1,6 @@
+#ifndef BASIC_XI_SUB_XI_EQ_HPP_
+#define BASIC_XI_SUB_XI_EQ_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -24,15 +27,14 @@
 //       1 + max(2.2 \sqrt{b}, min(0.34 \frac{\vert \dwea{\vec{U}}
 //       \vert}{{\vec{U}}^{'}}, 1.6)) \times min(\frac{n}{4}, 1)
 //   \f]
-// SourceFiles
-//   basic_sub_grid.cpp
-#ifndef BASICSUBGRID_H
-#define BASICSUBGRID_H
+
+
 #include "xi_eq_model.hpp"
-namespace mousse
-{
-namespace XiEqModels
-{
+
+
+namespace mousse {
+namespace XiEqModels {
+
 class basicSubGrid
 :
   public XiEqModel
@@ -66,6 +68,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& XiEqProperties);
 };
+
 }  // namespace XiEqModels
 }  // namespace mousse
+
 #endif
+

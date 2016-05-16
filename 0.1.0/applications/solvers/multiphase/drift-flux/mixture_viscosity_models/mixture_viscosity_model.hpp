@@ -1,3 +1,6 @@
+#ifndef MIXTURE_VISCOSITY_MODEL_HPP_
+#define MIXTURE_VISCOSITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,18 +8,16 @@
 //   mousse::mixtureViscosityModel
 // Description
 //   An abstract base class for incompressible mixtureViscosityModels.
-// SourceFiles
-//   mixture_viscosity_model.cpp
-//   mixture_viscosity_model_new.cpp
-#ifndef MIXTURE_VISCOSITY_MODEL_HPP_
-#define MIXTURE_VISCOSITY_MODEL_HPP_
+
 #include "dictionary.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
 #include "dimensioned_scalar.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mixtureViscosityModel
 {
 protected:
@@ -79,5 +80,8 @@ public:
     //- Read transportProperties dictionary
     virtual bool read(const dictionary& viscosityProperties) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

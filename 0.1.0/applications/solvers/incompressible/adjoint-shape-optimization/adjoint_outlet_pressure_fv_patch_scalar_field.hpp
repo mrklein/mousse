@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::adjointOutletPressureFvPatchScalarField
-// Description
-// SourceFiles
-//   adjoint_outlet_pressure_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class adjointOutletPressureFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -45,10 +45,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new adjointOutletPressureFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new adjointOutletPressureFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     adjointOutletPressureFvPatchScalarField
@@ -62,10 +63,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new adjointOutletPressureFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new adjointOutletPressureFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -74,5 +76,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

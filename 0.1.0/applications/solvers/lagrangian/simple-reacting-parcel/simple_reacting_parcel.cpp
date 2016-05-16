@@ -12,6 +12,7 @@
 #include "slg_thermo.hpp"
 #include "simple_control.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -25,11 +26,9 @@ int main(int argc, char *argv[])
   #include "create_mrf.inc"
   #include "create_fv_options.inc"
   #include "init_continuity_errs.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (simple.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+  Info << "\nStarting time loop\n" << endl;
+  while (simple.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
     parcels.evolve();
     // --- Pressure-velocity SIMPLE corrector loop
     {

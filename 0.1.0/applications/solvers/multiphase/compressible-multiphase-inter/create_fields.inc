@@ -1,4 +1,4 @@
-Info<< "Reading field p_rgh\n" << endl;
+Info << "Reading field p_rgh\n" << endl;
 volScalarField p_rgh
 {
   {
@@ -10,7 +10,7 @@ volScalarField p_rgh
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -23,7 +23,7 @@ volVectorField U
   mesh
 };
 #include "create_phi.inc"
-Info<< "Constructing multiphaseMixtureThermo\n" << endl;
+Info << "Constructing multiphaseMixtureThermo\n" << endl;
 multiphaseMixtureThermo mixture{U, phi};
 volScalarField& p = mixture.p();
 volScalarField& T = mixture.T();
@@ -53,5 +53,5 @@ autoPtr<compressible::turbulenceModel> turbulence
     mixture
   )
 };
-Info<< "Creating field kinetic energy K\n" << endl;
+Info << "Creating field kinetic energy K\n" << endl;
 volScalarField K{"K", 0.5*magSqr(U)};

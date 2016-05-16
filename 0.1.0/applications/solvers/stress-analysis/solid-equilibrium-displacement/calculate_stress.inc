@@ -1,5 +1,4 @@
-  if (runTime.outputTime())
-  {
+  if (runTime.outputTime()) {
     volSymmTensorField sigma
     {
       {

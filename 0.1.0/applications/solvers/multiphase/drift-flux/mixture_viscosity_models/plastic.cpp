@@ -5,11 +5,12 @@
 #include "plastic.hpp"
 #include "surface_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace mixtureViscosityModels
-{
+namespace mousse {
+namespace mixtureViscosityModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(plastic, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -17,8 +18,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   plastic,
   dictionary
 );
+
 }
 }
+
+
 // Constructors 
 mousse::mixtureViscosityModels::plastic::plastic
 (
@@ -61,6 +65,8 @@ mousse::mixtureViscosityModels::plastic::plastic
     )
   }
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField>
 mousse::mixtureViscosityModels::plastic::mu(const volScalarField& muc) const
@@ -73,6 +79,8 @@ mousse::mixtureViscosityModels::plastic::mu(const volScalarField& muc) const
     muMax_
   );
 }
+
+
 bool mousse::mixtureViscosityModels::plastic::read
 (
   const dictionary& viscosityProperties
@@ -85,3 +93,4 @@ bool mousse::mixtureViscosityModels::plastic::read
   plasticCoeffs_.lookup("muMax") >> muMax_;
   return true;
 }
+

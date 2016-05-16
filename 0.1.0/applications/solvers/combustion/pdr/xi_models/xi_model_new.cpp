@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "xi_model.hpp"
+
+
 mousse::autoPtr<mousse::XiModel> mousse::XiModel::New
 (
   const dictionary& propDict,
@@ -18,8 +20,7 @@ mousse::autoPtr<mousse::XiModel> mousse::XiModel::New
   Info << "Selecting flame-wrinkling model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "XiModel::New"
@@ -30,8 +31,9 @@ mousse::autoPtr<mousse::XiModel> mousse::XiModel::New
     << dictionaryConstructorTablePtr_->sortedToc()
     << exit(FatalError);
   }
-  return autoPtr<XiModel>
-  {
-    cstrIter()(propDict, thermo, turbulence, Su, rho, b, phi)
-  };
+  return
+    autoPtr<XiModel>
+    {
+      cstrIter()(propDict, thermo, turbulence, Su, rho, b, phi)
+    };
 }

@@ -9,12 +9,13 @@
 // Description
 //   Maxwell slip boundary condition including thermal creep and surface
 //   curvature terms that can be optionally switched off.
-// SourceFiles
-//   fixed_rho_fv_patch_scalar_field.cpp
+
 #include "mixed_fixed_value_slip_fv_patch_fields.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class maxwellSlipUFvPatchVectorField
 :
   public mixedFixedValueSlipFvPatchVectorField
@@ -67,10 +68,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new maxwellSlipUFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new maxwellSlipUFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     maxwellSlipUFvPatchVectorField
@@ -84,10 +86,11 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new maxwellSlipUFvPatchVectorField(*this, iF)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new maxwellSlipUFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -95,5 +98,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

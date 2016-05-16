@@ -4,12 +4,17 @@
 
 #include "xi_eq_model.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(XiEqModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(XiEqModel, dictionary);
+
 }
+
+
 // Constructors 
 mousse::XiEqModel::XiEqModel
 (
@@ -30,25 +35,32 @@ mousse::XiEqModel::XiEqModel
   turbulence_{turbulence},
   Su_{Su}
 {}
+
+
 // Destructor 
 mousse::XiEqModel::~XiEqModel()
 {}
+
+
 // Member Functions 
 bool mousse::XiEqModel::read(const dictionary& XiEqProperties)
 {
   XiEqModelCoeffs_ = XiEqProperties.subDict(type() + "Coeffs");
   return true;
 }
+
+
 void mousse::XiEqModel::writeFields() const
 {
   //***HGW It is not clear why B is written here
-  if (Su_.mesh().foundObject<volSymmTensorField>("B"))
-  {
+  if (Su_.mesh().foundObject<volSymmTensorField>("B")) {
     const volSymmTensorField& B =
       Su_.mesh().lookupObject<volSymmTensorField>("B");
     B.write();
   }
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::XiEqModel::calculateSchelkinEffect(const scalar uPrimeCoef) const
 {
@@ -103,3 +115,4 @@ mousse::XiEqModel::calculateSchelkinEffect(const scalar uPrimeCoef) const
   N.internalField() = upLocal*(max(scalar(1.0), pow(nr, 0.5)) - 1.0);
   return tN;
 }
+

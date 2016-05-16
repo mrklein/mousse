@@ -4,15 +4,19 @@
 
 #include "fixed.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiModels
-{
+namespace mousse {
+namespace XiModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(fixed, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiModel, fixed, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiModels::fixed::fixed
 (
@@ -27,11 +31,16 @@ mousse::XiModels::fixed::fixed
 :
   XiModel{XiProperties, thermo, turbulence, Su, rho, b, phi}
 {}
+
+
 // Destructor 
 mousse::XiModels::fixed::~fixed()
 {}
+
+
 // Member Functions 
 bool mousse::XiModels::fixed::read(const dictionary& XiProperties)
 {
   return XiModel::read(XiProperties);
 }
+

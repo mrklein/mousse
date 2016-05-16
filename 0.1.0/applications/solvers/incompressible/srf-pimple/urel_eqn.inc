@@ -2,10 +2,10 @@
   tmp<fvVectorMatrix> UrelEqn
   {
     fvm::ddt(Urel)
-    + fvm::div(phi, Urel)
-    + turbulence->divDevReff(Urel)
-    + SRF->Su()
-    ==
+  + fvm::div(phi, Urel)
+  + turbulence->divDevReff(Urel)
+  + SRF->Su()
+  ==
     fvOptions(Urel)
   };
   UrelEqn().relax();

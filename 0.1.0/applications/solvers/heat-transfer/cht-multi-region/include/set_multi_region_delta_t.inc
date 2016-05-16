@@ -2,14 +2,11 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-if (adjustTimeStep)
-{
-  if (CoNum == -GREAT)
-  {
+if (adjustTimeStep) {
+  if (CoNum == -GREAT) {
     CoNum = SMALL;
   }
-  if (DiNum == -GREAT)
-  {
+  if (DiNum == -GREAT) {
     DiNum = SMALL;
   }
   scalar maxDeltaTFluid = maxCo/(CoNum + SMALL);
@@ -28,5 +25,5 @@ if (adjustTimeStep)
       maxDeltaT
     )
   );
-  Info<< "deltaT = " <<  runTime.deltaT().value() << endl;
+  Info << "deltaT = " <<  runTime.deltaT().value() << endl;
 }

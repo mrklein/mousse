@@ -13,6 +13,7 @@
 #include "bound.hpp"
 #include "pimple_control.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -27,36 +28,30 @@ int main(int argc, char *argv[])
   #include "create_time_controls.inc"
   #include "compressible_courant_no.inc"
   #include "set_initial_delta_t.inc"
-
   scalar StCoNum = 0.0;
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "compressible_courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "\n\nTime = " << runTime.timeName() << endl;
+    Info << "\n\nTime = " << runTime.timeName() << endl;
     #include "rho_eqn.inc"
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "b_eqn.inc"
         #include "ft_eqn.inc"
         #include "eau_eqn.inc"
         #include "ea_eqn.inc"
-        if (!ign.ignited())
-        {
+        if (!ign.ignited()) {
           thermo.heu() == thermo.he();
         }
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -68,3 +63,4 @@ int main(int argc, char *argv[])
   Info << "\n end\n";
   return 0;
 }
+

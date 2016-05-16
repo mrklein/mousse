@@ -10,11 +10,12 @@
 //   A mixed boundary type that blends between fixedValue and slip, as opposed
 //   to the standard mixed condition that blends between fixedValue and
 //   fixedGradient; required to implement maxwellSlipU condition.
-// SourceFiles
-//   mixed_fixed_value_slip_fv_patch_field.cpp
+
 #include "transform_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class mixedFixedValueSlipFvPatchField
 :
@@ -57,12 +58,13 @@ public:
       const mixedFixedValueSlipFvPatchField<Type>&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<Type> > clone() const
+    virtual tmp<fvPatchField<Type>> clone() const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new mixedFixedValueSlipFvPatchField<Type>(*this)
-      );
+      return
+        tmp<fvPatchField<Type>>
+        {
+          new mixedFixedValueSlipFvPatchField<Type>{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     mixedFixedValueSlipFvPatchField
@@ -71,15 +73,16 @@ public:
       const DimensionedField<Type, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<Type> > clone
+    virtual tmp<fvPatchField<Type>> clone
     (
       const DimensionedField<Type, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<Type> >
-      (
-        new mixedFixedValueSlipFvPatchField<Type>(*this, iF)
-      );
+      return
+        tmp<fvPatchField<Type>>
+        {
+          new mixedFixedValueSlipFvPatchField<Type>{*this, iF}
+        };
     }
   // Member functions
     // Mapping functions
@@ -95,32 +98,20 @@ public:
         const labelList&
       );
     // Return defining fields
-      virtual Field<Type>& refValue()
-      {
-        return refValue_;
-      }
-      virtual const Field<Type>& refValue() const
-      {
-        return refValue_;
-      }
-      virtual scalarField& valueFraction()
-      {
-        return valueFraction_;
-      }
-      virtual const scalarField& valueFraction() const
-      {
-        return valueFraction_;
-      }
+      virtual Field<Type>& refValue() { return refValue_; }
+      virtual const Field<Type>& refValue() const { return refValue_; }
+      virtual scalarField& valueFraction() { return valueFraction_; }
+      virtual const scalarField& valueFraction() const { return valueFraction_; }
     // Evaluation functions
       //- Return gradient at boundary
-      virtual tmp<Field<Type> > snGrad() const;
+      virtual tmp<Field<Type>> snGrad() const;
       //- Evaluate the patch field
       virtual void evaluate
       (
         const Pstream::commsTypes commsType=Pstream::blocking
       );
       //- Return face-gradient transform diagonal
-      virtual tmp<Field<Type> > snGradTransformDiag() const;
+      virtual tmp<Field<Type>> snGradTransformDiag() const;
     //- Write
     virtual void write(Ostream&) const;
   // Member operators
@@ -140,8 +131,9 @@ public:
     virtual void operator*=(const scalar) {}
     virtual void operator/=(const scalar) {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "mixed_fixed_value_slip_fv_patch_field.cpp"
-#endif
+
+#include "mixed_fixed_value_slip_fv_patch_field.ipp"
+
 #endif

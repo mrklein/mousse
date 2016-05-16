@@ -8,8 +8,7 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<uniformDimensionedVectorField> linearAccelerationPtr;
-  if (linearAccelerationHeader.headerOk())
-  {
+  if (linearAccelerationHeader.headerOk()) {
     Info << "    Reading " << linearAccelerationHeader.name() << endl;
     linearAccelerationPtr.reset
     (
@@ -25,8 +24,7 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<uniformDimensionedVectorField> angularVelocityPtr;
-  if (angularVelocityHeader.headerOk())
-  {
+  if (angularVelocityHeader.headerOk()) {
     Info << "    Reading " << angularVelocityHeader.name() << endl;
     angularVelocityPtr.reset
     (
@@ -42,8 +40,7 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<uniformDimensionedVectorField> angularAccelerationPtr;
-  if (angularAccelerationHeader.headerOk())
-  {
+  if (angularAccelerationHeader.headerOk()) {
     Info << "    Reading " << angularAccelerationHeader.name() << endl;
     angularAccelerationPtr.reset
     (
@@ -59,8 +56,7 @@
     IOobject::AUTO_WRITE
   };
   autoPtr<uniformDimensionedVectorField> centreOfRotationPtr;
-  if (centreOfRotationHeader.headerOk())
-  {
+  if (centreOfRotationHeader.headerOk()) {
     Info << "    Reading " << centreOfRotationHeader.name() << endl;
     centreOfRotationPtr.reset
     (

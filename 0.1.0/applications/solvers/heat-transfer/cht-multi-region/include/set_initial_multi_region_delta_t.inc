@@ -2,16 +2,12 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-if (adjustTimeStep)
-{
-  if ((runTime.timeIndex() == 0) && ((CoNum > SMALL) || (DiNum > SMALL)))
-  {
-    if (CoNum < SMALL)
-    {
+if (adjustTimeStep) {
+  if ((runTime.timeIndex() == 0) && ((CoNum > SMALL) || (DiNum > SMALL))) {
+    if (CoNum < SMALL) {
       CoNum = SMALL;
     }
-    if (DiNum < SMALL)
-    {
+    if (DiNum < SMALL) {
       DiNum = SMALL;
     }
     runTime.setDeltaT
@@ -22,6 +18,6 @@ if (adjustTimeStep)
         maxDeltaT
       )
     );
-    Info<< "deltaT = " <<  runTime.deltaT().value() << endl;
+    Info << "deltaT = " <<  runTime.deltaT().value() << endl;
   }
 }

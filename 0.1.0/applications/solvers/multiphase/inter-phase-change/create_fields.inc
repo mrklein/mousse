@@ -75,14 +75,14 @@ setRefCell
   pRefCell,
   pRefValue
 );
-if (p_rgh.needReference())
-{
-  p += dimensionedScalar
-  {
-    "p",
-    p.dimensions(),
-    pRefValue - getRefCellValue(p, pRefCell)
-  };
+if (p_rgh.needReference()) {
+  p +=
+    dimensionedScalar
+    {
+      "p",
+      p.dimensions(),
+      pRefValue - getRefCellValue(p, pRefCell)
+    };
   p_rgh = p - rho*gh;
 }
 mesh.setFluxRequired(p_rgh.name());

@@ -4,8 +4,7 @@
 
 scalar CoNum = 0.0;
 scalar meanCoNum = 0.0;
-if (mesh.nInternalFaces())
-{
+if (mesh.nInternalFaces()) {
   scalarField sumPhi
   {
     fvc::surfaceSum(mag(phic))().internalField()

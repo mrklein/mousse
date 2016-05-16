@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "phase_model.hpp"
+
+
 // Constructors 
 mousse::phaseModel::phaseModel
 (
@@ -25,7 +27,7 @@ mousse::phaseModel::phaseModel
   name_{phaseName},
   p_{p},
   T_{T},
-  thermo_{NULL},
+  thermo_{nullptr},
   dgdt_
   {
     {
@@ -47,14 +49,19 @@ mousse::phaseModel::phaseModel
   thermo_->validate(phaseName, "e");
   correct();
 }
+
+
 // Member Functions 
 mousse::autoPtr<mousse::phaseModel> mousse::phaseModel::clone() const
 {
   NOT_IMPLEMENTED("phaseModel::clone() const");
-  return autoPtr<phaseModel>{NULL};
+  return autoPtr<phaseModel>{nullptr};
 }
+
+
 void mousse::phaseModel::correct()
 {
   thermo_->he() = thermo_->he(p_, T_);
   thermo_->correct();
 }
+

@@ -2,11 +2,10 @@
   alphat = turbulence->nut()/Prt;
   alphat.correctBoundaryConditions();
   volScalarField alphaEff{"alphaEff", turbulence->nu()/Pr + alphat};
-  fvScalarMatrix TEqn
-  {
+  fvScalarMatrix TEqn {
     fvm::div(phi, T)
-    - fvm::laplacian(alphaEff, T)
-    ==
+  - fvm::laplacian(alphaEff, T)
+  ==
     fvOptions(T)
   };
   TEqn.relax();

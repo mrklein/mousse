@@ -3,12 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "xi_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(XiModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(XiModel, dictionary);
+
 }
+
+
 // Constructors 
 mousse::XiModel::XiModel
 (
@@ -25,7 +30,7 @@ mousse::XiModel::XiModel
   {
     XiProperties.subDict
     (
-      word(XiProperties.lookup("XiModel")) + "Coeffs"
+      word{XiProperties.lookup("XiModel")} + "Coeffs"
     )
   },
   thermo_{thermo},
@@ -46,12 +51,17 @@ mousse::XiModel::XiModel
     b.mesh()
   }
 {}
+
+
 // Destructor 
 mousse::XiModel::~XiModel()
 {}
+
+
 // Member Functions 
 bool mousse::XiModel::read(const dictionary& XiProperties)
 {
   XiModelCoeffs_ = XiProperties.subDict(type() + "Coeffs");
   return true;
 }
+

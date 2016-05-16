@@ -3,14 +3,14 @@
   fvScalarMatrix EEqn
   {
     fvm::div(phi, he)
-    + (he.name() == "e"
-       ? fvc::div(phi, volScalarField("Ekp", 0.5*magSqr(U) + p/rho))
-       : fvc::div(phi, volScalarField("K", 0.5*magSqr(U))))
-    - fvm::laplacian(turb.alphaEff(), he)
-    ==
+  + (he.name() == "e"
+    ? fvc::div(phi, volScalarField("Ekp", 0.5*magSqr(U) + p/rho))
+    : fvc::div(phi, volScalarField("K", 0.5*magSqr(U))))
+  - fvm::laplacian(turb.alphaEff(), he)
+  ==
     rho*(U&g)
-    + rad.Sh(thermo)
-    + fvOptions(rho, he)
+  + rad.Sh(thermo)
+  + fvOptions(rho, he)
   };
   EEqn.relax();
   fvOptions.constrain(EEqn);
@@ -18,6 +18,6 @@
   fvOptions.correct(he);
   thermo.correct();
   rad.correct();
-  Info<< "Min/max T:" << min(thermo.T()).value() << ' '
+  Info << "Min/max T:" << min(thermo.T()).value() << ' '
     << max(thermo.T()).value() << endl;
 }

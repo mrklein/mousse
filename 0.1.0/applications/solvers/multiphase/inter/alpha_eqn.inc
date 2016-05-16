@@ -11,25 +11,19 @@
   };
   // Set the off-centering coefficient according to ddt scheme
   scalar ocCoeff = 0;
-  if (isType<fv::EulerDdtScheme<scalar> >(ddtAlpha())
-      || isType<fv::localEulerDdtScheme<scalar> >(ddtAlpha()))
-  {
+  if (isType<fv::EulerDdtScheme<scalar>>(ddtAlpha())
+      || isType<fv::localEulerDdtScheme<scalar>>(ddtAlpha())) {
     ocCoeff = 0;
-  }
-  else if (isType<fv::CrankNicolsonDdtScheme<scalar> >(ddtAlpha()))
-  {
-    if (nAlphaSubCycles > 1)
-    {
+  } else if (isType<fv::CrankNicolsonDdtScheme<scalar>>(ddtAlpha())) {
+    if (nAlphaSubCycles > 1) {
       FATAL_ERROR_IN(args.executable())
         << "Sub-cycling is not supported "
          "with the CrankNicolson ddt scheme"
         << exit(FatalError);
     }
     ocCoeff =
-      refCast<fv::CrankNicolsonDdtScheme<scalar> >(ddtAlpha()).ocCoeff();
-  }
-  else
-  {
+      refCast<fv::CrankNicolsonDdtScheme<scalar>>(ddtAlpha()).ocCoeff();
+  } else {
     FATAL_ERROR_IN(args.executable())
       << "Only Euler and CrankNicolson ddt schemes are supported"
       << exit(FatalError);
@@ -38,29 +32,24 @@
   // Standard face-flux compression coefficient
   surfaceScalarField phic{mixture.cAlpha()*mag(phi/mesh.magSf())};
   // Add the optional isotropic compression contribution
-  if (icAlpha > 0)
-  {
+  if (icAlpha > 0) {
     phic *= (1.0 - icAlpha);
     phic += (mixture.cAlpha()*icAlpha)*fvc::interpolate(mag(U));
   }
   // Do not compress interface at non-coupled boundary faces
   // (inlets, outlets etc.)
-  FOR_ALL(phic.boundaryField(), patchi)
-  {
+  FOR_ALL(phic.boundaryField(), patchi) {
     fvsPatchScalarField& phicp = phic.boundaryField()[patchi];
-    if (!phicp.coupled())
-    {
+    if (!phicp.coupled()) {
       phicp == 0;
     }
   }
   tmp<surfaceScalarField> phiCN{phi};
   // Calculate the Crank-Nicolson off-centred volumetric flux
-  if (ocCoeff > 0)
-  {
+  if (ocCoeff > 0) {
     phiCN = cnCoeff*phi + (1.0 - cnCoeff)*phi.oldTime();
   }
-  if (MULESCorr)
-  {
+  if (MULESCorr) {
     fvScalarMatrix alpha1Eqn
     {
       (
@@ -83,8 +72,7 @@
       << endl;
     tmp<surfaceScalarField> talphaPhiUD{alpha1Eqn.flux()};
     alphaPhi = talphaPhiUD();
-    if (alphaApplyPrevCorr && talphaPhiCorr0.valid())
-    {
+    if (alphaApplyPrevCorr && talphaPhiCorr0.valid()) {
       Info << "Applying the previous iteration compression flux" << endl;
       MULES::correct(alpha1, alphaPhi, talphaPhiCorr0(), 1, 0);
       alphaPhi += talphaPhiCorr0();
@@ -94,8 +82,7 @@
     alpha2 = 1.0 - alpha1;
     mixture.correct();
   }
-  for (int aCorr=0; aCorr<nAlphaCorr; aCorr++)
-  {
+  for (int aCorr=0; aCorr<nAlphaCorr; aCorr++) {
     surfaceScalarField phir{phic*mixture.nHatf()};
     tmp<surfaceScalarField> talphaPhiUn
     {
@@ -113,37 +100,28 @@
       )
     };
     // Calculate the Crank-Nicolson off-centred alpha flux
-    if (ocCoeff > 0)
-    {
-      talphaPhiUn =
-        cnCoeff*talphaPhiUn + (1.0 - cnCoeff)*alphaPhi.oldTime();
+    if (ocCoeff > 0) {
+      talphaPhiUn = cnCoeff*talphaPhiUn + (1.0 - cnCoeff)*alphaPhi.oldTime();
     }
-    if (MULESCorr)
-    {
+    if (MULESCorr) {
       tmp<surfaceScalarField> talphaPhiCorr{talphaPhiUn() - alphaPhi};
       volScalarField alpha10{"alpha10", alpha1};
       MULES::correct(alpha1, talphaPhiUn(), talphaPhiCorr(), 1, 0);
       // Under-relax the correction for all but the 1st corrector
-      if (aCorr == 0)
-      {
+      if (aCorr == 0) {
         alphaPhi += talphaPhiCorr();
-      }
-      else
-      {
+      } else {
         alpha1 = 0.5*alpha1 + 0.5*alpha10;
         alphaPhi += 0.5*talphaPhiCorr();
       }
-    }
-    else
-    {
+    } else {
       alphaPhi = talphaPhiUn;
       MULES::explicitSolve(alpha1, phiCN, alphaPhi, 1, 0);
     }
     alpha2 = 1.0 - alpha1;
     mixture.correct();
   }
-  if (alphaApplyPrevCorr && MULESCorr)
-  {
+  if (alphaApplyPrevCorr && MULESCorr) {
     talphaPhiCorr0 = alphaPhi - talphaPhiCorr0;
   }
   if
@@ -152,11 +130,8 @@
   )
   {
     rhoPhi = alphaPhi*(rho1 - rho2) + phiCN*rho2;
-  }
-  else
-  {
-    if (ocCoeff > 0)
-    {
+  } else {
+    if (ocCoeff > 0) {
       // Calculate the end-of-time-step alpha flux
       alphaPhi = (alphaPhi - (1.0 - cnCoeff)*alphaPhi.oldTime())/cnCoeff;
     }
@@ -169,3 +144,4 @@
     << "  Max(" << alpha1.name() << ") = " << max(alpha1).value()
     << endl;
 }
+

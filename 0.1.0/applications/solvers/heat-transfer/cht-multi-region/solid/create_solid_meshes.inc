@@ -1,8 +1,7 @@
   const wordList solidsNames{rp["solid"]};
   PtrList<fvMesh> solidRegions{solidsNames.size()};
-  FOR_ALL(solidsNames, i)
-  {
-    Info<< "Create solid mesh for region " << solidsNames[i]
+  FOR_ALL(solidsNames, i) {
+    Info << "Create solid mesh for region " << solidsNames[i]
       << " for time = " << runTime.timeName() << nl << endl;
     solidRegions.set
     (

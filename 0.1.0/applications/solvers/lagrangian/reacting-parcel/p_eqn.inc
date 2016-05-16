@@ -19,20 +19,18 @@
   fvScalarMatrix pDDtEqn
   {
     fvc::ddt(rho) + psi*correction(fvm::ddt(p))
-    + fvc::div(phiHbyA)
-    ==
+  + fvc::div(phiHbyA)
+  ==
     parcels.Srho()
-    + fvOptions(psi, p, rho.name())
+  + fvOptions(psi, p, rho.name())
   };
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix pEqn
     {
       pDDtEqn - fvm::laplacian(rhorAUf, p)
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }
@@ -45,8 +43,7 @@
   U.correctBoundaryConditions();
   fvOptions.correct(U);
   K = 0.5*magSqr(U);
-  if (thermo.dpdt())
-  {
+  if (thermo.dpdt()) {
     dpdt = fvc::ddt(p);
   }
   rho = thermo.rho();

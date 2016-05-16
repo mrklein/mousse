@@ -1,3 +1,6 @@
+#ifndef SCOPE_LAMINAR_FLAME_SPEED_HPP_
+#define SCOPE_LAMINAR_FLAME_SPEED_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -22,15 +25,13 @@
 //     \f$ x \f$ is the equivalence ratio.
 //     \f$ T_{ref} \f$ and \f$ p_{ref} \f$ are the temperature and pressure
 //     references for the laminar burning velocity.
-// SourceFiles
-//   scope_laminar_flame_speed.cpp
-#ifndef SCOPE_HPP_
-#define SCOPE_HPP_
+
 #include "laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace laminarFlameSpeedModels
-{
+
+
+namespace mousse {
+namespace laminarFlameSpeedModels {
+
 class SCOPE
 :
   public laminarFlameSpeed
@@ -102,9 +103,6 @@ class SCOPE
     //- Return the Markstein number
     //  evaluated from the given equivalence ratio
     tmp<volScalarField> Ma(const volScalarField& phi) const;
-    //- Construct as copy (not implemented)
-    SCOPE(const SCOPE&);
-    void operator=(const SCOPE&);
 public:
   //- Runtime type information
   TYPE_NAME("SCOPE");
@@ -115,6 +113,9 @@ public:
       const dictionary&,
       const psiuReactionThermo&
     );
+    //- Construct as copy (not implemented)
+    SCOPE(const SCOPE&) = delete;
+    void operator=(const SCOPE&) = delete;
   //- Destructor
   ~SCOPE();
   // Member functions
@@ -123,6 +124,9 @@ public:
     //- Return the laminar flame speed [m/s]
     tmp<volScalarField> operator()() const;
 };
-} // End laminarFlameSpeedModels
+
+}  // namespace laminarFlameSpeedModels
 }  // namespace mousse
+
 #endif
+

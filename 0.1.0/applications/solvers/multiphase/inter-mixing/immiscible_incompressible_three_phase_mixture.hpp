@@ -1,3 +1,6 @@
+#ifndef IMMISCIBLE_INCOMPRESSIBLE_THREE_PHASE_MIXTURE_HPP_
+#define IMMISCIBLE_INCOMPRESSIBLE_THREE_PHASE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,14 +8,13 @@
 //   mousse::immiscibleIncompressibleThreePhaseMixture
 // Description
 //   An immiscible incompressible two-phase mixture transport model
-// SourceFiles
-//   immiscible_incompressible_three_phase_mixture.cpp
-#ifndef IMMISCIBLE_INCOMPRESSIBLE_THREE_PHASE_MIXTURE_HPP_
-#define IMMISCIBLE_INCOMPRESSIBLE_THREE_PHASE_MIXTURE_HPP_
+
 #include "incompressible_three_phase_mixture.hpp"
 #include "three_phase_interface_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class immiscibleIncompressibleThreePhaseMixture
 :
   public incompressibleThreePhaseMixture,
@@ -37,5 +39,8 @@ public:
       threePhaseInterfaceProperties::correct();
     }
 };
+
 }  // namespace mousse
+
 #endif
+

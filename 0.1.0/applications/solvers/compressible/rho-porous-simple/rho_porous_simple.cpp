@@ -9,6 +9,7 @@
 #include "io_porosity_model_list.hpp"
 #include "simple_control.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -20,11 +21,9 @@ int main(int argc, char *argv[])
   #include "create_fv_options.inc"
   #include "create_zones.inc"
   #include "init_continuity_errs.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (simple.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+  Info << "\nStarting time loop\n" << endl;
+  while (simple.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // Pressure-velocity SIMPLE corrector
     {
       #include "u_eqn.inc"
@@ -33,10 +32,11 @@ int main(int argc, char *argv[])
     }
     turbulence->correct();
     runTime.write();
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

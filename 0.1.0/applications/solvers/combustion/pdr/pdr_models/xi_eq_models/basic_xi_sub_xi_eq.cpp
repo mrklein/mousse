@@ -5,15 +5,19 @@
 #include "basic_xi_sub_xi_eq.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiEqModels
-{
+namespace mousse {
+namespace XiEqModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(basicSubGrid, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiEqModel, basicSubGrid, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiEqModels::basicSubGrid::basicSubGrid
 (
@@ -36,9 +40,13 @@ mousse::XiEqModels::basicSubGrid::basicSubGrid
   },
   XiEqModel_{XiEqModel::New(XiEqModelCoeffs_, thermo, turbulence, Su)}
 {}
+
+
 // Destructor 
 mousse::XiEqModels::basicSubGrid::~basicSubGrid()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiEqModels::basicSubGrid::XiEq() const
 {
@@ -91,13 +99,15 @@ mousse::tmp<mousse::volScalarField> mousse::XiEqModels::basicSubGrid::XiEq() con
   volScalarField XiSubEq
   {
     scalar(1)
-    + max(2.2*sqrt(b), min(0.34*magU/up*sqrt(b), scalar(1.6)))
-    *min(n, scalar(1))
+    + max(2.2*sqrt(b), min(0.34*magU/up*sqrt(b), scalar(1.6)))*min(n, scalar(1))
   };
   return XiSubEq*XiEqModel_->XiEq();
 }
+
+
 bool mousse::XiEqModels::basicSubGrid::read(const dictionary& XiEqProperties)
 {
   XiEqModel::read(XiEqProperties);
   return XiEqModel_->read(XiEqModelCoeffs_);
 }
+

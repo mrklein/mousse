@@ -12,19 +12,17 @@
     fvc::interpolate(rho)*(fvc::interpolate(HbyA) & mesh.Sf())
   };
   MRF.makeRelative(fvc::interpolate(rho), phiHbyA);
-  while (simple.correctNonOrthogonal())
-  {
+  while (simple.correctNonOrthogonal()) {
     fvScalarMatrix pEqn
     {
       fvc::div(phiHbyA)
-      - fvm::laplacian(rho*rAU, p)
-      ==
+    - fvm::laplacian(rho*rAU, p)
+    ==
       parcels.Srho()
-      + fvOptions(psi, p, rho.name())
+    + fvOptions(psi, p, rho.name())
     };
     pEqn.solve();
-    if (simple.finalNonOrthogonalIter())
-    {
+    if (simple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }

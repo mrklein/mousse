@@ -7,6 +7,7 @@
 #include "turbulent_fluid_thermo_model.hpp"
 #include "basic_kinematic_cloud.hpp"
 
+
 int main(int argc, char *argv[])
 {
   argList::addOption
@@ -21,10 +22,8 @@ int main(int argc, char *argv[])
   #include "read_gravitational_acceleration.inc"
   #include "create_fields.inc"
   #include "compressible_courant_no.inc"
-
   Info << "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
+  while (runTime.loop()) {
     Info << "Time = " << runTime.timeName() << nl << endl;
     Info << "Evolving " << kinematicCloud.name() << endl;
     kinematicCloud.evolve();
@@ -33,6 +32,6 @@ int main(int argc, char *argv[])
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

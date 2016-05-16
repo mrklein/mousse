@@ -1,3 +1,6 @@
+#ifndef ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+#define ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,14 +9,13 @@
 // Description
 //   Contact-angle boundary condition for multi-phase interface-capturing
 //   simulations.  Used in conjuction with multiphaseMixture.
-// SourceFiles
-//   alpha_contact_angle_fv_patch_scalar_field.cpp
-#ifndef ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
-#define ALPHA_CONTACT_ANGLE_FV_PATCH_SCALAR_FIELD_HPP_
+
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "multiphase_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class alphaContactAngleFvPatchScalarField
 :
   public zeroGradientFvPatchScalarField
@@ -128,5 +130,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

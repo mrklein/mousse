@@ -3,12 +3,7 @@
   surfaceScalarField alphaPhi
   {
     phi.name() + alpha1.name(),
-    fvc::flux
-    (
-      phi,
-      alpha1,
-      alphaScheme
-    )
+    fvc::flux(phi, alpha1, alphaScheme)
   };
   MULES::explicitSolve(alpha1, phi, alphaPhi, 1, 0);
   rhoPhi = alphaPhi*(rho1 - rho2) + phi*rho2;

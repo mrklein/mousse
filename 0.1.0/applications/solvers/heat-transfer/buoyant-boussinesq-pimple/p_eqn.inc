@@ -8,8 +8,8 @@
   {
     "phiHbyA",
     (fvc::interpolate(HbyA) & mesh.Sf())
-   + rAUf*fvc::ddtCorr(U, phi)
-   + phig
+    + rAUf*fvc::ddtCorr(U, phi)
+    + phig
   };
   MRF.makeRelative(phiHbyA);
   // Update the fixedFluxPressure BCs to ensure flux consistency
@@ -18,19 +18,16 @@
     p_rgh.boundaryField(),
     (
       phiHbyA.boundaryField()
-     - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
+      - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
     )/(mesh.magSf().boundaryField()*rAUf.boundaryField())
   );
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix p_rghEqn
-    {
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix p_rghEqn {
       fvm::laplacian(rAUf, p_rgh) == fvc::div(phiHbyA)
     };
     p_rghEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
     p_rghEqn.solve(mesh.solver(p_rgh.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       // Calculate the conservative fluxes
       phi = phiHbyA - p_rghEqn.flux();
       // Explicitly relax pressure for momentum corrector
@@ -44,8 +41,7 @@
   }
   #include "continuity_errs.inc"
   p = p_rgh + rhok*gh;
-  if (p_rgh.needReference())
-  {
+  if (p_rgh.needReference()) {
     p += dimensionedScalar
     (
       "p",
@@ -55,3 +51,4 @@
     p_rgh = p - rhok*gh;
   }
 }
+

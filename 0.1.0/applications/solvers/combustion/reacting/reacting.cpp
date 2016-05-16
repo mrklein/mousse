@@ -11,6 +11,7 @@
 #include "local_euler_ddt_scheme.hpp"
 #include "fvc_smooth.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -24,39 +25,31 @@ int main(int argc, char *argv[])
   #include "create_fields.inc"
   #include "create_mrf.inc"
   #include "create_fv_options.inc"
-  if (!LTS)
-  {
+  if (!LTS) {
     #include "compressible_courant_no.inc"
     #include "set_initial_delta_t.inc"
   }
-    Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_time_controls.inc"
-    if (LTS)
-    {
+    if (LTS) {
       #include "set_rdelta_t.inc"
-    }
-    else
-    {
+    } else {
       #include "compressible_courant_no.inc"
       #include "set_delta_t.inc"
     }
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     #include "rho_eqn.inc"
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       #include "y_eqn.inc"
       #include "e_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -68,3 +61,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

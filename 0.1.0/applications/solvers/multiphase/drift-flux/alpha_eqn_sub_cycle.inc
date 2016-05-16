@@ -10,8 +10,7 @@
     {"0", phi.dimensions(), 0}
   };
   surfaceScalarField phir{mesh.Sf() & fvc::interpolate(UdmModel.Udm())};
-  if (nAlphaSubCycles > 1)
-  {
+  if (nAlphaSubCycles > 1) {
     dimensionedScalar totalDeltaT = runTime.deltaT();
     surfaceScalarField alphaPhiSum
     {
@@ -23,19 +22,13 @@
       mesh,
       {"0", phi.dimensions(), 0}
     };
-    for
-    (
-      subCycle<volScalarField> alphaSubCycle(alpha1, nAlphaSubCycles);
-      !(++alphaSubCycle).end();
-    )
-    {
+    for (subCycle<volScalarField> alphaSubCycle(alpha1, nAlphaSubCycles);
+         !(++alphaSubCycle).end();) {
       #include "alpha_eqn.inc"
       alphaPhiSum += (runTime.deltaT()/totalDeltaT)*alphaPhi;
     }
     alphaPhi = alphaPhiSum;
-  }
-  else
-  {
+  } else {
     #include "alpha_eqn.inc"
   }
   // Apply the diffusion term separately to allow implicit solution
@@ -44,7 +37,7 @@
     fvScalarMatrix alpha1Eqn
     {
       fvm::ddt(alpha1) - fvc::ddt(alpha1)
-      - fvm::laplacian(turbulence->nut(), alpha1)
+    - fvm::laplacian(turbulence->nut(), alpha1)
     };
     alpha1Eqn.solve(mesh.solver("alpha1Diffusion"));
     alphaPhi += alpha1Eqn.flux();

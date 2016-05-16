@@ -4,8 +4,7 @@ volVectorField HbyA{"HbyA", U};
 HbyA = rAU*UEqn().H();
 UEqn.clear();
 bool closedVolume = false;
-if (simple.transonic())
-{
+if (simple.transonic()) {
   surfaceScalarField phid
   {
     "phid",
@@ -19,28 +18,23 @@ if (simple.transonic())
   };
   HbyA -= (rAU - rAtU)*fvc::grad(p);
   volScalarField rhorAtU{"rhorAtU", rho*rAtU};
-  while (simple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (simple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvm::div(phid, p)
-      + fvc::div(phic)
-      - fvm::laplacian(rhorAtU, p)
-      ==
+    + fvc::div(phic)
+    - fvm::laplacian(rhorAtU, p)
+    ==
       fvOptions(psi, p, rho.name())
     };
     // Relax the pressure equation to maintain diagonal dominance
     pEqn.relax();
     pEqn.setReference(pRefCell, pRefValue);
     pEqn.solve();
-    if (simple.finalNonOrthogonalIter())
-    {
+    if (simple.finalNonOrthogonalIter()) {
       phi == phic + pEqn.flux();
     }
   }
-}
-else
-{
+} else {
   surfaceScalarField phiHbyA
   {
     "phiHbyA",
@@ -51,19 +45,16 @@ else
   phiHbyA += fvc::interpolate(rho*(rAtU - rAU))*fvc::snGrad(p)*mesh.magSf();
   HbyA -= (rAU - rAtU)*fvc::grad(p);
   volScalarField rhorAtU{"rhorAtU", rho*rAtU};
-  while (simple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (simple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvc::div(phiHbyA)
-      - fvm::laplacian(rhorAtU, p)
-      ==
+    - fvm::laplacian(rhorAtU, p)
+    ==
       fvOptions(psi, p, rho.name())
     };
     pEqn.setReference(pRefCell, pRefValue);
     pEqn.solve();
-    if (simple.finalNonOrthogonalIter())
-    {
+    if (simple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }
@@ -78,16 +69,14 @@ U.correctBoundaryConditions();
 fvOptions.correct(U);
 // For closed-volume cases adjust the pressure and density levels
 // to obey overall mass continuity
-if (closedVolume)
-{
+if (closedVolume) {
   p += (initialMass - fvc::domainIntegrate(psi*p))/fvc::domainIntegrate(psi);
 }
 // Recalculate density from the relaxed pressure
 rho = thermo.rho();
 rho = max(rho, rhoMin);
 rho = min(rho, rhoMax);
-if (!simple.transonic())
-{
+if (!simple.transonic()) {
   rho.relax();
 }
-Info<< "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;
+Info << "rho max/min : " << max(rho).value() << " " << min(rho).value() << endl;

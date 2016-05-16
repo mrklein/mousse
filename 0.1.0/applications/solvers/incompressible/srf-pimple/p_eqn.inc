@@ -9,21 +9,22 @@ surfaceScalarField phiHbyA
 };
 adjustPhi(phiHbyA, Urel, p);
 tmp<volScalarField> rAtUrel{rAUrel};
-
 if (pimple.consistent()) {
   rAtUrel = 1.0/max(1.0/rAUrel - UrelEqn().H1(), 0.1/rAUrel);
-  phiHbyA +=
-    fvc::interpolate(rAtUrel() - rAUrel)*fvc::snGrad(p)*mesh.magSf();
+  phiHbyA += fvc::interpolate(rAtUrel() - rAUrel)*fvc::snGrad(p)*mesh.magSf();
   HbyA -= (rAUrel - rAtUrel())*fvc::grad(p);
 }
-
 if (pimple.nCorrPISO() <= 1)
   UrelEqn.clear();
-
 // Non-orthogonal pressure corrector loop
 while (pimple.correctNonOrthogonal()) {
   // Pressure corrector
-  fvScalarMatrix pEqn{fvm::laplacian(rAtUrel(), p) == fvc::div(phiHbyA)};
+  fvScalarMatrix pEqn
+  {
+    fvm::laplacian(rAtUrel(), p)
+  ==
+    fvc::div(phiHbyA)
+  };
   pEqn.setReference(pRefCell, pRefValue);
   pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
   if (pimple.finalNonOrthogonalIter())
@@ -31,7 +32,6 @@ while (pimple.correctNonOrthogonal()) {
 }
 #include "continuity_errs.inc"
 p.relax();
-
 // Momentum corrector
 Urel = HbyA - rAtUrel()*fvc::grad(p);
 Urel.correctBoundaryConditions();

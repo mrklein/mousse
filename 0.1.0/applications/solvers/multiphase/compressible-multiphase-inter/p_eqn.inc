@@ -24,13 +24,7 @@
   );
   PtrList<fvScalarMatrix> p_rghEqnComps{mixture.phases().size()};
   label phasei = 0;
-  FOR_ALL_CONST_ITER
-  (
-    PtrDictionary<phaseModel>,
-    mixture.phases(),
-    phase
-  )
-  {
+  FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, mixture.phases(), phase) {
     const rhoThermo& thermo = phase().thermo();
     const volScalarField& rho = thermo.rho()();
     p_rghEqnComps.set
@@ -45,53 +39,35 @@
   }
   // Cache p_rgh prior to solve for density update
   volScalarField p_rgh_0{p_rgh};
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqnIncomp
     {
       fvc::div(phiHbyA) - fvm::laplacian(rAUf, p_rgh)
     };
     tmp<fvScalarMatrix> p_rghEqnComp;
     phasei = 0;
-    FOR_ALL_CONST_ITER
-    (
-      PtrDictionary<phaseModel>,
-      mixture.phases(),
-      phase
-    )
-    {
+    FOR_ALL_CONST_ITER(PtrDictionary<phaseModel>, mixture.phases(), phase) {
       tmp<fvScalarMatrix> hmm
       {
         (max(phase(), scalar(0))/phase().thermo().rho())*p_rghEqnComps[phasei]
       };
-      if (phasei == 0)
-      {
+      if (phasei == 0) {
         p_rghEqnComp = hmm;
-      }
-      else
-      {
+      } else {
         p_rghEqnComp() += hmm;
       }
       phasei++;
     }
     solve
     (
-      p_rghEqnComp
-      + p_rghEqnIncomp,
+      p_rghEqnComp + p_rghEqnIncomp,
       mesh.solver(p_rgh.select(pimple.finalInnerIter()))
     );
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       // p = max(p_rgh + mixture.rho()*gh, pMin);
       // p_rgh = p - mixture.rho()*gh;
       phasei = 0;
-      FOR_ALL_ITER
-      (
-        PtrDictionary<phaseModel>,
-        mixture.phases(),
-        phase
-      )
-      {
+      FOR_ALL_ITER(PtrDictionary<phaseModel>, mixture.phases(), phase) {
         phase().dgdt() =
           pos(phase())*(p_rghEqnComps[phasei] & p_rgh)/phase().thermo().rho();
       }
@@ -105,6 +81,6 @@
   mixture.correctRho(p_rgh - p_rgh_0);
   rho = mixture.rho();
   K = 0.5*magSqr(U);
-  Info<< "max(U) " << max(mag(U)).value() << endl;
-  Info<< "min(p_rgh) " << min(p_rgh).value() << endl;
+  Info << "max(U) " << max(mag(U)).value() << endl;
+  Info << "min(p_rgh) " << min(p_rgh).value() << endl;
 }

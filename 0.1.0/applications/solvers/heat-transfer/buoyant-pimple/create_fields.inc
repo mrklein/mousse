@@ -1,5 +1,5 @@
-Info<< "Reading thermophysical properties\n" << endl;
-autoPtr<rhoThermo> pThermo(rhoThermo::New(mesh));
+Info << "Reading thermophysical properties\n" << endl;
+autoPtr<rhoThermo> pThermo{rhoThermo::New(mesh)};
 rhoThermo& thermo = pThermo();
 thermo.validate(args.executable(), "h", "e");
 volScalarField rho
@@ -14,7 +14,7 @@ volScalarField rho
 };
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -27,21 +27,15 @@ volVectorField U
   mesh
 };
 #include "compressible_create_phi.inc"
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
 #include "read_gravitational_acceleration.inc"
 #include "read_href.inc"
 #include "gh.inc"
-Info<< "Reading field p_rgh\n" << endl;
+Info << "Reading field p_rgh\n" << endl;
 volScalarField p_rgh
 {
   {
@@ -56,7 +50,7 @@ volScalarField p_rgh
 // Force p_rgh to be consistent with p
 p_rgh = p - rho*gh;
 mesh.setFluxRequired(p_rgh.name());
-Info<< "Creating field dpdt\n" << endl;
+Info << "Creating field dpdt\n" << endl;
 volScalarField dpdt
 {
   {
@@ -67,5 +61,5 @@ volScalarField dpdt
   mesh,
   {"dpdt", p.dimensions()/dimTime, 0}
 };
-Info<< "Creating field kinetic energy K\n" << endl;
+Info << "Creating field kinetic energy K\n" << endl;
 volScalarField K{"K", 0.5*magSqr(U)};

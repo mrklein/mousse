@@ -5,15 +5,19 @@
 #include "basic.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace PDRDragModels
-{
+namespace mousse {
+namespace PDRDragModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(basic, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(PDRDragModel, basic, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::PDRDragModels::basic::basic
 (
@@ -48,9 +52,13 @@ mousse::PDRDragModels::basic::basic
     U_.mesh()
   }
 {}
+
+
 // Destructor 
 mousse::PDRDragModels::basic::~basic()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volSymmTensorField> mousse::PDRDragModels::basic::Dcu() const
 {
@@ -69,14 +77,15 @@ mousse::tmp<mousse::volSymmTensorField> mousse::PDRDragModels::basic::Dcu() cons
     }
   };
   volSymmTensorField& DragDcu = tDragDcu();
-  if (on_)
-  {
+  if (on_) {
     const volScalarField& betav = U_.db().lookupObject<volScalarField>("betav");
     DragDcu =
       (0.5*rho_)*CR_*mag(U_) + (Csu*I)*betav*turbulence_.muEff()*sqr(Aw_);
   }
   return tDragDcu;
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::PDRDragModels::basic::Gk() const
 {
   tmp<volScalarField> tGk
@@ -94,8 +103,7 @@ mousse::tmp<mousse::volScalarField> mousse::PDRDragModels::basic::Gk() const
     }
   };
   volScalarField& Gk = tGk();
-  if (on_)
-  {
+  if (on_) {
     const volScalarField& betav =
       U_.db().lookupObject<volScalarField>("betav");
     const volSymmTensorField& CT =
@@ -106,6 +114,8 @@ mousse::tmp<mousse::volScalarField> mousse::PDRDragModels::basic::Gk() const
   }
   return tGk;
 }
+
+
 bool mousse::PDRDragModels::basic::read(const dictionary& PDRProperties)
 {
   PDRDragModel::read(PDRProperties);
@@ -113,8 +123,11 @@ bool mousse::PDRDragModels::basic::read(const dictionary& PDRProperties)
   PDRDragModelCoeffs_.lookup("Csk") >> Csk.value();
   return true;
 }
+
+
 void mousse::PDRDragModels::basic::writeFields() const
 {
   Aw_.write();
   CR_.write();
 }
+

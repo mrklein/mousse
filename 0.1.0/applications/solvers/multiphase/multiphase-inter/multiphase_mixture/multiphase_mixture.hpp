@@ -1,3 +1,6 @@
+#ifndef MULTIPHASE_MIXTURE_HPP_
+#define MULTIPHASE_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -10,18 +13,17 @@
 //   the incompressible turbulence models.
 //   Surface tension and contact-angle is handled for the interface
 //   between each phase-pair.
-// SourceFiles
-//   multiphase_mixture.cpp
-#ifndef MULTIPHASE_MIXTURE_HPP_
-#define MULTIPHASE_MIXTURE_HPP_
+
 #include "incompressible/transport_model.hpp"
 #include "iodictionary.hpp"
 #include "phase.hpp"
 #include "ptr_dictionary.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class multiphaseMixture
 :
   public IOdictionary,
@@ -126,24 +128,12 @@ public:
   {}
   // Member Functions
     //- Return the phases
-    const PtrDictionary<phase>& phases() const
-    {
-      return phases_;
-    }
+    const PtrDictionary<phase>& phases() const { return phases_; }
     //- Return the velocity
-    const volVectorField& U() const
-    {
-      return U_;
-    }
+    const volVectorField& U() const { return U_; }
     //- Return the volumetric flux
-    const surfaceScalarField& phi() const
-    {
-      return phi_;
-    }
-    const surfaceScalarField& rhoPhi() const
-    {
-      return rhoPhi_;
-    }
+    const surfaceScalarField& phi() const { return phi_; }
+    const surfaceScalarField& rhoPhi() const { return rhoPhi_; }
     //- Return the mixture density
     tmp<volScalarField> rho() const;
     //- Return the mixture density for patch
@@ -171,5 +161,8 @@ public:
     //- Read base transportProperties dictionary
     bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

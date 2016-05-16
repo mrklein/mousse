@@ -1,5 +1,5 @@
-Info<< "Reading thermophysical properties\n" << endl;
-autoPtr<rhoThermo> pThermo(rhoThermo::New(mesh));
+Info << "Reading thermophysical properties\n" << endl;
+autoPtr<rhoThermo> pThermo{rhoThermo::New(mesh)};
 rhoThermo& thermo = pThermo();
 thermo.validate(args.executable(), "h", "e");
 volScalarField rho
@@ -15,7 +15,7 @@ volScalarField rho
 };
 volScalarField& p = thermo.p();
 const volScalarField& psi = thermo.psi();
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -28,21 +28,15 @@ volVectorField U
   mesh
 };
 #include "compressible_create_phi.inc"
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
 #include "read_gravitational_acceleration.inc"
 #include "read_href.inc"
 #include "gh.inc"
-Info<< "Reading field p_rgh\n" << endl;
+Info << "Reading field p_rgh\n" << endl;
 volScalarField p_rgh
 {
   {

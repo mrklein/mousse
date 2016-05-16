@@ -4,15 +4,19 @@
 
 #include "gulder.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiEqModels
-{
+namespace mousse {
+namespace XiEqModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(Gulder, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiEqModel, Gulder, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiEqModels::Gulder::Gulder
 (
@@ -28,16 +32,19 @@ mousse::XiEqModels::Gulder::Gulder
   uPrimeCoef_{readScalar(XiEqModelCoeffs_.lookup("uPrimeCoef"))},
   subGridSchelkin_{readBool(XiEqModelCoeffs_.lookup("subGridSchelkin"))}
 {}
+
+
 // Destructor 
 mousse::XiEqModels::Gulder::~Gulder()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiEqModels::Gulder::XiEq() const
 {
   volScalarField up{sqrt((2.0/3.0)*turbulence_.k())};
   const volScalarField& epsilon = turbulence_.epsilon();
-  if (subGridSchelkin_)
-  {
+  if (subGridSchelkin_) {
     up.internalField() += calculateSchelkinEffect(uPrimeCoef_);
   }
   volScalarField tauEta{sqrt(mag(thermo_.muu()/(thermo_.rhou()*epsilon)))};
@@ -47,6 +54,8 @@ mousse::tmp<mousse::volScalarField> mousse::XiEqModels::Gulder::XiEq() const
   };
   return (1.0 + XiEqCoef_*sqrt(up/(Su_ + SuMin_))*Reta);
 }
+
+
 bool mousse::XiEqModels::Gulder::read(const dictionary& XiEqProperties)
 {
   XiEqModel::read(XiEqProperties);
@@ -55,3 +64,4 @@ bool mousse::XiEqModels::Gulder::read(const dictionary& XiEqProperties)
   XiEqModelCoeffs_.lookup("subGridSchelkin") >> subGridSchelkin_;
   return true;
 }
+

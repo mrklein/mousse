@@ -4,15 +4,19 @@
 
 #include "general.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace relativeVelocityModels
-{
+namespace mousse {
+namespace relativeVelocityModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(general, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(relativeVelocityModel, general, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::relativeVelocityModels::general::general
 (
@@ -26,9 +30,13 @@ mousse::relativeVelocityModels::general::general
   V0_{"V0", dimVelocity, dict},
   residualAlpha_{dict.lookup("residualAlpha")}
 {}
+
+
 // Destructor 
 mousse::relativeVelocityModels::general::~general()
 {}
+
+
 // Member Functions 
 void mousse::relativeVelocityModels::general::correct()
 {
@@ -37,3 +45,4 @@ void mousse::relativeVelocityModels::general::correct()
     *V0_*(exp(-a_*max(alphad_ - residualAlpha_, scalar(0)))
           - exp(-a1_*max(alphad_ - residualAlpha_, scalar(0))));
 }
+
