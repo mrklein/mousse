@@ -49,15 +49,15 @@
 //   - 'fluidThermo' : use fluidThermo and compressible::RASmodel to calculate K
 //   - 'solidThermo' : use solidThermo kappa()
 //   - 'directionalSolidThermo' directionalKappa()
-// SourceFiles
-//   turbulent_temperature_rad_coupled_mixed_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
 #include "scalar_list.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 class turbulentTemperatureRadCoupledMixedFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -107,13 +107,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentTemperatureRadCoupledMixedFvPatchScalarField
-        (
-          *this
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentTemperatureRadCoupledMixedFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     turbulentTemperatureRadCoupledMixedFvPatchScalarField
@@ -127,14 +125,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentTemperatureRadCoupledMixedFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentTemperatureRadCoupledMixedFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     //- Update the coefficients associated with the patch field
@@ -142,6 +137,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

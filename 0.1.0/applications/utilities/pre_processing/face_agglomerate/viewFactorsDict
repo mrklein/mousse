@@ -1,34 +1,24 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  3.0.x                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
-\*---------------------------------------------------------------------------*/
+// mousse: CFD toolbox
+
 FoamFile
 {
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    object      viewFactorsDict;
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      viewFactorsDict;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 // Write agglomeration as a volScalarField with calculated boundary values
 writeFacesAgglomeration   true;
-
 //Debug option
 debug                     0;
-
 //Dump connectivity rays
 dumpRays                  false;
-
 // Per patch (wildcard possible) the coarsening level
 bottomAir_to_heater
 {
-    nFacesInCoarsestLevel     30;
-    featureAngle              10;
+  nFacesInCoarsestLevel     30;
+  featureAngle              10;
 }
 
-
-// ************************************************************************* //
+// vim: set ft=foam et sw=2 ts=2 sts=2:

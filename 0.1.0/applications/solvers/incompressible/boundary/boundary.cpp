@@ -8,6 +8,7 @@
 #include "wall_fv_patch.hpp"
 #include "make_graph.hpp"
 
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -16,15 +17,15 @@ int main(int argc, char *argv[])
   #include "create_mesh.inc"
   #include "create_fields.inc"
   #include "interrogate_wall_patches.inc"
-  Info<< "\nStarting time loop\n" << endl;
+  Info << "\nStarting time loop\n" << endl;
   while (runTime.loop()) {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
-    fvVectorMatrix divR(turbulence->divDevReff(U));
+    Info << "Time = " << runTime.timeName() << nl << endl;
+    fvVectorMatrix divR{turbulence->divDevReff(U)};
     divR.source() = flowMask & divR.source();
     fvVectorMatrix UEqn
-    (
+    {
       divR == gradP
-    );
+    };
     UEqn.relax();
     UEqn.solve();
     // Correct driving force for a constant volume flow rate
@@ -33,18 +34,18 @@ int main(int argc, char *argv[])
     gradP += (Ubar - UbarStar)/(1.0/UEqn.A())().weightedAverage(mesh.V());
     laminarTransport.correct();
     turbulence->correct();
-    Info<< "Uncorrected Ubar = " << (flowDirection & UbarStar.value())
+    Info << "Uncorrected Ubar = " << (flowDirection & UbarStar.value())
       << ", pressure gradient = " << (flowDirection & gradP.value())
       << endl;
     #include "evaluate_near_wall.inc"
-    if (runTime.outputTime())
-    {
+    if (runTime.outputTime()) {
       #include "make_graphs.inc"
     }
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

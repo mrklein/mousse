@@ -2,12 +2,12 @@
   tmp<fvVectorMatrix> UEqn
   {
     fvm::div(phi, U)
-    + MRF.DDt(rho, U)
-    + turbulence->divDevRhoReff(U)
+  + MRF.DDt(rho, U)
+  + turbulence->divDevRhoReff(U)
     ==
     rho.dimensionedInternalField()*g
-    + parcels.SU(U)
-    + fvOptions(rho, U)
+  + parcels.SU(U)
+  + fvOptions(rho, U)
   };
   UEqn().relax();
   fvOptions.constrain(UEqn());

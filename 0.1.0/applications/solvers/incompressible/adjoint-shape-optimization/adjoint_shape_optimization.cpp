@@ -7,6 +7,7 @@
 #include "turbulent_transport_model.hpp"
 #include "simple_control.hpp"
 
+
 template<class Type>
 void zeroCells
 (
@@ -14,24 +15,24 @@ void zeroCells
   const labelList& cells
 )
 {
-  FOR_ALL(cells, i)
-  {
+  FOR_ALL(cells, i) {
     vf[cells[i]] = pTraits<Type>::zero;
   }
 }
+
 
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_mesh.inc"
-  simpleControl simple(mesh);
+  simpleControl simple{mesh};
   #include "create_fields.inc"
   #include "init_continuity_errs.inc"
   #include "init_adjoint_continuity_errs.inc"
-  Info<< "\nStarting time loop\n" << endl;
+  Info << "\nStarting time loop\n" << endl;
   while (simple.loop()) {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     laminarTransport.lookup("lambda") >> lambda;
     //alpha +=
     //    mesh.relaxationFactor("alpha")
@@ -39,15 +40,14 @@ int main(int argc, char *argv[])
     alpha += mesh.fieldRelaxationFactor("alpha")
       *(min(max(alpha + lambda*(Ua & U), zeroAlpha), alphaMax) - alpha);
     zeroCells(alpha, inletCells);
-    //zeroCells(alpha, outletCells);
     // Pressure-velocity SIMPLE corrector
     {
       // Momentum predictor
       tmp<fvVectorMatrix> UEqn
       {
         fvm::div(phi, U)
-        + turbulence->divDevReff(U)
-        + fvm::Sp(alpha, U)
+      + turbulence->divDevReff(U)
+      + fvm::Sp(alpha, U)
       };
       UEqn().relax();
       solve(UEqn() == -fvc::grad(p));
@@ -80,20 +80,13 @@ int main(int argc, char *argv[])
     {
       // Adjoint Momentum predictor
       volVectorField adjointTransposeConvection{(fvc::grad(Ua) & U)};
-      //volVectorField adjointTransposeConvection
-      //(
-      //    fvc::reconstruct
-      //    (
-      //        mesh.magSf()*(fvc::snGrad(Ua) & fvc::interpolate(U))
-      //    )
-      //);
       zeroCells(adjointTransposeConvection, inletCells);
       tmp<fvVectorMatrix> UaEqn
       {
         fvm::div(-phi, Ua)
-        - adjointTransposeConvection
-        + turbulence->divDevReff(Ua)
-        + fvm::Sp(alpha, Ua)
+      - adjointTransposeConvection
+      + turbulence->divDevReff(Ua)
+      + fvm::Sp(alpha, Ua)
       };
       UaEqn().relax();
       solve(UaEqn() == -fvc::grad(pa));
@@ -125,10 +118,11 @@ int main(int argc, char *argv[])
     laminarTransport.correct();
     turbulence->correct();
     runTime.write();
-    Info<< "ExecutionTime = "
+    Info << "ExecutionTime = "
       << runTime.elapsedCpuTime()
       << " s\n\n" << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

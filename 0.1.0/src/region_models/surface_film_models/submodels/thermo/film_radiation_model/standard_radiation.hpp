@@ -8,16 +8,15 @@
 //   mousse::standardRadiation
 // Description
 //   Standard radiation model
-// SourceFiles
-//   standard_radiation.cpp
+
 #include "film_radiation_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class standardRadiation
 :
   public filmRadiationModel
@@ -57,7 +56,10 @@ public:
       //  Also updates QrNet
       virtual tmp<volScalarField> Shs();
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

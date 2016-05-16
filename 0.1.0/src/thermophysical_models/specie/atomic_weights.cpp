@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "atomic_weights.hpp"
+
+
 // Static Data Members
 const mousse::atomicWeightTable::atomicWeight
 mousse::atomicWeightTable::atomicWeights[atomicWeightTable::nElements] =
@@ -112,13 +114,16 @@ mousse::atomicWeightTable::atomicWeights[atomicWeightTable::nElements] =
   {"Es", 254.00000},
   {"Fm", 253.00000}
 };
+
+
 // Constructors 
 mousse::atomicWeightTable::atomicWeightTable()
 {
-  for (int i=0; i<nElements; i++)
-  {
+  for (int i=0; i<nElements; i++) {
     insert(word(atomicWeights[i].name), atomicWeights[i].weight);
   }
 }
+
+
 // Global data 
 mousse::atomicWeightTable mousse::atomicWeights;

@@ -5,6 +5,8 @@
 #include "write_face_set.hpp"
 #include "ofstream.hpp"
 #include "write_funs.hpp"
+
+
 // Global Functions 
 void mousse::writeFaceSet
 (
@@ -15,40 +17,37 @@ void mousse::writeFaceSet
 )
 {
   const faceList& faces = vMesh.mesh().faces();
-  std::ofstream ostr(fileName.c_str());
+  std::ofstream ostr{fileName.c_str()};
   writeFuns::writeHeader
   (
     ostr,
     binary,
     set.name()
   );
-  ostr<< "DATASET POLYDATA" << std::endl;
+  ostr << "DATASET POLYDATA" << std::endl;
   // Write topology
   // Construct primitivePatch of faces in faceSet.
   faceList setFaces{set.size()};
   labelList setFaceLabels{set.size()};
   label setFaceI = 0;
-  FOR_ALL_CONST_ITER(faceSet, set, iter)
-  {
+  FOR_ALL_CONST_ITER(faceSet, set, iter) {
     setFaceLabels[setFaceI] = iter.key();
     setFaces[setFaceI] = faces[iter.key()];
     setFaceI++;
   }
   primitiveFacePatch fp{setFaces, vMesh.mesh().points()};
   // Write points and faces as polygons
-  ostr<< "POINTS " << fp.nPoints() << " float" << std::endl;
+  ostr << "POINTS " << fp.nPoints() << " float" << std::endl;
   DynamicList<floatScalar> ptField{3*fp.nPoints()};
   writeFuns::insert(fp.localPoints(), ptField);
   writeFuns::write(ostr, binary, ptField);
   label nFaceVerts = 0;
-  FOR_ALL(fp.localFaces(), faceI)
-  {
+  FOR_ALL(fp.localFaces(), faceI) {
     nFaceVerts += fp.localFaces()[faceI].size() + 1;
   }
-  ostr<< "POLYGONS " << fp.size() << ' ' << nFaceVerts << std::endl;
-  DynamicList<label> vertLabels(nFaceVerts);
-  FOR_ALL(fp.localFaces(), faceI)
-  {
+  ostr << "POLYGONS " << fp.size() << ' ' << nFaceVerts << std::endl;
+  DynamicList<label> vertLabels{nFaceVerts};
+  FOR_ALL(fp.localFaces(), faceI) {
     const face& f = fp.localFaces()[faceI];
     vertLabels.append(f.size());
     writeFuns::insert(f, vertLabels);
@@ -60,6 +59,7 @@ void mousse::writeFaceSet
     << "CELL_DATA " << fp.size() << std::endl
     << "FIELD attributes 1" << std::endl;
   // Cell ids first
-  ostr<< "faceID 1 " << fp.size() << " int" << std::endl;
+  ostr << "faceID 1 " << fp.size() << " int" << std::endl;
   writeFuns::write(ostr, binary, setFaceLabels);
 }
+

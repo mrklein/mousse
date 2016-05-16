@@ -65,17 +65,18 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
       << symMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::smoother>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        interfaceBouCoeffs,
-        interfaceIntCoeffs,
-        interfaces
-      )
-    };
+    return
+      autoPtr<lduMatrix::smoother>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          interfaceBouCoeffs,
+          interfaceIntCoeffs,
+          interfaces
+        )
+      };
   } else if (matrix.asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
@@ -90,24 +91,25 @@ mousse::autoPtr<mousse::lduMatrix::smoother> mousse::lduMatrix::smoother::New
       << asymMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::smoother>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        interfaceBouCoeffs,
-        interfaceIntCoeffs,
-        interfaces
-      )
-    };
+    return
+      autoPtr<lduMatrix::smoother>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          interfaceBouCoeffs,
+          interfaceIntCoeffs,
+          interfaces
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (
       "lduMatrix::smoother::New", solverControls
     )
     << "cannot solve incomplete matrix, "
-    "no diagonal or off-diagonal coefficient"
+       "no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
     return autoPtr<lduMatrix::smoother>{NULL};
   }

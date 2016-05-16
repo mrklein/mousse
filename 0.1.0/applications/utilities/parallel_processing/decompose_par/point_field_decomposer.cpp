@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "point_field_decomposer.hpp"
+
+
 // Constructors 
 mousse::pointFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
 (
@@ -11,32 +13,25 @@ mousse::pointFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
   const labelList& directAddr
 )
 :
-  pointPatchFieldMapperPatchRef
-  {
-    completeMeshPatch,
-    procMeshPatch
-  },
+  pointPatchFieldMapperPatchRef{completeMeshPatch, procMeshPatch},
   directAddressing_{procMeshPatch.size(), -1},
   hasUnmapped_{false}
 {
   // Create the inverse-addressing of the patch point labels.
   labelList pointMap{completeMeshPatch.boundaryMesh().mesh().size(), -1};
   const labelList& completeMeshPatchPoints = completeMeshPatch.meshPoints();
-  FOR_ALL(completeMeshPatchPoints, pointi)
-  {
+  FOR_ALL(completeMeshPatchPoints, pointi) {
     pointMap[completeMeshPatchPoints[pointi]] = pointi;
   }
   // Use the inverse point addressing to create the addressing table for this
   // patch
   const labelList& procMeshPatchPoints = procMeshPatch.meshPoints();
-  FOR_ALL(procMeshPatchPoints, pointi)
-  {
+  FOR_ALL(procMeshPatchPoints, pointi) {
     directAddressing_[pointi] =
       pointMap[directAddr[procMeshPatchPoints[pointi]]];
   }
   // Check that all the patch point addresses are set
-  if (directAddressing_.size() && min(directAddressing_) < 0)
-  {
+  if (directAddressing_.size() && min(directAddressing_) < 0) {
     hasUnmapped_ = true;
     FATAL_ERROR_IN
     (
@@ -46,6 +41,8 @@ mousse::pointFieldDecomposer::patchFieldDecomposer::patchFieldDecomposer
     << abort(FatalError);
   }
 }
+
+
 mousse::pointFieldDecomposer::pointFieldDecomposer
 (
   const pointMesh& completeMesh,
@@ -61,30 +58,30 @@ mousse::pointFieldDecomposer::pointFieldDecomposer
   patchFieldDecomposerPtrs_
   {
     procMesh_.boundary().size(),
-    static_cast<patchFieldDecomposer*>(NULL)
+    static_cast<patchFieldDecomposer*>(nullptr)
   }
 {
-  FOR_ALL(boundaryAddressing_, patchi)
-  {
-    if (boundaryAddressing_[patchi] >= 0)
-    {
-      patchFieldDecomposerPtrs_[patchi] = new patchFieldDecomposer
-      (
-        completeMesh_.boundary()[boundaryAddressing_[patchi]],
-        procMesh_.boundary()[patchi],
-        pointAddressing_
-      );
+  FOR_ALL(boundaryAddressing_, patchi) {
+    if (boundaryAddressing_[patchi] >= 0) {
+      patchFieldDecomposerPtrs_[patchi] =
+        new patchFieldDecomposer
+        {
+          completeMesh_.boundary()[boundaryAddressing_[patchi]],
+          procMesh_.boundary()[patchi],
+          pointAddressing_
+        };
     }
   }
 }
+
+
 // Destructor 
 mousse::pointFieldDecomposer::~pointFieldDecomposer()
 {
-  FOR_ALL(patchFieldDecomposerPtrs_, patchi)
-  {
-    if (patchFieldDecomposerPtrs_[patchi])
-    {
+  FOR_ALL(patchFieldDecomposerPtrs_, patchi) {
+    if (patchFieldDecomposerPtrs_[patchi]) {
       delete patchFieldDecomposerPtrs_[patchi];
     }
   }
 }
+

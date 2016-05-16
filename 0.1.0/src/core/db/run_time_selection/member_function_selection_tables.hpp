@@ -93,7 +93,7 @@
     if (baseType::memberFunction##argNames##MemberFunctionTablePtr_)          \
     {                                                                         \
       delete baseType::memberFunction##argNames##MemberFunctionTablePtr_;     \
-      baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL;     \
+      baseType::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr;  \
     }                                                                         \
   }
 
@@ -105,7 +105,7 @@
                                                                               \
   /* Define the memberFunction table */                                       \
   baseType::memberFunction##argNames##MemberFunctionTable*                    \
-    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr
 
 
 // not much in use:
@@ -114,7 +114,7 @@
                                                                               \
   /* Define the memberFunction table */                                       \
   typename baseType::memberFunction##argNames##MemberFunctionTable*           \
-    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr
 
 
 // external use:
@@ -188,7 +188,7 @@
       delete baseType<Targ>::memberFunction##argNames##                       \
         MemberFunctionTablePtr_;                                              \
       baseType<Targ>::memberFunction##argNames##                              \
-        MemberFunctionTablePtr_ = NULL;                                       \
+        MemberFunctionTablePtr_ = nullptr;                                    \
     }                                                                         \
   }
 
@@ -201,7 +201,7 @@
                                                                               \
   /* Define the memberFunction table */                                       \
   baseType<Targ>::memberFunction##argNames##MemberFunctionTable*              \
-    baseType<Targ>::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+    baseType<Targ>::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr
 
 
 // external use:

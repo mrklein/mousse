@@ -1,4 +1,4 @@
-  Info<< "Reading field psi\n" << endl;
+  Info << "Reading field psi\n" << endl;
   volScalarField psi
   {
     {
@@ -10,7 +10,7 @@
     },
     mesh
   };
-  Info<< "Reading transportProperties\n" << endl;
+  Info << "Reading transportProperties\n" << endl;
   IOdictionary transportProperties
   {
     {
@@ -41,11 +41,9 @@
     mesh,
     {"Mr", dimensionSet(0, 1, 0, 0, 0, 1, 0), 0}
   };
-  FOR_ALL(magnets, i)
-  {
+  FOR_ALL(magnets, i) {
     label magnetZonei = mesh.faceZones().findZoneID(magnets[i].name());
-    if (magnetZonei == -1)
-    {
+    if (magnetZonei == -1) {
       FATAL_IO_ERROR_IN(args.executable().c_str(), transportProperties)
         << "Cannot find faceZone for magnet " << magnets[i].name()
         << exit(FatalIOError);
@@ -55,10 +53,10 @@
     const scalar Mri = magnets[i].Mr().value();
     const vector& orientationi = magnets[i].orientation();
     const surfaceVectorField& Sf = mesh.Sf();
-    FOR_ALL(faces, i)
-    {
+    FOR_ALL(faces, i) {
       label facei = faces[i];
       murf[facei] = muri;
       Mrf[facei] = Mri*(orientationi & Sf[facei]);
     }
   }
+

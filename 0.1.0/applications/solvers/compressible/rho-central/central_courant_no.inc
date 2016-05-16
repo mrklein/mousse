@@ -2,8 +2,7 @@
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-if (mesh.nInternalFaces())
-{
+if (mesh.nInternalFaces()) {
   scalarField sumAmaxSf{fvc::surfaceSum(amaxSf)().internalField()};
   CoNum = 0.5*gMax(sumAmaxSf/mesh.V().field())*runTime.deltaTValue();
   meanCoNum =

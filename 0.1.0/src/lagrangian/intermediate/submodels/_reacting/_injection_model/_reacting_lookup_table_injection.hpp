@@ -24,12 +24,13 @@
 //     T       = temperature [K]
 //     cp      = specific heat capacity [J/kg/K]
 //     Y       = list of mass fractions
-// SourceFiles
-//   _reacting_lookup_table_injection.cpp
+
 #include "_injection_model.hpp"
 #include "reacting_parcel_injection_data_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ReactingLookupTableInjection
 :
@@ -69,12 +70,13 @@ public:
       const ReactingLookupTableInjection<CloudType>& im
     );
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ReactingLookupTableInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ReactingLookupTableInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ReactingLookupTableInjection();
@@ -113,8 +115,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_reacting_lookup_table_injection.cpp"
-#endif
+
+#include "_reacting_lookup_table_injection.ipp"
+
 #endif

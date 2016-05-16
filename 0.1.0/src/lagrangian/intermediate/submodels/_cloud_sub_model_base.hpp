@@ -8,11 +8,12 @@
 //   mousse::CloudSubModelBase
 // Description
 //   Base class for cloud sub-models
-// SourceFiles
-//   _cloud_sub_model_base.cpp
+
 #include "sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class CloudSubModelBase
 :
@@ -63,8 +64,10 @@ public:
       //- Write
       virtual void write(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_cloud_sub_model_base.cpp"
+
+#include "_cloud_sub_model_base.ipp"
+
 #endif
-#endif
+

@@ -7,8 +7,7 @@
   surfaceScalarField rhorAUf{"rhorAUf", fvc::interpolate(rho*rAU)};
   volVectorField HbyA{"HbyA", U};
   HbyA = rAU*UEqn.H();
-  if (pimple.transonic())
-  {
+  if (pimple.transonic()) {
     surfaceScalarField phiHbyA
     {
       "phiHbyA",
@@ -20,29 +19,23 @@
     MRF.makeRelative(phiHbyA);
     surfaceScalarField phid{"phid", fvc::interpolate(thermo.psi())*phiHbyA};
     phiHbyA *= fvc::interpolate(rho);
-    fvScalarMatrix pDDtEqn
-    {
+    fvScalarMatrix pDDtEqn {
       fvc::ddt(rho) + fvc::div(phiHbyA)
-      + correction(psi*fvm::ddt(p) + fvm::div(phid, p))
+    + correction(psi*fvm::ddt(p) + fvm::div(phid, p))
     };
-    while (pimple.correctNonOrthogonal())
-    {
-      fvScalarMatrix pEqn
-      {
+    while (pimple.correctNonOrthogonal()) {
+      fvScalarMatrix pEqn {
         pDDtEqn
-        - fvm::laplacian(rhorAUf, p)
-        ==
+      - fvm::laplacian(rhorAUf, p)
+      ==
         fvOptions(psi, p, rho.name())
       };
       pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-      if (pimple.finalNonOrthogonalIter())
-      {
+      if (pimple.finalNonOrthogonalIter()) {
         phi = phiHbyA + pEqn.flux();
       }
     }
-  }
-  else
-  {
+  } else {
     surfaceScalarField phiHbyA
     {
       "phiHbyA",
@@ -52,23 +45,16 @@
       )
     };
     MRF.makeRelative(fvc::interpolate(rho), phiHbyA);
-    fvScalarMatrix pDDtEqn
-    {
+    fvScalarMatrix pDDtEqn {
       fvc::ddt(rho) + psi*correction(fvm::ddt(p))
-      + fvc::div(phiHbyA)
+    + fvc::div(phiHbyA)
       ==
       fvOptions(psi, p, rho.name())
     };
-    while (pimple.correctNonOrthogonal())
-    {
-      fvScalarMatrix pEqn
-      {
-        pDDtEqn
-        - fvm::laplacian(rhorAUf, p)
-      };
+    while (pimple.correctNonOrthogonal()) {
+      fvScalarMatrix pEqn{pDDtEqn - fvm::laplacian(rhorAUf, p)};
       pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-      if (pimple.finalNonOrthogonalIter())
-      {
+      if (pimple.finalNonOrthogonalIter()) {
         phi = phiHbyA + pEqn.flux();
       }
     }
@@ -81,8 +67,7 @@
   U.correctBoundaryConditions();
   fvOptions.correct(U);
   K = 0.5*magSqr(U);
-  if (thermo.dpdt())
-  {
+  if (thermo.dpdt()) {
     dpdt = fvc::ddt(p);
   }
 }

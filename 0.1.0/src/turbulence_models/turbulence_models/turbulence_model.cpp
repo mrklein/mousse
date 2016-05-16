@@ -6,12 +6,19 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "wall_fv_patch.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(turbulenceModel, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(turbulenceModel, 0);
+
 }
-const mousse::word mousse::turbulenceModel::propertiesName("turbulenceProperties");
+
+const mousse::word
+  mousse::turbulenceModel::propertiesName("turbulenceProperties");
+
+
 // Constructors 
 mousse::turbulenceModel::turbulenceModel
 (
@@ -22,36 +29,41 @@ mousse::turbulenceModel::turbulenceModel
 )
 :
   IOdictionary
-  (
-    IOobject
-    (
+  {
+    {
       IOobject::groupName(propertiesName, U.group()),
       U.time().constant(),
       U.db(),
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-    )
-  ),
-  runTime_(U.time()),
-  mesh_(U.mesh()),
-  U_(U),
-  alphaRhoPhi_(alphaRhoPhi),
-  phi_(phi),
-  y_(mesh_)
+    }
+  },
+  runTime_{U.time()},
+  mesh_{U.mesh()},
+  U_{U},
+  alphaRhoPhi_{alphaRhoPhi},
+  phi_{phi},
+  y_{mesh_}
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::surfaceScalarField> mousse::turbulenceModel::phi() const
 {
   return phi_;
 }
+
+
 bool mousse::turbulenceModel::read()
 {
   return regIOobject::read();
 }
+
+
 void mousse::turbulenceModel::correct()
 {
-  if (mesh_.changing())
-  {
+  if (mesh_.changing()) {
     y_.correct();
   }
 }
+

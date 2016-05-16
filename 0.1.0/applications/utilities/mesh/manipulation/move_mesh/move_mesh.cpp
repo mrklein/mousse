@@ -7,7 +7,9 @@
 #include "fv_mesh.hpp"
 #include "motion_solver.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -15,8 +17,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   #include "create_mesh.inc"
   autoPtr<motionSolver> motionPtr = motionSolver::New(mesh);
-  while (runTime.loop())
-  {
+  while (runTime.loop()) {
     Info << "Time = " << runTime.timeName() << endl;
     mesh.movePoints(motionPtr->newPoints());
     runTime.write();
@@ -27,3 +28,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

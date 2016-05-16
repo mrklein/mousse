@@ -55,7 +55,7 @@ long mousse::readLong(Istream& is)
 
 bool mousse::read(const char* buf, long& s)
 {
-  char *endptr = NULL;
+  char *endptr = nullptr;
   errno = 0;
   s = strtol(buf, &endptr, 10);
   return (*endptr == 0) && (errno == 0);

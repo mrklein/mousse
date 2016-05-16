@@ -9,10 +9,9 @@
 // Description
 //   Templated abstract base class for single-phase compressible
 //   turbulence models.
-// SourceFiles
-//   eddy_diffusivity.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class EddyDiffusivity
 :
@@ -87,8 +86,9 @@ public:
     //- Correct the turbulence thermal diffusivity for energy transport
     virtual void correctEnergyTransport();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "eddy_diffusivity.cpp"
-#endif
+
+#include "eddy_diffusivity.ipp"
+
 #endif

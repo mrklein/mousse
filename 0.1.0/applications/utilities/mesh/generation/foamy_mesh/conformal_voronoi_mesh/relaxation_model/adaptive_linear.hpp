@@ -10,11 +10,12 @@
 //   Produces a linear ramp which adapts its gradient to changes in
 //   endTime and deltaT to always arrive at the relaxationEnd value at the end of
 //   the run
-// SourceFiles
-//   adaptive_linear.cpp
+
 #include "relaxation_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class adaptiveLinear
 :
   public relaxationModel
@@ -48,5 +49,8 @@ public:
     //- Return the current relaxation coefficient
     virtual scalar relaxation();
 };
+
 }  // namespace mousse
+
 #endif
+

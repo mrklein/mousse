@@ -30,7 +30,7 @@ class tmp
 public:
   // Constructors
     //- Store object pointer
-    inline explicit tmp(T* = 0);
+    inline explicit tmp(T* = nullptr);
     //- Store object const reference
     inline tmp(const T&);
     //- Construct copy and increment reference count
@@ -53,7 +53,7 @@ public:
       //- Return tmp pointer for reuse
       inline T* ptr() const;
       //- If object pointer points to valid object:
-      //  delete object and set pointer to NULL
+      //  delete object and set pointer to nullptr
       inline void clear() const;
   // Member operators
     //- Dereference operator
@@ -86,7 +86,7 @@ template<class T>
 inline mousse::tmp<T>::tmp(const T& tRef)
 :
   isTmp_{false},
-  ptr_{0},
+  ptr_{nullptr},
   ref_{tRef}
 {}
 
@@ -128,9 +128,10 @@ inline mousse::tmp<T>::tmp(const tmp<T>& t, bool allowTransfer)
         FATAL_ERROR_IN
         (
           "mousse::tmp<T>::tmp(const tmp<T>&, bool allowTransfer)"
-        )   << "attempted copy of a deallocated temporary"
-          << " of type " << typeid(T).name()
-          << abort(FatalError);
+        )
+        << "attempted copy of a deallocated temporary"
+        << " of type " << typeid(T).name()
+        << abort(FatalError);
       }
     }
   }
@@ -140,10 +141,10 @@ inline mousse::tmp<T>::tmp(const tmp<T>& t, bool allowTransfer)
 template<class T>
 inline mousse::tmp<T>::~tmp()
 {
-  if (isTmp_ && ptr_) {
+  if (isTmp_ && ptr_ != nullptr) {
     if (ptr_->okToDelete()) {
       delete ptr_;
-      ptr_ = 0;
+      ptr_ = nullptr;
     } else {
       ptr_->operator--();
     }
@@ -162,14 +163,14 @@ inline bool mousse::tmp<T>::isTmp() const
 template<class T>
 inline bool mousse::tmp<T>::empty() const
 {
-  return (isTmp_ && !ptr_);
+  return (isTmp_ && ptr_ == nullptr);
 }
 
 
 template<class T>
 inline bool mousse::tmp<T>::valid() const
 {
-  return (!isTmp_ || (isTmp_ && ptr_));
+  return (!isTmp_ || (isTmp_ && ptr_ != nullptr));
 }
 
 
@@ -177,13 +178,13 @@ template<class T>
 inline T* mousse::tmp<T>::ptr() const
 {
   if (isTmp_) {
-    if (!ptr_) {
+    if (ptr_ == nullptr) {
       FATAL_ERROR_IN("mousse::tmp<T>::ptr() const")
         << "temporary of type " << typeid(T).name() << " deallocated"
         << abort(FatalError);
     }
     T* ptr = ptr_;
-    ptr_ = 0;
+    ptr_ = nullptr;
     ptr->resetRefCount();
     return ptr;
   } else {
@@ -195,9 +196,9 @@ inline T* mousse::tmp<T>::ptr() const
 template<class T>
 inline void mousse::tmp<T>::clear() const
 {
-  if (isTmp_ && ptr_) {
+  if (isTmp_ && ptr_ != nullptr) {
     delete ptr_;
-    ptr_ = 0;
+    ptr_ = nullptr;
   }
 }
 
@@ -207,7 +208,7 @@ template<class T>
 inline T& mousse::tmp<T>::operator()()
 {
   if (isTmp_) {
-    if (!ptr_) {
+    if (ptr_ == nullptr) {
       FATAL_ERROR_IN("T& mousse::tmp<T>::operator()()")
         << "temporary of type " << typeid(T).name() << " deallocated"
         << abort(FatalError);
@@ -231,7 +232,7 @@ template<class T>
 inline const T& mousse::tmp<T>::operator()() const
 {
   if (isTmp_) {
-    if (!ptr_) {
+    if (ptr_ == nullptr) {
       FATAL_ERROR_IN("const T& mousse::tmp<T>::operator()() const")
         << "temporary of type " << typeid(T).name() << " deallocated"
         << abort(FatalError);
@@ -254,7 +255,7 @@ template<class T>
 inline T* mousse::tmp<T>::operator->()
 {
   if (isTmp_) {
-    if (!ptr_) {
+    if (ptr_ == nullptr) {
       FATAL_ERROR_IN("mousse::tmp<T>::operator->()")
         << "temporary of type " << typeid(T).name() << " deallocated"
         << abort(FatalError);
@@ -276,7 +277,7 @@ inline const T* mousse::tmp<T>::operator->() const
 template<class T>
 inline void mousse::tmp<T>::operator=(const tmp<T>& t)
 {
-  if (isTmp_ && ptr_) {
+  if (isTmp_ && ptr_ != nullptr) {
     if (ptr_->okToDelete()) {
       delete ptr_;
       ptr_ = 0;
@@ -287,7 +288,7 @@ inline void mousse::tmp<T>::operator=(const tmp<T>& t)
   if (t.isTmp_) {
     isTmp_ = true;
     ptr_ = t.ptr_;
-    if (ptr_) {
+    if (ptr_ != nullptr) {
       ptr_->operator++();
     } else {
       FATAL_ERROR_IN("mousse::tmp<T>::operator=(const tmp<T>&)")

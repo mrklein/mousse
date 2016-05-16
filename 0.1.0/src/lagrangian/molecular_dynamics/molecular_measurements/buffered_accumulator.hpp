@@ -6,25 +6,26 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::bufferedAccumulator
-// Description
-// SourceFiles
-//   buffered_accumulator.cpp
-//   buffered_accumulator_io.cpp
+
 #include "field.hpp"
-namespace mousse
-{
-template<class Type>
-class bufferedAccumulator;
+
+
+namespace mousse {
+
+template<class Type> class bufferedAccumulator;
+
 template<class Type>
 Ostream& operator<<
 (
   Ostream&,
   const bufferedAccumulator<Type>&
 );
+
+
 template<class Type>
 class bufferedAccumulator
 :
-  public List< Field<Type> >
+  public List<Field<Type>>
 {
   // Private data
     label averagesTaken_;
@@ -77,44 +78,53 @@ public:
       const bufferedAccumulator<Type>&
     );
 };
-}  // namespace mousse
 
-namespace mousse
-{
+
 // Private Member Functions 
 template<class Type>
 inline Field<Type>& bufferedAccumulator<Type>::accumulationBuffer()
 {
   return (*this)[nBuffers()];
 }
+
+
 template<class Type>
 inline const Field<Type>& bufferedAccumulator<Type>::accumulationBuffer() const
 {
   return (*this)[nBuffers()];
 }
+
+
 // Member Functions 
 template<class Type>
 inline label bufferedAccumulator<Type>::averagesTaken() const
 {
   return averagesTaken_;
 }
+
+
 template<class Type>
 inline label bufferedAccumulator<Type>::nBuffers() const
 {
   return bufferOffsets_.size();
 }
+
+
 template<class Type>
 inline label bufferedAccumulator<Type>::bufferLength() const
 {
   return (*this)[0].size();
 }
+
+
 template<class Type>
 inline const List<label>& bufferedAccumulator<Type>::bufferOffsets() const
 {
   return bufferOffsets_;
 }
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "buffered_accumulator.cpp"
-#endif
+
+#include "buffered_accumulator.ipp"
+
 #endif

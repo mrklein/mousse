@@ -14,13 +14,14 @@
 
 #include "spray_cloud.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class AtomizationModel;
-template<class CloudType>
-class BreakupModel;
+template<class CloudType> class AtomizationModel;
+template<class CloudType> class BreakupModel;
+
+
 template<class CloudType>
 class SprayCloud
 :
@@ -80,18 +81,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new SprayCloud(*this, name)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new SprayCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new SprayCloud(this->mesh(), name, *this)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new SprayCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     SprayCloud(const SprayCloud&) = delete;
@@ -140,7 +143,9 @@ public:
       //- Print cloud information
       void info();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -149,36 +154,46 @@ mousse::SprayCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const mousse::AtomizationModel<mousse::SprayCloud<CloudType> >&
 mousse::SprayCloud<CloudType>::atomization() const
 {
   return atomizationModel_;
 }
+
+
 template<class CloudType>
 inline mousse::AtomizationModel<mousse::SprayCloud<CloudType> >&
 mousse::SprayCloud<CloudType>::atomization()
 {
   return atomizationModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::BreakupModel<mousse::SprayCloud<CloudType> >&
 mousse::SprayCloud<CloudType>::breakup() const
 {
   return breakupModel_;
 }
+
+
 template<class CloudType>
 inline mousse::BreakupModel<mousse::SprayCloud<CloudType> >&
 mousse::SprayCloud<CloudType>::breakup()
 {
   return breakupModel_();
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::SprayCloud<CloudType>::averageParcelMass() const
 {
   return averageParcelMass_;
 }
-#ifdef NoRepository
-#   include "_spray_cloud.cpp"
-#endif
+
+#include "_spray_cloud.ipp"
+
 #endif

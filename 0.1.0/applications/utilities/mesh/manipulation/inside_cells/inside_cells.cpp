@@ -9,7 +9,9 @@
 #include "tri_surface_search.hpp"
 #include "cell_set.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -35,10 +37,8 @@ int main(int argc, char *argv[])
   // Construct search engine on surface
   triSurfaceSearch querySurf{surf};
   boolList inside{querySurf.calcInside(mesh.cellCentres())};
-  FOR_ALL(inside, cellI)
-  {
-    if (inside[cellI])
-    {
+  FOR_ALL(inside, cellI) {
+    if (inside[cellI]) {
       insideCells.insert(cellI);
     }
   }

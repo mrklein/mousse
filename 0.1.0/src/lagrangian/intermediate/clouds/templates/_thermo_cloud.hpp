@@ -10,18 +10,22 @@
 //   Templated base class for thermodynamic cloud
 //   - Adds to kinematic cloud
 //    - Heat transfer
-// SourceFiles
-//   _thermo_cloud.cpp
+
 #include "_kinematic_cloud.hpp"
 #include "thermo_cloud.hpp"
 #include "slg_thermo.hpp"
 #include "physico_chemical_constants.hpp"
+
+
 using namespace mousse::constant;
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class HeatTransferModel;
+template<class CloudType> class HeatTransferModel;
+
+
 template<class CloudType>
 class ThermoCloud
 :
@@ -103,18 +107,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new ThermoCloud{*this, name}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ThermoCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      {
-        new ThermoCloud{this->mesh(), name, *this}
-      };
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ThermoCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     ThermoCloud(const ThermoCloud&) = delete;
@@ -223,7 +229,9 @@ public:
       //- Print cloud information
       void info();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -232,56 +240,73 @@ mousse::ThermoCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const typename CloudType::particleType::constantProperties&
 mousse::ThermoCloud<CloudType>::constProps() const
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline typename CloudType::particleType::constantProperties&
 mousse::ThermoCloud<CloudType>::constProps()
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline const mousse::SLGThermo& mousse::ThermoCloud<CloudType>::thermo() const
 {
   return thermo_;
 }
+
+
 template<class CloudType>
 inline const mousse::volScalarField& mousse::ThermoCloud<CloudType>::T() const
 {
   return T_;
 }
+
+
 template<class CloudType>
 inline const mousse::volScalarField& mousse::ThermoCloud<CloudType>::p() const
 {
   return p_;
 }
+
+
 template<class CloudType>
 inline const mousse::HeatTransferModel<mousse::ThermoCloud<CloudType> >&
 mousse::ThermoCloud<CloudType>::heatTransfer() const
 {
   return heatTransferModel_;
 }
+
+
 template<class CloudType>
 inline const mousse::scalarIntegrationScheme&
 mousse::ThermoCloud<CloudType>::TIntegrator() const
 {
   return TIntegrator_;
 }
+
+
 template<class CloudType>
 inline bool mousse::ThermoCloud<CloudType>::radiation() const
 {
   return radiation_;
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radAreaP()
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -292,12 +317,13 @@ mousse::ThermoCloud<CloudType>::radAreaP()
   }
   return radAreaP_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radAreaP() const
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -308,12 +334,13 @@ mousse::ThermoCloud<CloudType>::radAreaP() const
   }
   return radAreaP_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radT4()
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -324,12 +351,13 @@ mousse::ThermoCloud<CloudType>::radT4()
   }
   return radT4_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radT4() const
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -340,12 +368,13 @@ mousse::ThermoCloud<CloudType>::radT4() const
   }
   return radT4_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radAreaPT4()
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -356,12 +385,13 @@ mousse::ThermoCloud<CloudType>::radAreaPT4()
   }
   return radAreaPT4_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::radAreaPT4() const
 {
-  if (!radiation_)
-  {
+  if (!radiation_) {
     FATAL_ERROR_IN
     (
       "inline mousse::DimensionedField<mousse::scalar, mousse::volMesh> "
@@ -372,62 +402,69 @@ mousse::ThermoCloud<CloudType>::radAreaPT4() const
   }
   return radAreaPT4_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::hsTrans()
 {
   return hsTrans_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::hsTrans() const
 {
   return hsTrans_();
 }
+
+
 template<class CloudType>
 inline mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::hsCoeff()
 {
   return hsCoeff_();
 }
+
+
 template<class CloudType>
 inline const mousse::DimensionedField<mousse::scalar, mousse::volMesh>&
 mousse::ThermoCloud<CloudType>::hsCoeff() const
 {
   return hsCoeff_();
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::fvScalarMatrix>
 mousse::ThermoCloud<CloudType>::Sh(volScalarField& hs) const
 {
-  if (debug)
-  {
-    Info<< "hsTrans min/max = " << min(hsTrans()).value() << ", "
+  if (debug) {
+    Info << "hsTrans min/max = " << min(hsTrans()).value() << ", "
       << max(hsTrans()).value() << nl
       << "hsCoeff min/max = " << min(hsCoeff()).value() << ", "
       << max(hsCoeff()).value() << endl;
   }
-  if (this->solution().coupled())
-  {
-    if (this->solution().semiImplicit("h"))
-    {
-      const volScalarField Cp(thermo_.thermo().Cp());
+  if (this->solution().coupled()) {
+    if (this->solution().semiImplicit("h")) {
+      const volScalarField Cp{thermo_.thermo().Cp()};
       const DimensionedField<scalar, volMesh>
-        Vdt(this->mesh().V()*this->db().time().deltaT());
+        Vdt{this->mesh().V()*this->db().time().deltaT()};
       return
         hsTrans()/Vdt - fvm::SuSp(hsCoeff()/(Cp*Vdt), hs)
         + hsCoeff()/(Cp*Vdt)*hs;
-    }
-    else
-    {
-      tmp<fvScalarMatrix> tfvm(new fvScalarMatrix(hs, dimEnergy/dimTime));
+    } else {
+      tmp<fvScalarMatrix> tfvm{new fvScalarMatrix{hs, dimEnergy/dimTime}};
       fvScalarMatrix& fvm = tfvm();
       fvm.source() = -hsTrans()/(this->db().time().deltaT());
       return tfvm;
     }
   }
-  return tmp<fvScalarMatrix>(new fvScalarMatrix(hs, dimEnergy/dimTime));
+  return tmp<fvScalarMatrix>{new fvScalarMatrix{hs, dimEnergy/dimTime}};
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::Ep() const
 {
@@ -445,12 +482,10 @@ inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::Ep() 
         false
       },
       this->mesh(),
-      // dimensionedScalar("zero", dimMass/dimLength/pow3(dimTime), 0.0)
       {"zero", dimMass/dimLength/pow3(dimTime), 0.0}
     }
   };
-  if (radiation_)
-  {
+  if (radiation_) {
     scalarField& Ep = tEp().internalField();
     const scalar dt = this->db().time().deltaTValue();
     const scalarField& V = this->mesh().V();
@@ -460,6 +495,8 @@ inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::Ep() 
   }
   return tEp;
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::ap() const
 {
@@ -467,7 +504,6 @@ inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::ap() 
   {
     new volScalarField
     {
-      // IOobject
       {
         this->name() + ":radiation:ap",
         this->db().time().timeName(),
@@ -477,12 +513,10 @@ inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::ap() 
         false
       },
       this->mesh(),
-      // dimensionedScalar("zero", dimless/dimLength, 0.0)
       {"zero", dimless/dimLength, 0.0}
     }
   };
-  if (radiation_)
-  {
+  if (radiation_) {
     scalarField& ap = tap().internalField();
     const scalar dt = this->db().time().deltaTValue();
     const scalarField& V = this->mesh().V();
@@ -492,6 +526,8 @@ inline mousse::tmp<mousse::volScalarField> mousse::ThermoCloud<CloudType>::ap() 
   }
   return tap;
 }
+
+
 template<class CloudType>
 inline mousse::tmp<mousse::volScalarField>
 mousse::ThermoCloud<CloudType>::sigmap() const
@@ -500,7 +536,6 @@ mousse::ThermoCloud<CloudType>::sigmap() const
   {
     new volScalarField
     {
-      // IOobject
       {
         this->name() + ":radiation:sigmap",
         this->db().time().timeName(),
@@ -510,12 +545,10 @@ mousse::ThermoCloud<CloudType>::sigmap() const
         false
       },
       this->mesh(),
-      // dimensionedScalar("zero", dimless/dimLength, 0.0)
       {"zero", dimless/dimLength, 0.0}
     }
   };
-  if (radiation_)
-  {
+  if (radiation_) {
     scalarField& sigmap = tsigmap().internalField();
     const scalar dt = this->db().time().deltaTValue();
     const scalarField& V = this->mesh().V();
@@ -526,51 +559,47 @@ mousse::ThermoCloud<CloudType>::sigmap() const
   }
   return tsigmap;
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::ThermoCloud<CloudType>::Tmax() const
 {
   scalar T = -GREAT;
   scalar n = 0;
-  FOR_ALL_CONST_ITER(typename ThermoCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename ThermoCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     T = max(T, p.T());
     n++;
   }
   reduce(T, maxOp<scalar>());
   reduce(n, sumOp<label>());
-  if (n > 0)
-  {
+  if (n > 0) {
     return T;
-  }
-  else
-  {
+  } else {
     return 0.0;
   }
 }
+
+
 template<class CloudType>
 inline mousse::scalar mousse::ThermoCloud<CloudType>::Tmin() const
 {
   scalar T = GREAT;
   scalar n = 0;
-  FOR_ALL_CONST_ITER(typename ThermoCloud<CloudType>, *this, iter)
-  {
+  FOR_ALL_CONST_ITER(typename ThermoCloud<CloudType>, *this, iter) {
     const parcelType& p = iter();
     T = min(T, p.T());
     n++;
   }
   reduce(T, minOp<scalar>());
   reduce(n, sumOp<label>());
-  if (n > 0)
-  {
+  if (n > 0) {
     return T;
-  }
-  else
-  {
+  } else {
     return 0.0;
   }
 }
-#ifdef NoRepository
-  #include "_thermo_cloud.cpp"
-#endif
+
+#include "_thermo_cloud.ipp"
+
 #endif

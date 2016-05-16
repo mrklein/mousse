@@ -8,20 +8,25 @@
 //   mousse::basicKinematicCollidingParcel
 // Description
 //   Definition of basic kinematic colliding parcel
-// SourceFiles
-//   basic_kinematic_parcel.hpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_colliding_parcel.hpp"
-namespace mousse
+
+
+namespace mousse {
+
+typedef CollidingParcel<KinematicParcel<particle>>
+  basicKinematicCollidingParcel;
+
+template<>
+inline bool contiguous<basicKinematicCollidingParcel>()
 {
-  typedef CollidingParcel<KinematicParcel<particle> >
-    basicKinematicCollidingParcel;
-  template<>
-  inline bool contiguous<basicKinematicCollidingParcel>()
-  {
-    return true;
-  }
+  return true;
 }
+
+}
+
 #endif
+

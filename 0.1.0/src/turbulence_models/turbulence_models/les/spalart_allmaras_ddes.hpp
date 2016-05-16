@@ -19,13 +19,13 @@
 //     densities.
 //     Theoretical and computational fluid dynamics, 20(3), 181-195.
 //   \endverbatim
-// SourceFiles
-//   spalart_allmaras_ddes.cpp
+
 #include "spalart_allmaras_des.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class SpalartAllmarasDDES
 :
@@ -69,9 +69,10 @@ public:
   virtual ~SpalartAllmarasDDES()
   {}
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "spalart_allmaras_ddes.cpp"
-#endif
+
+#include "spalart_allmaras_ddes.ipp"
+
 #endif

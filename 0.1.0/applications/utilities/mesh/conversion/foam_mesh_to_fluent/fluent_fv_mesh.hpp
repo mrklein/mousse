@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::fluentFvMesh
-// Description
-// SourceFiles
-//   fluent_fv_mesh.cpp
+
 #include "fv_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fluentFvMesh
 :
   public fvMesh
@@ -24,5 +24,8 @@ public:
     //- Write Fluent mesh
     void writeFluentMesh() const;
 };
+
 }  // namespace mousse
+
 #endif
+

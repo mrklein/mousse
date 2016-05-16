@@ -10,9 +10,11 @@
 #include "point_io_field.hpp"
 #include "scalar_io_field.hpp"
 #include "triad_io_field.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(fileControl, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -20,8 +22,10 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   fileControl,
   dictionary
 );
+
 }
-// Private Member Functions 
+
+
 // Constructors 
 mousse::fileControl::fileControl
 (
@@ -45,16 +49,21 @@ mousse::fileControl::fileControl
   alignmentsFile_{controlFunctionDict.lookup("alignmentsFile")},
   maxPriority_{readLabel(controlFunctionDict.lookup("priority"))}
 {
-  Info<< indent << "Loading " << name << " from file:" << nl
+  Info
+    << indent << "Loading " << name << " from file:" << nl
     << indent << "    priority   : " << maxPriority_ << nl
     << indent << "    points     : " << pointsFile_ << nl
     << indent << "    sizes      : " << sizesFile_ << nl
     << indent << "    alignments : " << alignmentsFile_
     << endl;
 }
+
+
 // Destructor 
 mousse::fileControl::~fileControl()
 {}
+
+
 // Member Functions 
 void mousse::fileControl::cellSizeFunctionVertices
 (
@@ -64,6 +73,8 @@ void mousse::fileControl::cellSizeFunctionVertices
 {
   return;
 }
+
+
 void mousse::fileControl::initialVertices
 (
   pointField& pts,
@@ -71,7 +82,7 @@ void mousse::fileControl::initialVertices
   triadField& alignments
 ) const
 {
-  Info<< "    Reading points from file     : " << pointsFile_ << endl;
+  Info << "    Reading points from file     : " << pointsFile_ << endl;
   pointIOField pointsTmp
   {
     {
@@ -84,7 +95,7 @@ void mousse::fileControl::initialVertices
     }
   };
   pts.transfer(pointsTmp);
-  Info<< "    Reading sizes from file      : " << sizesFile_ << endl;
+  Info << "    Reading sizes from file      : " << sizesFile_ << endl;
   scalarIOField sizesTmp
   {
     {
@@ -97,7 +108,7 @@ void mousse::fileControl::initialVertices
     }
   };
   sizes.transfer(sizesTmp);
-  Info<< "    Reading alignments from file : " << alignmentsFile_ << endl;
+  Info << "    Reading alignments from file : " << alignmentsFile_ << endl;
   triadIOField alignmentsTmp
   {
     {
@@ -110,15 +121,14 @@ void mousse::fileControl::initialVertices
     }
   };
   alignments.transfer(alignmentsTmp);
-  if ((pts.size() != sizes.size()) || (pts.size() != alignments.size()))
-  {
+  if ((pts.size() != sizes.size()) || (pts.size() != alignments.size())) {
     FATAL_ERROR_IN
     (
       "mousse::fileControl::initialVertices"
       "("
-      "   pointField&,"
-      "   scalarField&,"
-      "   Field<triad>&"
+      "  pointField&,"
+      "  scalarField&,"
+      "  Field<triad>&"
       ")"
     )
     << "Size of list of points, sizes and alignments do not match:"
@@ -129,3 +139,4 @@ void mousse::fileControl::initialVertices
     << abort(FatalError);
   }
 }
+

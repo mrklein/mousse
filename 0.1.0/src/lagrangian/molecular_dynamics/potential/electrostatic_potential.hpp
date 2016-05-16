@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::pairPotentials::electrostaticPotential
-// Description
-// SourceFiles
-//   electrostatic_potential.cpp
+
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class electrostaticPotential
 {
   // Private data
@@ -27,5 +27,8 @@ public:
     scalar energy(const scalar r) const;
     scalar force(const scalar r) const;
 };
+
 }  // namespace mousse
+
 #endif
+

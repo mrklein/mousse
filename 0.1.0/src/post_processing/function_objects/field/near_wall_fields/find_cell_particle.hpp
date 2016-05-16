@@ -8,13 +8,16 @@
 //   mousse::findCellParticle
 // Description
 //   Particle class that finds cells by tracking
-// SourceFiles
-//   find_cell_particle.cpp
+
 #include "particle.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class findCellParticleCloud;
+
+
 class findCellParticle
 :
   public particle
@@ -29,32 +32,26 @@ public:
   //- Class used to pass tracking data to the trackToFace function
   class trackingData
   :
-    public particle::TrackingData<Cloud<findCellParticle> >
+    public particle::TrackingData<Cloud<findCellParticle>>
   {
     labelListList& cellToData_;
-    List<List<point> >& cellToEnd_;
+    List<List<point>>& cellToEnd_;
   public:
     // Constructors
       trackingData
       (
         Cloud<findCellParticle>& cloud,
         labelListList& cellToData,
-        List<List<point> >& cellToEnd
+        List<List<point>>& cellToEnd
       )
       :
-        particle::TrackingData<Cloud<findCellParticle> >(cloud),
-        cellToData_(cellToData),
-        cellToEnd_(cellToEnd)
+        particle::TrackingData<Cloud<findCellParticle>>{cloud},
+        cellToData_{cellToData},
+        cellToEnd_{cellToEnd}
       {}
     // Member functions
-      labelListList& cellToData()
-      {
-        return cellToData_;
-      }
-      List<List<point> >& cellToEnd()
-      {
-        return cellToEnd_;
-      }
+      labelListList& cellToData() { return cellToData_; }
+      List<List<point>>& cellToEnd() { return cellToEnd_; }
   };
   // Constructors
     //- Construct from components
@@ -78,7 +75,7 @@ public:
     //- Construct and return a clone
     autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new findCellParticle(*this));
+      return autoPtr<particle>{new findCellParticle{*this}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -88,27 +85,19 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
       autoPtr<findCellParticle> operator()(Istream& is) const
       {
-        return autoPtr<findCellParticle>
-        (
-          new findCellParticle(mesh_, is, true)
-        );
+        return
+          autoPtr<findCellParticle>{new findCellParticle{mesh_, is, true}};
       }
     };
   // Member Functions
     //- Point to track to
-    const point& end() const
-    {
-      return end_;
-    }
+    const point& end() const { return end_; }
     //- Transported label
-    label data() const
-    {
-      return data_;
-    }
+    label data() const { return data_; }
     // Tracking
       //- Track all particles to their end point
       bool move(trackingData&, const scalar);
@@ -171,10 +160,10 @@ public:
   // Ostream Operator
     friend Ostream& operator<<(Ostream&, const findCellParticle&);
 };
-template<>
-inline bool contiguous<findCellParticle>()
-{
-  return true;
-}
+
+template<> inline bool contiguous<findCellParticle>() { return true; }
+
 }  // namespace mousse
+
 #endif
+

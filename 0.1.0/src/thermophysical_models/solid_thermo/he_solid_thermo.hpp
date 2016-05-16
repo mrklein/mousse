@@ -8,11 +8,12 @@
 //   mousse::heSolidThermo
 // Description
 //   Energy for a solid mixture
-// SourceFiles
-//   he_solid_thermo.cpp
+
 #include "he_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicSolidThermo, class MixtureType>
 class heSolidThermo
 :
@@ -21,8 +22,6 @@ class heSolidThermo
   // Private Member Functions
     //- Calculate the thermo variables
     void calculate();
-    //- Construct as copy (not implemented)
-    heSolidThermo(const heSolidThermo<BasicSolidThermo, MixtureType>&);
 public:
   //- Runtime type information
   TYPE_NAME("heSolidThermo");
@@ -40,6 +39,8 @@ public:
       const dictionary&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    heSolidThermo(const heSolidThermo<BasicSolidThermo, MixtureType>&) = delete;
   //- Destructor
   virtual ~heSolidThermo();
   // Member functions
@@ -57,8 +58,9 @@ public:
       //- Anisotropic thermal conductivity [W/m/K]
       virtual tmp<vectorField> Kappa(const label patchI) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "he_solid_thermo.cpp"
-#endif
+
+#include "he_solid_thermo.ipp"
+
 #endif

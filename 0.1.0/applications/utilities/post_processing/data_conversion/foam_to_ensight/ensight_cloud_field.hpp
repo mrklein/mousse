@@ -4,9 +4,11 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   ensight_cloud_field.cpp
+
 #include "cloud.hpp"
 #include "ioobject.hpp"
+
+
 template<class Type>
 void ensightCloudField
 (
@@ -19,7 +21,7 @@ void ensightCloudField
   Ostream& ensightCaseFile,
   const bool dataExists
 );
-#ifdef NoRepository
-  #include "ensight_cloud_field.cpp"
-#endif
+
+#include "ensight_cloud_field.ipp"
+
 #endif

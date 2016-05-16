@@ -10,17 +10,21 @@
 // Description
 //   Multi-dimensional renumbering used in the Numerical Recipes
 //   fft routine.
-// Source files
-//   fft_renumber.cpp
+
 #include "complex.hpp"
 #include "list.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void fftRenumber
 (
   List<complex>& data,
   const labelList& nn
 );
+
 }  // namespace mousse
+
 #endif
+

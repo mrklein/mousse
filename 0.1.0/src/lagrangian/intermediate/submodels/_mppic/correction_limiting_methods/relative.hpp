@@ -12,13 +12,13 @@
 //   coefficient of restitution \f$e\f$. The relative velocity of the particle
 //   with respect to the mean value is used to calculate the direction and
 //   magnitude of the limited velocity.
-// SourceFiles
-//   relative.cpp
+
 #include "correction_limiting_method.hpp"
-namespace mousse
-{
-namespace CorrectionLimitingMethods
-{
+
+
+namespace mousse {
+namespace CorrectionLimitingMethods {
+
 class relative
 :
   public CorrectionLimitingMethod
@@ -38,10 +38,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<CorrectionLimitingMethod> clone() const
     {
-      return autoPtr<CorrectionLimitingMethod>
-      (
-        new relative(*this)
-      );
+      return
+        autoPtr<CorrectionLimitingMethod>
+        {
+          new relative{*this}
+        };
     }
   //- Destructor
   virtual ~relative();
@@ -54,6 +55,9 @@ public:
       const vector uMean
     ) const;
 };
+
 }  // namespace CorrectionLimitingMethods
 }  // namespace mousse
+
 #endif
+

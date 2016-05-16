@@ -8,16 +8,17 @@
 //   mousse::CloudFunctionObjectList
 // Description
 //   List of cloud function objects
-// SourceFiles
-//   _cloud_function_object_list.cpp
+
 #include "ptr_list.hpp"
 #include "_cloud_function_object.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class CloudFunctionObjectList
 :
-  public PtrList<CloudFunctionObject<CloudType> >
+  public PtrList<CloudFunctionObject<CloudType>>
 {
 protected:
   // Protected Data
@@ -79,25 +80,31 @@ public:
         bool& keepParticle
       );
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const CloudType& mousse::CloudFunctionObjectList<CloudType>::owner() const
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline CloudType& mousse::CloudFunctionObjectList<CloudType>::owner()
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline const mousse::dictionary&
 mousse::CloudFunctionObjectList<CloudType>::dict() const
 {
   return dict_;
 }
-#ifdef NoRepository
-  #include "_cloud_function_object_list.cpp"
-#endif
+
+#include "_cloud_function_object_list.ipp"
+
 #endif

@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::energyScalingFunctions::doubleSigmoid
-// Description
-// SourceFiles
-//   double_sigmoid.cpp
+
 #include "energy_scaling_function.hpp"
-namespace mousse
-{
-namespace energyScalingFunctions
-{
+
+
+namespace mousse {
+namespace energyScalingFunctions {
+
 class doubleSigmoid
 :
   public energyScalingFunction
@@ -50,6 +49,9 @@ public:
     //- Read dictionary
     bool read(const dictionary& energyScalingFunctionProperties);
 };
+
 }  // namespace energyScalingFunctions
 }  // namespace mousse
+
 #endif
+

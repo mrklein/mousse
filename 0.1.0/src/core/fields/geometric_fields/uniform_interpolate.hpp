@@ -1,3 +1,6 @@
+#ifndef CORE_FIELDS_GEOMETRIC_FIELDS_UNIFORM_INTERPOLATE_HPP_
+#define CORE_FIELDS_GEOMETRIC_FIELDS_UNIFORM_INTERPOLATE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project

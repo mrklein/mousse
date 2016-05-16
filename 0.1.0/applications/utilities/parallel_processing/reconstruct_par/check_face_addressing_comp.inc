@@ -5,31 +5,14 @@
   // the reconstruction is attempted with version 2.1 or later
   label minFaceIndex = labelMax;
   PtrList<labelIOList>& faceProcAddressing = procMeshes.faceProcAddressing();
-  /*
-  FOR_ALL(faceProcAddressing, procI)
-  {
-    const labelList& curFaceAddr = faceProcAddressing[procI];
-    FOR_ALL(curFaceAddr, faceI)
-    {
-      if (mag(curFaceAddr[faceI]) < minFaceIndex)
-      {
-        minFaceIndex = mag(curFaceAddr[faceI]);
-      }
-    }
-  }
-  */
-  for (const auto& curFaceAddr : faceProcAddressing)
-  {
-    for (const auto& face : curFaceAddr)
-    {
-      if (mag(face) < minFaceIndex)
-      {
+  for (const auto& curFaceAddr : faceProcAddressing) {
+    for (const auto& face : curFaceAddr) {
+      if (mag(face) < minFaceIndex) {
         minFaceIndex = mag(face);
       }
     }
   }
-  if (minFaceIndex < 1)
-  {
+  if (minFaceIndex < 1) {
     WARNING_IN(args.executable())
       << "parallel decomposition addressing." << endl
       << "It looks like you are trying to reconstruct the case "
@@ -39,14 +22,13 @@
       << "failure, please repeat the decomposition of the case using "
       << "the current version fo decomposePar"
       << endl;
-    FOR_ALL(faceProcAddressing, procI)
-    {
+    FOR_ALL(faceProcAddressing, procI) {
       labelList& curFaceAddr = faceProcAddressing[procI];
-      FOR_ALL(curFaceAddr, faceI)
-      {
+      FOR_ALL(curFaceAddr, faceI) {
         curFaceAddr[faceI] += sign(curFaceAddr[faceI]);
       }
       faceProcAddressing[procI].write();
     }
   }
 }
+

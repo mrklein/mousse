@@ -8,15 +8,15 @@
 //   mousse::DevolatilisationModel
 // Description
 //   Templated devolatilisation model class
-// SourceFiles
-//   _devolatilisation_model.cpp
-//   _devolatilisation_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class DevolatilisationModel
 :
@@ -54,11 +54,11 @@ public:
     //- Construct copy
     DevolatilisationModel(const DevolatilisationModel<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DevolatilisationModel<CloudType> > clone() const = 0;
+    virtual autoPtr<DevolatilisationModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~DevolatilisationModel();
   //- Selector
-  static autoPtr<DevolatilisationModel<CloudType> > New
+  static autoPtr<DevolatilisationModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -95,14 +95,14 @@ public:
     mousse::DevolatilisationModel<reactingMultiphaseCloudType>,               \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      DevolatilisationModel<reactingMultiphaseCloudType>,                     \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    DevolatilisationModel<reactingMultiphaseCloudType>,                       \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_DEVOLATILISATION_MODEL_TYPE(SS, CloudType)                       \
                                                                               \
@@ -113,10 +113,10 @@ public:
                                                                               \
   mousse::DevolatilisationModel<reactingMultiphaseCloudType>::                \
     adddictionaryConstructorToTable                                           \
-    <mousse::SS<reactingMultiphaseCloudType> >                                \
+    <mousse::SS<reactingMultiphaseCloudType>>                                 \
     add##SS##CloudType##reactingMultiphaseCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_devolatilisation_model.cpp"
-#endif
+
+#include "_devolatilisation_model.ipp"
+
 #endif

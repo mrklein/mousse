@@ -9,15 +9,14 @@
 // Description
 //   Remove and inject the mass in the film as it passes over the selected
 //   patches.
-// SourceFiles
-//   patch_injection.cpp
+
 #include "injection_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class patchInjection
 :
   public injectionModel
@@ -57,7 +56,10 @@ public:
       scalarField& patchMasses
     ) const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

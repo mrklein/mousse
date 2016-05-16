@@ -11,8 +11,9 @@
 
 #include "_atomization_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class NoAtomization
 :
@@ -27,12 +28,13 @@ public:
     //- Construct copy
     NoAtomization(const NoAtomization<CloudType>& am);
     //- Construct and return a clone
-    virtual autoPtr<AtomizationModel<CloudType> > clone() const
+    virtual autoPtr<AtomizationModel<CloudType>> clone() const
     {
-      return autoPtr<AtomizationModel<CloudType> >
-      (
-        new NoAtomization<CloudType>(*this)
-      );
+      return
+        autoPtr<AtomizationModel<CloudType>>
+        {
+          new NoAtomization<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoAtomization();
@@ -62,9 +64,9 @@ public:
       cachedRandom& rndGen
     ) const;
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_no_atomization.cpp"
-#endif
+#include "_no_atomization.ipp"
+
 #endif

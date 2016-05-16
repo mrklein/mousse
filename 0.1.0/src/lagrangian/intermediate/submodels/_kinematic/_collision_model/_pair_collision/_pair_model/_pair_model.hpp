@@ -8,14 +8,14 @@
 //   mousse::PairModel
 // Description
 //   Templated pair interaction class
-// SourceFiles
-//   _pair_model.cpp
-//   _pair_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PairModel
 {
@@ -79,7 +79,9 @@ public:
       typename CloudType::parcelType& pB
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_PAIR_MODEL(CloudType)                                            \
                                                                               \
@@ -88,24 +90,23 @@ public:
     mousse::PairModel<mousse::CloudType>, 0                                   \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      PairModel<mousse::CloudType>,                                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    PairModel<mousse::CloudType>,                                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_PAIR_MODEL_TYPE(SS, CloudType)                                   \
                                                                               \
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<mousse::CloudType>, 0);\
                                                                               \
   mousse::PairModel<mousse::CloudType>::                                      \
-    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType>>           \
+    adddictionaryConstructorToTable<mousse::SS<mousse::CloudType>>            \
     add##SS##CloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_pair_model.cpp"
-#endif
+#include "_pair_model.ipp"
+
 #endif

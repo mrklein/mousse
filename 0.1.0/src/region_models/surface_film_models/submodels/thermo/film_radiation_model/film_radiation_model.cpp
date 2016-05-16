@@ -3,20 +3,24 @@
 // Copyright (C) 2016 mousse project
 
 #include "film_radiation_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(filmRadiationModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(filmRadiationModel, dictionary);
+
+
 // Constructors 
 filmRadiationModel::filmRadiationModel(surfaceFilmModel& owner)
 :
-  filmSubModelBase(owner)
+  filmSubModelBase{owner}
 {}
+
+
 filmRadiationModel::filmRadiationModel
 (
   const word& modelType,
@@ -24,11 +28,15 @@ filmRadiationModel::filmRadiationModel
   const dictionary& dict
 )
 :
-  filmSubModelBase(owner, dict, typeName, modelType)
+  filmSubModelBase{owner, dict, typeName, modelType}
 {}
+
+
 // Destructor 
 filmRadiationModel::~filmRadiationModel()
 {}
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

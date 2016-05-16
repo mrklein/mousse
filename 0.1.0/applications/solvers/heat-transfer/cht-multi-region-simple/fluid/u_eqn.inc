@@ -3,9 +3,9 @@
   tmp<fvVectorMatrix> UEqn
   {
     fvm::div(phi, U)
-    + MRF.DDt(rho, U)
-    + turb.divDevRhoReff(U)
-    ==
+  + MRF.DDt(rho, U)
+  + turb.divDevRhoReff(U)
+  ==
     fvOptions(rho, U)
   };
   UEqn().relax();
@@ -13,13 +13,10 @@
   solve
   (
     UEqn()
-    ==
+  ==
     fvc::reconstruct
     (
-      (
-        - ghf*fvc::snGrad(rho)
-        - fvc::snGrad(p_rgh)
-      )*mesh.magSf()
+      (-ghf*fvc::snGrad(rho) - fvc::snGrad(p_rgh))*mesh.magSf()
     )
   );
   fvOptions.correct(U);

@@ -71,8 +71,7 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   region_size_distribution.cpp
+
 #include "function_object_file.hpp"
 #include "point_field_fwd.hpp"
 #include "writer.hpp"
@@ -80,14 +79,18 @@
 #include "vol_fields_fwd.hpp"
 #include "word_re_list.hpp"
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
 class regionSplit;
 class polyMesh;
+
+
 class regionSizeDistribution
 :
   public functionObjectFile
@@ -184,10 +187,7 @@ public:
     virtual ~regionSizeDistribution();
   // Member Functions
     //- Return name of the set of regionSizeDistribution
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the regionSizeDistribution data
     virtual void read(const dictionary&);
     //- Execute, currently does nothing
@@ -205,8 +205,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "region_size_distribution_templates.cpp"
-#endif
+
+#include "region_size_distribution.ipp"
+
 #endif

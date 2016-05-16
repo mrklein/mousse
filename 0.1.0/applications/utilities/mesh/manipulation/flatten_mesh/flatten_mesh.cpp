@@ -8,7 +8,9 @@
 #include "empty_poly_patch.hpp"
 #include "twod_point_corrector.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -37,14 +39,10 @@ int main(int argc, char *argv[])
   scalar midCmptVal = midPoint[planeNormalCmpt];
   scalar minCmptVal = bb.min()[planeNormalCmpt];
   scalar maxCmptVal = bb.max()[planeNormalCmpt];
-  FOR_ALL(points, pointI)
-  {
-    if (points[pointI][planeNormalCmpt] < midCmptVal)
-    {
+  FOR_ALL(points, pointI) {
+    if (points[pointI][planeNormalCmpt] < midCmptVal) {
       points[pointI][planeNormalCmpt] = minCmptVal;
-    }
-    else
-    {
+    } else {
       points[pointI][planeNormalCmpt] = maxCmptVal;
     }
   }
@@ -55,3 +53,4 @@ int main(int argc, char *argv[])
   points.write();
   return 0;
 }
+

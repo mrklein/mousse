@@ -4,15 +4,19 @@
 
 #include "no_scatter.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  namespace radiation
-  {
-    DEFINE_TYPE_NAME_AND_DEBUG(noScatter, 0);
-    ADD_TO_RUN_TIME_SELECTION_TABLE(scatterModel, noScatter, dictionary);
-  }
+namespace mousse {
+namespace radiation {
+
+DEFINE_TYPE_NAME_AND_DEBUG(noScatter, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(scatterModel, noScatter, dictionary);
+
 }
+}
+
+
 // Constructors 
 mousse::radiation::noScatter::noScatter
 (
@@ -20,29 +24,32 @@ mousse::radiation::noScatter::noScatter
   const fvMesh& mesh
 )
 :
-  scatterModel(dict, mesh)
+  scatterModel{dict, mesh}
 {}
+
+
 // Destructor 
 mousse::radiation::noScatter::~noScatter()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::radiation::noScatter::sigmaEff() const
 {
   return tmp<volScalarField>
-  (
+  {
     new volScalarField
-    (
-      IOobject
-      (
+    {
+      {
         "sigma",
         mesh_.time().timeName(),
         mesh_,
         IOobject::NO_READ,
         IOobject::NO_WRITE,
         false
-      ),
+      },
       mesh_,
-      dimensionedScalar("zero", dimless/dimLength, 0.0)
-    )
-  );
+      {"zero", dimless/dimLength, 0.0}
+    }
+  };
 }

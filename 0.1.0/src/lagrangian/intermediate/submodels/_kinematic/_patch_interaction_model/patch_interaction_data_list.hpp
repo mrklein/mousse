@@ -8,12 +8,15 @@
 //   mousse::patchInteractionDataList
 // Description
 //   List container for patchInteractionData class
+
 #include "patch_interaction_data.hpp"
 #include "poly_mesh.hpp"
 #include "dictionary.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class patchInteractionDataList
 :
   public List<patchInteractionData>
@@ -35,5 +38,8 @@ public:
     //  Returns -1 if patch id is not present
     label applyToPatch(const label id) const;
 };
+
 }  // namespace mousse
+
 #endif
+

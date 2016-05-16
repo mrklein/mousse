@@ -11,12 +11,16 @@
 //   Limited to:
 //     C(s) + Sb*O2 -> CO2
 //   where Sb is the stoichiometry of the reaction
+
 #include "_surface_reaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
-template<class CloudType>
-class COxidationKineticDiffusionLimitedRate;
+template<class CloudType> class COxidationKineticDiffusionLimitedRate;
+
+
 template<class CloudType>
 class COxidationKineticDiffusionLimitedRate
 :
@@ -62,12 +66,13 @@ public:
       const COxidationKineticDiffusionLimitedRate<CloudType>& srm
     );
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceReactionModel<CloudType> >
-      (
-        new COxidationKineticDiffusionLimitedRate<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceReactionModel<CloudType>>
+        {
+          new COxidationKineticDiffusionLimitedRate<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~COxidationKineticDiffusionLimitedRate();
@@ -94,8 +99,9 @@ public:
       scalarField& dMassSRCarrier
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "c_oxidation_kinetic_diffusion_limited_rate.cpp"
-#endif
+
+#include "c_oxidation_kinetic_diffusion_limited_rate.ipp"
+
 #endif

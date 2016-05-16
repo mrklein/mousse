@@ -33,11 +33,12 @@
 //     type            fixedRho;
 //   }
 //   \endverbatim
-// SourceFiles
-//   fixed_rho_fv_patch_scalar_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fixedRhoFvPatchScalarField
 :
   public fixedValueFvPatchScalarField
@@ -82,10 +83,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new fixedRhoFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new fixedRhoFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     fixedRhoFvPatchScalarField
@@ -99,10 +101,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new fixedRhoFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new fixedRhoFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -111,5 +114,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

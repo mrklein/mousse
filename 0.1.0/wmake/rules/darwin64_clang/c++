@@ -9,7 +9,7 @@ CC          = xcrun c++ -arch x86_64 -mmacosx-version-min=10.11
 
 include $(RULES)/c++$(WM_COMPILE_OPTION)
 
-ptFLAGS     = -DNoRepository -ftemplate-depth-100
+ptFLAGS     = -ftemplate-depth-100
 
 c++FLAGS    = $(GFLAGS) $(c++WARN) $(c++OPT) $(c++DBUG) $(ptFLAGS) $(LIB_HEADER_DIRS) -fPIC -isysroot $(OSX_SDK_PATH) -std=c++14
 

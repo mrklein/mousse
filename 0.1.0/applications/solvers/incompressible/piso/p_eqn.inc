@@ -12,7 +12,12 @@ adjustPhi(phiHbyA, U, p);
 // Non-orthogonal pressure corrector loop
 while (piso.correctNonOrthogonal()) {
   // Pressure corrector
-  fvScalarMatrix pEqn{fvm::laplacian(rAU, p) == fvc::div(phiHbyA)};
+  fvScalarMatrix pEqn
+  {
+    fvm::laplacian(rAU, p)
+  ==
+    fvc::div(phiHbyA)
+  };
   pEqn.setReference(pRefCell, pRefValue);
   pEqn.solve(mesh.solver(p.select(piso.finalInnerIter())));
   if (piso.finalNonOrthogonalIter())

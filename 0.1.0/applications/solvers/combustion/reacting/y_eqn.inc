@@ -14,19 +14,17 @@ tmp<fv::convectionScheme<scalar> > mvConvection
   dQ = reaction->dQ();
   label inertIndex = -1;
   volScalarField Yt{0.0*Y[0]};
-  FOR_ALL(Y, i)
-  {
-    if (Y[i].name() != inertSpecie)
-    {
+  FOR_ALL(Y, i) {
+    if (Y[i].name() != inertSpecie) {
       volScalarField& Yi = Y[i];
       fvScalarMatrix YiEqn
       {
         fvm::ddt(rho, Yi)
-        + mvConvection->fvmDiv(phi, Yi)
-        - fvm::laplacian(turbulence->muEff(), Yi)
-        ==
+      + mvConvection->fvmDiv(phi, Yi)
+      - fvm::laplacian(turbulence->muEff(), Yi)
+      ==
         reaction->R(Yi)
-        + fvOptions(rho, Yi)
+      + fvOptions(rho, Yi)
       };
       YiEqn.relax();
       fvOptions.constrain(YiEqn);
@@ -34,12 +32,11 @@ tmp<fv::convectionScheme<scalar> > mvConvection
       fvOptions.correct(Yi);
       Yi.max(0.0);
       Yt += Yi;
-    }
-    else
-    {
+    } else {
       inertIndex = i;
     }
   }
   Y[inertIndex] = scalar(1) - Yt;
   Y[inertIndex].max(0.0);
 }
+

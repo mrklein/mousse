@@ -53,7 +53,7 @@ public:
     //- Construct dictionaryName as copy of the given fileName
     dictionaryName(const fileName& name)
     :
-      name_(name)
+      name_{name}
     {}
   // Member functions
     //- Return the dictionary name
@@ -96,7 +96,7 @@ class dictionary
     //- Entries of matching patterns
     DLList<entry*> patternEntries_;
     //- Patterns as precompiled regular expressions
-    DLList<autoPtr<regExp> > patternRegexps_;
+    DLList<autoPtr<regExp>> patternRegexps_;
  // Private Member Functions
     //- Search patterns table for exact match or regular expression match
     bool findInPatterns
@@ -104,7 +104,7 @@ class dictionary
       const bool patternMatch,
       const word& Keyword,
       DLList<entry*>::const_iterator& wcLink,
-      DLList<autoPtr<regExp> >::const_iterator& reLink
+      DLList<autoPtr<regExp>>::const_iterator& reLink
     ) const;
     //- Search patterns table for exact match or regular expression match
     bool findInPatterns
@@ -112,7 +112,7 @@ class dictionary
       const bool patternMatch,
       const word& Keyword,
       DLList<entry*>::iterator& wcLink,
-      DLList<autoPtr<regExp> >::iterator& reLink
+      DLList<autoPtr<regExp>>::iterator& reLink
     );
 public:
   //- Declare friendship with the entry class for IO

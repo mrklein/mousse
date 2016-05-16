@@ -13,11 +13,15 @@ using std::ios;
 #include "symmetry_plane_fv_patch.hpp"
 #include "symmetry_fv_patch.hpp"
 #include "cell_modeller.hpp"
+
+
 // Constructors 
 mousse::fluentFvMesh::fluentFvMesh(const IOobject& io)
 :
   fvMesh{io}
 {}
+
+
 // Member Functions 
 void mousse::fluentFvMesh::writeFluentMesh() const
 {
@@ -33,7 +37,7 @@ void mousse::fluentFvMesh::writeFluentMesh() const
       time().caseName() + ".msh"
     ).c_str()
   };
-  Info<< "Writing Header" << endl;
+  Info << "Writing Header" << endl;
   fluentMeshFile
     << "(0 \"FOAM to Fluent Mesh File\")" << std::endl << std::endl
     << "(0 \"Dimension:\")" << std::endl
@@ -69,8 +73,7 @@ void mousse::fluentFvMesh::writeFluentMesh() const
   fluentMeshFile.precision(10);
   fluentMeshFile.setf(ios::scientific);
   const pointField& p = points();
-  FOR_ALL(p, pointI)
-  {
+  FOR_ALL(p, pointI) {
     fluentMeshFile
       << "    "
       << p[pointI].x() << " "
@@ -86,13 +89,11 @@ void mousse::fluentFvMesh::writeFluentMesh() const
   fluentMeshFile
     << "(13 (2 1 "
     << own.size() << " 2 0)" << std::endl << "(" << std::endl;
-  FOR_ALL(own, faceI)
-  {
+  FOR_ALL(own, faceI) {
     const labelList& l = fcs[faceI];
     fluentMeshFile << "    ";
     fluentMeshFile << l.size() << " ";
-    FOR_ALL(l, lI)
-    {
+    FOR_ALL(l, lI) {
       fluentMeshFile << l[lI] + 1 << " ";
     }
     fluentMeshFile << nei[faceI] + 1 << " ";
@@ -101,8 +102,7 @@ void mousse::fluentFvMesh::writeFluentMesh() const
   fluentMeshFile << "))" << std::endl;
   label nWrittenFaces = own.size();
   // Writing boundary faces
-  FOR_ALL(boundary(), patchI)
-  {
+  FOR_ALL(boundary(), patchI) {
     const faceUList& patchFaces = boundaryMesh()[patchI];
     const labelList& patchFaceCells =
       boundaryMesh()[patchI].faceCells();
@@ -113,31 +113,24 @@ void mousse::fluentFvMesh::writeFluentMesh() const
       << " " << nWrittenFaces + patchFaces.size() << " ";
     nWrittenFaces += patchFaces.size();
     // Write patch type
-    if (isA<wallFvPatch>(boundary()[patchI]))
-    {
+    if (isA<wallFvPatch>(boundary()[patchI])) {
       fluentMeshFile << 3;
-    }
-    else if (isA<symmetryPlaneFvPatch>(boundary()[patchI])
-             || isA<symmetryFvPatch>(boundary()[patchI]))
-    {
+    } else if (isA<symmetryPlaneFvPatch>(boundary()[patchI])
+               || isA<symmetryFvPatch>(boundary()[patchI])) {
       fluentMeshFile << 7;
-    }
-    else
-    {
+    } else {
       fluentMeshFile << 4;
     }
     fluentMeshFile
       <<" 0)" << std::endl << "(" << std::endl;
-    FOR_ALL(patchFaces, faceI)
-    {
+    FOR_ALL(patchFaces, faceI) {
       const labelList& l = patchFaces[faceI];
       fluentMeshFile << "    ";
       fluentMeshFile << l.size() << " ";
       // Note: In Fluent, all boundary faces point inwards, which is
       // opposite from the OpenFOAM convention.
       // Turn them around on printout
-      FOR_ALL_REVERSE(l, lI)
-      {
+      FOR_ALL_REVERSE(l, lI) {
         fluentMeshFile << l[lI] + 1 << " ";
       }
       fluentMeshFile << patchFaceCells[faceI] + 1 << " 0" << std::endl;
@@ -154,28 +147,17 @@ void mousse::fluentFvMesh::writeFluentMesh() const
   const cellModel& tet = *(cellModeller::lookup("tet"));
   const cellShapeList& cells = cellShapes();
   bool hasWarned = false;
-  FOR_ALL(cells, cellI)
-  {
-    if (cells[cellI].model() == tet)
-    {
+  FOR_ALL(cells, cellI) {
+    if (cells[cellI].model() == tet) {
       fluentMeshFile << " " << 2;
-    }
-    else if (cells[cellI].model() == hex)
-    {
+    } else if (cells[cellI].model() == hex) {
       fluentMeshFile << " " << 4;
-    }
-    else if (cells[cellI].model() == pyr)
-    {
+    } else if (cells[cellI].model() == pyr) {
       fluentMeshFile << " " << 5;
-    }
-    else if (cells[cellI].model() == prism)
-    {
+    } else if (cells[cellI].model() == prism) {
       fluentMeshFile << " " << 6;
-    }
-    else
-    {
-      if (!hasWarned)
-      {
+    } else {
+      if (!hasWarned) {
         hasWarned = true;
         WARNING_IN("void fluentFvMesh::writeFluentMesh() const")
           << "foamMeshToFluent: cell shape for cell "
@@ -194,25 +176,18 @@ void mousse::fluentFvMesh::writeFluentMesh() const
   fluentMeshFile << "(39 (1 fluid fluid-1)())" << std::endl;
   fluentMeshFile << "(39 (2 interior interior-1)())" << std::endl;
   // Writing boundary patch types
-  FOR_ALL(boundary(), patchI)
-  {
-    fluentMeshFile
-      << "(39 (" << patchI + 10 << " ";
+  FOR_ALL(boundary(), patchI) {
+    fluentMeshFile << "(39 (" << patchI + 10 << " ";
     // Write patch type
-    if (isA<wallFvPatch>(boundary()[patchI]))
-    {
+    if (isA<wallFvPatch>(boundary()[patchI])) {
       fluentMeshFile << "wall ";
-    }
-    else if (isA<symmetryPlaneFvPatch>(boundary()[patchI])
-             || isA<symmetryFvPatch>(boundary()[patchI]))
-    {
+    } else if (isA<symmetryPlaneFvPatch>(boundary()[patchI])
+               || isA<symmetryFvPatch>(boundary()[patchI])) {
       fluentMeshFile << "symmetry ";
-    }
-    else
-    {
+    } else {
       fluentMeshFile << "pressure-outlet ";
     }
-    fluentMeshFile
-      << boundary()[patchI].name() << ")())" << std::endl;
+    fluentMeshFile << boundary()[patchI].name() << ")())" << std::endl;
   }
 }
+

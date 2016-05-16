@@ -8,12 +8,10 @@
 //   mousse::combustionModels::laminar
 // Description
 //   Laminar combustion model.
-// SourceFiles
-//   laminar.cpp
-namespace mousse
-{
-namespace combustionModels
-{
+
+namespace mousse {
+namespace combustionModels {
+
 template<class Type>
 class laminar
 :
@@ -58,9 +56,10 @@ public:
       //- Update properties from given dictionary
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "laminar.cpp"
-#endif
+
+#include "laminar.ipp"
+
 #endif

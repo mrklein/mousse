@@ -8,6 +8,7 @@
 #include "pimple_control.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 #ifdef MPPIC
   #include "basic_kinematic_mppic_cloud.hpp"
   #define basicKinematicTypeCloud basicKinematicMPPICCloud
@@ -15,6 +16,7 @@
   #include "basic_kinematic_colliding_cloud.hpp"
   #define basicKinematicTypeCloud basicKinematicCollidingCloud
 #endif
+
 
 int main(int argc, char *argv[])
 {
@@ -32,9 +34,8 @@ int main(int argc, char *argv[])
   #include "read_gravitational_acceleration.inc"
   #include "create_fields.inc"
   #include "init_continuity_errs.inc"
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_time_controls.inc"
     #include "courant_no.inc"
     #include "set_delta_t.inc"
@@ -65,16 +66,13 @@ int main(int argc, char *argv[])
     cloudVolSUSu.correctBoundaryConditions();
     cloudSU.source() = vector::zero;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "uc_eqn.inc"
       // --- PISO loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         continuousPhaseTurbulence->correct();
       }
     }
@@ -83,6 +81,7 @@ int main(int argc, char *argv[])
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

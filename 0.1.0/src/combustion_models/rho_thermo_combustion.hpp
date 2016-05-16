@@ -8,15 +8,15 @@
 //   mousse::rhoThermoCombustion
 // Description
 //   Density-based thermo model wrapper for combustion models
-// SourceFiles
-//   rho_thermo_combustion.cpp
+
 #include "auto_ptr.hpp"
 #include "rho_combustion_model.hpp"
 #include "rho_chemistry_model.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 class rhoThermoCombustion
 :
   public rhoCombustionModel
@@ -48,6 +48,9 @@ public:
     //- Return const access to the density field
     virtual tmp<volScalarField> rho() const;
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
+
 #endif
+

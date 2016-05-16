@@ -8,15 +8,14 @@
 //   mousse::noFilm
 // Description
 //   Dummy surface film model for 'none'
-// SourceFiles
-//   no_film.cpp
+
 #include "surface_film_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class noFilm
 :
   public surfaceFilmModel
@@ -99,7 +98,10 @@ public:
         //- Return enthalpy source - Eulerian phase only
         virtual tmp<DimensionedField<scalar, volMesh> > Sh() const;
 };
+
 }  // namespace surfaceFilmModels
 } // regionModels
 }  // namespace mousse
+
 #endif
+

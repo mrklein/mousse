@@ -9,11 +9,12 @@
 // Description
 //   A dynamic alphaContactAngle scalar boundary condition
 //   (alphaContactAngleFvPatchScalarField)
-// SourceFiles
-//   dynamic_alpha_contact_angle_fv_patch_scalar_field.cpp
+
 #include "alpha_contact_angle_fv_patch_scalar_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class dynamicAlphaContactAngleFvPatchScalarField
 :
   public alphaContactAngleFvPatchScalarField
@@ -62,10 +63,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new dynamicAlphaContactAngleFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new dynamicAlphaContactAngleFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     dynamicAlphaContactAngleFvPatchScalarField
@@ -79,10 +81,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new dynamicAlphaContactAngleFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new dynamicAlphaContactAngleFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     //- Evaluate and return dynamic contact-angle
@@ -94,5 +97,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

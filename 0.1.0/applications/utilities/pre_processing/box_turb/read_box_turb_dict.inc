@@ -1,4 +1,4 @@
-  Info<< "Reading boxTurbDict\n" << endl;
+  Info << "Reading boxTurbDict\n" << endl;
   IOdictionary boxTurbDict
   {
     {

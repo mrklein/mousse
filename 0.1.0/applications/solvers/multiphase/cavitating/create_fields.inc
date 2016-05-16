@@ -56,11 +56,8 @@ autoPtr<barotropicCompressibilityModel> psiModel
   barotropicCompressibilityModel::New(thermodynamicProperties, alphav)
 };
 const volScalarField& psi = psiModel->psi();
-rho == max
-(
-  psi*p + alphal*rhol0 + ((alphav*psiv + alphal*psil) - psi)*pSat,
-  rhoMin
-);
+rho ==
+  max(psi*p + alphal*rhol0 + ((alphav*psiv + alphal*psil) - psi)*pSat, rhoMin);
 mesh.setFluxRequired(p.name());
 mesh.setFluxRequired(rho.name());
 // Create incompressible turbulence model
@@ -68,3 +65,4 @@ autoPtr<incompressible::turbulenceModel> turbulence
 {
   incompressible::turbulenceModel::New(U, phi, mixture)
 };
+

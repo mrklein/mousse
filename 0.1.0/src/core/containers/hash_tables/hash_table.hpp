@@ -600,7 +600,7 @@ template<class T, class Key, class Hash>
 inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase()
 :
   hashTable_{0},
-  entryPtr_{0},
+  entryPtr_{nullptr},
   hashIndex_{0}
 {}
 
@@ -612,7 +612,7 @@ inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
 )
 :
   hashTable_{const_cast<HashTable<T, Key, Hash>*>(hashTbl)},
-  entryPtr_{0},
+  entryPtr_{nullptr},
   hashIndex_{0}
 {
   if (hashTable_->nElmts_) {
@@ -622,7 +622,7 @@ inline mousse::HashTable<T, Key, Hash>::iteratorBase::iteratorBase
     }
     if (hashIndex_ >= hashTable_->tableSize_) {
       // make into an end iterator
-      entryPtr_ = 0;
+      entryPtr_ = nullptr;
       hashIndex_ = 0;
     }
   }
@@ -652,7 +652,7 @@ mousse::HashTable<T, Key, Hash>::iteratorBase::increment()
     // the markPos='-curPos-1', but we wish to continue at 'curPos-1'
     // thus use '-(markPos+1) -1'
     hashIndex_ = -(hashIndex_+1) - 1;
-  } else if (entryPtr_) {
+  } else if (entryPtr_ != nullptr) {
     if (entryPtr_->next_) {
       // Move to next element on the SLList
       entryPtr_ = entryPtr_->next_;
@@ -667,7 +667,7 @@ mousse::HashTable<T, Key, Hash>::iteratorBase::increment()
 
   if (hashIndex_ >= hashTable_->tableSize_) {
     // make into an end iterator
-    entryPtr_ = 0;
+    entryPtr_ = nullptr;
     hashIndex_ = 0;
   }
 }
@@ -723,7 +723,7 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator==
   const iteratorEnd&
 ) const
 {
-  return !entryPtr_;
+  return entryPtr_ != nullptr;
 }
 
 
@@ -733,7 +733,7 @@ inline bool mousse::HashTable<T, Key, Hash>::iteratorBase::operator!=
   const iteratorEnd&
 ) const
 {
-  return entryPtr_;
+  return entryPtr_ == nullptr;
 }
 
 

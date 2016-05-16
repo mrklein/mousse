@@ -45,12 +45,13 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedValueFvPatchField
-// SourceFiles
-//   film_height_inlet_velocity_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class filmHeightInletVelocityFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -96,10 +97,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new filmHeightInletVelocityFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new filmHeightInletVelocityFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     filmHeightInletVelocityFvPatchVectorField
@@ -113,10 +115,11 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new filmHeightInletVelocityFvPatchVectorField(*this, iF)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new filmHeightInletVelocityFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     // Access
@@ -157,5 +160,8 @@ public:
   // Member operators
     virtual void operator=(const fvPatchField<vector>& pvf);
 };
+
 }  // namespace mousse
+
 #endif
+

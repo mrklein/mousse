@@ -10,6 +10,8 @@
 #include "ofstream.hpp"
 #include "fv_io_option_list.hpp"
 #include "pimple_control.hpp"
+
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -25,10 +27,8 @@ int main(int argc, char *argv[])
   #include "compressible_courant_no.inc"
   #include "set_initial_delta_t.inc"
   #include "start_summary.inc"
-
   Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "read_engine_time_controls.inc"
     #include "compressible_courant_no.inc"
     #include "set_delta_t.inc"
@@ -38,19 +38,15 @@ int main(int argc, char *argv[])
     mesh.move();
     #include "rho_eqn.inc"
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "e_eqn.inc"
         #include "p_eqn.inc"
       }
       if (pimple.turbCorr())
-      {
         turbulence->correct();
-      }
     }
     runTime.write();
     #include "log_summary.inc"
@@ -61,3 +57,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

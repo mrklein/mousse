@@ -8,16 +8,15 @@
 //   mousse::forceList
 // Description
 //   List container for film sources
-// SourceFiles
-//   force_list.cpp
+
 #include "ptr_list.hpp"
 #include "force.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class forceList
 :
   public PtrList<force>
@@ -38,7 +37,10 @@ public:
     //- Return (net) force system
     tmp<fvVectorMatrix> correct(volVectorField& U);
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

@@ -5,16 +5,20 @@
 #include "mapped_variable_thickness_wall_fv_patch.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "region_model_1d.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(mappedVariableThicknessWallFvPatch, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    fvPatch,
-    mappedVariableThicknessWallFvPatch,
-    polyPatch
-  );
+
+
+namespace mousse {
+DEFINE_TYPE_NAME_AND_DEBUG(mappedVariableThicknessWallFvPatch, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  fvPatch,
+  mappedVariableThicknessWallFvPatch,
+  polyPatch
+);
+
 }
+
+
 // Member Functions 
 void mousse::mappedVariableThicknessWallFvPatch::
 makeDeltaCoeffs(scalarField& dc) const

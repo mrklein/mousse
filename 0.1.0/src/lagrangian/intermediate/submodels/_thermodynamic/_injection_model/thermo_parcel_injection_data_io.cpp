@@ -3,9 +3,11 @@
 // Copyright (C) 2016 mousse project
 
 #include "thermo_parcel_injection_data.hpp"
+
+
 mousse::thermoParcelInjectionData::thermoParcelInjectionData(Istream& is)
 :
-  kinematicParcelInjectionData(is)
+  kinematicParcelInjectionData{is}
 {
   is.check("reading T");
   is >> T_;
@@ -13,6 +15,8 @@ mousse::thermoParcelInjectionData::thermoParcelInjectionData(Istream& is)
   is >> Cp_;
   is.check("thermoParcelInjectionData(Istream& is)");
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<
 (
@@ -24,6 +28,8 @@ mousse::Ostream& mousse::operator<<
   os << data.T_ << data.Cp_;
   return os;
 }
+
+
 mousse::Istream& mousse::operator>>(Istream& is, thermoParcelInjectionData& data)
 {
   is >> static_cast<kinematicParcelInjectionData&>(data);
@@ -34,3 +40,4 @@ mousse::Istream& mousse::operator>>(Istream& is, thermoParcelInjectionData& data
   is.check("operator(Istream&, thermoParcelInjectionData&)");
   return is;
 }
+

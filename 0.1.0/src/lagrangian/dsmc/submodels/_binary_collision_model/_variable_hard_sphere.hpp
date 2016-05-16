@@ -8,9 +8,12 @@
 //   mousse::VariableHardSphere
 // Description
 //   Variable Hard Sphere BinaryCollision Model
+
 #include "_binary_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class VariableHardSphere
 :
@@ -47,8 +50,9 @@ public:
       typename CloudType::parcelType& pQ
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_variable_hard_sphere.cpp"
-#endif
+
+#include "_variable_hard_sphere.ipp"
+
 #endif

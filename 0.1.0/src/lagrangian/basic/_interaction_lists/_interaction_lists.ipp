@@ -833,7 +833,7 @@ void mousse::InteractionLists<ParticleType>::sendReferredData
   for (label domain = 0; domain < Pstream::nProcs(); domain++) {
     const labelList& subMap = cellMap().subMap()[domain];
     if (subMap.size()) {
-      UOPstream toDomain{domain, pBufs};
+      UOPstream toDomain{static_cast<int>(domain), pBufs};
       UIndirectList<IDLList<ParticleType>> subMappedParticles
       {
         referredParticles_,
@@ -863,7 +863,7 @@ void mousse::InteractionLists<ParticleType>::receiveReferredData
   for (label domain = 0; domain < Pstream::nProcs(); domain++) {
     const labelList& constructMap = cellMap().constructMap()[domain];
     if (constructMap.size()) {
-      UIPstream str{domain, pBufs};
+      UIPstream str{static_cast<int>(domain), pBufs};
       FOR_ALL(constructMap, i) {
         referredParticles_[constructMap[i]] = IDLList<ParticleType>
         {

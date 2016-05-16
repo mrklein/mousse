@@ -8,17 +8,19 @@
 //   mousse::DampingModel
 // Description
 //   Base class for collisional damping models.
-// SourceFiles
-//   _damping_model.cpp
-//   _damping_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class TimeScaleModel;
+
+
 template<class CloudType>
 class DampingModel
 :
@@ -56,11 +58,11 @@ public:
     //- Construct copy
     DampingModel(const DampingModel<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<DampingModel<CloudType> > clone() const = 0;
+    virtual autoPtr<DampingModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~DampingModel();
   //- Selector
-  static autoPtr<DampingModel<CloudType> > New
+  static autoPtr<DampingModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -73,7 +75,9 @@ public:
       const scalar deltaT
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_DAMPING_MODEL(CloudType)                                         \
                                                                               \
@@ -84,14 +88,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      DampingModel<MPPICCloudType>,                                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    DampingModel<MPPICCloudType>,                                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_DAMPING_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
@@ -101,10 +105,10 @@ public:
                                                                               \
   mousse::DampingModel<MPPICCloudType>::                                      \
     adddictionaryConstructorToTable                                           \
-    <mousse::DampingModels::SS<MPPICCloudType> >                              \
+    <mousse::DampingModels::SS<MPPICCloudType>>                               \
       add##SS##CloudType##MPPICCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_damping_model.cpp"
-#endif
+
+#include "_damping_model.ipp"
+
 #endif

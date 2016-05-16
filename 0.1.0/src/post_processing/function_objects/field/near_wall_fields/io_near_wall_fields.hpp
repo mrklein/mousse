@@ -7,8 +7,13 @@
 
 #include "near_wall_fields.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<nearWallFields> IOnearWallFields;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<nearWallFields> IOnearWallFields;
+
 }
+
 #endif
+

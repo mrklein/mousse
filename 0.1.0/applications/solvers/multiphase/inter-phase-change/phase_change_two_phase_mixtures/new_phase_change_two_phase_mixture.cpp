@@ -5,6 +5,7 @@
 #include "phase_change_two_phase_mixture.hpp"
 #include "incompressible_two_phase_mixture.hpp"
 
+
 mousse::autoPtr<mousse::phaseChangeTwoPhaseMixture>
 mousse::phaseChangeTwoPhaseMixture::New
 (
@@ -31,8 +32,7 @@ mousse::phaseChangeTwoPhaseMixture::New
     << phaseChangeTwoPhaseMixtureTypeName << endl;
   componentsConstructorTable::iterator cstrIter =
     componentsConstructorTablePtr_->find(phaseChangeTwoPhaseMixtureTypeName);
-  if (cstrIter == componentsConstructorTablePtr_->end())
-  {
+  if (cstrIter == componentsConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "phaseChangeTwoPhaseMixture::New"
@@ -45,3 +45,4 @@ mousse::phaseChangeTwoPhaseMixture::New
   }
   return autoPtr<phaseChangeTwoPhaseMixture>{cstrIter()(U, phi)};
 }
+

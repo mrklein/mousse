@@ -7,6 +7,8 @@
 #include "single_phase_transport_model.hpp"
 #include "turbulent_transport_model.hpp"
 #include "basic_kinematic_colliding_cloud.hpp"
+
+
 int main(int argc, char *argv[])
 {
   argList::addOption
@@ -20,10 +22,8 @@ int main(int argc, char *argv[])
   #include "create_dynamic_fv_mesh.inc"
   #include "read_gravitational_acceleration.inc"
   #include "create_fields.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.loop())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.loop()) {
     Info << "Time = " << runTime.timeName() << nl << endl;
     mesh.update();
     U.correctBoundaryConditions();
@@ -39,3 +39,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

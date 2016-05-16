@@ -5,6 +5,7 @@
 #include "compressible_courant_no.hpp"
 #include "fvc.hpp"
 
+
 mousse::scalar mousse::compressibleCourantNo
 (
   const fvMesh& mesh,
@@ -20,7 +21,7 @@ mousse::scalar mousse::compressibleCourantNo
   scalar CoNum = 0.5*gMax(sumPhi/mesh.V().field())*runTime.deltaTValue();
   scalar meanCoNum =
     0.5*(gSum(sumPhi)/gSum(mesh.V().field()))*runTime.deltaTValue();
-  Info<< "Region: " << mesh.name() << " Courant Number mean: " << meanCoNum
+  Info << "Region: " << mesh.name() << " Courant Number mean: " << meanCoNum
     << " max: " << CoNum << endl;
   return CoNum;
 }

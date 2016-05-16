@@ -1,4 +1,4 @@
-Info<< "Reading displacement field D\n" << endl;
+Info << "Reading displacement field D\n" << endl;
 volVectorField D
 {
   {
@@ -10,7 +10,7 @@ volVectorField D
   },
   mesh
 };
-Info<< "Reading/setting displacement correction field Dcorr\n" << endl;
+Info << "Reading/setting displacement correction field Dcorr\n" << endl;
 volVectorField Dcorr
 {
   IOobject
@@ -22,7 +22,7 @@ volVectorField Dcorr
   D
 };
 Dcorr *= 0.0;
-Info<< "Calculating stress field sigmaD\n" << endl;
+Info << "Calculating stress field sigmaD\n" << endl;
 volSymmTensorField sigmaD
 {
   {

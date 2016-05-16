@@ -11,16 +11,15 @@
 //   by the user, and operated over a time interval defined by a start time and
 //   duration.  In addition, a mask can be applied to shield the film from the
 //   radiation.
-// SourceFiles
-//   constant_radiation.cpp
+
 #include "film_radiation_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class constantRadiation
 :
   public filmRadiationModel
@@ -61,7 +60,10 @@ public:
       //  Also updates QrNet
       virtual tmp<volScalarField> Shs();
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

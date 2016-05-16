@@ -10,7 +10,9 @@
 #include "oriented_surface.hpp"
 #include "global_index.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -26,8 +28,7 @@ int main(int argc, char *argv[])
     << " such that " << outsidePoint << " is outside"
     << nl << endl;
   const faceZone& fZone = mesh.faceZones()[zoneName];
-  if (fZone.checkParallelSync())
-  {
+  if (fZone.checkParallelSync()) {
     FATAL_ERROR_IN(args.executable())
       << "Face zone " << fZone.name()
       << " is not parallel synchronised."
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
   const labelList& faceLabels = fZone;
   const indirectPrimitivePatch patch
   {
-    IndirectList<face>(mesh.faces(), faceLabels),
+    IndirectList<face>{mesh.faces(), faceLabels},
     mesh.points()
   };
   const PackedBoolList isMasterFace{syncTools::getMasterFaces(mesh)};
@@ -51,12 +52,10 @@ int main(int argc, char *argv[])
   {
     const polyBoundaryMesh& bm = mesh.boundaryMesh();
     label nProtected = 0;
-    FOR_ALL(faceLabels, faceI)
-    {
+    FOR_ALL(faceLabels, faceI) {
       const label meshFaceI = faceLabels[faceI];
       const label patchI = bm.whichPatch(meshFaceI);
-      if (patchI != -1 && bm[patchI].coupled() && !isMasterFace[meshFaceI])
-      {
+      if (patchI != -1 && bm[patchI].coupled() && !isMasterFace[meshFaceI]) {
         // Slave side. Mark so doesn't get visited.
         allFaceInfo[faceI] = orientedSurface::NOFLIP;
         nProtected++;
@@ -70,16 +69,13 @@ int main(int argc, char *argv[])
   {
     // Number of (master)faces per edge
     labelList nMasterFaces{patch.nEdges(), 0};
-    FOR_ALL(faceLabels, faceI)
-    {
+    FOR_ALL(faceLabels, faceI) {
       const label meshFaceI = faceLabels[faceI];
-      if (isMasterFace[meshFaceI])
-      {
-        const labelList& fEdges = patch.faceEdges()[faceI];
-        FOR_ALL(fEdges, fEdgeI)
-        {
-          nMasterFaces[fEdges[fEdgeI]]++;
-        }
+      if (!isMasterFace[meshFaceI])
+        continue;
+      const labelList& fEdges = patch.faceEdges()[faceI];
+      FOR_ALL(fEdges, fEdgeI) {
+        nMasterFaces[fEdges[fEdgeI]]++;
       }
     }
     syncTools::syncEdgeList
@@ -88,13 +84,11 @@ int main(int argc, char *argv[])
       patch.meshEdges(mesh.edges(), mesh.pointEdges()),
       nMasterFaces,
       plusEqOp<label>(),
-      label(0)
+      label{0}
     );
     label nProtected = 0;
-    FOR_ALL(nMasterFaces, edgeI)
-    {
-      if (nMasterFaces[edgeI] > 2)
-      {
+    FOR_ALL(nMasterFaces, edgeI) {
+      if (nMasterFaces[edgeI] > 2) {
         allEdgeInfo[edgeI] = orientedSurface::NOFLIP;
         nProtected++;
       }
@@ -105,52 +99,45 @@ int main(int argc, char *argv[])
   }
   DynamicList<label> changedEdges;
   DynamicList<patchFaceOrientation> changedInfo;
-  const scalar tol = PatchEdgeFaceWave
-  <
-    indirectPrimitivePatch,
-    patchFaceOrientation
-  >::propagationTol();
+  const scalar tol =
+    PatchEdgeFaceWave
+    <
+      indirectPrimitivePatch,
+      patchFaceOrientation
+    >::propagationTol();
   int dummyTrackData;
   globalIndex globalFaces{patch.size()};
-  while (true)
-  {
+  while (true) {
     // Pick an unset face
     label unsetFaceI = labelMax;
-    FOR_ALL(allFaceInfo, faceI)
-    {
-      if (allFaceInfo[faceI] == orientedSurface::UNVISITED)
-      {
+    FOR_ALL(allFaceInfo, faceI) {
+      if (allFaceInfo[faceI] == orientedSurface::UNVISITED) {
         unsetFaceI = globalFaces.toGlobal(faceI);
         break;
       }
     }
     reduce(unsetFaceI, minOp<label>());
-    if (unsetFaceI == labelMax)
-    {
+    if (unsetFaceI == labelMax) {
       break;
     }
     label procI = globalFaces.whichProcID(unsetFaceI);
     label seedFaceI = globalFaces.toLocal(procI, unsetFaceI);
     Info << "Seeding from processor " << procI << " face " << seedFaceI
       << endl;
-    if (procI == Pstream::myProcNo())
-    {
+    if (procI == Pstream::myProcNo()) {
       // Determine orientation of seedFace
       vector d = outsidePoint-patch.faceCentres()[seedFaceI];
       const vector& fn = patch.faceNormals()[seedFaceI];
       // Set information to correct orientation
       patchFaceOrientation& faceInfo = allFaceInfo[seedFaceI];
       faceInfo = orientedSurface::NOFLIP;
-      if ((fn&d) < 0)
-      {
+      if ((fn&d) < 0) {
         faceInfo.flip();
         Pout << "Face " << seedFaceI << " at "
           << patch.faceCentres()[seedFaceI]
           << " with normal " << fn
           << " needs to be flipped." << endl;
-      }
-      else
-      {
+      } else {
         Pout << "Face " << seedFaceI << " at "
           << patch.faceCentres()[seedFaceI]
           << " with normal " << fn
@@ -158,12 +145,10 @@ int main(int argc, char *argv[])
           << ")" << endl;
       }
       const labelList& fEdges = patch.faceEdges()[seedFaceI];
-      FOR_ALL(fEdges, fEdgeI)
-      {
+      FOR_ALL(fEdges, fEdgeI) {
         label edgeI = fEdges[fEdgeI];
         patchFaceOrientation& edgeInfo = allEdgeInfo[edgeI];
-        if
-        (
+        const auto uE =
           edgeInfo.updateEdge<int>
           (
             mesh,
@@ -173,16 +158,14 @@ int main(int argc, char *argv[])
             faceInfo,
             tol,
             dummyTrackData
-          )
-        )
-        {
+          );
+        if (uE) {
           changedEdges.append(edgeI);
           changedInfo.append(edgeInfo);
         }
       }
     }
-    if (returnReduce(changedEdges.size(), sumOp<label>()) == 0)
-    {
+    if (returnReduce(changedEdges.size(), sumOp<label>()) == 0) {
       break;
     }
     // Walk
@@ -191,7 +174,7 @@ int main(int argc, char *argv[])
       indirectPrimitivePatch,
       patchFaceOrientation
     > calc
-    (
+    {
       mesh,
       patch,
       changedEdges,
@@ -199,85 +182,67 @@ int main(int argc, char *argv[])
       allEdgeInfo,
       allFaceInfo,
       returnReduce(patch.nEdges(), sumOp<label>())
-    );
+    };
   }
 
   // Push master zone info over to slave (since slave faces never visited)
   {
     const polyBoundaryMesh& bm = mesh.boundaryMesh();
     labelList neiStatus
-    (
-      mesh.nFaces()-mesh.nInternalFaces(),
-      orientedSurface::UNVISITED
-    );
-    FOR_ALL(faceLabels, i)
     {
+      mesh.nFaces() - mesh.nInternalFaces(),
+      orientedSurface::UNVISITED
+    };
+    FOR_ALL(faceLabels, i) {
       const label meshFaceI = faceLabels[i];
-      if (!mesh.isInternalFace(meshFaceI))
-      {
-        neiStatus[meshFaceI-mesh.nInternalFaces()] =
+      if (!mesh.isInternalFace(meshFaceI)) {
+        neiStatus[meshFaceI - mesh.nInternalFaces()] =
           allFaceInfo[i].flipStatus();
       }
     }
     syncTools::swapBoundaryFaceList(mesh, neiStatus);
-    FOR_ALL(faceLabels, i)
-    {
+    FOR_ALL(faceLabels, i) {
       const label meshFaceI = faceLabels[i];
       const label patchI = bm.whichPatch(meshFaceI);
-      if (patchI != -1 && bm[patchI].coupled() && !isMasterFace[meshFaceI])
-      {
-        // Slave side. Take flipped from neighbour
-        label bFaceI = meshFaceI-mesh.nInternalFaces();
-        if (neiStatus[bFaceI] == orientedSurface::NOFLIP)
-        {
-          allFaceInfo[i] = orientedSurface::FLIP;
-        }
-        else if (neiStatus[bFaceI] == orientedSurface::FLIP)
-        {
-          allFaceInfo[i] = orientedSurface::NOFLIP;
-        }
-        else
-        {
-          FATAL_ERROR_IN(args.executable())
-            << "Incorrect status for face " << meshFaceI
-            << abort(FatalError);
-        }
+      if (patchI == -1 || !bm[patchI].coupled() || isMasterFace[meshFaceI])
+        continue;
+      // Slave side. Take flipped from neighbour
+      label bFaceI = meshFaceI-mesh.nInternalFaces();
+      if (neiStatus[bFaceI] == orientedSurface::NOFLIP) {
+        allFaceInfo[i] = orientedSurface::FLIP;
+      } else if (neiStatus[bFaceI] == orientedSurface::FLIP) {
+        allFaceInfo[i] = orientedSurface::NOFLIP;
+      } else {
+        FATAL_ERROR_IN(args.executable())
+          << "Incorrect status for face " << meshFaceI
+          << abort(FatalError);
       }
     }
   }
   // Convert to flipmap and adapt faceZones
   boolList newFlipMap{allFaceInfo.size(), false};
   label nChanged = 0;
-  FOR_ALL(allFaceInfo, faceI)
-  {
-    if (allFaceInfo[faceI] == orientedSurface::NOFLIP)
-    {
+  FOR_ALL(allFaceInfo, faceI) {
+    if (allFaceInfo[faceI] == orientedSurface::NOFLIP) {
       newFlipMap[faceI] = false;
-    }
-    else if (allFaceInfo[faceI] == orientedSurface::FLIP)
-    {
+    } else if (allFaceInfo[faceI] == orientedSurface::FLIP) {
       newFlipMap[faceI] = true;
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN(args.executable())
         << "Problem : unvisited face " << faceI
         << " centre:" << mesh.faceCentres()[faceLabels[faceI]]
         << abort(FatalError);
     }
-    if (fZone.flipMap()[faceI] != newFlipMap[faceI])
-    {
+    if (fZone.flipMap()[faceI] != newFlipMap[faceI]) {
       nChanged++;
     }
   }
   reduce(nChanged, sumOp<label>());
-  if (nChanged > 0)
-  {
+  if (nChanged > 0) {
     Info << "Flipping " << nChanged << " out of "
       << globalFaces.size() << " faces." << nl << endl;
     mesh.faceZones()[zoneName].resetAddressing(faceLabels, newFlipMap);
-    if (!mesh.faceZones().write())
-    {
+    if (!mesh.faceZones().write()) {
       FATAL_ERROR_IN(args.executable())
         << "Failed writing faceZones" << exit(FatalError);
     }
@@ -285,3 +250,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

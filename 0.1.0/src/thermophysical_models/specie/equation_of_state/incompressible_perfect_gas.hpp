@@ -10,43 +10,51 @@
 //   Incompressible gas equation of state using a constant reference pressure in
 //   the perfect gas equation of state rather than the local pressure so that the
 //   density only varies with temperature and composition.
-// SourceFiles
-//   incompressible_perfect_gas.cpp
+
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class incompressiblePerfectGas;
+
 template<class Specie>
 inline incompressiblePerfectGas<Specie> operator+
 (
   const incompressiblePerfectGas<Specie>&,
   const incompressiblePerfectGas<Specie>&
 );
+
 template<class Specie>
 inline incompressiblePerfectGas<Specie> operator-
 (
   const incompressiblePerfectGas<Specie>&,
   const incompressiblePerfectGas<Specie>&
 );
+
 template<class Specie>
 inline incompressiblePerfectGas<Specie> operator*
 (
   const scalar,
   const incompressiblePerfectGas<Specie>&
 );
+
 template<class Specie>
 inline incompressiblePerfectGas<Specie> operator==
 (
   const incompressiblePerfectGas<Specie>&,
   const incompressiblePerfectGas<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const incompressiblePerfectGas<Specie>&
 );
+
+
 template<class Specie>
 class incompressiblePerfectGas
 :
@@ -85,8 +93,7 @@ public:
     static word typeName()
     {
       return
-        "incompressiblePerfectGas<"
-       + word(Specie::typeName_()) + '>';
+        "incompressiblePerfectGas<" + word(Specie::typeName_()) + '>';
     }
     // Fundamental properties
       //- Is the equation of state is incompressible i.e. rho != f(p)
@@ -142,7 +149,9 @@ public:
       const incompressiblePerfectGas&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class Specie>
@@ -154,6 +163,8 @@ inline mousse::incompressiblePerfectGas<Specie>::incompressiblePerfectGas
   Specie{sp},
   pRef_{pRef}
 {}
+
+
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie>::incompressiblePerfectGas
 (
@@ -163,6 +174,8 @@ inline mousse::incompressiblePerfectGas<Specie>::incompressiblePerfectGas
   Specie{ipg},
   pRef_{ipg.pRef_}
 {}
+
+
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie>::incompressiblePerfectGas
 (
@@ -173,12 +186,16 @@ inline mousse::incompressiblePerfectGas<Specie>::incompressiblePerfectGas
   Specie{name, ipg},
   pRef_{ipg.pRef_}
 {}
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::incompressiblePerfectGas<Specie> >
 mousse::incompressiblePerfectGas<Specie>::clone() const
 {
-  return {new incompressiblePerfectGas<Specie>(*this)};
+  return {new incompressiblePerfectGas<Specie>{*this}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::incompressiblePerfectGas<Specie> >
 mousse::incompressiblePerfectGas<Specie>::New
@@ -186,8 +203,10 @@ mousse::incompressiblePerfectGas<Specie>::New
   Istream& is
 )
 {
-  return {new incompressiblePerfectGas<Specie>(is)};
+  return {new incompressiblePerfectGas<Specie>{is}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::incompressiblePerfectGas<Specie> >
 mousse::incompressiblePerfectGas<Specie>::New
@@ -195,8 +214,10 @@ mousse::incompressiblePerfectGas<Specie>::New
   const dictionary& dict
 )
 {
-  return {new incompressiblePerfectGas<Specie>(dict)};
+  return {new incompressiblePerfectGas<Specie>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::rho
@@ -207,6 +228,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::rho
 {
   return pRef_/(this->R()*T);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::s
 (
@@ -216,6 +239,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::s
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::psi
 (
@@ -225,6 +250,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::psi
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::Z
 (
@@ -234,6 +261,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::Z
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::cpMcv
 (
@@ -243,6 +272,8 @@ inline mousse::scalar mousse::incompressiblePerfectGas<Specie>::cpMcv
 {
   return RR;
 }
+
+
 // Member Operators 
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie>&
@@ -255,6 +286,8 @@ mousse::incompressiblePerfectGas<Specie>::operator=
   pRef_ = ipg.pRef_;
   return *this;
 }
+
+
 template<class Specie>
 inline void mousse::incompressiblePerfectGas<Specie>::operator+=
 (
@@ -267,6 +300,8 @@ inline void mousse::incompressiblePerfectGas<Specie>::operator+=
   scalar molr2 = ipg.nMoles()/this->nMoles();
   pRef_ = molr1*pRef_ + molr2*ipg.pRef_;
 }
+
+
 template<class Specie>
 inline void mousse::incompressiblePerfectGas<Specie>::operator-=
 (
@@ -276,11 +311,15 @@ inline void mousse::incompressiblePerfectGas<Specie>::operator-=
   Specie::operator-=(ipg);
   pRef_ = ipg.pRef_;
 }
+
+
 template<class Specie>
 inline void mousse::incompressiblePerfectGas<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie> mousse::operator+
@@ -295,6 +334,8 @@ inline mousse::incompressiblePerfectGas<Specie> mousse::operator+
   return {static_cast<const Specie&>(ipg1) + static_cast<const Specie&>(ipg2),
           molr1*ipg1.pRef_ + molr2*ipg2.pRef_};
 }
+
+
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie> mousse::operator-
 (
@@ -305,6 +346,8 @@ inline mousse::incompressiblePerfectGas<Specie> mousse::operator-
   return {static_cast<const Specie&>(ipg1) - static_cast<const Specie&>(ipg2),
           ipg1.pRef_};
 }
+
+
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie> mousse::operator*
 (
@@ -314,6 +357,8 @@ inline mousse::incompressiblePerfectGas<Specie> mousse::operator*
 {
   return {s*static_cast<const Specie&>(ipg), ipg.pRef_};
 }
+
+
 template<class Specie>
 inline mousse::incompressiblePerfectGas<Specie> mousse::operator==
 (
@@ -323,7 +368,8 @@ inline mousse::incompressiblePerfectGas<Specie> mousse::operator==
 {
   return pg2 - pg1;
 }
-#ifdef NoRepository
-#   include "incompressible_perfect_gas.cpp"
-#endif
+
+
+#include "incompressible_perfect_gas.ipp"
+
 #endif

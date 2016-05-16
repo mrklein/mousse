@@ -9,8 +9,9 @@
 #include "mesh_to_mesh0.hpp"
 #include "ioobject_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class CombineOp>
 void MapConsistentVolFields
 (
@@ -27,8 +28,7 @@ void MapConsistentVolFields
     GeometricField<Type, fvPatchField, volMesh>::typeName
   };
   IOobjectList fields = objects.lookupClass(fieldClassName);
-  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-  {
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
     Info << "    interpolating " << fieldIter()->name()
       << endl;
     // Read field
@@ -45,8 +45,7 @@ void MapConsistentVolFields
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
     };
-    if (fieldTargetIOobject.headerOk())
-    {
+    if (fieldTargetIOobject.headerOk()) {
       // Read fieldTarget
       GeometricField<Type, fvPatchField, volMesh> fieldTarget
       {
@@ -63,9 +62,7 @@ void MapConsistentVolFields
       );
       // Write field
       fieldTarget.write();
-    }
-    else
-    {
+    } else {
       fieldTargetIOobject.readOpt() = IOobject::NO_READ;
       // Interpolate field
       GeometricField<Type, fvPatchField, volMesh> fieldTarget
@@ -83,5 +80,8 @@ void MapConsistentVolFields
     }
   }
 }
+
 }  // namespace mousse
+
 #endif
+

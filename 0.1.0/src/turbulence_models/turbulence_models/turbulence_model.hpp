@@ -10,8 +10,7 @@
 //   grpTurbulence
 // Description
 //   Abstract base class for turbulence models (RAS, LES and laminar).
-// SourceFiles
-//   turbulence_model.cpp
+
 #include "iodictionary.hpp"
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"
@@ -19,10 +18,14 @@
 #include "fv_matrices_fwd.hpp"
 #include "near_wall_dist.hpp"
 #include "geometric_one_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declarations
 class fvMesh;
+
+
 class turbulenceModel
 :
   public IOdictionary
@@ -60,26 +63,14 @@ public:
   // Member Functions
     //- Read model coefficients if they have changed
     virtual bool read() = 0;
-    const Time& time() const
-    {
-      return runTime_;
-    }
-    const fvMesh& mesh() const
-    {
-      return mesh_;
-    }
+    const Time& time() const { return runTime_; }
+    const fvMesh& mesh() const { return mesh_; }
     //- Const access to the coefficients dictionary
     virtual const dictionary& coeffDict() const = 0;
     //- Helper function to return the name of the turbulence G field
-    inline word GName() const
-    {
-      return word(type() + ":G");
-    }
+    inline word GName() const { return word(type() + ":G"); }
     //- Access function to velocity field
-    inline const volVectorField& U() const
-    {
-      return U_;
-    }
+    inline const volVectorField& U() const { return U_; }
     //- Access function to phase flux field
     inline const surfaceScalarField& alphaRhoPhi() const
     {
@@ -88,10 +79,7 @@ public:
     //- Return the volumetric flux field
     virtual tmp<surfaceScalarField> phi() const;
     //- Return the near wall distances
-    const nearWallDist& y() const
-    {
-      return y_;
-    }
+    const nearWallDist& y() const { return y_; }
     //- Return the laminar viscosity
     virtual tmp<volScalarField> nu() const = 0;
     //- Return the laminar viscosity on patch
@@ -125,5 +113,8 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

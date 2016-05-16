@@ -8,9 +8,7 @@
 //   mousse::domainDecomposition
 // Description
 //   Automatic domain decomposition class for finite-volume meshes
-// SourceFiles
-//   domain_decomposition.cpp
-//   decompose_mesh.cpp
+
 #include "fv_mesh.hpp"
 #include "label_list.hpp"
 #include "sl_list.hpp"
@@ -18,8 +16,10 @@
 #include "point.hpp"
 #include "time.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class domainDecomposition
 :
   public fvMesh
@@ -45,7 +45,7 @@ class domainDecomposition
     // indices will be incremented by 1 and the decremented as
     // necessary to avoid the problem of face number zero having no
     // sign.
-    List<DynamicList<label> > procFaceAddressing_;
+    List<DynamicList<label>> procFaceAddressing_;
     //- Labels of cells for each processor
     labelListList procCellAddressing_;
     //- Sizes for processor mesh patches
@@ -82,16 +82,16 @@ class domainDecomposition
       const label facei,
       const label ownerProc,
       const label nbrProc,
-      List<Map<label> >&,
-      List<DynamicList<DynamicList<label> > >&
+      List<Map<label>>&,
+      List<DynamicList<DynamicList<label>>>&
     ) const;
     //- Generate sub patch info for processor cyclics
     template <class BinaryOp>
     void processInterCyclics
     (
       const polyBoundaryMesh& patches,
-      List<DynamicList<DynamicList<label> > >& interPatchFaces,
-      List<Map<label> >& procNbrToInterPatch,
+      List<DynamicList<DynamicList<label>>>& interPatchFaces,
+      List<Map<label>>& procNbrToInterPatch,
       List<labelListList>& subPatchIDs,
       List<labelListList>& subPatchStarts,
       bool owner,
@@ -119,13 +119,11 @@ public:
     //- Write decomposition
     bool writeDecomposition(const bool decomposeSets);
     //- Cell-processor decomposition labels
-    const labelList& cellToProc() const
-    {
-      return cellToProc_;
-    }
+    const labelList& cellToProc() const { return cellToProc_; }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "domain_decomposition_templates.cpp"
-#endif
+
+#include "domain_decomposition.ipp"
+
 #endif

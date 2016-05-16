@@ -8,16 +8,14 @@
 //   mousse::BreakupModel
 // Description
 //   Templated break-up model class
-// SourceFiles
-//   _breakup_model.cpp
-//   _breakup_model_new.cpp
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class BreakupModel
 :
@@ -122,7 +120,9 @@ public:
       scalar& massChild
     ) = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_BREAKUP_MODEL(CloudType)                                         \
                                                                               \
@@ -133,14 +133,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      BreakupModel<sprayCloudType>,                                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    BreakupModel<sprayCloudType>,                                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_BREAKUP_MODEL_TYPE(SS, CloudType)                                \
                                                                               \
@@ -151,7 +151,7 @@ public:
     adddictionaryConstructorToTable<mousse::SS<sprayCloudType>>               \
       add##SS##CloudType##sprayCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_breakup_model.cpp"
-#endif
+
+#include "_breakup_model.ipp"
+
 #endif

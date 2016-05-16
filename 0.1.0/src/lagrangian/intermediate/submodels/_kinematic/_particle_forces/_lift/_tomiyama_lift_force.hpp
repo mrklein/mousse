@@ -8,11 +8,12 @@
 //   mousse::TomiyamaLiftForce
 // Description
 //   Tomiyama particle lift force model applicable to deformable bubbles.
-// SourceFiles
-//   _tomiyama_lift_force.cpp
+
 #include "_lift_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class TomiyamaLiftForce
 :
@@ -46,18 +47,21 @@ public:
     //- Construct copy
     TomiyamaLiftForce(const TomiyamaLiftForce& lf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new TomiyamaLiftForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new TomiyamaLiftForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~TomiyamaLiftForce();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "_tomiyama_lift_force.cpp"
+
+#include "_tomiyama_lift_force.ipp"
+
 #endif
-#endif
+

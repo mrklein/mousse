@@ -8,9 +8,7 @@
 //   mousse::patchWriter
 // Description
 //   Write patch fields
-// SourceFiles
-//   patch_writer.cpp
-//   patch_writer_templates.cpp
+
 #include "point_mesh.hpp"
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
@@ -18,10 +16,16 @@
 #include "vtk_mesh.hpp"
 #include "indirect_primitive_patch.hpp"
 #include "primitive_patch_interpolation.hpp"
+
+
 using namespace mousse;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class volPointInterpolation;
+
+
 class patchWriter
 {
   const vtkMesh& vMesh_;
@@ -44,18 +48,9 @@ public:
       const labelList& patchIDs
     );
   // Member Functions
-    std::ofstream& os()
-    {
-      return os_;
-    }
-    label nPoints() const
-    {
-      return nPoints_;
-    }
-    label nFaces() const
-    {
-      return nFaces_;
-    }
+    std::ofstream& os() { return os_; }
+    label nPoints() const { return nPoints_; }
+    label nFaces() const { return nFaces_; }
     //- Write cellIDs
     void writePatchIDs();
     //- Write volFields
@@ -78,8 +73,9 @@ public:
       const PtrList<GeometricField<Type, fvPatchField, volMesh> >&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "patch_writer_templates.cpp"
-#endif
+
+#include "patch_writer.ipp"
+
 #endif

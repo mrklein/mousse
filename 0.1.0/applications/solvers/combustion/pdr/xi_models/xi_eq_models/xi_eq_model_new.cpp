@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "xi_eq_model.hpp"
+
+
 mousse::autoPtr<mousse::XiEqModel> mousse::XiEqModel::New
 (
   const dictionary& propDict,
@@ -12,18 +14,17 @@ mousse::autoPtr<mousse::XiEqModel> mousse::XiEqModel::New
 )
 {
   const word modelType{propDict.lookup("XiEqModel")};
-  Info<< "Selecting flame-wrinkling model " << modelType << endl;
+  Info << "Selecting flame-wrinkling model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "XiEqModel::New"
       "("
-      "    const psiuReactionThermo& thermo,"
-      "    const compressible::RASModel& turbulence,"
-      "    const volScalarField& Su"
+      "  const psiuReactionThermo& thermo,"
+      "  const compressible::RASModel& turbulence,"
+      "  const volScalarField& Su"
       ")"
     )
     << "Unknown XiEqModel type "
@@ -34,3 +35,4 @@ mousse::autoPtr<mousse::XiEqModel> mousse::XiEqModel::New
   }
   return {cstrIter()(propDict, thermo, turbulence, Su)};
 }
+

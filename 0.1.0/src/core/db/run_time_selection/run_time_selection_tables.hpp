@@ -229,7 +229,7 @@
     if (baseType::argNames##ConstructorTablePtr_)                             \
     {                                                                         \
       delete baseType::argNames##ConstructorTablePtr_;                        \
-      baseType::argNames##ConstructorTablePtr_ = NULL;                        \
+      baseType::argNames##ConstructorTablePtr_ = nullptr;                     \
     }                                                                         \
   }
 
@@ -240,7 +240,7 @@
                                                                               \
   /* Define the constructor function table */                                 \
   baseType::argNames##ConstructorTable*                                       \
-    baseType::argNames##ConstructorTablePtr_ = NULL
+    baseType::argNames##ConstructorTablePtr_ = nullptr
 
 
 // not much in use:
@@ -248,7 +248,7 @@
                                                                               \
   /* Define the constructor function table */                                 \
   typename baseType::argNames##ConstructorTable*                              \
-    baseType::argNames##ConstructorTablePtr_ = NULL
+    baseType::argNames##ConstructorTablePtr_ = nullptr
 
 
 // external use:
@@ -306,7 +306,7 @@
     if (baseType< Targ >::argNames##ConstructorTablePtr_)                     \
     {                                                                         \
       delete baseType< Targ >::argNames##ConstructorTablePtr_;                \
-      baseType< Targ >::argNames##ConstructorTablePtr_ = NULL;                \
+      baseType< Targ >::argNames##ConstructorTablePtr_ = nullptr;             \
     }                                                                         \
   }
 
@@ -318,7 +318,7 @@
                                                                               \
   /* Define the constructor function table */                                 \
   baseType< Targ >::argNames##ConstructorTable*                               \
-    baseType< Targ >::argNames##ConstructorTablePtr_ = NULL
+    baseType< Targ >::argNames##ConstructorTablePtr_ = nullptr
 
 
 // external use:

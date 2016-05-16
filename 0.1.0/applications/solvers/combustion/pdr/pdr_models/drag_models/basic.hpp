@@ -1,3 +1,6 @@
+#ifndef BASIC_HPP_
+#define BASIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -32,16 +35,14 @@
 //     \f$ T \f$ is a tensor in the file CT.
 //   The term \f$ G_{R} \f$ is treated explicitly in the \f$ \kappa-\epsilon
 //   \f$ Eqs in the \link PDRkEpsilon.C \endlink file.
-// SourceFiles
-//   basic.cpp
-#ifndef BASIC_HPP_
-#define BASIC_HPP_
+
 #include "pdr_drag_model.hpp"
 #include "xi_eq_model.hpp"
-namespace mousse
-{
-namespace PDRDragModels
-{
+
+
+namespace mousse {
+namespace PDRDragModels {
+
 class basic
 :
   public PDRDragModel
@@ -80,6 +81,9 @@ public:
     //- Write fields
     void writeFields() const;
 };
+
 }  // namespace PDRDragModels
 }  // namespace mousse
+
 #endif
+

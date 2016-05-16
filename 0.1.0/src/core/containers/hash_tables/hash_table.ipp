@@ -16,7 +16,7 @@ mousse::HashTable<T, Key, Hash>::HashTable(const label size)
   HashTableCore{},
   nElmts_{0},
   tableSize_{HashTableCore::canonicalSize(size)},
-  table_{NULL}
+  table_{nullptr}
 {
   if (tableSize_) {
     table_ = new hashedEntry*[tableSize_];
@@ -33,7 +33,7 @@ mousse::HashTable<T, Key, Hash>::HashTable(const HashTable<T, Key, Hash>& ht)
   HashTableCore{},
   nElmts_{0},
   tableSize_{ht.tableSize_},
-  table_{NULL}
+  table_{nullptr}
 {
   if (tableSize_) {
     table_ = new hashedEntry*[tableSize_];
@@ -56,7 +56,7 @@ mousse::HashTable<T, Key, Hash>::HashTable
   HashTableCore{},
   nElmts_{0},
   tableSize_{0},
-  table_{NULL}
+  table_{nullptr}
 {
   transfer(ht());
 }
@@ -238,7 +238,7 @@ bool mousse::HashTable<T, Key, Hash>::iteratorBase::erase()
   // note: entryPtr_ is NULL for end(), so this catches that too
   if (entryPtr_) {
     // Search element before entryPtr_
-    hashedEntry* prev = 0;
+    hashedEntry* prev = nullptr;
     for
     (
       hashedEntry* ep = hashTable_->table_[hashIndex_];
@@ -414,7 +414,7 @@ void mousse::HashTable<T, Key, Hash>::transfer(HashTable<T, Key, Hash>& ht)
   tableSize_ = ht.tableSize_;
   ht.tableSize_ = 0;
   table_ = ht.table_;
-  ht.table_ = NULL;
+  ht.table_ = nullptr;
   nElmts_ = ht.nElmts_;
   ht.nElmts_ = 0;
 }

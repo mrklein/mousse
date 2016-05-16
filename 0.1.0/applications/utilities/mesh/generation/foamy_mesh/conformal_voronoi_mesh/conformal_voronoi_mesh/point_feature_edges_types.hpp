@@ -8,13 +8,14 @@
 //   mousse::pointFeatureEdgesTypes
 // Description
 //   Holds information on the types of feature edges attached to feature points.
-// SourceFiles
-//   point_feature_edges_types.cpp
+
 #include "hash_table.hpp"
 #include "extended_feature_edge_mesh.hpp"
 #include "list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 //- Hold the types of feature edges attached to the point.
 class pointFeatureEdgesTypes
 :
@@ -46,5 +47,8 @@ public:
       const pointFeatureEdgesTypes& p
     );
 };
+
 }  // namespace mousse
+
 #endif
+

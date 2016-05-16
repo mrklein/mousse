@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "xi_g_model.hpp"
+
+
 mousse::autoPtr<mousse::XiGModel> mousse::XiGModel::New
 (
   const dictionary& propDict,
@@ -15,15 +17,14 @@ mousse::autoPtr<mousse::XiGModel> mousse::XiGModel::New
   Info<< "Selecting flame-wrinkling model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "XiGModel::New"
       "("
-      "    const psiuReactionThermo& thermo,"
-      "    const compressible::RASModel& turbulence,"
-      "    const volScalarField& Su"
+      "  const psiuReactionThermo& thermo,"
+      "  const compressible::RASModel& turbulence,"
+      "  const volScalarField& Su"
       ")"
     )
     << "Unknown XiGModel type "
@@ -34,3 +35,4 @@ mousse::autoPtr<mousse::XiGModel> mousse::XiGModel::New
   }
   return {cstrIter()(propDict, thermo, turbulence, Su)};
 }
+

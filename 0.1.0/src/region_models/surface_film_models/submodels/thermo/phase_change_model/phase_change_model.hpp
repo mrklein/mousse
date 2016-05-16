@@ -8,18 +8,16 @@
 //   mousse::phaseChangeModel
 // Description
 //   Base class for surface film phase change models
-// SourceFiles
-//   phase_change_model.cpp
-//   phase_change_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
 #include "scalar_field.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class phaseChangeModel
 :
   public filmSubModelBase
@@ -90,7 +88,10 @@ public:
       //- Provide some feedback
       virtual void info(Ostream& os) const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

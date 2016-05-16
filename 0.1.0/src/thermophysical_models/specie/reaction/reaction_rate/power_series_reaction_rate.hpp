@@ -8,11 +8,14 @@
 //   mousse::powerSeriesReactionRate
 // Description
 //   Power series reaction rate.
+
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 #include "fixed_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class powerSeriesReactionRate
 {
   // Private data
@@ -64,7 +67,9 @@ public:
       const powerSeriesReactionRate&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
@@ -80,6 +85,8 @@ inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
   Ta_{Ta},
   coeffs_{coeffs}
 {}
+
+
 inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
 (
   const speciesTable&,
@@ -93,6 +100,8 @@ inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
 {
   is.readEnd("powerSeriesReactionRate(Istream&)");
 }
+
+
 inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
 (
   const speciesTable&,
@@ -104,6 +113,8 @@ inline mousse::powerSeriesReactionRate::powerSeriesReactionRate
   Ta_{readScalar(dict.lookup("Ta"))},
   coeffs_{dict.lookup("coeffs")}
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::powerSeriesReactionRate::operator()
 (
@@ -113,18 +124,18 @@ inline mousse::scalar mousse::powerSeriesReactionRate::operator()
 ) const
 {
   scalar lta = A_;
-  if (mag(beta_) > VSMALL)
-  {
+  if (mag(beta_) > VSMALL) {
     lta *= pow(T, beta_);
   }
   scalar expArg = 0.0;
-  FOR_ALL(coeffs_, n)
-  {
+  FOR_ALL(coeffs_, n) {
     expArg += coeffs_[n]/pow(T, n + 1);
   }
   lta *= exp(expArg);
   return lta;
 }
+
+
 inline void mousse::powerSeriesReactionRate::write(Ostream& os) const
 {
   os.writeKeyword("A") << A_ << token::END_STATEMENT << nl;
@@ -132,6 +143,8 @@ inline void mousse::powerSeriesReactionRate::write(Ostream& os) const
   os.writeKeyword("Ta") << Ta_ << token::END_STATEMENT << nl;
   os.writeKeyword("coeffs") << coeffs_ << token::END_STATEMENT << nl;
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
@@ -140,11 +153,11 @@ inline mousse::Ostream& mousse::operator<<
 {
   os << token::BEGIN_LIST;
   os << psrr.A_ << token::SPACE << psrr.beta_ << token::SPACE << psrr.Ta_;
-  for (int n=0; n<powerSeriesReactionRate::nCoeff_; n++)
-  {
+  for (int n=0; n<powerSeriesReactionRate::nCoeff_; n++) {
     os << token::SPACE << psrr.coeffs_[n];
   }
   os << token::END_LIST;
   return os;
 }
+
 #endif

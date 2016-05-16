@@ -8,15 +8,14 @@
 //   mousse::thermocapillaryForce
 // Description
 //   Thermocapillary force
-// SourceFiles
-//   thermocapillary_force.cpp
+
 #include "force.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class thermocapillaryForce
 :
   public force
@@ -42,7 +41,10 @@ public:
       //- Correct
       virtual tmp<fvVectorMatrix> correct(volVectorField& U);
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

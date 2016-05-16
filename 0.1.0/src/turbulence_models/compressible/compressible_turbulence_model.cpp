@@ -5,11 +5,16 @@
 #include "compressible_turbulence_model.hpp"
 #include "surface_interpolate.hpp"
 #include "surface_fields.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(compressibleTurbulenceModel, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(compressibleTurbulenceModel, 0);
+
 }
+
+
 // Constructors 
 mousse::compressibleTurbulenceModel::compressibleTurbulenceModel
 (
@@ -21,26 +26,28 @@ mousse::compressibleTurbulenceModel::compressibleTurbulenceModel
 )
 :
   turbulenceModel
-  (
+  {
     U,
     alphaRhoPhi,
     phi,
     propertiesName
-  ),
-  rho_(rho)
+  },
+  rho_{rho}
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::surfaceScalarField>
 mousse::compressibleTurbulenceModel::phi() const
 {
-  if (phi_.dimensions() == dimensionSet(0, 3, -1, 0, 0))
-  {
+  if (phi_.dimensions() == dimensionSet(0, 3, -1, 0, 0)) {
     return phi_;
-  }
-  else
-  {
+  } else {
     return phi_/fvc::interpolate(rho_);
   }
 }
+
+
 void mousse::compressibleTurbulenceModel::correctEnergyTransport()
 {}
+

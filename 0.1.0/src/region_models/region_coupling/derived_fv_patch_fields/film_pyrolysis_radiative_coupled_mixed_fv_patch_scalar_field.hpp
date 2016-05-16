@@ -39,14 +39,15 @@
 //   - 'basicThermo' : use basicThermo and compressible::RASmodel to calculate K
 //   - 'solidThermo' : use basicSolidThermo K()
 //   Qr is the radiative flux defined in the radiation model.
-// SourceFiles
-//   film_pyrolysis_radiative_coupled_mixed_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
 #include "thermo_single_layer.hpp"
 #include "pyrolysis_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -108,13 +109,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
-        (
-          *this
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new filmPyrolysisRadiativeCoupledMixedFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
@@ -128,14 +127,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new filmPyrolysisRadiativeCoupledMixedFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new filmPyrolysisRadiativeCoupledMixedFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     //- Get corresponding K field
@@ -145,5 +141,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

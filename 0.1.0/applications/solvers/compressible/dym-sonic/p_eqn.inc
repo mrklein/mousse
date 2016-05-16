@@ -13,19 +13,16 @@ surfaceScalarField phid
 fvc::makeRelative(phid, psi, U);
 MRF.makeRelative(fvc::interpolate(psi), phid);
 // Non-orthogonal pressure corrector loop
-while (pimple.correctNonOrthogonal())
-{
-  fvScalarMatrix pEqn
-  {
+while (pimple.correctNonOrthogonal()) {
+  fvScalarMatrix pEqn {
     fvm::ddt(psi, p)
-    + fvm::div(phid, p)
-    - fvm::laplacian(rhorAUf, p)
-    ==
+  + fvm::div(phid, p)
+  - fvm::laplacian(rhorAUf, p)
+  ==
     fvOptions(psi, p, rho.name())
   };
   pEqn.solve();
-  if (pimple.finalNonOrthogonalIter())
-  {
+  if (pimple.finalNonOrthogonalIter()) {
     phi = pEqn.flux();
   }
 }
@@ -41,3 +38,4 @@ K = 0.5*magSqr(U);
   surfaceVectorField n{mesh.Sf()/mesh.magSf()};
   rhoUf += n*(fvc::absolute(phi, rho, U)/mesh.magSf() - (n & rhoUf));
 }
+

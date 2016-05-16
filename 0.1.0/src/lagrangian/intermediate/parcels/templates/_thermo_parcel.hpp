@@ -10,22 +10,24 @@
 //   Thermodynamic parcel class with one/two-way coupling with the continuous
 //   phase. Includes Kinematic parcel sub-models, plus:
 //   - heat transfer
-// SourceFiles
-//   _thermo_parcel.cpp
-//   _thermo_parcel_io.cpp
+
 #include "particle.hpp"
 #include "slg_thermo.hpp"
 #include "demand_driven_entry.hpp"
-namespace mousse
-{
-template<class ParcelType>
-class ThermoParcel;
+
+
+namespace mousse {
+
+template<class ParcelType> class ThermoParcel;
+
 template<class ParcelType>
 Ostream& operator<<
 (
   Ostream&,
   const ThermoParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class ThermoParcel
 :
@@ -165,11 +167,11 @@ public:
     //- Runtime type information
     TYPE_NAME("ThermoParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       " T"
-     + " Cp"
+      + " Cp"
     );
   // Constructors
     //- Construct from owner, position, and cloud owner
@@ -214,12 +216,12 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new ThermoParcel(*this));
+      return autoPtr<particle>{new ThermoParcel{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>(new ThermoParcel(*this, mesh));
+      return autoPtr<particle>{new ThermoParcel{*this, mesh}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -229,14 +231,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<ThermoParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<ThermoParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<ThermoParcel<ParcelType> >
-        (
-          new ThermoParcel<ParcelType>(mesh_, is, true)
-        );
+        return
+          autoPtr<ThermoParcel<ParcelType>>
+          {
+            new ThermoParcel<ParcelType>{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -308,7 +311,9 @@ public:
       const ThermoParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -322,6 +327,8 @@ inline mousse::ThermoParcel<ParcelType>::constantProperties::constantProperties(
   epsilon0_{this->dict_, 0.0},
   f0_{this->dict_, 0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::ThermoParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -336,6 +343,8 @@ inline mousse::ThermoParcel<ParcelType>::constantProperties::constantProperties
   epsilon0_{cp.epsilon0_},
   f0_{cp.f0_}
 {}
+
+
 template<class ParcelType>
 inline mousse::ThermoParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -350,6 +359,8 @@ inline mousse::ThermoParcel<ParcelType>::constantProperties::constantProperties
   epsilon0_{this->dict_, "epsilon0"},
   f0_{this->dict_, "f0"}
 {}
+
+
 template<class ParcelType>
 inline mousse::ThermoParcel<ParcelType>::ThermoParcel
 (
@@ -366,6 +377,8 @@ inline mousse::ThermoParcel<ParcelType>::ThermoParcel
   Tc_{0.0},
   Cpc_{0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::ThermoParcel<ParcelType>::ThermoParcel
 (
@@ -407,6 +420,8 @@ inline mousse::ThermoParcel<ParcelType>::ThermoParcel
   Tc_{0.0},
   Cpc_{0.0}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -414,78 +429,106 @@ mousse::ThermoParcel<ParcelType>::constantProperties::T0() const
 {
   return T0_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ThermoParcel<ParcelType>::constantProperties::TMin() const
 {
   return TMin_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ThermoParcel<ParcelType>::constantProperties::TMax() const
 {
   return TMax_.value();
 }
+
+
 template<class ParcelType>
 inline void
 mousse::ThermoParcel<ParcelType>::constantProperties::setTMax(const scalar TMax)
 {
   TMax_.setValue(TMax);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ThermoParcel<ParcelType>::constantProperties::Cp0() const
 {
   return Cp0_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ThermoParcel<ParcelType>::constantProperties::epsilon0() const
 {
   return epsilon0_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ThermoParcel<ParcelType>::constantProperties::f0() const
 {
   return f0_.value();
 }
+
+
 // ThermoParcel Member Functions
 template<class ParcelType>
 inline mousse::scalar mousse::ThermoParcel<ParcelType>::T() const
 {
   return T_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::ThermoParcel<ParcelType>::Cp() const
 {
   return Cp_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::ThermoParcel<ParcelType>::hs() const
 {
   return Cp_*(T_ - 298.15);
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::ThermoParcel<ParcelType>::Tc() const
 {
   return Tc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::ThermoParcel<ParcelType>::Cpc() const
 {
   return Cpc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::ThermoParcel<ParcelType>::T()
 {
   return T_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::ThermoParcel<ParcelType>::Cp()
 {
   return Cp_;
 }
+
+
 
 template<class ParcelType>
 template<class CloudType>
@@ -522,10 +565,9 @@ inline mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::TrackingData
       kappa_
     )
   },
-  GInterp_{NULL}
+  GInterp_{nullptr}
 {
-  if (cloud.radiation())
-  {
+  if (cloud.radiation()) {
     GInterp_.reset
     (
       interpolation<scalar>::New
@@ -537,6 +579,8 @@ inline mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::TrackingData
     );
   }
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::volScalarField&
@@ -544,6 +588,8 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::Cp() const
 {
   return Cp_;
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::volScalarField&
@@ -551,6 +597,8 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::kappa() const
 {
   return kappa_;
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -558,6 +606,8 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::TInterp() const
 {
   return TInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -565,6 +615,8 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::CpInterp() const
 {
   return CpInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -572,13 +624,14 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::kappaInterp() const
 {
   return kappaInterp_();
 }
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
 mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::GInterp() const
 {
-  if (!GInterp_.valid())
-  {
+  if (!GInterp_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::scalar>&"
@@ -590,7 +643,7 @@ mousse::ThermoParcel<ParcelType>::TrackingData<CloudType>::GInterp() const
   }
   return GInterp_();
 }
-#ifdef NoRepository
-  #include "_thermo_parcel.cpp"
-#endif
+
+#include "_thermo_parcel.ipp"
+
 #endif

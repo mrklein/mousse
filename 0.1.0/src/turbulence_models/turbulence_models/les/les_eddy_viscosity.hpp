@@ -10,14 +10,14 @@
 //   grpLESTurbulence
 // Description
 //   Eddy viscosity LES SGS model base class
-// SourceFiles
-//   les_eddy_viscosity.cpp
+
 #include "les_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class LESeddyViscosity
 :
@@ -55,9 +55,10 @@ public:
     //- Return sub-grid disipation rate
     virtual tmp<volScalarField> epsilon() const;
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "les_eddy_viscosity.cpp"
-#endif
+
+#include "les_eddy_viscosity.ipp"
+
 #endif

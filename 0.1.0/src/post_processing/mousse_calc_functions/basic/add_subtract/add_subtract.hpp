@@ -16,15 +16,13 @@
 //   Example usage:
 //     addSubtract p add -value 100000 -resultName pAbs
 //     addSubtract U subtract -field U0
-// SourceFiles
-//   add_subtract.cpp
-//   writeadd_subtract_field.cpp
-//   writeadd_subtract_value.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class addSubtract
 :
   public calcType
@@ -122,10 +120,11 @@ public:
   //- Destructor
   virtual ~addSubtract();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_add_subtract_field.cpp"
-#   include "write_add_subtract_value.cpp"
-#endif
+
+#include "write_add_subtract_field.ipp"
+#include "write_add_subtract_value.ipp"
+
 #endif

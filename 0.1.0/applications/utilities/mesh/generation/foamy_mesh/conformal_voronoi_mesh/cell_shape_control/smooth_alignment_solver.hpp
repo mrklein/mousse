@@ -6,21 +6,20 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::smoothAlignmentSolver
-// Description
-// SourceFiles
-//   smooth_alignment_solver.cpp
-//   smooth_alignment_solver_io.cpp
+
 #include "cell_shape_control_mesh.hpp"
 #include "triad_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class smoothAlignmentSolver
 {
   // Private data
     cellShapeControlMesh& mesh_;
   // Private Member Functions
     template<class Triangulation, class Type>
-    tmp<Field<Type> > filterFarPoints
+    tmp<Field<Type>> filterFarPoints
     (
       const Triangulation& mesh,
       const Field<Type>& field
@@ -62,5 +61,8 @@ public:
       //- Smooth the alignments on the mesh
       void smoothAlignments(const label maxSmoothingIterations);
 };
+
 }  // namespace mousse
+
 #endif
+

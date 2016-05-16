@@ -8,15 +8,15 @@
 //   mousse::CollisionModel
 // Description
 //   Templated collision model class.
-// SourceFiles
-//   _collision_model.cpp
-//   _collision_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class CollisionModel
 :
@@ -72,7 +72,9 @@ public:
     // Collision function
     virtual void collide() = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_COLLISION_MODEL(CloudType)                                       \
                                                                               \
@@ -82,14 +84,14 @@ public:
     mousse::CollisionModel<collidingCloudType>,                               \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      CollisionModel<collidingCloudType>,                                     \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    CollisionModel<collidingCloudType>,                                       \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_COLLISION_MODEL_TYPE(SS, CloudType)                              \
                                                                               \
@@ -100,7 +102,6 @@ public:
     adddictionaryConstructorToTable<mousse::SS<collidingCloudType>>           \
       add##SS##CloudType##collidingCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_collision_model.cpp"
-#endif
+#include "_collision_model.ipp"
+
 #endif

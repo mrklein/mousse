@@ -20,20 +20,22 @@
 //   decomposition. Guarantees best memory balance but at the expense of
 //   more communication.
 //   - frozen : no change
-// SourceFiles
-//   distributed_tri_surface_mesh.cpp
+
 #include "tri_surface_mesh.hpp"
 #include "iodictionary.hpp"
 #include "pair.hpp"
 #include "global_index.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
 class mapDistribute;
 class decompositionMethod;
+
 // Typedefs
 typedef Pair<point> segment;
-template<>
-inline bool contiguous<segment>() {return contiguous<point>();}
+template<> bool contiguous<segment>() { return contiguous<point>(); }
+
+
 class distributedTriSurfaceMesh
 :
   public triSurfaceMesh
@@ -56,7 +58,7 @@ private:
     //- Bounding box settings
     IOdictionary dict_;
     //- Bounding boxes of all processors
-    List<List<treeBoundBox> > procBb_;
+    List<List<treeBoundBox>> procBb_;
     //- Global triangle numbering
     mutable autoPtr<globalIndex> globalTris_;
     //- The distribution type.
@@ -94,7 +96,7 @@ private:
         const point& end,
         DynamicList<segment>&,
         DynamicList<label>&,
-        List<DynamicList<label> >&
+        List<DynamicList<label>>&
       ) const;
       //- Divide edges into local and remote segments. Construct map to
       //  distribute and collect data.
@@ -139,7 +141,7 @@ private:
       ) const;
     // Surface redistribution
       //- Finds new bounds based on an indepedent decomposition.
-      List<List<treeBoundBox> > independentlyDistributedBbs
+      List<List<treeBoundBox>> independentlyDistributedBbs
       (
         const triSurface&
       );
@@ -274,7 +276,7 @@ public:
       (
         const pointField& start,
         const pointField& end,
-        List<List<pointIndexHit> >&
+        List<List<pointIndexHit>>&
       ) const;
       //- From a set of points and indices get the region
       virtual void getRegion
@@ -341,8 +343,9 @@ public:
         IOstream::compressionType cmp
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "distributed_tri_surface_mesh_templates.cpp"
-#endif
+
+#include "distributed_tri_surface_mesh.ipp"
+
 #endif

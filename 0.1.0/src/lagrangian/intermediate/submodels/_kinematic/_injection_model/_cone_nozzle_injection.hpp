@@ -22,15 +22,17 @@
 //       U = sqrt(2*(Pinj - Pamb)/rho)
 //     - Flow rate and discharge
 //       U = V_dot/(A*Cd)
-// SourceFiles
-//   _cone_nozzle_injection.cpp
+
 #include "_injection_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class Type>
-class TimeDataEntry;
+template<class Type> class TimeDataEntry;
 class distributionModel;
+
+
 template<class CloudType>
 class ConeNozzleInjection
 :
@@ -115,12 +117,13 @@ public:
     //- Construct copy
     ConeNozzleInjection(const ConeNozzleInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ConeNozzleInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ConeNozzleInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ConeNozzleInjection();
@@ -159,8 +162,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_cone_nozzle_injection.cpp"
-#endif
+
+#include "_cone_nozzle_injection.ipp"
+
 #endif

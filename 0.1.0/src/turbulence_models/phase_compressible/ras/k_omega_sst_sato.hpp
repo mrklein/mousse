@@ -65,15 +65,13 @@
 //       Cmub        0.6;
 //     }
 //   \endverbatim
-// SourceFiles
-//   k_omega_sst.cpp
-//   source_files
-//   k_omega_sst_sato.cpp
+
 #include "k_omega_sst.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class kOmegaSSTSato
 :
@@ -128,9 +126,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-  #include "k_omega_sst_sato.cpp"
-#endif
+
+#include "k_omega_sst_sato.ipp"
+
 #endif

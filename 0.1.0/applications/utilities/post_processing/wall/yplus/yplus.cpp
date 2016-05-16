@@ -10,6 +10,7 @@
 #include "near_wall_dist.hpp"
 #include "wall_fv_patch.hpp"
 
+
 template<class TurbulenceModel>
 void calcYPlus
 (
@@ -27,11 +28,9 @@ void calcYPlus
   const volScalarField::GeometricBoundaryField nuBf =
     turbulenceModel->nu()().boundaryField();
   const fvPatchList& patches = mesh.boundary();
-  FOR_ALL(patches, patchi)
-  {
+  FOR_ALL(patches, patchi) {
     const fvPatch& patch = patches[patchi];
-    if (isA<nutWallFunctionFvPatchScalarField>(nutBf[patchi]))
-    {
+    if (isA<nutWallFunctionFvPatchScalarField>(nutBf[patchi])) {
       const nutWallFunctionFvPatchScalarField& nutPf =
         dynamic_cast<const nutWallFunctionFvPatchScalarField&>
         (
@@ -44,9 +43,7 @@ void calcYPlus
         << ", wall-function " << nutPf.type()
         << ", y+ : min: " << gMin(Yp) << " max: " << gMax(Yp)
         << " average: " << gAverage(Yp) << nl << endl;
-    }
-    else if (isA<wallFvPatch>(patch))
-    {
+    } else if (isA<wallFvPatch>(patch)) {
       yPlus.boundaryField()[patchi] =
         d[patchi]*sqrt(nuEffBf[patchi]*mag(U.boundaryField()[patchi].snGrad()))
         /nuBf[patchi];
@@ -59,6 +56,7 @@ void calcYPlus
   }
 }
 
+
 void calcIncompressibleYPlus
 (
   const fvMesh& mesh,
@@ -68,13 +66,15 @@ void calcIncompressibleYPlus
 )
 {
   #include "create_phi.inc"
-  singlePhaseTransportModel laminarTransport(U, phi);
+  singlePhaseTransportModel laminarTransport{U, phi};
   autoPtr<incompressible::turbulenceModel> turbulenceModel
   {
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
   };
   calcYPlus(turbulenceModel, mesh, U, yPlus);
 }
+
+
 void calcCompressibleYPlus
 (
   const fvMesh& mesh,
@@ -91,8 +91,7 @@ void calcCompressibleYPlus
     IOobject::MUST_READ,
     IOobject::NO_WRITE
   };
-  if (!rhoHeader.headerOk())
-  {
+  if (!rhoHeader.headerOk()) {
     Info << "    no rho field" << endl;
     return;
   }
@@ -114,6 +113,7 @@ void calcCompressibleYPlus
   calcYPlus(turbulenceModel, mesh, U, yPlus);
 }
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -122,14 +122,12 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select(runTime, args, "yPlus");
   #include "create_named_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
     volScalarField yPlus
     {
-      // IOobject
       {
         "yPlus",
         runTime.timeName(),
@@ -148,29 +146,15 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ,
       IOobject::NO_WRITE
     };
-    if (UHeader.headerOk())
-    {
+    if (UHeader.headerOk()) {
       Info << "Reading field U\n" << endl;
       volVectorField U{UHeader, mesh};
-      if
-      (
-        IOobject
-        {
-          basicThermo::dictName,
-          runTime.constant(),
-          mesh
-        }.headerOk()
-      )
-      {
+      if (IOobject{basicThermo::dictName, runTime.constant(), mesh}.headerOk()) {
         calcCompressibleYPlus(mesh, runTime, U, yPlus);
-      }
-      else
-      {
+      } else {
         calcIncompressibleYPlus(mesh, runTime, U, yPlus);
       }
-    }
-    else
-    {
+    } else {
       Info << "    no U field" << endl;
     }
     Info << "Writing yPlus to field " << yPlus.name() << nl << endl;
@@ -179,3 +163,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

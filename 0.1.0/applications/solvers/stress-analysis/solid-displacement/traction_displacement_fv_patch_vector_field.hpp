@@ -9,12 +9,13 @@
 // Description
 //   Fixed traction boundary condition for the standard linear elastic, fixed
 //   coefficient displacement equation.
-// SourceFiles
-//   traction_displacement_fv_patch_vector_field.cpp
+
 #include "fv_patch_fields.hpp"
 #include "fixed_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class tractionDisplacementFvPatchVectorField
 :
   public fixedGradientFvPatchVectorField
@@ -56,10 +57,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new tractionDisplacementFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new tractionDisplacementFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     tractionDisplacementFvPatchVectorField
@@ -73,29 +75,18 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new tractionDisplacementFvPatchVectorField{*this, iF}
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new tractionDisplacementFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     // Access
-      virtual const vectorField& traction() const
-      {
-        return traction_;
-      }
-      virtual vectorField& traction()
-      {
-        return traction_;
-      }
-      virtual const scalarField& pressure() const
-      {
-        return pressure_;
-      }
-      virtual  scalarField& pressure()
-      {
-        return pressure_;
-      }
+      virtual const vectorField& traction() const { return traction_; }
+      virtual vectorField& traction() { return traction_; }
+      virtual const scalarField& pressure() const { return pressure_; }
+      virtual  scalarField& pressure() { return pressure_; }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       virtual void autoMap
@@ -113,5 +104,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

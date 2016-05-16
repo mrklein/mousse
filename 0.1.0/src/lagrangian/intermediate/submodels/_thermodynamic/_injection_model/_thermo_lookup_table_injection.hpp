@@ -23,12 +23,13 @@
 //     mDot    = mass flow rate [kg/m3]
 //     T       = temperature [K]
 //     cp      = specific heat capacity [J/kg/K]
-// SourceFiles
-//   _thermo_lookup_table_injection.cpp
+
 #include "_injection_model.hpp"
 #include "kinematic_parcel_injection_data_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ThermoLookupTableInjection
 :
@@ -69,12 +70,13 @@ public:
       const ThermoLookupTableInjection<CloudType>& im
     );
     //- Construct and return a clone using supplied owner cloud
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new ThermoLookupTableInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new ThermoLookupTableInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ThermoLookupTableInjection();
@@ -116,8 +118,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_thermo_lookup_table_injection.cpp"
-#endif
+
+#include "_thermo_lookup_table_injection.ipp"
+
 #endif

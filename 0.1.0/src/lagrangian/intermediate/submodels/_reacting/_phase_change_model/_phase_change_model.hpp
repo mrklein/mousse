@@ -8,15 +8,15 @@
 //   mousse::PhaseChangeModel
 // Description
 //   Templated phase change model class
-// SourceFiles
-//   _phase_change_model.cpp
-//   _phase_change_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class PhaseChangeModel
 :
@@ -119,7 +119,9 @@ public:
       //- Write injection info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
+
 
 #define MAKE_PHASE_CHANGE_MODEL(CloudType)                                    \
                                                                               \
@@ -129,14 +131,14 @@ public:
     mousse::PhaseChangeModel<reactingCloudType>,                              \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      PhaseChangeModel<reactingCloudType>,                                    \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    PhaseChangeModel<reactingCloudType>,                                      \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_PHASE_CHANGE_MODEL_TYPE(SS, CloudType)                           \
                                                                               \
@@ -147,7 +149,7 @@ public:
     adddictionaryConstructorToTable<mousse::SS<reactingCloudType>>            \
       add##SS##CloudType##reactingCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_phase_change_model.cpp"
-#endif
+
+#include "_phase_change_model.ipp"
+
 #endif

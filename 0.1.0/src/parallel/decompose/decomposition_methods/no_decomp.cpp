@@ -4,8 +4,10 @@
 
 #include "no_decomp.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 DEFINE_TYPE_NAME(noDecomp);
 ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -14,9 +16,12 @@ ADD_NAMED_TO_RUN_TIME_SELECTION_TABLE
   dictionary,
   none
 );
+
 }
+
+
 // Constructors 
 mousse::noDecomp::noDecomp(const dictionary& decompositionDict)
 :
-  decompositionMethod(decompositionDict)
+  decompositionMethod{decompositionDict}
 {}

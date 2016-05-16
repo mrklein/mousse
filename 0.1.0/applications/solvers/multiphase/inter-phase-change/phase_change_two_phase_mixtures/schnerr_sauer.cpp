@@ -8,11 +8,12 @@
 #endif
 #include "mathematical_constants.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace phaseChangeTwoPhaseMixtures
-{
+namespace mousse {
+namespace phaseChangeTwoPhaseMixtures {
+
 DEFINE_TYPE_NAME_AND_DEBUG(SchnerrSauer, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -20,8 +21,11 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   SchnerrSauer,
   components
 );
+
 }
 }
+
+
 // Constructors 
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::SchnerrSauer
 (
@@ -38,6 +42,8 @@ mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::SchnerrSauer
 {
   correct();
 }
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField>
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::rRb
@@ -45,18 +51,23 @@ mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::rRb
   const volScalarField& limitedAlpha1
 ) const
 {
-  return pow
-  (
-    ((4*constant::mathematical::pi*n_)/3)
-    *limitedAlpha1/(1.0 + alphaNuc() - limitedAlpha1), 1.0/3.0
-  );
+  return
+    pow
+    (
+      ((4*constant::mathematical::pi*n_)/3)
+      *limitedAlpha1/(1.0 + alphaNuc() - limitedAlpha1), 1.0/3.0
+    );
 }
+
+
 mousse::dimensionedScalar
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::alphaNuc() const
 {
   dimensionedScalar Vnuc = n_*constant::mathematical::pi*pow3(dNuc_)/6;
   return Vnuc/(1 + Vnuc);
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::pCoeff
 (
@@ -72,18 +83,22 @@ mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::pCoeff
     (3*rho1()*rho2())*sqrt(2/(3*rho1()))
     *rRb(limitedAlpha1)/(rho*sqrt(mag(p - pSat()) + 0.01*pSat()));
 }
+
+
 mousse::Pair<mousse::tmp<mousse::volScalarField>>
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::mDotAlphal() const
 {
   const volScalarField& p = alpha1_.db().lookupObject<volScalarField>("p");
   volScalarField pCoeff{this->pCoeff(p)};
   volScalarField limitedAlpha1{min(max(alpha1_, scalar(0)), scalar(1))};
-  return Pair<tmp<volScalarField>>
+  return
   {
     Cc_*limitedAlpha1*pCoeff*max(p - pSat(), p0_),
     Cv_*(1.0 + alphaNuc() - limitedAlpha1)*pCoeff*min(p - pSat(), p0_)
   };
 }
+
+
 mousse::Pair<mousse::tmp<mousse::volScalarField>>
 mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::mDotP() const
 {
@@ -91,18 +106,21 @@ mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::mDotP() const
   volScalarField pCoeff{this->pCoeff(p)};
   volScalarField limitedAlpha1{min(max(alpha1_, scalar(0)), scalar(1))};
   volScalarField apCoeff{limitedAlpha1*pCoeff};
-  return Pair<tmp<volScalarField>>
+  return
   {
     Cc_*(1.0 - limitedAlpha1)*pos(p - pSat())*apCoeff,
     (-Cv_)*(1.0 + alphaNuc() - limitedAlpha1)*neg(p - pSat())*apCoeff
   };
 }
+
+
 void mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::correct()
 {}
+
+
 bool mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::read()
 {
-  if (phaseChangeTwoPhaseMixture::read())
-  {
+  if (phaseChangeTwoPhaseMixture::read()) {
     phaseChangeTwoPhaseMixtureCoeffs_ = subDict(type() + "Coeffs");
     phaseChangeTwoPhaseMixtureCoeffs_.lookup("n") >> n_;
     phaseChangeTwoPhaseMixtureCoeffs_.lookup("dNuc") >> dNuc_;
@@ -110,8 +128,6 @@ bool mousse::phaseChangeTwoPhaseMixtures::SchnerrSauer::read()
     phaseChangeTwoPhaseMixtureCoeffs_.lookup("Cv") >> Cv_;
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+

@@ -6,18 +6,16 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::controlMeshRefinement
-// Description
-// SourceFiles
-//   control_mesh_refinement_i.hpp
-//   control_mesh_refinement.cpp
-//   control_mesh_refinement_io.cpp
+
 #include "cell_shape_control.hpp"
 #include "cell_shape_control_mesh.hpp"
 #include "cell_size_and_alignment_controls.hpp"
 #include "conformation_surfaces.hpp"
 #include "background_mesh_decomposition.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class controlMeshRefinement
 {
   // Private data
@@ -77,5 +75,8 @@ public:
         const autoPtr<backgroundMeshDecomposition>& decomposition
       );
 };
+
 }  // namespace mousse
+
 #endif
+

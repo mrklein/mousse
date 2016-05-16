@@ -4,29 +4,39 @@
 
 #include "mag_sqr.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  namespace calcTypes
-  {
-    DEFINE_TYPE_NAME_AND_DEBUG(magSqr, 0);
-    ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, magSqr, dictionary);
-  }
+namespace mousse {
+namespace calcTypes {
+
+DEFINE_TYPE_NAME_AND_DEBUG(magSqr, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, magSqr, dictionary);
+
 }
+}
+
+
 // Constructors 
 mousse::calcTypes::magSqr::magSqr()
 :
-  calcType()
+  calcType{}
 {}
+
+
 // Destructor 
 mousse::calcTypes::magSqr::~magSqr()
 {}
+
+
 // Member Functions 
 void mousse::calcTypes::magSqr::init()
 {
   argList::validArgs.append("magSqr");
   argList::validArgs.append("fieldName");
 }
+
+
 void mousse::calcTypes::magSqr::preCalc
 (
   const argList& /*args*/,
@@ -34,6 +44,8 @@ void mousse::calcTypes::magSqr::preCalc
   const fvMesh& /*mesh*/
 )
 {}
+
+
 void mousse::calcTypes::magSqr::calc
 (
   const argList& args,
@@ -43,32 +55,29 @@ void mousse::calcTypes::magSqr::calc
 {
   const word fieldName = args[2];
   IOobject fieldHeader
-  (
+  {
     fieldName,
     runTime.timeName(),
     mesh,
     IOobject::MUST_READ
-  );
+  };
   // Check field exists
-  if (fieldHeader.headerOk())
-  {
+  if (fieldHeader.headerOk()) {
     bool processed = false;
     writeMagSqrField<scalar>(fieldHeader, mesh, processed);
     writeMagSqrField<vector>(fieldHeader, mesh, processed);
     writeMagSqrField<sphericalTensor>(fieldHeader, mesh, processed);
     writeMagSqrField<symmTensor>(fieldHeader, mesh, processed);
     writeMagSqrField<tensor>(fieldHeader, mesh, processed);
-    if (!processed)
-    {
+    if (!processed) {
       FatalError
         << "Unable to process " << fieldName << nl
         << "No call to magSqr for fields of type "
         << fieldHeader.headerClassName() << nl << nl
-       << exit(FatalError);
+        << exit(FatalError);
     }
-  }
-  else
-  {
-    Info<< "    No " << fieldName << endl;
+  } else {
+    Info << "    No " << fieldName << endl;
   }
 }
+

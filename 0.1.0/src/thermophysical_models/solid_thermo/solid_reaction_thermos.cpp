@@ -16,8 +16,10 @@
 #include "multi_component_mixture.hpp"
 #include "sensible_enthalpy.hpp"
 #include "thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Enthalpy-based
 MAKE_REACTING_SOLID_THERMO
 (
@@ -30,6 +32,7 @@ MAKE_REACTING_SOLID_THERMO
   rhoConst,
   specie
 );
+
 MAKE_REACTING_SOLID_THERMO
 (
   solidReactionThermo,
@@ -41,6 +44,7 @@ MAKE_REACTING_SOLID_THERMO
   rhoConst,
   specie
 );
+
 MAKE_REACTING_SOLID_THERMO
 (
   solidThermo,
@@ -52,4 +56,6 @@ MAKE_REACTING_SOLID_THERMO
   rhoConst,
   specie
 );
+
 }  // namespace mousse
+

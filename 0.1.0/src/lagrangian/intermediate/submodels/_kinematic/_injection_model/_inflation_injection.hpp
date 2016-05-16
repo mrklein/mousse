@@ -11,20 +11,23 @@
 //   particles within in a set of generation cells, then inflating them
 //   to a target diameter within the generation cells and an additional
 //   set of inflation cells.
-// SourceFiles
-//   _inflation_injection.cpp
+
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Structure to hold:
 // + position = vectorPairScalarPair::first().first()
 // + velocity = vectorPairScalarPair::first().second()
 // + diameter = vectorPairScalarPair::second().first()
 // + target diameter = vectorPairScalarPair::second().second()
 // One structure to allow single operation parallel comms
-typedef Tuple2<Pair<vector>, Pair<scalar> > vectorPairScalarPair;
+typedef Tuple2<Pair<vector>, Pair<scalar>> vectorPairScalarPair;
+
+
 template<class CloudType>
 class InflationInjection
 :
@@ -75,12 +78,13 @@ public:
     //- Construct copy
     InflationInjection(const InflationInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new InflationInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new InflationInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~InflationInjection();
@@ -119,8 +123,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_inflation_injection.cpp"
-#endif
+
+#include "_inflation_injection.ipp"
+
 #endif

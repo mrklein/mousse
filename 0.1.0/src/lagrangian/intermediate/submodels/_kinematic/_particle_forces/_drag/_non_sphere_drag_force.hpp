@@ -28,9 +28,12 @@
 //     Powder Technology
 //     Volume 58, Issue 1, May 1989, Pages 63-70
 //   \endverbatim
+
 #include "_particle_force.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NonSphereDragForce
 :
@@ -63,12 +66,13 @@ public:
     //- Construct copy
     NonSphereDragForce(const NonSphereDragForce<CloudType>& df);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new NonSphereDragForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new NonSphereDragForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NonSphereDragForce();
@@ -84,8 +88,9 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_non_sphere_drag_force.cpp"
-#endif
+
+#include "_non_sphere_drag_force.ipp"
+
 #endif

@@ -4,13 +4,16 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   map_lagrangian.cpp
 
 #include "mesh_to_mesh0.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 //- Maps lagrangian positions and fields
 void mapLagrangian(const meshToMesh0& meshToMesh0Interp);
+
 }  // namespace mousse
+
 #endif
+

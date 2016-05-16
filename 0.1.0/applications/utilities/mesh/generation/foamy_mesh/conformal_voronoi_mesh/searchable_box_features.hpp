@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::searchableBoxFeatures
-// Description
-// SourceFiles
-//   searchable_box_features.cpp
+
 #include "searchable_surface_features.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class searchableBoxFeatures
 :
   public searchableSurfaceFeatures
@@ -45,5 +45,8 @@ public:
     //- Return an extendedFeatureEdgeMesh containing the features
     virtual autoPtr<extendedFeatureEdgeMesh> features() const;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -11,13 +11,13 @@
 //   rate, based on both turbulence and chemistry time scales.  Depending on
 //   mesh resolution, the Cmix parameter can be used to scale the turbulence
 //   mixing time scale.
-// SourceFiles
-//   pasr.cpp
+
 #include "laminar.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 template<class Type>
 class PaSR
 :
@@ -56,9 +56,10 @@ public:
       //- Update properties from given dictionary
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "pasr.cpp"
-#endif
+
+#include "pasr.ipp"
+
 #endif

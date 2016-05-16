@@ -4,16 +4,19 @@
 // mousse: CFD toolbox
 // Copyright (C) 2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   load_or_create_mesh.cpp
 
 #include "fv_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 //- Load (if it exists) or create zero cell mesh given an IOobject:
-//      name     : regionName
-//      instance : exact directory where to find mesh (i.e. does not
-//                 do a findInstance
+//    name     : regionName
+//    instance : exact directory where to find mesh (i.e. does not
+//               do a findInstance
 autoPtr<fvMesh> loadOrCreateMesh(const IOobject& io);
+
 }
+
 #endif
+

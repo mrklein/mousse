@@ -8,18 +8,18 @@
 //   mousse::regionModel
 // Description
 //   Base class for region models
-// SourceFiles
-//   region_model.cpp
+
 #include "iodictionary.hpp"
 #include "switch.hpp"
 #include "label_list.hpp"
 #include "vol_fields.hpp"
 #include "mapped_patch_base.hpp"
 #include "region_model_function_object_list.hpp"
-namespace mousse
-{
-namespace regionModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+
 class regionModel
 :
   public IOdictionary
@@ -226,38 +226,47 @@ public:
       //- Provide some feedback
       virtual void info();
 };
+
 }  // namespace regionModels
 }  // namespace mousse
+
 
 inline const mousse::fvMesh&
 mousse::regionModels::regionModel::primaryMesh() const
 {
   return primaryMesh_;
 }
+
+
 inline const mousse::Time& mousse::regionModels::regionModel::time() const
 {
   return time_;
 }
+
+
 inline const mousse::Switch& mousse::regionModels::regionModel::active() const
 {
   return active_;
 }
+
+
 inline const mousse::Switch& mousse::regionModels::regionModel::infoOutput() const
 {
   return infoOutput_;
 }
+
+
 inline const mousse::word& mousse::regionModels::regionModel::modelName() const
 {
   return modelName_;
 }
+
+
 inline const mousse::fvMesh& mousse::regionModels::regionModel::regionMesh() const
 {
-  if (time_.foundObject<fvMesh>(regionName_))
-  {
+  if (time_.foundObject<fvMesh>(regionName_)) {
     return time_.lookupObject<fvMesh>(regionName_);
-  }
-  else if (!regionMeshPtr_.valid())
-  {
+  } else if (!regionMeshPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::fvMesh&"
@@ -267,17 +276,16 @@ inline const mousse::fvMesh& mousse::regionModels::regionModel::regionMesh() con
   }
   return regionMeshPtr_();
 }
+
+
 inline mousse::fvMesh& mousse::regionModels::regionModel::regionMesh()
 {
-  if (time_.foundObject<fvMesh>(regionName_))
-  {
+  if (time_.foundObject<fvMesh>(regionName_)) {
     return const_cast<fvMesh&>
     (
       time_.lookupObject<fvMesh>(regionName_)
     );
-  }
-  else if (!regionMeshPtr_.valid())
-  {
+  } else if (!regionMeshPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline mousse::fvMesh&"
@@ -287,20 +295,25 @@ inline mousse::fvMesh& mousse::regionModels::regionModel::regionMesh()
   }
   return regionMeshPtr_();
 }
+
+
 inline const mousse::dictionary& mousse::regionModels::regionModel::coeffs() const
 {
   return coeffs_;
 }
+
+
 inline const mousse::dictionary&
 mousse::regionModels::regionModel::solution() const
 {
   return regionMesh().solutionDict();
 }
+
+
 inline const mousse::IOdictionary&
 mousse::regionModels::regionModel::outputProperties() const
 {
-  if (!outputPropertiesPtr_.valid())
-  {
+  if (!outputPropertiesPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::IOdictionary& "
@@ -311,11 +324,12 @@ mousse::regionModels::regionModel::outputProperties() const
   }
   return outputPropertiesPtr_();
 }
+
+
 inline mousse::IOdictionary&
 mousse::regionModels::regionModel::outputProperties()
 {
-  if (!outputPropertiesPtr_.valid())
-  {
+  if (!outputPropertiesPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline mousse::IOdictionary& "
@@ -326,59 +340,63 @@ mousse::regionModels::regionModel::outputProperties()
   }
   return outputPropertiesPtr_();
 }
+
+
 inline bool mousse::regionModels::regionModel::isCoupledPatch
 (
   const label regionPatchI
 ) const
 {
-  FOR_ALL(intCoupledPatchIDs_, i)
-  {
-    if (intCoupledPatchIDs_[i] == regionPatchI)
-    {
+  FOR_ALL(intCoupledPatchIDs_, i) {
+    if (intCoupledPatchIDs_[i] == regionPatchI) {
       return true;
     }
   }
   return false;
 }
+
+
 inline bool mousse::regionModels::regionModel::isRegionPatch
 (
   const label primaryPatchI
 ) const
 {
-  FOR_ALL(primaryPatchIDs_, i)
-  {
-    if (primaryPatchIDs_[i] == primaryPatchI)
-    {
+  FOR_ALL(primaryPatchIDs_, i) {
+    if (primaryPatchIDs_[i] == primaryPatchI) {
       return true;
     }
   }
   return false;
 }
+
+
 inline const mousse::labelList&
 mousse::regionModels::regionModel::primaryPatchIDs() const
 {
   return primaryPatchIDs_;
 }
+
+
 inline const mousse::labelList&
 mousse::regionModels::regionModel::intCoupledPatchIDs() const
 {
   return intCoupledPatchIDs_;
 }
+
+
 inline mousse::label mousse::regionModels::regionModel::regionPatchID
 (
   const label primaryPatchID
 ) const
 {
-  FOR_ALL(primaryPatchIDs_, i)
-  {
-    if (primaryPatchIDs_[i] == primaryPatchID)
-    {
+  FOR_ALL(primaryPatchIDs_, i) {
+    if (primaryPatchIDs_[i] == primaryPatchID) {
       return intCoupledPatchIDs_[i];
     }
   }
   return -1;
 }
-#ifdef NoRepository
-  #include "region_model_templates.cpp"
-#endif
+
+#include "region_model.ipp"
+
 #endif

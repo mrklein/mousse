@@ -8,14 +8,14 @@
 //   mousse::ParticleForce
 // Description
 //   Abstract base class for particle forces
-// SourceFiles
-//   _particle_force.cpp
-//   _particle_force_new.cpp
+
 #include "dictionary.hpp"
 #include "force_su_sp.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleForce
 {
@@ -57,17 +57,18 @@ public:
     //- Construct copy
     ParticleForce(const ParticleForce& pf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new ParticleForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new ParticleForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParticleForce();
   //- Selector
-  static autoPtr<ParticleForce<CloudType> > New
+  static autoPtr<ParticleForce<CloudType>> New
   (
     CloudType& owner,
     const fvMesh& mesh,
@@ -119,25 +120,30 @@ inline const CloudType& mousse::ParticleForce<CloudType>::owner() const
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline CloudType& mousse::ParticleForce<CloudType>::owner()
 {
   return owner_;
 }
+
+
 template<class CloudType>
 inline const mousse::fvMesh& mousse::ParticleForce<CloudType>::mesh() const
 {
   return mesh_;
 }
+
+
 template<class CloudType>
 inline const mousse::dictionary& mousse::ParticleForce<CloudType>::coeffs() const
 {
   return coeffs_;
 }
 
-#ifdef NoRepository
-  #include "_particle_force.cpp"
-#endif
+#include "_particle_force.ipp"
+
 
 #define MAKE_PARTICLE_FORCE_MODEL(CloudType)                                  \
                                                                               \
@@ -145,14 +151,14 @@ inline const mousse::dictionary& mousse::ParticleForce<CloudType>::coeffs() cons
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::ParticleForce<kinematicCloudType>, 0);                           \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      ParticleForce<kinematicCloudType>,                                      \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    ParticleForce<kinematicCloudType>,                                        \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_PARTICLE_FORCE_MODEL_TYPE(SS, CloudType)                         \
                                                                               \
@@ -160,7 +166,7 @@ inline const mousse::dictionary& mousse::ParticleForce<CloudType>::coeffs() cons
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::ParticleForce<kinematicCloudType>::                                 \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
 #endif

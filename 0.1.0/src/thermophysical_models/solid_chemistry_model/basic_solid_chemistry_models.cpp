@@ -8,6 +8,8 @@
 #include "solid_chemistry_model.hpp"
 #include "solid_thermo_physics_types.hpp"
 #include "thermo_physics_types.hpp"
+
+
 // hConstSolidThermoPhysics
 MAKE_SOLID_CHEMISTRY_MODEL
 (
@@ -16,6 +18,7 @@ MAKE_SOLID_CHEMISTRY_MODEL
   basicSolidChemistryModel,
   hConstSolidThermoPhysics
 );
+
 MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
@@ -24,6 +27,7 @@ MAKE_SOLID_GAS_CHEMISTRY_MODEL
   hConstSolidThermoPhysics,
   gasHThermoPhysics
 );
+
 // hPowerSolidThermoPhysics
 MAKE_SOLID_CHEMISTRY_MODEL
 (
@@ -32,6 +36,7 @@ MAKE_SOLID_CHEMISTRY_MODEL
   basicSolidChemistryModel,
   hPowerSolidThermoPhysics
 );
+
 MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
@@ -40,6 +45,7 @@ MAKE_SOLID_GAS_CHEMISTRY_MODEL
   hPowerSolidThermoPhysics,
   gasHThermoPhysics
 );
+
 // hExpKappaConstSolidThermoPhysics
 MAKE_SOLID_CHEMISTRY_MODEL
 (
@@ -48,6 +54,7 @@ MAKE_SOLID_CHEMISTRY_MODEL
   basicSolidChemistryModel,
   hExpKappaConstSolidThermoPhysics
 );
+
 MAKE_SOLID_GAS_CHEMISTRY_MODEL
 (
   solidChemistryModel,
@@ -56,3 +63,4 @@ MAKE_SOLID_GAS_CHEMISTRY_MODEL
   hExpKappaConstSolidThermoPhysics,
   gasHThermoPhysics
 );
+

@@ -7,6 +7,7 @@
 #include "processor_poly_patch.hpp"
 #include "map_meshes.hpp"
 
+
 void mapConsistentMesh
 (
   const fvMesh& meshSource,
@@ -20,17 +21,14 @@ void mapConsistentMesh
   Info << nl << "Consistently creating and mapping fields for time "
     << meshSource.time().timeName() << nl << endl;
   meshToMesh interp{meshSource, meshTarget, mapMethod};
-  if (subtract)
-  {
+  if (subtract) {
     MapMesh<minusEqOp>
     (
       interp,
       selectedFields,
       noLagrangian
     );
-  }
-  else
-  {
+  } else {
     MapMesh<plusEqOp>
     (
       interp,
@@ -39,6 +37,8 @@ void mapConsistentMesh
     );
   }
 }
+
+
 void mapSubMesh
 (
   const fvMesh& meshSource,
@@ -61,17 +61,14 @@ void mapSubMesh
     patchMap,
     cuttingPatches
   };
-  if (subtract)
-  {
+  if (subtract) {
     MapMesh<minusEqOp>
     (
       interp,
       selectedFields,
       noLagrangian
     );
-  }
-  else
-  {
+  } else {
     MapMesh<plusEqOp>
     (
       interp,
@@ -81,6 +78,7 @@ void mapSubMesh
   }
 }
 
+
 wordList addProcessorPatches
 (
   const fvMesh& meshTarget,
@@ -89,21 +87,19 @@ wordList addProcessorPatches
 {
   // Add the processor patches to the cutting list
   HashSet<word> cuttingPatchTable;
-  FOR_ALL(cuttingPatches, i)
-  {
+  FOR_ALL(cuttingPatches, i) {
     cuttingPatchTable.insert(cuttingPatches[i]);
   }
   const polyBoundaryMesh& pbm = meshTarget.boundaryMesh();
-  FOR_ALL(pbm, patchI)
-  {
-    if (isA<processorPolyPatch>(pbm[patchI]))
-    {
+  FOR_ALL(pbm, patchI) {
+    if (isA<processorPolyPatch>(pbm[patchI])) {
       const word& patchName = pbm[patchI].name();
       cuttingPatchTable.insert(patchName);
     }
   }
   return cuttingPatchTable.toc();
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -166,15 +162,13 @@ int main(int argc, char *argv[])
   const fileName caseDirSource = casePath.name();
   Info << "Source: " << rootDirSource << " " << caseDirSource << endl;
   word sourceRegion = fvMesh::defaultRegion;
-  if (args.optionFound("sourceRegion"))
-  {
+  if (args.optionFound("sourceRegion")) {
     sourceRegion = args["sourceRegion"];
     Info << "Source region: " << sourceRegion << endl;
   }
   Info << "Target: " << rootDirTarget << " " << caseDirTarget << endl;
   word targetRegion = fvMesh::defaultRegion;
-  if (args.optionFound("targetRegion"))
-  {
+  if (args.optionFound("targetRegion")) {
     targetRegion = args["targetRegion"];
     Info << "Target region: " << targetRegion << endl;
   }
@@ -187,24 +181,20 @@ int main(int argc, char *argv[])
       << meshToMesh::interpolationMethodNames_[mapMethod] << endl;
   }
   const bool subtract = args.optionFound("subtract");
-  if (subtract)
-  {
+  if (subtract) {
     Info << "Subtracting mapped source field from target" << endl;
   }
   HashSet<word> selectedFields;
-  if (args.optionFound("fields"))
-  {
+  if (args.optionFound("fields")) {
     args.optionLookup("fields")() >> selectedFields;
   }
   const bool noLagrangian = args.optionFound("noLagrangian");
   #include "create_times.inc"
   HashTable<word> patchMap;
   wordList cuttingPatches;
-  if (!consistent)
-  {
+  if (!consistent) {
     IOdictionary mapFieldsParDict
     {
-      // IOobject
       {
         "mapFieldsParDict",
         runTimeTarget.system(),
@@ -221,7 +211,6 @@ int main(int argc, char *argv[])
   Info << "\nCreate meshes\n" << endl;
   fvMesh meshSource
   {
-    // IOobject
     {
       sourceRegion,
       runTimeSource.timeName(),
@@ -230,7 +219,6 @@ int main(int argc, char *argv[])
   };
   fvMesh meshTarget
   {
-    // IOobject
     {
       targetRegion,
       runTimeTarget.timeName(),
@@ -239,8 +227,7 @@ int main(int argc, char *argv[])
   };
   Info << "Source mesh size: " << meshSource.nCells() << tab
     << "Target mesh size: " << meshTarget.nCells() << nl << endl;
-  if (consistent)
-  {
+  if (consistent) {
     mapConsistentMesh
     (
       meshSource,
@@ -250,9 +237,7 @@ int main(int argc, char *argv[])
       selectedFields,
       noLagrangian
     );
-  }
-  else
-  {
+  } else {
     mapSubMesh
     (
       meshSource,
@@ -268,3 +253,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

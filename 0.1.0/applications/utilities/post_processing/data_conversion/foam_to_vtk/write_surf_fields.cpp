@@ -8,8 +8,10 @@
 #include "write_funs.hpp"
 #include "empty_fvs_patch_fields.hpp"
 #include "fvs_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Global Functions 
 void writeSurfFields
 (
@@ -30,41 +32,32 @@ void writeSurfFields
   str << "DATASET POLYDATA" << std::endl;
   const pointField& fc = mesh.faceCentres();
   str << "POINTS " << mesh.nFaces() << " float" << std::endl;
-  DynamicList<floatScalar> pField(3*mesh.nFaces());
-  for (label faceI = 0; faceI < mesh.nFaces(); faceI++)
-  {
+  DynamicList<floatScalar> pField{3*mesh.nFaces()};
+  for (label faceI = 0; faceI < mesh.nFaces(); faceI++) {
     writeFuns::insert(fc[faceI], pField);
   }
   writeFuns::write(str, binary, pField);
   str << "POINT_DATA " << mesh.nFaces() << std::endl
     << "FIELD attributes " << surfVectorFields.size() << std::endl;
   // surfVectorFields
-  FOR_ALL(surfVectorFields, fieldI)
-  {
+  FOR_ALL(surfVectorFields, fieldI) {
     const surfaceVectorField& svf = surfVectorFields[fieldI];
     str << svf.name() << " 3 "
       << mesh.nFaces() << " float" << std::endl;
     DynamicList<floatScalar> fField{3*mesh.nFaces()};
-    for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
-    {
+    for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++) {
       writeFuns::insert(svf[faceI], fField);
     }
-    FOR_ALL(svf.boundaryField(), patchI)
-    {
+    FOR_ALL(svf.boundaryField(), patchI) {
       const fvsPatchVectorField& pf = svf.boundaryField()[patchI];
       const fvPatch& pp = mesh.boundary()[patchI];
-      if (isA<emptyFvsPatchVectorField>(pf))
-      {
+      if (isA<emptyFvsPatchVectorField>(pf)) {
         // Note: loop over polypatch size, not fvpatch size.
-        FOR_ALL(pp.patch(), i)
-        {
+        FOR_ALL(pp.patch(), i) {
           writeFuns::insert(vector::zero, fField);
         }
-      }
-      else
-      {
-        FOR_ALL(pf, i)
-        {
+      } else {
+        FOR_ALL(pf, i) {
           writeFuns::insert(pf[i], fField);
         }
       }
@@ -72,4 +65,6 @@ void writeSurfFields
     writeFuns::write(str, binary, fField);
   }
 }
+
 }  // namespace mousse
+

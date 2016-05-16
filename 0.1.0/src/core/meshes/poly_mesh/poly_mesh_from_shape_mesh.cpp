@@ -18,7 +18,7 @@ mousse::labelListList mousse::polyMesh::cellShapePointCells
   const cellShapeList& c
 ) const
 {
-  List<DynamicList<label, primitiveMesh::cellsPerPoint_>> pc(points().size());
+  List<DynamicList<label, primitiveMesh::cellsPerPoint_>> pc{points().size()};
   // For each cell
   FOR_ALL(c, i) {
     // For each vertex
@@ -204,14 +204,14 @@ void mousse::polyMesh::setTopology
         (
           "polyMesh::setTopology\n"
           "(\n"
-          "    const cellShapeList& cellsAsShapes,\n"
-          "    const faceListList& boundaryFaces,\n"
-          "    const wordList& boundaryPatchNames,\n"
-          "    labelList& patchSizes,\n"
-          "    labelList& patchStarts,\n"
-          "    label& defaultPatchStart,\n"
-          "    label& nFaces,\n"
-          "    cellList& cells\n"
+          "  const cellShapeList& cellsAsShapes,\n"
+          "  const faceListList& boundaryFaces,\n"
+          "  const wordList& boundaryPatchNames,\n"
+          "  labelList& patchSizes,\n"
+          "  labelList& patchStarts,\n"
+          "  label& defaultPatchStart,\n"
+          "  label& nFaces,\n"
+          "  cellList& cells\n"
           ")"
         )
         << "Error in internal face insertion"
@@ -247,14 +247,14 @@ void mousse::polyMesh::setTopology
             (
               "polyMesh::setTopology\n"
               "(\n"
-              "    const cellShapeList& cellsAsShapes,\n"
-              "    const faceListList& boundaryFaces,\n"
-              "    const wordList& boundaryPatchNames,\n"
-              "    labelList& patchSizes,\n"
-              "    labelList& patchStarts,\n"
-              "    label& defaultPatchStart,\n"
-              "    label& nFaces,\n"
-              "    cellList& cells\n"
+              "  const cellShapeList& cellsAsShapes,\n"
+              "  const faceListList& boundaryFaces,\n"
+              "  const wordList& boundaryPatchNames,\n"
+              "  labelList& patchSizes,\n"
+              "  labelList& patchStarts,\n"
+              "  label& defaultPatchStart,\n"
+              "  label& nFaces,\n"
+              "  cellList& cells\n"
               ")"
             )
             << "Trying to specify a boundary face " << curFace
@@ -387,8 +387,8 @@ mousse::polyMesh::polyMesh
   comm_{UPstream::worldComm},
   geometricD_{Vector<label>::zero},
   solutionD_{Vector<label>::zero},
-  tetBasePtIsPtr_{NULL},
-  cellTreePtr_{NULL},
+  tetBasePtIsPtr_{nullptr},
+  cellTreePtr_{nullptr},
   pointZones_
   {
     {
@@ -428,11 +428,11 @@ mousse::polyMesh::polyMesh
     *this,
     0
   },
-  globalMeshDataPtr_{NULL},
+  globalMeshDataPtr_{nullptr},
   moving_{false},
   topoChanging_{false},
   curMotionTimeIndex_{time().timeIndex()},
-  oldPointsPtr_{NULL}
+  oldPointsPtr_{nullptr}
 {
   if (debug) {
     Info << "Constructing polyMesh from cell and boundary shapes." << endl;
@@ -629,8 +629,8 @@ mousse::polyMesh::polyMesh
   comm_{UPstream::worldComm},
   geometricD_{Vector<label>::zero},
   solutionD_{Vector<label>::zero},
-  tetBasePtIsPtr_{NULL},
-  cellTreePtr_{NULL},
+  tetBasePtIsPtr_{nullptr},
+  cellTreePtr_{nullptr},
   pointZones_
   {
     {
@@ -670,11 +670,11 @@ mousse::polyMesh::polyMesh
     *this,
     0
   },
-  globalMeshDataPtr_{NULL},
+  globalMeshDataPtr_{nullptr},
   moving_{false},
   topoChanging_{false},
   curMotionTimeIndex_{time().timeIndex()},
-  oldPointsPtr_{NULL}
+  oldPointsPtr_{nullptr}
 {
   if (debug) {
     Info << "Constructing polyMesh from cell and boundary shapes." << endl;

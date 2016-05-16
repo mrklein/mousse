@@ -9,14 +9,17 @@
 // Description
 //   Encapsulation of VTK mesh data. Holds mesh or meshsubset and
 //   polyhedral-cell decomposition on it.
-// SourceFiles
-//   vtk_mesh.cpp
+
 #include "vtk_topo.hpp"
 #include "fv_mesh_subset.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class Time;
+
+
 class vtkMesh
 {
   // Private data
@@ -28,57 +31,40 @@ class vtkMesh
     const word setName_;
     //- Current decomposition of topology
     mutable autoPtr<vtkTopo> topoPtr_;
-  // Private Member Functions
-    //- Disallow default bitwise copy construct
-    vtkMesh(const vtkMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const vtkMesh&);
 public:
   // Constructors
     //- Construct from components
     vtkMesh(fvMesh& baseMesh, const word& setName = "");
+    //- Disallow default bitwise copy construct
+    vtkMesh(const vtkMesh&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const vtkMesh&) = delete;
   // Member Functions
     // Access
       //- Whole mesh
-      const fvMesh& baseMesh() const
-      {
-        return baseMesh_;
-      }
-      const fvMeshSubset& subsetter() const
-      {
-        return subsetter_;
-      }
+      const fvMesh& baseMesh() const { return baseMesh_; }
+      const fvMeshSubset& subsetter() const { return subsetter_; }
       //- Check if running subMesh
-      bool useSubMesh() const
-      {
-        return setName_.size();
-      }
+      bool useSubMesh() const { return setName_.size(); }
       //- topology
       const vtkTopo& topo() const
       {
-        if (topoPtr_.empty())
-        {
-          topoPtr_.reset(new vtkTopo(mesh()));
+        if (topoPtr_.empty()) {
+          topoPtr_.reset(new vtkTopo{mesh()});
         }
         return topoPtr_();
       }
       //- Access either mesh or submesh
       const fvMesh& mesh() const
       {
-        if (useSubMesh())
-        {
+        if (useSubMesh()) {
           return subsetter_.subMesh();
-        }
-        else
-        {
+        } else {
           return baseMesh_;
         }
       }
       //- Number of field cells
-      label nFieldCells() const
-      {
-        return topo().cellTypes().size();
-      }
+      label nFieldCells() const { return topo().cellTypes().size(); }
       //- Number of field points
       label nFieldPoints() const
       {
@@ -92,17 +78,16 @@ public:
       template<class GeoField>
       tmp<GeoField> interpolate(const GeoField& fld) const
       {
-        if (useSubMesh())
-        {
+        if (useSubMesh()) {
           tmp<GeoField> subFld = subsetter_.interpolate(fld);
           subFld().rename(fld.name());
           return subFld;
         }
-        else
-        {
-          return fld;
-        }
+        return fld;
       }
 };
+
 }  // namespace mousse
+
 #endif
+

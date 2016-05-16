@@ -8,14 +8,16 @@
 //   mousse::ignition
 // Description
 //   mousse::ignition
-// SourceFiles
-//   ignition.cpp
-//   ignition_io.cpp
+
 #include "ignition_site.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 class ignition
 {
   // Private data
@@ -34,19 +36,16 @@ public:
     ignition& operator=(const ignition&) = delete;
   // Member Functions
     //- Return the set of ignition sites
-    const PtrList<ignitionSite>& sites()
-    {
-      return ignSites_;
-    }
+    const PtrList<ignitionSite>& sites() { return ignSites_; }
     // Check
-      bool ignite() const
-      {
-        return ignite_;
-      }
+      bool ignite() const { return ignite_; }
       //- Are any of the ignition site currently igniting
       bool igniting() const;
       //- Has the mixture been ignited?
       bool ignited() const;
 };
+
 }  // namespace mousse
+
 #endif
+

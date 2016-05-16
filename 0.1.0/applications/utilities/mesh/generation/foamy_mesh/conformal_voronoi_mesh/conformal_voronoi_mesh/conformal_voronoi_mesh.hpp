@@ -6,15 +6,7 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::conformalVoronoiMesh
-// Description
-// SourceFiles
-//   conformal_voronoi_mesh.cpp
-//   conformal_voronoi_mesh_zones.cpp
-//   conformal_voronoi_mesh_io.cpp
-//   conformal_voronoi_mesh_conform_to_surface.cpp
-//   conformal_voronoi_mesh_feature_points.cpp
-//   conformal_voronoi_mesh_calc_dual_mesh.cpp
-//   conformal_voronoi_mesh_templates.cpp
+
 // Include uint.H before CGAL headers to define __STDC_LIMIT_MACROS
 #include "uint.hpp"
 #include "cgal_triangulation_3d_defs.hpp"
@@ -55,27 +47,30 @@
 #include "indexed_vertex_ops.hpp"
 #include "indexed_cell_ops.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class initialPointsMethod;
 class relaxationModel;
 class faceAreaWeightModel;
 class backgroundMeshDecomposition;
 class OBJstream;
+
+
 class conformalVoronoiMesh
 :
   public DistributedDelaunayMesh<Delaunay>
 {
 public:
-  typedef Delaunay::Vertex_handle    Vertex_handle;
-  typedef Delaunay::Cell_handle      Cell_handle;
-  typedef Delaunay::Edge             Edge;
-  typedef Delaunay::Facet            Facet;
-  typedef Delaunay::Point            Point;
-  typedef List<DynamicList<Pair<labelPair> > > labelPairPairDynListList;
-  typedef Tuple2<pointIndexHit, label>         pointIndexHitAndFeature;
-  typedef List<pointIndexHitAndFeature>        pointIndexHitAndFeatureList;
+  typedef Delaunay::Vertex_handle Vertex_handle;
+  typedef Delaunay::Cell_handle Cell_handle;
+  typedef Delaunay::Edge Edge;
+  typedef Delaunay::Facet Facet;
+  typedef Delaunay::Point Point;
+  typedef List<DynamicList<Pair<labelPair>>> labelPairPairDynListList;
+  typedef Tuple2<pointIndexHit, label> pointIndexHitAndFeature;
+  typedef List<pointIndexHitAndFeature> pointIndexHitAndFeatureList;
   typedef DynamicList<pointIndexHitAndFeature> pointIndexHitAndFeatureDynList;
   // Static data
     enum dualMeshPointType
@@ -114,11 +109,11 @@ private:
     //-
     featurePointConformer ftPtConformer_;
     //- Search tree for edge point locations
-    mutable autoPtr<dynamicIndexedOctree<dynamicTreeDataPoint> >
+    mutable autoPtr<dynamicIndexedOctree<dynamicTreeDataPoint>>
       edgeLocationTreePtr_;
     mutable DynamicList<mousse::point> existingEdgeLocations_;
     //- Search tree for surface point locations
-    mutable autoPtr<dynamicIndexedOctree<dynamicTreeDataPoint> >
+    mutable autoPtr<dynamicIndexedOctree<dynamicTreeDataPoint>>
       surfacePtLocationTreePtr_;
     mutable DynamicList<mousse::point> existingSurfacePtLocations_;
     //- Store the surface and feature edge conformation locations to be
@@ -563,7 +558,7 @@ private:
     (
       labelList& owner,
       labelList& neighbour,
-      const HashSet<labelPair, labelPair::Hash<> >& deferredCollapseFaces
+      const HashSet<labelPair, labelPair::Hash<>>& deferredCollapseFaces
     ) const;
     //- Check whether the cell sizes are fine enough. Creates a polyMesh.
     void checkCellSizing();
@@ -624,9 +619,9 @@ private:
     //  on both processors
     void sortProcPatches
     (
-      List<DynamicList<face> >& patchFaces,
-      List<DynamicList<label> >& patchOwners,
-      List<DynamicList<label> >& patchPointPairSlaves,
+      List<DynamicList<face>>& patchFaces,
+      List<DynamicList<label>>& patchOwners,
+      List<DynamicList<label>>& patchPointPairSlaves,
       labelPairPairDynListList& patchSortingIndices
     ) const;
     //- Add the faces and owner information for the patches
@@ -637,9 +632,9 @@ private:
       labelList& owner,
       PtrList<dictionary>& patchDicts,
       PackedBoolList& boundaryFacesToRemove,
-      const List<DynamicList<face> >& patchFaces,
-      const List<DynamicList<label> >& patchOwners,
-      const List<DynamicList<bool> >& indirectPatchFace
+      const List<DynamicList<face>>& patchFaces,
+      const List<DynamicList<label>>& patchOwners,
+      const List<DynamicList<bool>>& indirectPatchFace
     ) const;
     //- Remove points that are no longer used by any faces
     void removeUnusedPoints
@@ -708,12 +703,6 @@ public:
     //- Move the vertices according to the controller, re-conforming to the
     //  surface as required
     void move();
-//        //- Which other processors does each sphere overlap
-//        labelListList overlapsProc
-//        (
-//            const List<mousse::point>& centres,
-//            const List<scalar>& radiusSqrs
-//        ) const;
     // Access
       //- Return the Time object
       inline const Time& time() const;
@@ -805,13 +794,17 @@ public:
       //  protrude out of the surface beyond a tolerance.
       labelHashSet findRemainingProtrusionSet(const polyMesh& mesh) const;
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 inline mousse::scalar mousse::conformalVoronoiMesh::defaultCellSize() const
 {
   return foamyHexMeshControls().defaultCellSize();
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::targetCellSize
 (
   const mousse::point& pt
@@ -819,6 +812,8 @@ inline mousse::scalar mousse::conformalVoronoiMesh::targetCellSize
 {
   return cellShapeControls().cellSize(pt);
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::averageAnyCellSize
 (
   const Vertex_handle& vA,
@@ -826,24 +821,22 @@ inline mousse::scalar mousse::conformalVoronoiMesh::averageAnyCellSize
 ) const
 {
   if ((!vA->internalOrBoundaryPoint() || vA->referred())
-      && (!vB->internalOrBoundaryPoint() || vB->referred()))
-  {
+      && (!vB->internalOrBoundaryPoint() || vB->referred())) {
     // There are no internalOrBoundaryPoints available, determine
     // size from scratch
     // Geometric mean
-    return sqrt(targetCellSize(topoint(vA->point()))
-                *targetCellSize(topoint(vB->point())));
-  }
-  else if (!vB->internalOrBoundaryPoint() || vB->referred())
-  {
+    const scalar vAsize = targetCellSize(topoint(vA->point()));
+    const scalar vBsize = targetCellSize(topoint(vB->point()));
+    return sqrt(vAsize*vBsize);
+  } else if (!vB->internalOrBoundaryPoint() || vB->referred()) {
     return vA->targetCellSize();
-  }
-  else if (!vA->internalOrBoundaryPoint() || vA->referred())
-  {
+  } else if (!vA->internalOrBoundaryPoint() || vA->referred()) {
     return vB->targetCellSize();
   }
   return CGAL::indexedVertexOps::averageCellSize(vA, vB);
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::averageAnyCellSize
 (
   const Delaunay::Finite_facets_iterator& fit
@@ -852,30 +845,25 @@ inline mousse::scalar mousse::conformalVoronoiMesh::averageAnyCellSize
   // Arithmetic mean
   scalar sizeSum = 0;
   label nProducts = 0;
-  const Cell_handle c(fit->first);
+  const Cell_handle c{fit->first};
   const label oppositeVertex = fit->second;
-  for (label i = 0; i < 3; i++)
-  {
+  for (label i = 0; i < 3; i++) {
     Vertex_handle v = c->vertex(vertex_triple_index(oppositeVertex, i));
-    if (v->internalOrBoundaryPoint() && !v->referred())
-    {
+    if (v->internalOrBoundaryPoint() && !v->referred()) {
       sizeSum += v->targetCellSize();
       nProducts++;
     }
   }
-  if (nProducts < 1)
-  {
+  if (nProducts < 1) {
     // There are no internalOrBoundaryPoints available, determine
     // size from scratch
-    for (label i = 0; i < 3; i++)
-    {
+    for (label i = 0; i < 3; i++) {
       Vertex_handle v = c->vertex(vertex_triple_index(oppositeVertex, i));
       sizeSum += targetCellSize(topoint(v->point()));
     }
     nProducts = 3;
   }
-  if (sizeSum < 0)
-  {
+  if (sizeSum < 0) {
     WARNING_IN("averageAnyCellSize(const Delaunay::Finite_facets_iterator&)")
       << "sizeSum = " << sizeSum
       << endl;
@@ -883,6 +871,8 @@ inline mousse::scalar mousse::conformalVoronoiMesh::averageAnyCellSize
   }
   return pow(sizeSum, (1.0/nProducts));
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::pointPairDistance
 (
   const mousse::point& pt
@@ -890,56 +880,69 @@ inline mousse::scalar mousse::conformalVoronoiMesh::pointPairDistance
 {
   return targetCellSize(pt)*foamyHexMeshControls().pointPairDistanceCoeff();
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::mixedFeaturePointDistance
 (
   const mousse::point& pt
 ) const
 {
+  const auto& ctls = foamyHexMeshControls();
   return
-    pointPairDistance(pt)
-   *foamyHexMeshControls().mixedFeaturePointPPDistanceCoeff();
+    pointPairDistance(pt)*ctls.mixedFeaturePointPPDistanceCoeff();
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::featurePointExclusionDistanceSqr
 (
   const mousse::point& pt
 ) const
 {
-  return sqr(targetCellSize(pt)
-             *foamyHexMeshControls().featurePointExclusionDistanceCoeff());
+  const auto& ctls = foamyHexMeshControls();
+  return sqr(targetCellSize(pt)*ctls.featurePointExclusionDistanceCoeff());
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::featureEdgeExclusionDistanceSqr
 (
   const mousse::point& pt
 ) const
 {
-  return sqr(targetCellSize(pt)
-             *foamyHexMeshControls().featureEdgeExclusionDistanceCoeff());
+  const auto& ctls = foamyHexMeshControls();
+  return sqr(targetCellSize(pt)*ctls.featureEdgeExclusionDistanceCoeff());
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::surfacePtExclusionDistanceSqr
 (
   const mousse::point& pt
 ) const
 {
-  return sqr(targetCellSize(pt)
-             *foamyHexMeshControls().surfacePtExclusionDistanceCoeff());
+  const auto& ctls = foamyHexMeshControls();
+  return sqr(targetCellSize(pt)*ctls.surfacePtExclusionDistanceCoeff());
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::surfaceSearchDistanceSqr
 (
   const mousse::point& pt
 ) const
 {
-  return sqr(targetCellSize(pt)
-             *foamyHexMeshControls().surfaceSearchDistanceCoeff());
+  const auto& ctls = foamyHexMeshControls();
+  return sqr(targetCellSize(pt)*ctls.surfaceSearchDistanceCoeff());
 }
+
+
 inline mousse::scalar mousse::conformalVoronoiMesh::maxSurfaceProtrusion
 (
   const mousse::point& pt
 ) const
 {
-  return
-    targetCellSize(pt)
-    *foamyHexMeshControls().maxSurfaceProtrusionCoeff();
+  const auto& ctls = foamyHexMeshControls();
+  return targetCellSize(pt)*ctls.maxSurfaceProtrusionCoeff();
 }
+
+
 inline void mousse::conformalVoronoiMesh::createPointPair
 (
   const scalar ppDist,
@@ -950,64 +953,50 @@ inline void mousse::conformalVoronoiMesh::createPointPair
 ) const
 {
   vector ppDistn = ppDist*n;
-//    const mousse::point internalPt = surfPt - ppDistn;
-//    const mousse::point externalPt = surfPt + ppDistn;
-//    bool internalInside = geometryToConformTo_.inside(internalPt);
-//    bool externalOutside = geometryToConformTo_.outside(externalPt);
-//    if (internalInside && externalOutside)
-  {
-    pts.append
-    (
-      Vb
-      (
-        surfPt - ppDistn,
-        vertexCount() + pts.size(),
-        Vb::vtInternalSurface,
-        Pstream::myProcNo()
-      )
-    );
-    pts.append
-    (
-      Vb
-      (
-        surfPt + ppDistn,
-        vertexCount() + pts.size(),
-        Vb::vtExternalSurface,
-        Pstream::myProcNo()
-      )
-    );
-    if (ptPair)
+  pts.append
+  (
+    Vb
     {
-      ptPairs_.addPointPair
-      (
-        pts[pts.size() - 2].index(),
-        pts[pts.size() - 1].index() // external 0 -> slave
-      );
+      surfPt - ppDistn,
+      vertexCount() + pts.size(),
+      Vb::vtInternalSurface,
+      Pstream::myProcNo()
     }
+  );
+  pts.append
+  (
+    Vb
+    {
+      surfPt + ppDistn,
+      vertexCount() + pts.size(),
+      Vb::vtExternalSurface,
+      Pstream::myProcNo()
+    }
+  );
+  if (ptPair) {
+    ptPairs_.addPointPair
+    (
+      pts[pts.size() - 2].index(),
+      pts[pts.size() - 1].index() // external 0 -> slave
+    );
   }
-//    else
-//    {
-//        Info<< "Warning: point pair not inside/outside" << nl
-//            << "    surfPt = " << surfPt << nl
-//            << "    internal = " << internalPt << " " << internalInside << nl
-//            << "    external = " << externalPt << " " << externalOutside
-//            << endl;
-//    }
 }
+
+
 inline mousse::point mousse::conformalVoronoiMesh::perturbPoint
 (
   const mousse::point& pt
 ) const
 {
   mousse::point perturbedPt(pt);
-//    vector delta(xR/ni, yR/nj, zR/nk);
-//    scalar pert = randomPerturbationCoeff*cmptMin(delta);
   scalar pert = 1e-12*defaultCellSize();
   perturbedPt.x() += pert*(rndGen_.scalar01() - 0.5);
   perturbedPt.y() += pert*(rndGen_.scalar01() - 0.5);
   perturbedPt.z() += pert*(rndGen_.scalar01() - 0.5);
   return perturbedPt;
 }
+
+
 inline void mousse::conformalVoronoiMesh::createBafflePointPair
 (
   const scalar ppDist,
@@ -1038,8 +1027,7 @@ inline void mousse::conformalVoronoiMesh::createBafflePointPair
       Pstream::myProcNo()
     }
   );
-  if (ptPair)
-  {
+  if (ptPair) {
     ptPairs_.addPointPair
     (
       pts[pts.size() - 2].index(), // external 0 -> slave
@@ -1047,18 +1035,21 @@ inline void mousse::conformalVoronoiMesh::createBafflePointPair
     );
   }
 }
+
+
 inline bool mousse::conformalVoronoiMesh::internalPointIsInside
 (
   const mousse::point& pt
 ) const
 {
   if (!geometryToConformTo_.globalBounds().contains(pt)
-      || !geometryToConformTo_.inside(pt))
-  {
+      || !geometryToConformTo_.inside(pt)) {
     return false;
   }
   return true;
 }
+
+
 inline bool mousse::conformalVoronoiMesh::isBoundaryDualFace
 (
   const Delaunay::Finite_edges_iterator& eit
@@ -1074,6 +1065,8 @@ inline bool mousse::conformalVoronoiMesh::isBoundaryDualFace
           && (!vA->internalOrBoundaryPoint()
               || !vB->internalOrBoundaryPoint()));
 }
+
+
 inline mousse::List<bool> mousse::conformalVoronoiMesh::dualFaceBoundaryPoints
 (
   const Delaunay::Finite_edges_iterator& eit
@@ -1086,26 +1079,19 @@ inline mousse::List<bool> mousse::conformalVoronoiMesh::dualFaceBoundaryPoints
   // cell around the edge;
   cc2++;
   DynamicList<bool> tmpFaceBoundaryPoints;
-  do
-  {
+  do {
     label cc1I = cc1->cellIndex();
     label cc2I = cc2->cellIndex();
-    if (cc1I != cc2I)
-    {
-      if (cc1->boundaryDualVertex())
-      {
-        tmpFaceBoundaryPoints.append(true);
-      }
-      else
-      {
-        tmpFaceBoundaryPoints.append(false);
-      }
+    if (cc1I != cc2I) {
+      tmpFaceBoundaryPoints.append(cc1->boundaryDualVertex());
     }
     cc1++;
     cc2++;
   } while (cc1 != ccStart);
   return tmpFaceBoundaryPoints;
 }
+
+
 inline mousse::List<mousse::label> mousse::conformalVoronoiMesh::processorsAttached
 (
   const Delaunay::Finite_facets_iterator& fit
@@ -1117,19 +1103,18 @@ inline mousse::List<mousse::label> mousse::conformalVoronoiMesh::processorsAttac
   const Cell_handle c2{c1->neighbor(oppositeVertex)};
   FixedList<label, 4> c1Procs{CGAL::indexedCellOps::processorsAttached(c1)};
   FixedList<label, 4> c2Procs{CGAL::indexedCellOps::processorsAttached(c2)};
-  FOR_ALL(c1Procs, aPI)
-  {
-    if (findIndex(procsAttached, c1Procs[aPI] == -1))
-    {
+  FOR_ALL(c1Procs, aPI) {
+    if (findIndex(procsAttached, c1Procs[aPI] == -1)) {
       procsAttached.append(c1Procs[aPI]);
     }
-    if (findIndex(procsAttached, c2Procs[aPI] == -1))
-    {
+    if (findIndex(procsAttached, c2Procs[aPI] == -1)) {
       procsAttached.append(c2Procs[aPI]);
     }
   }
   return List<label>{procsAttached};
 }
+
+
 inline bool mousse::conformalVoronoiMesh::isParallelDualEdge
 (
   const Delaunay::Finite_facets_iterator& fit
@@ -1141,6 +1126,8 @@ inline bool mousse::conformalVoronoiMesh::isParallelDualEdge
           || c1->vertex(vertex_triple_index(oppositeVertex, 1))->referred()
           || c1->vertex(vertex_triple_index(oppositeVertex, 2))->referred());
 }
+
+
 inline bool mousse::conformalVoronoiMesh::isProcBoundaryEdge
 (
   const Delaunay::Finite_edges_iterator& eit
@@ -1153,12 +1140,12 @@ inline bool mousse::conformalVoronoiMesh::isProcBoundaryEdge
   if (((vA->referred() && !vB->referred())
        || (vB->referred() && !vA->referred()))
       && vA->internalOrBoundaryPoint()
-      && vB->internalOrBoundaryPoint())
-  {
+      && vB->internalOrBoundaryPoint()) {
     isProcBoundaryEdge = true;
   }
   return isProcBoundaryEdge;
 }
+
 
 // Member Functions 
 inline const mousse::Time& mousse::conformalVoronoiMesh::time() const
@@ -1166,10 +1153,12 @@ inline const mousse::Time& mousse::conformalVoronoiMesh::time() const
   return runTime_;
 }
 
+
 inline mousse::Random& mousse::conformalVoronoiMesh::rndGen() const
 {
   return rndGen_;
 }
+
 
 inline const mousse::searchableSurfaces&
 mousse::conformalVoronoiMesh::allGeometry() const
@@ -1177,17 +1166,18 @@ mousse::conformalVoronoiMesh::allGeometry() const
   return allGeometry_;
 }
 
+
 inline const mousse::conformationSurfaces&
 mousse::conformalVoronoiMesh::geometryToConformTo() const
 {
   return geometryToConformTo_;
 }
 
+
 inline const mousse::backgroundMeshDecomposition&
 mousse::conformalVoronoiMesh::decomposition() const
 {
-  if (!Pstream::parRun())
-  {
+  if (!Pstream::parRun()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::backgroundMeshDecomposition& "
@@ -1199,18 +1189,20 @@ mousse::conformalVoronoiMesh::decomposition() const
   return decomposition_();
 }
 
+
 inline const mousse::cellShapeControl&
 mousse::conformalVoronoiMesh::cellShapeControls() const
 {
   return cellShapeControl_;
 }
 
+
 inline const mousse::cvControls&
 mousse::conformalVoronoiMesh::foamyHexMeshControls() const
 {
   return foamyHexMeshControls_;
 }
-#ifdef NoRepository
-  #include "conformal_voronoi_mesh_templates.cpp"
-#endif
+
+#include "conformal_voronoi_mesh.ipp"
+
 #endif

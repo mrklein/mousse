@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "uniform_dimensioned_fields.hpp"
+
+
 // Constructors 
 mousse::alphaFixedPressureFvPatchScalarField::
 alphaFixedPressureFvPatchScalarField
@@ -16,9 +18,11 @@ alphaFixedPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  p_(p.size(), 0.0)
+  fixedValueFvPatchScalarField{p, iF},
+  p_{p.size(), 0.0}
 {}
+
+
 mousse::alphaFixedPressureFvPatchScalarField::
 alphaFixedPressureFvPatchScalarField
 (
@@ -28,9 +32,11 @@ alphaFixedPressureFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  p_(ptf.p_, mapper)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  p_{ptf.p_, mapper}
 {}
+
+
 mousse::alphaFixedPressureFvPatchScalarField::
 alphaFixedPressureFvPatchScalarField
 (
@@ -39,30 +45,31 @@ alphaFixedPressureFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  p_("p", dict, p.size())
+  fixedValueFvPatchScalarField{p, iF},
+  p_{"p", dict, p.size()}
 {
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(p_);
   }
 }
+
+
 mousse::alphaFixedPressureFvPatchScalarField::
 alphaFixedPressureFvPatchScalarField
 (
   const alphaFixedPressureFvPatchScalarField& tppsf
 )
 :
-  fixedValueFvPatchScalarField(tppsf),
-  p_(tppsf.p_)
+  fixedValueFvPatchScalarField{tppsf},
+  p_{tppsf.p_}
 {}
+
+
 mousse::alphaFixedPressureFvPatchScalarField::
 alphaFixedPressureFvPatchScalarField
 (
@@ -70,9 +77,11 @@ alphaFixedPressureFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(tppsf, iF),
-  p_(tppsf.p_)
+  fixedValueFvPatchScalarField{tppsf, iF},
+  p_{tppsf.p_}
 {}
+
+
 // Member Functions 
 void mousse::alphaFixedPressureFvPatchScalarField::autoMap
 (
@@ -82,6 +91,8 @@ void mousse::alphaFixedPressureFvPatchScalarField::autoMap
   scalarField::autoMap(m);
   p_.autoMap(m);
 }
+
+
 void mousse::alphaFixedPressureFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -93,10 +104,11 @@ void mousse::alphaFixedPressureFvPatchScalarField::rmap
     refCast<const alphaFixedPressureFvPatchScalarField>(ptf);
   p_.rmap(tiptf.p_, addr);
 }
+
+
 void mousse::alphaFixedPressureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const uniformDimensionedVectorField& g =
@@ -106,6 +118,8 @@ void mousse::alphaFixedPressureFvPatchScalarField::updateCoeffs()
   operator==(p_ - rho*(g.value() & patch().Cf()));
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::alphaFixedPressureFvPatchScalarField::write
 (
   Ostream& os
@@ -115,11 +129,15 @@ void mousse::alphaFixedPressureFvPatchScalarField::write
   p_.writeEntry("p", os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphaFixedPressureFvPatchScalarField
 );
+
 }
+

@@ -8,15 +8,15 @@
 //   mousse::StochasticCollisionModel
 // Description
 //   Templated stochastic collision model class
-// SourceFiles
-//   _stochastic_collision_model.cpp
-//   _stochastic_collision_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class StochasticCollisionModel
 :
@@ -66,7 +66,9 @@ public:
     //- Update the model
     void update(const scalar dt);
 };
+
 }  // namespace mousse
+
 
 #define MAKE_STOCHASTIC_COLLISION_MODEL(CloudType)                            \
                                                                               \
@@ -76,14 +78,14 @@ public:
     mousse::StochasticCollisionModel<kinematicCloudType>,                     \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      StochasticCollisionModel<kinematicCloudType>,                           \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    StochasticCollisionModel<kinematicCloudType>,                             \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_STOCHASTIC_COLLISION_MODEL_TYPE(SS, CloudType)                   \
                                                                               \
@@ -94,7 +96,7 @@ public:
     adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#include "_stochastic_collision_model.cpp"
-#endif
+
+#include "_stochastic_collision_model.ipp"
+
 #endif

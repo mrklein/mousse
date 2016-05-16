@@ -6,7 +6,10 @@
 #include "time_selector.hpp"
 #include "time.hpp"
 
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   argList::addNote("List times using timeSelector");
@@ -27,23 +30,19 @@ int main(int argc, char *argv[])
   label nProcs = 0;
   // Create the processor databases
   PtrList<Time> databases{1};
-  if (args.optionFound("processor"))
-  {
+  if (args.optionFound("processor")) {
     // Determine the processor count directly
-    while (isDir(args.path()/(word("processor") + name(nProcs))))
-    {
+    while (isDir(args.path()/(word("processor") + name(nProcs)))) {
       ++nProcs;
     }
-    if (!nProcs)
-    {
+    if (!nProcs) {
       FATAL_ERROR_IN(args.executable())
         << "No processor* directories found"
         << exit(FatalError);
     }
     // Create the processor databases
     databases.setSize(nProcs);
-    FOR_ALL(databases, procI)
-    {
+    FOR_ALL(databases, procI) {
       databases.set
       (
         procI,
@@ -55,9 +54,7 @@ int main(int argc, char *argv[])
         }
       );
     }
-  }
-  else
-  {
+  } else {
     databases.set
     (
       0,
@@ -71,38 +68,25 @@ int main(int argc, char *argv[])
   }
   // Use the times list from the master processor
   // and select a subset based on the command-line options
-  instantList timeDirs = timeSelector::select
-  (
-    databases[0].times(),
-    args
-  );
-  if (args.optionFound("rm"))
-  {
-    if (args.optionFound("processor"))
-    {
-      for (label procI=0; procI<nProcs; procI++)
-      {
+  instantList timeDirs = timeSelector::select(databases[0].times(), args);
+  if (args.optionFound("rm")) {
+    if (args.optionFound("processor")) {
+      for (label procI=0; procI<nProcs; procI++) {
         fileName procPath{args.path()/(word("processor") + name(procI))};
-        FOR_ALL(timeDirs, timeI)
-        {
+        FOR_ALL(timeDirs, timeI) {
           rmDir(procPath/timeDirs[timeI].name());
         }
       }
-    }
-    else
-    {
-      FOR_ALL(timeDirs, timeI)
-      {
+    } else {
+      FOR_ALL(timeDirs, timeI) {
         rmDir(args.path()/timeDirs[timeI].name());
       }
     }
-  }
-  else
-  {
-    FOR_ALL(timeDirs, timeI)
-    {
+  } else {
+    FOR_ALL(timeDirs, timeI) {
       Info << timeDirs[timeI].name() << endl;
     }
   }
   return 0;
 }
+

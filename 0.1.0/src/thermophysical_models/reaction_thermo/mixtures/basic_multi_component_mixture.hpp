@@ -10,14 +10,15 @@
 //   Multi-component mixture.
 //   Provides a list of mass fraction fields and helper functions to
 //   query mixture composition.
-// SourceFiles
-//   basic_multi_component_mixture.cpp
+
 #include "vol_fields.hpp"
 #include "ptr_list.hpp"
 #include "species_table.hpp"
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class basicMultiComponentMixture
 {
 protected:
@@ -61,27 +62,37 @@ public:
     //- Does the mixture include this specie?
     inline bool contains(const word& specieName) const;
 };
+
 }  // namespace mousse
+
 
 inline const mousse::speciesTable&
 mousse::basicMultiComponentMixture::species() const
 {
   return species_;
 }
+
+
 inline mousse::PtrList<mousse::volScalarField>&
 mousse::basicMultiComponentMixture::Y()
 {
   return Y_;
 }
+
+
 inline const mousse::PtrList<mousse::volScalarField>&
 mousse::basicMultiComponentMixture::Y() const
 {
   return Y_;
 }
+
+
 inline mousse::volScalarField& mousse::basicMultiComponentMixture::Y(const label i)
 {
   return Y_[i];
 }
+
+
 inline const mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 (
   const label i
@@ -89,6 +100,8 @@ inline const mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 {
   return Y_[i];
 }
+
+
 inline mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 (
   const word& specieName
@@ -96,6 +109,8 @@ inline mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 {
   return Y_[species_[specieName]];
 }
+
+
 inline const mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 (
   const word& specieName
@@ -103,6 +118,8 @@ inline const mousse::volScalarField& mousse::basicMultiComponentMixture::Y
 {
   return Y_[species_[specieName]];
 }
+
+
 inline bool mousse::basicMultiComponentMixture::contains
 (
   const word& specieName
@@ -110,4 +127,6 @@ inline bool mousse::basicMultiComponentMixture::contains
 {
   return species_.contains(specieName);
 }
+
 #endif
+

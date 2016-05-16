@@ -8,6 +8,7 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "specie_mixture.hpp"
 
+
 #define MAKE_REACTION_MIXTURE_THERMO\
 (                                                                             \
   BaseThermo,                                                                 \
@@ -44,14 +45,14 @@ ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
 );                                                                            \
                                                                               \
 ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
-(                                                                              \
+(                                                                             \
   fluidThermo,                                                                \
   MixtureThermo##Mixture##ThermoPhys,                                         \
   fvMesh                                                                      \
 );                                                                            \
                                                                               \
 ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
-(                                                                              \
+(                                                                             \
   BaseThermo,                                                                 \
   MixtureThermo##Mixture##ThermoPhys,                                         \
   fvMesh                                                                      \
@@ -102,4 +103,6 @@ MAKE_REACTION_MIXTURE_THERMO                                                  \
   Mixture,                                                                    \
   Transport##Type##Thermo##EqnOfState##Specie                                 \
 );
+
 #endif
+

@@ -11,11 +11,12 @@
 //   When run in parallel will collect the whole graph on to the master,
 //   decompose and send back. Run ptscotchDecomp for proper distributed
 //   decomposition.
-// SourceFiles
-//   scotch_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class scotchDecomp
 :
   public decompositionMethod
@@ -98,5 +99,8 @@ public:
       const scalarField& cWeights
     );
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -12,7 +12,7 @@
 #     Usage: wmake-lninclude [-f] <dir>
 #
 #     The desired source files:
-#         *.C *.H *.h *.cpp *.cxx *.hpp *.hxx
+#         *.C *.H *.h *.cpp *.cxx *.hpp *.hxx *.ipp *.inc
 #
 #     Avoid
 #         *.c (C source)
@@ -138,9 +138,9 @@ find .. $find_opt \
 	\( -name _lninclude -o -name _make -o -name config -o -name noLink \) \
 	-prune \
 	-o \( \
-	-name '*.[CHh]' \
+	-name '*.[ch]' \
 	-o -name '*.[ch]xx' \
-	-o -name '*.[ch]pp' \
+	-o -name '*.[chi]pp' \
 	-o -name '*.inc' \
 	-o -name '*.type' \
 	\)  \

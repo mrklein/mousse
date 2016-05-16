@@ -10,13 +10,13 @@
 //   Simple diffusion-based combustion model based on the principle mixed is
 //   burnt. Additional parameter C is used to distribute the heat release rate
 //   in time.
-// SourceFiles
-//   diffusion.cpp
+
 #include "single_step_combustion.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 template<class CombThermoType, class ThermoType>
 class diffusion
 :
@@ -52,9 +52,10 @@ public:
       //- Update properties
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "diffusion.cpp"
-#endif
+
+#include "diffusion.ipp"
+
 #endif

@@ -23,15 +23,14 @@
     p_rgh.boundaryField(),
     (
       phiHbyA.boundaryField()
-     - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
+    - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
      *rho.boundaryField()
     )/(mesh.magSf().boundaryField()*rhorAUf.boundaryField())
   );
   dimensionedScalar compressibility = fvc::domainIntegrate(psi);
   bool compressible = (compressibility.value() > SMALL);
   // Solve pressure
-  for (int nonOrth=0; nonOrth<=nNonOrthCorr; nonOrth++)
-  {
+  for (int nonOrth=0; nonOrth<=nNonOrthCorr; nonOrth++) {
     fvScalarMatrix p_rghEqn
     {
       fvm::laplacian(rhorAUf, p_rgh) == fvc::div(phiHbyA)
@@ -42,8 +41,7 @@
       compressible ? getRefCellValue(p_rgh, pRefCell) : pRefValue
     );
     p_rghEqn.solve();
-    if (nonOrth == nNonOrthCorr)
-    {
+    if (nonOrth == nNonOrthCorr) {
       // Calculate the conservative fluxes
       phi = phiHbyA - p_rghEqn.flux();
       // Explicitly relax pressure for momentum corrector
@@ -59,8 +57,7 @@
   #include "continuity_errs.inc"
   // For closed-volume cases adjust the pressure level
   // to obey overall mass continuity
-  if (closedVolume && compressible)
-  {
+  if (closedVolume && compressible) {
     p += (initialMass - fvc::domainIntegrate(thermo.rho()))/compressibility;
     p_rgh = p - rho*gh;
   }
@@ -68,6 +65,6 @@
   rho = max(rho, rhoMin[i]);
   rho = min(rho, rhoMax[i]);
   rho.relax();
-  Info<< "Min/max rho:" << min(rho).value() << ' '
+  Info << "Min/max rho:" << min(rho).value() << ' '
     << max(rho).value() << endl;
 }

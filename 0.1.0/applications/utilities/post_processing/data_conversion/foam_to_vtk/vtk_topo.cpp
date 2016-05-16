@@ -7,8 +7,12 @@
 #include "cell_shape.hpp"
 #include "cell_modeller.hpp"
 #include "swap.hpp"
+
+
 // Static Data Members
 bool mousse::vtkTopo::decomposePoly = true;
+
+
 // Constructors 
 mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
 :
@@ -33,24 +37,13 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
   const labelList& owner = mesh.faceOwner();
   // Scan for cells which need to be decomposed and count additional points
   // and cells
-  if (decomposePoly)
-  {
-    FOR_ALL(cellShapes, cellI)
-    {
+  if (decomposePoly) {
+    FOR_ALL(cellShapes, cellI) {
       const cellModel& model = cellShapes[cellI].model();
-      if
-      (
-        model != hex
-      && model != wedge    // See above.
-      && model != prism
-      && model != pyr
-      && model != tet
-      && model != tetWedge
-      )
-      {
+      if (model != hex && model != wedge && model != prism
+          && model != pyr && model != tet && model != tetWedge) {
         const cell& cFaces = mesh_.cells()[cellI];
-        FOR_ALL(cFaces, cFaceI)
-        {
+        FOR_ALL(cFaces, cFaceI) {
           const face& f = mesh_.faces()[cFaces[cFaceI]];
           label nQuads = 0;
           label nTris = 0;
@@ -74,32 +67,24 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
   cellTypes_.setSize(cellShapes.size() + nAddCells);
   // Set counters for additional points and additional cells
   label addPointI = 0, addCellI = 0;
-  FOR_ALL(cellShapes, cellI)
-  {
+  FOR_ALL(cellShapes, cellI) {
     const cellShape& cellShape = cellShapes[cellI];
     const cellModel& cellModel = cellShape.model();
     labelList& vtkVerts = vertLabels_[cellI];
-    if (cellModel == tet)
-    {
+    if (cellModel == tet) {
       vtkVerts = cellShape;
       cellTypes_[cellI] = VTK_TETRA;
-    }
-    else if (cellModel == pyr)
-    {
+    } else if (cellModel == pyr) {
       vtkVerts = cellShape;
       cellTypes_[cellI] = VTK_PYRAMID;
-    }
-    else if (cellModel == prism)
-    {
+    } else if (cellModel == prism) {
       // VTK has a different node order for VTK_WEDGE
       // their triangles point outwards!
       vtkVerts = cellShape;
       mousse::Swap(vtkVerts[1], vtkVerts[2]);
       mousse::Swap(vtkVerts[4], vtkVerts[5]);
       cellTypes_[cellI] = VTK_WEDGE;
-    }
-    else if (cellModel == tetWedge)
-    {
+    } else if (cellModel == tetWedge) {
       // Treat as squeezed prism
       vtkVerts.setSize(6);
       vtkVerts[0] = cellShape[0];
@@ -109,9 +94,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       vtkVerts[4] = cellShape[4];
       vtkVerts[5] = cellShape[4];
       cellTypes_[cellI] = VTK_WEDGE;
-    }
-    else if (cellModel == wedge)
-    {
+    } else if (cellModel == wedge) {
       // Treat as squeezed hex
       vtkVerts.setSize(8);
       vtkVerts[0] = cellShape[0];
@@ -123,14 +106,10 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       vtkVerts[6] = cellShape[5];
       vtkVerts[7] = cellShape[6];
       cellTypes_[cellI] = VTK_HEXAHEDRON;
-    }
-    else if (cellModel == hex)
-    {
+    } else if (cellModel == hex) {
       vtkVerts = cellShape;
       cellTypes_[cellI] = VTK_HEXAHEDRON;
-    }
-    else if (decomposePoly)
-    {
+    } else if (decomposePoly) {
       // Polyhedral cell. Decompose into tets + pyramids.
       // Mapping from additional point to cell
       addPointCellLabels_[addPointI] = cellI;
@@ -139,8 +118,7 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       // Whether to insert cell in place of original or not.
       bool substituteCell = true;
       const labelList& cFaces = mesh_.cells()[cellI];
-      FOR_ALL(cFaces, cFaceI)
-      {
+      FOR_ALL(cFaces, cFaceI) {
         const face& f = mesh_.faces()[cFaces[cFaceI]];
         const bool isOwner = (owner[cFaces[cFaceI]] == cellI);
         // Number of triangles and quads in decomposition
@@ -148,21 +126,17 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
         label nQuads = 0;
         f.nTrianglesQuads(mesh_.points(), nTris, nQuads);
         // Do actual decomposition into triFcs and quadFcs.
-        faceList triFcs(nTris);
-        faceList quadFcs(nQuads);
+        faceList triFcs{nTris};
+        faceList quadFcs{nQuads};
         label trii = 0;
         label quadi = 0;
         f.trianglesQuads(mesh_.points(), trii, quadi, triFcs, quadFcs);
-        FOR_ALL(quadFcs, quadI)
-        {
+        FOR_ALL(quadFcs, quadI) {
           label thisCellI;
-          if (substituteCell)
-          {
+          if (substituteCell) {
             thisCellI = cellI;
             substituteCell = false;
-          }
-          else
-          {
+          } else {
             thisCellI = mesh_.nCells() + addCellI;
             superCells_[addCellI++] = cellI;
           }
@@ -176,15 +150,12 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
           // At the moment, VTK doesn't actually seem to care if
           // negative cells are defined, but we'll do it anyhow
           // (for safety).
-          if (isOwner)
-          {
+          if (isOwner) {
             addVtkVerts[0] = quad[3];
             addVtkVerts[1] = quad[2];
             addVtkVerts[2] = quad[1];
             addVtkVerts[3] = quad[0];
-          }
-          else
-          {
+          } else {
             addVtkVerts[0] = quad[0];
             addVtkVerts[1] = quad[1];
             addVtkVerts[2] = quad[2];
@@ -193,16 +164,12 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
           addVtkVerts[4] = newVertexLabel;
           cellTypes_[thisCellI] = VTK_PYRAMID;
         }
-        FOR_ALL(triFcs, triI)
-        {
+        FOR_ALL(triFcs, triI) {
           label thisCellI;
-          if (substituteCell)
-          {
+          if (substituteCell) {
             thisCellI = cellI;
             substituteCell = false;
-          }
-          else
-          {
+          } else {
             thisCellI = mesh_.nCells() + addCellI;
             superCells_[addCellI++] = cellI;
           }
@@ -210,14 +177,11 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
           const face& tri = triFcs[triI];
           addVtkVerts.setSize(4);
           // See note above about the orientation.
-          if (isOwner)
-          {
+          if (isOwner) {
             addVtkVerts[0] = tri[2];
             addVtkVerts[1] = tri[1];
             addVtkVerts[2] = tri[0];
-          }
-          else
-          {
+          } else {
             addVtkVerts[0] = tri[0];
             addVtkVerts[1] = tri[1];
             addVtkVerts[2] = tri[2];
@@ -227,17 +191,14 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
         }
       }
       addPointI++;
-    }
-    else
-    {
+    } else {
       // Polyhedral cell - not decomposed
       cellTypes_[cellI] = VTK_POLYHEDRON;
       const labelList& cFaces = mesh_.cells()[cellI];
       // space for the number of faces and size of each face
       label nData = 1 + cFaces.size();
       // count total number of face points
-      FOR_ALL(cFaces, cFaceI)
-      {
+      FOR_ALL(cFaces, cFaceI) {
         const face& f = mesh.faces()[cFaces[cFaceI]];
         nData += f.size();   // space for the face labels
       }
@@ -245,37 +206,31 @@ mousse::vtkTopo::vtkTopo(const polyMesh& mesh)
       nData = 0;
       vtkVerts[nData++] = cFaces.size();
       // build face stream
-      FOR_ALL(cFaces, cFaceI)
-      {
+      FOR_ALL(cFaces, cFaceI) {
         const face& f = mesh.faces()[cFaces[cFaceI]];
         const bool isOwner = (owner[cFaces[cFaceI]] == cellI);
         // number of labels for this face
         vtkVerts[nData++] = f.size();
-        if (isOwner)
-        {
-          FOR_ALL(f, fp)
-          {
+        if (isOwner) {
+          FOR_ALL(f, fp) {
             vtkVerts[nData++] = f[fp];
           }
-        }
-        else
-        {
+        } else {
           // fairly immaterial if we reverse the list
           // or use face::reverseFace()
-          FOR_ALL_REVERSE(f, fp)
-          {
+          FOR_ALL_REVERSE(f, fp) {
             vtkVerts[nData++] = f[fp];
           }
         }
       }
     }
   }
-  if (decomposePoly)
-  {
-    Pout<< "    Original cells:" << mesh_.nCells()
+  if (decomposePoly) {
+    Pout << "    Original cells:" << mesh_.nCells()
       << " points:" << mesh_.nPoints()
       << "   Additional cells:" << superCells_.size()
       << "  additional points:" << addPointCellLabels_.size()
       << nl << endl;
   }
 }
+

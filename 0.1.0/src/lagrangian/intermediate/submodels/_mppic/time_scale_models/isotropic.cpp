@@ -4,38 +4,48 @@
 
 #include "isotropic.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace TimeScaleModels
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(isotropic, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE
-  (
-    TimeScaleModel,
-    isotropic,
-    dictionary
-  );
+namespace mousse {
+namespace TimeScaleModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(isotropic, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  TimeScaleModel,
+  isotropic,
+  dictionary
+);
+
 }
 }
+
+
 // Constructors 
 mousse::TimeScaleModels::isotropic::isotropic
 (
   const dictionary& dict
 )
 :
-  TimeScaleModel(dict)
+  TimeScaleModel{dict}
 {}
+
+
 mousse::TimeScaleModels::isotropic::isotropic
 (
   const isotropic& hc
 )
 :
-  TimeScaleModel(hc)
+  TimeScaleModel{hc}
 {}
+
+
 // Destructor 
 mousse::TimeScaleModels::isotropic::~isotropic()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::FieldField<mousse::Field, mousse::scalar> >
 mousse::TimeScaleModels::isotropic::oneByTau
@@ -47,8 +57,7 @@ mousse::TimeScaleModels::isotropic::oneByTau
 ) const
 {
   static const scalar a =
-    8.0*sqrt(2.0)/(5.0*constant::mathematical::pi)
-   *0.25*(3.0 - e_)*(1.0 + e_);
-  
+    8.0*sqrt(2.0)/(5.0*constant::mathematical::pi)*0.25*(3.0 - e_)*(1.0 + e_);
   return a*f*alphaPacked_/max(alphaPacked_ - alpha, SMALL);
 }
+

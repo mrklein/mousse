@@ -20,13 +20,14 @@
 //   split into three y-domains. And similar for the z-direction.
 //   Since the domains are of equal size the maximum difference in size is
 //   n[0]*n[1] (or n[1]*n[2]?) (small anyway)
-// SourceFiles
-//   hierarch_geom_decomp.cpp
+
 #include "geom_decomp.hpp"
 #include "fixed_list.hpp"
 #include "direction.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class hierarchGeomDecomp
 :
   public geomDecomp
@@ -119,10 +120,7 @@ public:
   {}
   // Member Functions
     //- Hierarchgeom is aware of processor boundaries
-    virtual bool parallelAware() const
-    {
-      return true;
-    }
+    virtual bool parallelAware() const { return true; }
     //- Return for every coordinate the wanted processor number.
     virtual labelList decompose
     (
@@ -174,5 +172,8 @@ public:
       return decompose(cc);
     }
 };
+
 }  // namespace mousse
+
 #endif
+

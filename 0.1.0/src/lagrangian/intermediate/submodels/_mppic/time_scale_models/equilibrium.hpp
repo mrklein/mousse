@@ -16,13 +16,13 @@
 //     Chemical Engineering Science
 //     Volume 64, Issue 8, Pages 1784-1797, April 2009
 //   \endverbatim
-// SourceFiles
-//   equilibrium.cpp
+
 #include "time_scale_model.hpp"
-namespace mousse
-{
-namespace TimeScaleModels
-{
+
+
+namespace mousse {
+namespace TimeScaleModels {
+
 class equilibrium
 :
   public TimeScaleModel
@@ -38,10 +38,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<TimeScaleModel> clone() const
     {
-      return autoPtr<TimeScaleModel>
-      (
-        new equilibrium(*this)
-      );
+      return
+        autoPtr<TimeScaleModel>
+        {
+          new equilibrium{*this}
+        };
     }
   //- Destructor
   virtual ~equilibrium();
@@ -55,6 +56,9 @@ public:
       const FieldField<Field, scalar>& f
     ) const;
 };
+
 }  // namespace TimeScaleModels
 }  // namespace mousse
+
 #endif
+

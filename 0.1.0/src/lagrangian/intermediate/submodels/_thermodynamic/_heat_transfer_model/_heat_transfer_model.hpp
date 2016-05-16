@@ -8,15 +8,15 @@
 //   mousse::HeatTransferModel
 // Description
 //   Templated heat transfer model class
-// SourceFiles
-//   _heat_transfer_model.cpp
-//   _heat_transfer_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class HeatTransferModel
 :
@@ -53,11 +53,11 @@ public:
     //- Construct copy
     HeatTransferModel(const HeatTransferModel<CloudType>& htm);
     //- Construct and return a clone
-    virtual autoPtr<HeatTransferModel<CloudType> > clone() const = 0;
+    virtual autoPtr<HeatTransferModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~HeatTransferModel();
   //- Selector
-  static autoPtr<HeatTransferModel<CloudType> > New
+  static autoPtr<HeatTransferModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -93,14 +93,14 @@ public:
     mousse::HeatTransferModel<thermoCloudType>,                               \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      HeatTransferModel<thermoCloudType>,                                     \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    HeatTransferModel<thermoCloudType>,                                       \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_HEAT_TRANSFER_MODEL_TYPE(SS, CloudType)                          \
                                                                               \
@@ -108,10 +108,11 @@ public:
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<thermoCloudType>, 0);  \
                                                                               \
   mousse::HeatTransferModel<thermoCloudType>::                                \
-    adddictionaryConstructorToTable<mousse::SS<thermoCloudType> >             \
+    adddictionaryConstructorToTable<mousse::SS<thermoCloudType>>              \
       add##SS##CloudType##thermoCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_heat_transfer_model.cpp"
+
+#include "_heat_transfer_model.ipp"
+
 #endif
-#endif
+

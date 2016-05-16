@@ -8,13 +8,13 @@
 //   mousse::singleLayerRegion
 // Description
 //   Base class for single layer region models
-// SourceFiles
-//   single_layer_region.cpp
+
 #include "region_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+
 class singleLayerRegion
 :
   public regionModel
@@ -80,9 +80,10 @@ public:
       template<class Type>
       wordList mappedPushedFieldPatchTypes() const;
 };
+
 }  // namespace regionModels
 }  // namespace mousse
-#ifdef NoRepository
-  #include "single_layer_region_templates.cpp"
-#endif
+
+#include "single_layer_region.ipp"
+
 #endif

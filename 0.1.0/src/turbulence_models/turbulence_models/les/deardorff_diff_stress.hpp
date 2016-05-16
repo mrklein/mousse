@@ -34,14 +34,14 @@
 //     Progress in the development of a Reynolds-stress turbulence closure.
 //     Journal of fluid mechanics, 68(03), 537-566.
 //   \endverbatim
-// SourceFiles
-//   deardorff_diff_stress.cpp
+
 #include "les_model.hpp"
 #include "reynolds_stress.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class DeardorffDiffStress
 :
@@ -90,9 +90,10 @@ public:
     //- Correct sub-grid stress, eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "deardorff_diff_stress.cpp"
-#endif
+
+#include "deardorff_diff_stress.ipp"
+
 #endif

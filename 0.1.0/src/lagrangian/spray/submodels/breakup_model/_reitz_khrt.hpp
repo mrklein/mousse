@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TREITZ_KHRT_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TREITZ_KHRT_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,13 +10,12 @@
 //  secondary breakup model which uses the Kelvin-Helmholtz
 //   instability theory to predict the 'stripped' droplets... and
 //   the Raleigh-Taylor instability as well.
-#ifndef reitz_khrt_hpp_
-#define reitz_khrt_hpp_
 
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class ReitzKHRT
 :
@@ -37,12 +39,13 @@ public:
     //- Construct copy
     ReitzKHRT(const ReitzKHRT<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new ReitzKHRT<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new ReitzKHRT<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ReitzKHRT();
@@ -73,8 +76,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_reitz_khrt.cpp"
-#endif
+
+#include "_reitz_khrt.ipp"
+
 #endif

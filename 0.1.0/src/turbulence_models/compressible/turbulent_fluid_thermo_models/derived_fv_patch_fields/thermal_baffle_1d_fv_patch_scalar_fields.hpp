@@ -7,18 +7,19 @@
 
 #include "thermal_baffle_1d_fv_patch_scalar_field.hpp"
 #include "solid_thermo_physics_types.hpp"
-namespace mousse
-{
-namespace compressible
-{
-  typedef thermalBaffle1DFvPatchScalarField
-  <
-    hConstSolidThermoPhysics
-  >constSolid_thermalBaffle1DFvPatchScalarField;
-  typedef thermalBaffle1DFvPatchScalarField
-  <
-    hPowerSolidThermoPhysics
-  >expoSolid_thermalBaffle1DFvPatchScalarField;
+
+
+namespace mousse {
+namespace compressible {
+
+typedef thermalBaffle1DFvPatchScalarField<hConstSolidThermoPhysics>
+  constSolid_thermalBaffle1DFvPatchScalarField;
+
+typedef thermalBaffle1DFvPatchScalarField<hPowerSolidThermoPhysics>
+  expoSolid_thermalBaffle1DFvPatchScalarField;
+
 }
 }  // namespace mousse
+
 #endif
+

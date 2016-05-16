@@ -19,7 +19,9 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 using namespace mousse;
+
 
 void insertDuplicateMerge
 (
@@ -34,97 +36,86 @@ void insertDuplicateMerge
   FOR_ALL(duplicates, bFaceI)
   {
     label otherFaceI = duplicates[bFaceI];
-    if (otherFaceI != -1 && otherFaceI > bFaceI)
-    {
-      // Two duplicate faces. Merge.
-      label face0 = mesh.nInternalFaces() + bFaceI;
-      label face1 = mesh.nInternalFaces() + otherFaceI;
-      label own0 = faceOwner[face0];
-      label own1 = faceOwner[face1];
-      if (own0 < own1)
-      {
-        // Use face0 as the new internal face.
-        label zoneID = faceZones.whichZone(face0);
-        bool zoneFlip = false;
-        if (zoneID >= 0)
-        {
-          const faceZone& fZone = faceZones[zoneID];
-          zoneFlip = fZone.flipMap()[fZone.whichFace(face0)];
-        }
-        meshMod.setAction(polyRemoveFace(face1));
-        meshMod.setAction
-        (
-          polyModifyFace
-          {
-            faces[face0],           // modified face
-            face0,                  // label of face being modified
-            own0,                   // owner
-            own1,                   // neighbour
-            false,                  // face flip
-            -1,                     // patch for face
-            false,                  // remove from zone
-            zoneID,                 // zone for face
-            zoneFlip                // face flip in zone
-          }
-        );
+    if (otherFaceI == -1 || otherFaceI <= bFaceI)
+      continue;
+    // Two duplicate faces. Merge.
+    label face0 = mesh.nInternalFaces() + bFaceI;
+    label face1 = mesh.nInternalFaces() + otherFaceI;
+    label own0 = faceOwner[face0];
+    label own1 = faceOwner[face1];
+    if (own0 < own1) {
+      // Use face0 as the new internal face.
+      label zoneID = faceZones.whichZone(face0);
+      bool zoneFlip = false;
+      if (zoneID >= 0) {
+        const faceZone& fZone = faceZones[zoneID];
+        zoneFlip = fZone.flipMap()[fZone.whichFace(face0)];
       }
-      else
-      {
-        // Use face1 as the new internal face.
-        label zoneID = faceZones.whichZone(face1);
-        bool zoneFlip = false;
-        if (zoneID >= 0)
+      meshMod.setAction(polyRemoveFace(face1));
+      meshMod.setAction
+      (
+        polyModifyFace
         {
-          const faceZone& fZone = faceZones[zoneID];
-          zoneFlip = fZone.flipMap()[fZone.whichFace(face1)];
+          faces[face0],           // modified face
+          face0,                  // label of face being modified
+          own0,                   // owner
+          own1,                   // neighbour
+          false,                  // face flip
+          -1,                     // patch for face
+          false,                  // remove from zone
+          zoneID,                 // zone for face
+          zoneFlip                // face flip in zone
         }
-        meshMod.setAction(polyRemoveFace(face0));
-        meshMod.setAction
-        (
-          polyModifyFace
-          {
-            faces[face1],           // modified face
-            face1,                  // label of face being modified
-            own1,                   // owner
-            own0,                   // neighbour
-            false,                  // face flip
-            -1,                     // patch for face
-            false,                  // remove from zone
-            zoneID,                 // zone for face
-            zoneFlip                // face flip in zone
-          }
-        );
+      );
+    } else {
+      // Use face1 as the new internal face.
+      label zoneID = faceZones.whichZone(face1);
+      bool zoneFlip = false;
+      if (zoneID >= 0) {
+        const faceZone& fZone = faceZones[zoneID];
+        zoneFlip = fZone.flipMap()[fZone.whichFace(face1)];
       }
+      meshMod.setAction(polyRemoveFace(face0));
+      meshMod.setAction
+      (
+        polyModifyFace
+        {
+          faces[face1],           // modified face
+          face1,                  // label of face being modified
+          own1,                   // owner
+          own0,                   // neighbour
+          false,                  // face flip
+          -1,                     // patch for face
+          false,                  // remove from zone
+          zoneID,                 // zone for face
+          zoneFlip                // face flip in zone
+        }
+      );
     }
   }
 }
 
+
 labelList findBaffles(const polyMesh& mesh, const labelList& boundaryFaces)
 {
   // Get all duplicate face labels (in boundaryFaces indices!).
-  labelList duplicates = localPointRegion::findDuplicateFaces
-  (
-    mesh,
-    boundaryFaces
-  );
+  labelList duplicates =
+    localPointRegion::findDuplicateFaces(mesh, boundaryFaces);
   // Check that none are on processor patches
   const polyBoundaryMesh& patches = mesh.boundaryMesh();
-  FOR_ALL(duplicates, bFaceI)
-  {
-    if (duplicates[bFaceI] != -1)
-    {
-      label faceI = mesh.nInternalFaces() + bFaceI;
-      label patchI = patches.whichPatch(faceI);
-      if (isA<processorPolyPatch>(patches[patchI]))
-      {
-        FATAL_ERROR_IN("findBaffles(const polyMesh&, const labelList&)")
-          << "Duplicate face " << faceI
-          << " is on a processorPolyPatch."
-          << "This is not allowed." << nl
-          << "Face:" << faceI
-          << " is on patch:" << patches[patchI].name()
-          << abort(FatalError);
-      }
+  FOR_ALL(duplicates, bFaceI) {
+    if (duplicates[bFaceI] == -1)
+      continue;
+    label faceI = mesh.nInternalFaces() + bFaceI;
+    label patchI = patches.whichPatch(faceI);
+    if (isA<processorPolyPatch>(patches[patchI])) {
+      FATAL_ERROR_IN("findBaffles(const polyMesh&, const labelList&)")
+        << "Duplicate face " << faceI
+        << " is on a processorPolyPatch."
+        << "This is not allowed." << nl
+        << "Face:" << faceI
+        << " is on patch:" << patches[patchI].name()
+        << abort(FatalError);
     }
   }
 
@@ -136,11 +127,9 @@ labelList findBaffles(const polyMesh& mesh, const labelList& boundaryFaces)
       "duplicateFaces",
       (mesh.nFaces() - mesh.nInternalFaces())/256
     };
-    FOR_ALL(duplicates, bFaceI)
-    {
+    FOR_ALL(duplicates, bFaceI) {
       label otherFaceI = duplicates[bFaceI];
-      if (otherFaceI != -1 && otherFaceI > bFaceI)
-      {
+      if (otherFaceI != -1 && otherFaceI > bFaceI) {
         duplicateSet.insert(mesh.nInternalFaces() + bFaceI);
         duplicateSet.insert(mesh.nInternalFaces() + otherFaceI);
       }
@@ -152,6 +141,7 @@ labelList findBaffles(const polyMesh& mesh, const labelList& boundaryFaces)
   }
   return duplicates;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -182,12 +172,10 @@ int main(int argc, char *argv[])
   const bool detectOnly = args.optionFound("detectOnly");
   // Collect all boundary faces
   labelList boundaryFaces{mesh.nFaces() - mesh.nInternalFaces()};
-  FOR_ALL(boundaryFaces, i)
-  {
+  FOR_ALL(boundaryFaces, i) {
     boundaryFaces[i] = i+mesh.nInternalFaces();
   }
-  if (detectOnly)
-  {
+  if (detectOnly) {
     findBaffles(mesh, boundaryFaces);
     return 0;
   }
@@ -217,8 +205,7 @@ int main(int argc, char *argv[])
   ReadFields(mesh, objects, stFlds);
   // Mesh change engine
   polyTopoChange meshMod{mesh};
-  if (split)
-  {
+  if (split) {
     Pout << "Topologically splitting duplicate surfaces"
       << ", i.e. duplicating points internal to duplicate surfaces."
       << nl << endl;
@@ -228,18 +215,14 @@ int main(int argc, char *argv[])
     duplicatePoints pointDuplicator{mesh};
     // Insert topo changes
     pointDuplicator.setRefinement(regionSide, meshMod);
-  }
-  else
-  {
-    Pout << "Merging duplicate faces."
-      << nl << endl;
+  } else {
+    Pout << "Merging duplicate faces." << nl << endl;
     // Get all duplicate face labels (in boundaryFaces indices!).
     labelList duplicates{findBaffles(mesh, boundaryFaces)};
     // Merge into internal faces.
     insertDuplicateMerge(mesh, duplicates, meshMod);
   }
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   // Change the mesh. No inflation.
@@ -247,28 +230,23 @@ int main(int argc, char *argv[])
   // Update fields
   mesh.updateMesh(map);
   // Move mesh (since morphing does not do this)
-  if (map().hasMotionPoints())
-  {
+  if (map().hasMotionPoints()) {
     mesh.movePoints(map().preMotionPoints());
   }
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
   }
   Pout << "Writing mesh to time " << runTime.timeName() << endl;
   mesh.write();
   // Dump duplicated points (if any)
-  if (split)
-  {
+  if (split) {
     const labelList& pointMap = map().pointMap();
     labelList nDupPerPoint{map().nOldPoints(), 0};
     pointSet dupPoints{mesh, "duplicatedPoints", 100};
-    FOR_ALL(pointMap, pointI)
-    {
+    FOR_ALL(pointMap, pointI) {
       label oldPointI = pointMap[pointI];
       nDupPerPoint[oldPointI]++;
-      if (nDupPerPoint[oldPointI] > 1)
-      {
+      if (nDupPerPoint[oldPointI] > 1) {
         dupPoints.insert(map().reversePointMap()[oldPointI]);
         dupPoints.insert(pointI);
       }
@@ -281,3 +259,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

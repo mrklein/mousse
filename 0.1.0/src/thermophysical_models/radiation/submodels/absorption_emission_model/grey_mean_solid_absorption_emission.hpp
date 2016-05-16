@@ -18,15 +18,15 @@
 //   in the calculation of the absorption coefficient
 //   The names of the species in the absorption dictionary must match exactly the
 //   name in the look-up table or the name of the field being solved
-// SourceFiles
-//   grey_mean_solid_absorption_emission.cpp
+
 #include "absorption_emission_model.hpp"
 #include "solid_thermo.hpp"
 #include "basic_specie_mixture.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class greyMeanSolidAbsorptionEmission
 :
   public absorptionEmissionModel
@@ -48,7 +48,7 @@ private:
     //- Basic multicomponent mixture
     const basicSpecieMixture& mixture_;
     //- List of solid species data
-    List<FixedList<scalar, 2> > solidData_;
+    List<FixedList<scalar, 2>> solidData_;
   // Private member functions
    //- Calculate the volumetric fraction of Yj
    tmp<scalarField> X(const word specie) const;
@@ -75,11 +75,11 @@ public:
         //- Emission coefficient for continuous phase
         tmp<volScalarField> eCont(const label bandI = 0) const;
   // Member Functions
-    inline bool isGrey() const
-    {
-      return true;
-    }
+    inline bool isGrey() const { return true; }
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

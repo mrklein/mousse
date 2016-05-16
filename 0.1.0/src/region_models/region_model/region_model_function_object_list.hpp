@@ -8,15 +8,17 @@
 //   mousse::regionModelFunctionObjectList
 // Description
 //   List of cloud function objects
-// SourceFiles
-//   region_model_function_object_list.cpp
+
 #include "ptr_list.hpp"
 #include "region_model_function_object.hpp"
-namespace mousse
-{
-namespace regionModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+
 class regionModel;
+
+
 class regionModelFunctionObjectList
 :
   public PtrList<regionModelFunctionObject>
@@ -59,22 +61,30 @@ public:
       //- Post-evolve hook
       virtual void postEvolveRegion();
 };
+
 }  // namespace regionModels
 }  // namespace mousse
+
 
 inline const mousse::regionModels::regionModel&
 mousse::regionModels::regionModelFunctionObjectList::owner() const
 {
   return owner_;
 }
+
+
 inline mousse::regionModels::regionModel&
 mousse::regionModels::regionModelFunctionObjectList::owner()
 {
   return owner_;
 }
+
+
 inline const mousse::dictionary&
 mousse::regionModels::regionModelFunctionObjectList::dict() const
 {
   return dict_;
 }
+
 #endif
+

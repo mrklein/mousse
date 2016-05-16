@@ -7,27 +7,34 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "mapped_patch_base.hpp"
-namespace mousse
+
+
+namespace mousse {
+
+template<>
+const char*
+NamedEnum
+<
+  externalWallHeatFluxTemperatureFvPatchScalarField::operationMode,
+  3
+>::names[] =
 {
-  template<>
-  const char*
-  NamedEnum
-  <
-    externalWallHeatFluxTemperatureFvPatchScalarField::operationMode,
-    3
-  >::names[] =
-  {
-    "fixed_heat_flux",
-    "fixed_heat_transfer_coefficient",
-    "unknown"
-  };
+  "fixed_heat_flux",
+  "fixed_heat_transfer_coefficient",
+  "unknown"
+};
+
 }  // namespace mousse
+
 const mousse::NamedEnum
 <
   mousse::externalWallHeatFluxTemperatureFvPatchScalarField::operationMode,
   3
 > mousse::externalWallHeatFluxTemperatureFvPatchScalarField::operationModeNames;
+
+
 // Constructors 
+
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
 (
@@ -51,6 +58,8 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   refGrad() = 0.0;
   valueFraction() = 1.0;
 }
+
+
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
 (
@@ -72,6 +81,8 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   thicknessLayers_{ptf.thicknessLayers_},
   kappaLayers_{ptf.kappaLayers_}
 {}
+
+
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
 (
@@ -92,32 +103,26 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   thicknessLayers_{},
   kappaLayers_{}
 {
-  if (dict.found("q") && !dict.found("h") && !dict.found("Ta"))
-  {
+  if (dict.found("q") && !dict.found("h") && !dict.found("Ta")) {
     mode_ = fixedHeatFlux;
     q_ = scalarField("q", dict, p.size());
-  }
-  else if (dict.found("h") && dict.found("Ta") && !dict.found("q"))
-  {
+  } else if (dict.found("h") && dict.found("Ta") && !dict.found("q")) {
     mode_ = fixedHeatTransferCoeff;
-    h_ = scalarField("h", dict, p.size());
-    Ta_ = scalarField("Ta", dict, p.size());
-    if (dict.found("thicknessLayers"))
-    {
+    h_ = scalarField{"h", dict, p.size()};
+    Ta_ = scalarField{"Ta", dict, p.size()};
+    if (dict.found("thicknessLayers")) {
       dict.lookup("thicknessLayers") >> thicknessLayers_;
       dict.lookup("kappaLayers") >> kappaLayers_;
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "externalWallHeatFluxTemperatureFvPatchScalarField::"
       "externalWallHeatFluxTemperatureFvPatchScalarField\n"
       "(\n"
-      "    const fvPatch& p,\n"
-      "    const DimensionedField<scalar, volMesh>& iF,\n"
-      "    const dictionary& dict\n"
+      "  const fvPatch& p,\n"
+      "  const DimensionedField<scalar, volMesh>& iF,\n"
+      "  const dictionary& dict\n"
       ")\n"
     )
     << "\n patch type '" << p.type()
@@ -128,25 +133,23 @@ externalWallHeatFluxTemperatureFvPatchScalarField
     << exit(FatalError);
   }
   fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
-  if (dict.found("QrPrevious"))
-  {
-    QrPrevious_ = scalarField("QrPrevious", dict, p.size());
+  if (dict.found("QrPrevious")) {
+    QrPrevious_ = scalarField{"QrPrevious", dict, p.size()};
   }
-  if (dict.found("refValue"))
-  {
+  if (dict.found("refValue")) {
     // Full restart
-    refValue() = scalarField("refValue", dict, p.size());
-    refGrad() = scalarField("refGradient", dict, p.size());
-    valueFraction() = scalarField("valueFraction", dict, p.size());
-  }
-  else
-  {
+    refValue() = scalarField{"refValue", dict, p.size()};
+    refGrad() = scalarField{"refGradient", dict, p.size()};
+    valueFraction() = scalarField{"valueFraction", dict, p.size()};
+  } else {
     // Start from user entered data. Assume fixedValue.
     refValue() = *this;
     refGrad() = 0.0;
     valueFraction() = 1.0;
   }
 }
+
+
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
 (
@@ -165,6 +168,8 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   thicknessLayers_{tppsf.thicknessLayers_},
   kappaLayers_{tppsf.kappaLayers_}
 {}
+
+
 mousse::externalWallHeatFluxTemperatureFvPatchScalarField::
 externalWallHeatFluxTemperatureFvPatchScalarField
 (
@@ -184,6 +189,8 @@ externalWallHeatFluxTemperatureFvPatchScalarField
   thicknessLayers_{tppsf.thicknessLayers_},
   kappaLayers_{tppsf.kappaLayers_}
 {}
+
+
 // Member Functions 
 void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::autoMap
 (
@@ -195,6 +202,8 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::autoMap
   h_.autoMap(m);
   Ta_.autoMap(m);
 }
+
+
 void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -208,66 +217,61 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::rmap
   h_.rmap(tiptf.h_, addr);
   Ta_.rmap(tiptf.Ta_, addr);
 }
+
+
 void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const scalarField Tp(*this);
-  scalarField hp(patch().size(), 0.0);
-  scalarField Qr(Tp.size(), 0.0);
-  if (QrName_ != "none")
-  {
+  const scalarField Tp{*this};
+  scalarField hp{patch().size(), 0.0};
+  scalarField Qr{Tp.size(), 0.0};
+  if (QrName_ != "none") {
     Qr = patch().lookupPatchField<volScalarField, scalar>(QrName_);
     Qr = QrRelaxation_*Qr + (1.0 - QrRelaxation_)*QrPrevious_;
     QrPrevious_ = Qr;
   }
-  switch (mode_)
-  {
+  switch (mode_) {
     case fixedHeatFlux:
-    {
-      refGrad() = (q_ + Qr)/kappa(Tp);
-      refValue() = 0.0;
-      valueFraction() = 0.0;
-      break;
-    }
-    case fixedHeatTransferCoeff:
-    {
-      scalar totalSolidRes = 0.0;
-      if (thicknessLayers_.size() > 0)
       {
-        FOR_ALL(thicknessLayers_, iLayer)
-        {
-          const scalar l = thicknessLayers_[iLayer];
-          if (kappaLayers_[iLayer] > 0.0)
-          {
-            totalSolidRes += l/kappaLayers_[iLayer];
+        refGrad() = (q_ + Qr)/kappa(Tp);
+        refValue() = 0.0;
+        valueFraction() = 0.0;
+        break;
+      }
+    case fixedHeatTransferCoeff:
+      {
+        scalar totalSolidRes = 0.0;
+        if (thicknessLayers_.size() > 0) {
+          FOR_ALL(thicknessLayers_, iLayer) {
+            const scalar l = thicknessLayers_[iLayer];
+            if (kappaLayers_[iLayer] > 0.0) {
+              totalSolidRes += l/kappaLayers_[iLayer];
+            }
           }
         }
+        hp = 1.0/(1.0/h_ + totalSolidRes);
+        Qr /= Tp;
+        refGrad() = 0.0;
+        refValue() = hp*Ta_/(hp - Qr);
+        valueFraction() =
+          (hp - Qr)/((hp - Qr) + kappa(Tp)*patch().deltaCoeffs());
+        break;
       }
-      hp = 1.0/(1.0/h_ + totalSolidRes);
-      Qr /= Tp;
-      refGrad() = 0.0;
-      refValue() = hp*Ta_/(hp - Qr);
-      valueFraction() =
-        (hp - Qr)/((hp - Qr) + kappa(Tp)*patch().deltaCoeffs());
-      break;
-    }
     default:
-    {
-      FATAL_ERROR_IN
-      (
-        "externalWallHeatFluxTemperatureFvPatchScalarField"
-        "::updateCoeffs()"
-      )
-      << "Illegal heat flux mode " << operationModeNames[mode_]
-      << exit(FatalError);
-    }
+      {
+        FATAL_ERROR_IN
+        (
+          "externalWallHeatFluxTemperatureFvPatchScalarField"
+          "::updateCoeffs()"
+        )
+        << "Illegal heat flux mode " << operationModeNames[mode_]
+        << exit(FatalError);
+      }
   }
   mixedFvPatchScalarField::updateCoeffs();
-  if (debug)
-  {
+  if (debug) {
     scalar Q = gSum(kappa(Tp)*patch().magSf()*snGrad());
     Info
       << patch().boundaryMesh().mesh().name() << ':'
@@ -281,6 +285,8 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::updateCoeffs()
       << endl;
   }
 }
+
+
 void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::write
 (
   Ostream& os
@@ -292,39 +298,43 @@ void mousse::externalWallHeatFluxTemperatureFvPatchScalarField::write
   os.writeKeyword("Qr")<< QrName_ << token::END_STATEMENT << nl;
   os.writeKeyword("relaxation")<< QrRelaxation_
     << token::END_STATEMENT << nl;
-  switch (mode_)
-  {
+  switch (mode_) {
     case fixedHeatFlux:
-    {
-      q_.writeEntry("q", os);
-      break;
-    }
+      {
+        q_.writeEntry("q", os);
+        break;
+      }
     case fixedHeatTransferCoeff:
-    {
-      h_.writeEntry("h", os);
-      Ta_.writeEntry("Ta", os);
-      thicknessLayers_.writeEntry("thicknessLayers", os);
-      kappaLayers_.writeEntry("kappaLayers", os);
-      break;
-    }
+      {
+        h_.writeEntry("h", os);
+        Ta_.writeEntry("Ta", os);
+        thicknessLayers_.writeEntry("thicknessLayers", os);
+        kappaLayers_.writeEntry("kappaLayers", os);
+        break;
+      }
     default:
-    {
-      FATAL_ERROR_IN
-      (
-        "void externalWallHeatFluxTemperatureFvPatchScalarField::write"
-        "("
-          "Ostream& os"
-        ") const"
-      )   << "Illegal heat flux mode " << operationModeNames[mode_]
+      {
+        FATAL_ERROR_IN
+        (
+          "void externalWallHeatFluxTemperatureFvPatchScalarField::write"
+          "("
+            "Ostream& os"
+          ") const"
+        )
+        << "Illegal heat flux mode " << operationModeNames[mode_]
         << abort(FatalError);
-    }
+      }
   }
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   externalWallHeatFluxTemperatureFvPatchScalarField
 );
+
 }
+

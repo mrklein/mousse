@@ -12,9 +12,12 @@
 #include "global_index.hpp"
 #include "load_or_create_mesh.hpp"
 
+
 // Tolerance (as fraction of the bounding box). Needs to be fairly lax since
 // usually meshes get written with limited precision (6 digits)
 static const scalar defaultMergeTol = 1e-6;
+
+
 // Get merging distance when matching face centres
 scalar getMergeDistance
 (
@@ -26,11 +29,10 @@ scalar getMergeDistance
   scalar mergeTol = defaultMergeTol;
   args.optionReadIfPresent("mergeTol", mergeTol);
   scalar writeTol =
-    mousse::pow(scalar(10.0), -scalar(IOstream::defaultPrecision()));
+    mousse::pow(scalar{10.0}, -scalar(IOstream::defaultPrecision()));
   Info << "Merge tolerance : " << mergeTol << nl
     << "Write tolerance : " << writeTol << endl;
-  if (runTime.writeFormat() == IOstream::ASCII && mergeTol < writeTol)
-  {
+  if (runTime.writeFormat() == IOstream::ASCII && mergeTol < writeTol) {
     FATAL_ERROR_IN("getMergeDistance")
       << "Your current settings specify ASCII writing with "
       << IOstream::defaultPrecision() << " digits precision." << endl
@@ -49,6 +51,7 @@ scalar getMergeDistance
   return mergeDist;
 }
 
+
 void printMeshData(const polyMesh& mesh)
 {
   // Collect all data on master
@@ -58,40 +61,36 @@ void printMeshData(const polyMesh& mesh)
   const labelList& pPatches = mesh.globalData().processorPatches();
   patchNeiProcNo[Pstream::myProcNo()].setSize(pPatches.size());
   patchSize[Pstream::myProcNo()].setSize(pPatches.size());
-  FOR_ALL(pPatches, i)
-  {
-    const processorPolyPatch& ppp = refCast<const processorPolyPatch>
-    (
-      mesh.boundaryMesh()[pPatches[i]]
-    );
+  FOR_ALL(pPatches, i) {
+    const processorPolyPatch& ppp =
+      refCast<const processorPolyPatch>(mesh.boundaryMesh()[pPatches[i]]);
     patchNeiProcNo[Pstream::myProcNo()][i] = ppp.neighbProcNo();
     patchSize[Pstream::myProcNo()][i] = ppp.size();
   }
   Pstream::gatherList(patchNeiProcNo);
   Pstream::gatherList(patchSize);
   // Print stats
-  globalIndex globalBoundaryFaces{mesh.nFaces()-mesh.nInternalFaces()};
+  globalIndex globalBoundaryFaces{mesh.nFaces() - mesh.nInternalFaces()};
   label maxProcCells = 0;
   label totProcFaces = 0;
   label maxProcPatches = 0;
   label totProcPatches = 0;
   label maxProcFaces = 0;
-  for (label procI = 0; procI < Pstream::nProcs(); procI++)
-  {
+  for (label procI = 0; procI < Pstream::nProcs(); procI++) {
     Info << endl
       << "Processor " << procI << nl
       << "    Number of cells = " << globalCells.localSize(procI)
       << endl;
     label nProcFaces = 0;
     const labelList& nei = patchNeiProcNo[procI];
-    FOR_ALL(patchNeiProcNo[procI], i)
-    {
+    FOR_ALL(patchNeiProcNo[procI], i) {
       Info << "    Number of faces shared with processor "
         << patchNeiProcNo[procI][i] << " = " << patchSize[procI][i]
         << endl;
       nProcFaces += patchSize[procI][i];
     }
-    Info << "    Number of processor patches = " << nei.size() << nl
+    Info
+      << "    Number of processor patches = " << nei.size() << nl
       << "    Number of processor faces = " << nProcFaces << nl
       << "    Number of boundary faces = "
       << globalBoundaryFaces.localSize(procI) << endl;
@@ -102,16 +101,17 @@ void printMeshData(const polyMesh& mesh)
     maxProcFaces = max(maxProcFaces, nProcFaces);
   }
   // Stats
-  scalar avgProcCells = scalar(globalCells.size())/Pstream::nProcs();
-  scalar avgProcPatches = scalar(totProcPatches)/Pstream::nProcs();
-  scalar avgProcFaces = scalar(totProcFaces)/Pstream::nProcs();
+  scalar avgProcCells =
+    static_cast<scalar>(globalCells.size())/Pstream::nProcs();
+  scalar avgProcPatches =
+    static_cast<scalar>(totProcPatches)/Pstream::nProcs();
+  scalar avgProcFaces =
+    static_cast<scalar>(totProcFaces)/Pstream::nProcs();
   // In case of all faces on one processor. Just to avoid division by 0.
-  if (totProcPatches == 0)
-  {
+  if (totProcPatches == 0) {
     avgProcPatches = 1;
   }
-  if (totProcFaces == 0)
-  {
+  if (totProcFaces == 0) {
     avgProcFaces = 1;
   }
   Info << nl
@@ -127,6 +127,8 @@ void printMeshData(const polyMesh& mesh)
     << "% above average " << avgProcFaces << ")" << nl
     << endl;
 }
+
+
 // Debugging: write volScalarField with decomposition for post processing.
 void writeDecomposition
 (
@@ -151,12 +153,12 @@ void writeDecomposition
     {name, dimless, -1},
     zeroGradientFvPatchScalarField::typeName
   };
-  FOR_ALL(procCells, cI)
-  {
+  FOR_ALL(procCells, cI) {
     procCells[cI] = decomp[cI];
   }
   procCells.write();
 }
+
 
 // Read vol or surface fields
 //template<class T, class Mesh>
@@ -178,8 +180,7 @@ void readFields
   // Get master names
   wordList masterNames{objectNames};
   Pstream::scatter(masterNames);
-  if (haveMesh[Pstream::myProcNo()] && objectNames != masterNames)
-  {
+  if (haveMesh[Pstream::myProcNo()] && objectNames != masterNames) {
     FATAL_ERROR_IN("readFields()")
       << "differing fields of type " << GeoField::typeName
       << " on processors." << endl
@@ -189,36 +190,28 @@ void readFields
   }
   fields.setSize(masterNames.size());
   // Have master send all fields to processors that don't have a mesh
-  if (Pstream::master())
-  {
-    FOR_ALL(masterNames, i)
-    {
+  if (Pstream::master()) {
+    FOR_ALL(masterNames, i) {
       const word& name = masterNames[i];
       IOobject& io = *objects[name];
       io.writeOpt() = IOobject::AUTO_WRITE;
       // Load field
       fields.set(i, new GeoField{io, mesh});
       // Create zero sized field and send
-      if (subsetterPtr.valid())
-      {
-        tmp<GeoField> tsubfld = subsetterPtr().interpolate(fields[i]);
-        // Send to all processors that don't have a mesh
-        for (label procI = 1; procI < Pstream::nProcs(); procI++)
-        {
-          if (!haveMesh[procI])
-          {
-            OPstream toProc{Pstream::blocking, static_cast<int>(procI)};
-            toProc<< tsubfld();
-          }
+      if (!subsetterPtr.valid())
+        continue;
+      tmp<GeoField> tsubfld = subsetterPtr().interpolate(fields[i]);
+      // Send to all processors that don't have a mesh
+      for (label procI = 1; procI < Pstream::nProcs(); procI++) {
+        if (!haveMesh[procI]) {
+          OPstream toProc{Pstream::blocking, static_cast<int>(procI)};
+          toProc<< tsubfld();
         }
       }
     }
-  }
-  else if (!haveMesh[Pstream::myProcNo()])
-  {
+  } else if (!haveMesh[Pstream::myProcNo()]) {
     // Don't have mesh (nor fields). Receive empty field from master.
-    FOR_ALL(masterNames, i)
-    {
+    FOR_ALL(masterNames, i) {
       const word& name = masterNames[i];
       // Receive field
       IPstream fromMaster{Pstream::blocking, Pstream::masterNo()};
@@ -239,15 +232,10 @@ void readFields
           fieldDict
         }
       );
-      //// Write it for next time round (since mesh gets written as well)
-      //fields[i].write();
     }
-  }
-  else
-  {
+  } else {
     // Have mesh so just try to load
-    FOR_ALL(masterNames, i)
-    {
+    FOR_ALL(masterNames, i) {
       const word& name = masterNames[i];
       IOobject& io = *objects[name];
       io.writeOpt() = IOobject::AUTO_WRITE;
@@ -257,6 +245,7 @@ void readFields
   }
 }
 
+
 // Debugging: compare two fields.
 void compareFields
 (
@@ -265,10 +254,8 @@ void compareFields
   const volVectorField& b
 )
 {
-  FOR_ALL(a, cellI)
-  {
-    if (mag(b[cellI] - a[cellI]) > tolDim)
-    {
+  FOR_ALL(a, cellI) {
+    if (mag(b[cellI] - a[cellI]) > tolDim) {
       FATAL_ERROR_IN
       (
         "compareFields"
@@ -281,37 +268,34 @@ void compareFields
       << abort(FatalError);
     }
   }
-  FOR_ALL(a.boundaryField(), patchI)
-  {
+  FOR_ALL(a.boundaryField(), patchI) {
     // We have real mesh cellcentre and
     // mapped original cell centre.
     const fvPatchVectorField& aBoundary = a.boundaryField()[patchI];
     const fvPatchVectorField& bBoundary = b.boundaryField()[patchI];
-    if (!bBoundary.coupled())
-    {
-      FOR_ALL(aBoundary, i)
-      {
-        if (mag(aBoundary[i] - bBoundary[i]) > tolDim)
-        {
-          WARNING_IN
-          (
-            "compareFields"
-            "(const scalar, const volVectorField&"
-            ", const volVectorField&)"
-          )
-          << "Did not map volVectorField correctly:"
-          << endl
-          << "patch:" << patchI << " patchFace:" << i
-          << " cc:" << endl
-          << "    real    :" << aBoundary[i] << endl
-          << "    mapped  :" << bBoundary[i] << endl
-          << "This might be just a precision entry"
-          << " on writing the mesh." << endl;
-        }
+    if (bBoundary.coupled())
+      continue;
+    FOR_ALL(aBoundary, i) {
+      if (mag(aBoundary[i] - bBoundary[i]) > tolDim) {
+        WARNING_IN
+        (
+          "compareFields"
+          "(const scalar, const volVectorField&"
+          ", const volVectorField&)"
+        )
+        << "Did not map volVectorField correctly:"
+        << endl
+        << "patch:" << patchI << " patchFace:" << i
+        << " cc:" << endl
+        << "    real    :" << aBoundary[i] << endl
+        << "    mapped  :" << bBoundary[i] << endl
+        << "This might be just a precision entry"
+        << " on writing the mesh." << endl;
       }
     }
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -327,8 +311,7 @@ int main(int argc, char *argv[])
   // Include explicit constant options, have zero from time range
   timeSelector::addOptions();
   #include "set_root_case.inc"
-  if (env("FOAM_SIGFPE"))
-  {
+  if (env("FOAM_SIGFPE")) {
     WARNING_IN(args.executable())
       << "Detected floating point exception trapping (FOAM_SIGFPE)."
       << " This might give" << nl
@@ -336,9 +319,8 @@ int main(int argc, char *argv[])
       << " of problems." << endl;
   }
   // Create processor directory if non-existing
-  if (!Pstream::master() && !isDir(args.path()))
-  {
-    Pout<< "Creating case directory " << args.path() << endl;
+  if (!Pstream::master() && !isDir(args.path())) {
+    Pout << "Creating case directory " << args.path() << endl;
     mkDir(args.path());
   }
   // Make sure we do not use the master-only reading.
@@ -350,12 +332,9 @@ int main(int argc, char *argv[])
   runTime.functionObjects().off();
   word regionName = polyMesh::defaultRegion;
   fileName meshSubDir;
-  if (args.optionReadIfPresent("region", regionName))
-  {
+  if (args.optionReadIfPresent("region", regionName)) {
     meshSubDir = regionName/polyMesh::meshSubDir;
-  }
-  else
-  {
+  } else {
     meshSubDir = polyMesh::meshSubDir;
   }
   Info << "Using mesh subdirectory " << meshSubDir << nl << endl;
@@ -363,29 +342,29 @@ int main(int argc, char *argv[])
   // Get time instance directory. Since not all processors have meshes
   // just use the master one everywhere.
   fileName masterInstDir;
-  if (Pstream::master())
-  {
+  if (Pstream::master()) {
     masterInstDir = runTime.findInstance(meshSubDir, "points");
   }
   Pstream::scatter(masterInstDir);
   // Check who has a mesh
   const fileName meshPath = runTime.path()/masterInstDir/meshSubDir;
   Info << "Found points in " << meshPath << nl << endl;
-  boolList haveMesh(Pstream::nProcs(), false);
+  boolList haveMesh{Pstream::nProcs(), false};
   haveMesh[Pstream::myProcNo()] = isDir(meshPath);
   Pstream::gatherList(haveMesh);
   Pstream::scatterList(haveMesh);
   Info << "Per processor mesh availability : " << haveMesh << endl;
   const bool allHaveMesh = (findIndex(haveMesh, false) == -1);
-  autoPtr<fvMesh> meshPtr = loadOrCreateMesh
-  (
-    {
-      regionName,
-      masterInstDir,
-      runTime,
-      mousse::IOobject::MUST_READ
-    }
-  );
+  autoPtr<fvMesh> meshPtr =
+    loadOrCreateMesh
+    (
+      {
+        regionName,
+        masterInstDir,
+        runTime,
+        mousse::IOobject::MUST_READ
+      }
+    );
   fvMesh& mesh = meshPtr();
   // Print some statistics
   Info << "Before distribution:" << endl;
@@ -399,7 +378,6 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ_IF_MODIFIED
     }
   };
-
   labelList finalDecomp;
   // Create decompositionMethod and new decomposition
   {
@@ -410,8 +388,7 @@ int main(int argc, char *argv[])
         decompositionDict
       )
     };
-    if (!decomposer().parallelAware())
-    {
+    if (!decomposer().parallelAware()) {
       WARNING_IN(args.executable())
         << "You have selected decomposition method "
         << decomposer().typeName
@@ -425,8 +402,7 @@ int main(int argc, char *argv[])
     finalDecomp = decomposer().decompose(mesh, mesh.cellCentres());
   }
   // Dump decomposition to volScalarField
-  if (!overwrite)
-  {
+  if (!overwrite) {
     writeDecomposition("decomposition", mesh, finalDecomp);
   }
   // Create 0 sized mesh to do all the generation of zero sized
@@ -435,21 +411,17 @@ int main(int argc, char *argv[])
   // Pstream::parRun does parallel comms we have to do it on all
   // processors
   autoPtr<fvMeshSubset> subsetterPtr;
-  if (!allHaveMesh)
-  {
+  if (!allHaveMesh) {
     // Find last non-processor patch.
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     label nonProcI = -1;
-    FOR_ALL(patches, patchI)
-    {
-      if (isA<processorPolyPatch>(patches[patchI]))
-      {
+    FOR_ALL(patches, patchI) {
+      if (isA<processorPolyPatch>(patches[patchI])) {
         break;
       }
       nonProcI++;
     }
-    if (nonProcI == -1)
-    {
+    if (nonProcI == -1) {
       FATAL_ERROR_IN(args.executable())
         << "Cannot find non-processor patch on processor "
         << Pstream::myProcNo() << endl
@@ -465,8 +437,7 @@ int main(int argc, char *argv[])
   // We don't want to map the decomposition (mapping already tested when
   // mapping the cell centre field)
   IOobjectList::iterator iter = objects.find("decomposition");
-  if (iter != objects.end())
-  {
+  if (iter != objects.end()) {
     objects.erase(iter);
   }
   // volFields
@@ -561,39 +532,28 @@ int main(int argc, char *argv[])
     objects,
     surfTensorFields
   );
-  // Debugging: Create additional volField that will be mapped.
-  // Used to test correctness of mapping
-  //volVectorField mapCc("mapCc", 1*mesh.C());
   // Global matching tolerance
-  const scalar tolDim = getMergeDistance
-  (
-    args,
-    runTime,
-    mesh.bounds()
-  );
+  const scalar tolDim =
+    getMergeDistance
+    (
+      args,
+      runTime,
+      mesh.bounds()
+    );
   // Mesh distribution engine
   fvMeshDistribute distributor{mesh, tolDim};
-  //Pout<< "Wanted distribution:"
-  //    << distributor.countCells(finalDecomp) << nl << endl;
   // Do actual sending/receiving of mesh
   autoPtr<mapDistributePolyMesh> map = distributor.distribute(finalDecomp);
-  //// Distribute any non-registered data accordingly
-  //map().distributeFaceData(faceCc);
   // Print some statistics
   Info << "After distribution:" << endl;
   printMeshData(mesh);
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
-  }
-  else
-  {
+  } else {
     mesh.setInstance(masterInstDir);
   }
   Info << "Writing redistributed mesh to " << runTime.timeName() << nl << endl;
   mesh.write();
-  // Debugging: test mapped cellcentre field.
-  //compareFields(tolDim, mesh.C(), mapCc);
   // Print nice message
   // ~~~~~~~~~~~~~~~~~~
   // Determine which processors remain so we can print nice final message.
@@ -610,18 +570,15 @@ int main(int argc, char *argv[])
     << "Below is a sample set of commands to do this."
     << " Take care when issuing these" << nl
     << "commands." << nl << endl;
-  FOR_ALL(nFaces, procI)
-  {
+  FOR_ALL(nFaces, procI) {
     fileName procDir = "processor" + name(procI);
-    if (nFaces[procI] == 0)
-    {
+    if (nFaces[procI] == 0) {
       Info << "    rm -r " << procDir.c_str() << nl;
-    }
-    else
-    {
+    } else {
       fileName timeDir = procDir/runTime.timeName()/meshSubDir;
       fileName constDir = procDir/runTime.constant()/meshSubDir;
-      Info << "    rm -r " << constDir.c_str() << nl
+      Info
+        << "    rm -r " << constDir.c_str() << nl
         << "    mv " << timeDir.c_str()
         << ' ' << constDir.c_str() << nl;
     }
@@ -630,3 +587,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

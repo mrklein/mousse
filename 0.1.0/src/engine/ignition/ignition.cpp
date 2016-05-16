@@ -4,36 +4,35 @@
 
 #include "ignition.hpp"
 #include "fv_mesh.hpp"
+
+
 // Member Functions 
 bool mousse::ignition::igniting() const
 {
-  if (!ignite())
-  {
+  if (!ignite()) {
     return false;
   }
   bool igning = false;
-  FOR_ALL(ignSites_, i)
-  {
-    if (ignSites_[i].igniting())
-    {
+  FOR_ALL(ignSites_, i) {
+    if (ignSites_[i].igniting()) {
       igning = true;
     }
   }
   return igning;
 }
+
+
 bool mousse::ignition::ignited() const
 {
-  if (!ignite())
-  {
+  if (!ignite()) {
     return false;
   }
   bool igned = false;
-  FOR_ALL(ignSites_, i)
-  {
-    if (ignSites_[i].ignited())
-    {
+  FOR_ALL(ignSites_, i) {
+    if (ignSites_[i].ignited()) {
       igned = true;
     }
   }
   return igned;
 }
+

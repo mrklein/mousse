@@ -12,6 +12,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -22,8 +23,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (Uheader.headerOk())
-  {
+  if (Uheader.headerOk()) {
     Info << "    Reading U" << endl;
     volVectorField U{Uheader, mesh};
     Info << "    Calculating vorticity" << endl;
@@ -50,15 +50,13 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     Info << "vorticity max/min : "
       << max(magVorticity).value() << " "
       << min(magVorticity).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       vorticity.write();
       magVorticity.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No U" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

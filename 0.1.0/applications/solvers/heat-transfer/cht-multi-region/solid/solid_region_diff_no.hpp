@@ -6,14 +6,19 @@
 // Copyright (C) 2016 mousse project
 
 #include "fv_mesh.hpp"
-namespace mousse
-{
-  scalar solidRegionDiffNo
-  (
-    const fvMesh& mesh,
-    const Time& runTime,
-    const volScalarField& Cprho,
-    const volScalarField& kappa
-  );
+
+
+namespace mousse {
+
+scalar solidRegionDiffNo
+(
+  const fvMesh& mesh,
+  const Time& runTime,
+  const volScalarField& Cprho,
+  const volScalarField& kappa
+);
+
 }
+
 #endif
+

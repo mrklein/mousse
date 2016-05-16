@@ -36,15 +36,14 @@
 //     Barnes H A, 1997.  Thixotropy - a review.  J. Non-Newtonian Fluid
 //     Mech 70, pp 1-33
 //   \endverbatim
-// SourceFiles
-//   thixotropic_viscosity.cpp
+
 #include "film_viscosity_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class thixotropicViscosity
 :
   public filmViscosityModel
@@ -94,7 +93,10 @@ public:
       const volScalarField& T
     );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

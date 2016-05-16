@@ -22,20 +22,20 @@ namespace mousse {
 template<class T>
 class autoPtr
 {
-  // Public data
+  // Private data
     //- Pointer to object
     mutable T* ptr_;
 public:
   // Constructors
     //- Store object pointer
-    inline explicit autoPtr(T* = 0);
+    inline explicit autoPtr(T* = nullptr);
     //- Construct as copy by transferring pointer to this autoPtr and
-    //  setting the arguments pointer to NULL
+    //  setting the arguments pointer to nullptr
     inline autoPtr(const autoPtr<T>&);
     //- Construct either by transferring pointer or cloning. Should
     //  only be called with type that supports cloning.
     inline autoPtr(const autoPtr<T>&, const bool reUse);
-  //- Destructor, delete object if pointer is not NULL
+  //- Destructor, delete object if pointer is not nullptr
   inline ~autoPtr();
   // Member Functions
     // Check
@@ -51,8 +51,8 @@ public:
       inline void set(T*);
       //- If object pointer already set, delete object and set to given
       //  pointer
-      inline void reset(T* = 0);
-      //- Delete object (if the pointer is valid) and set pointer to NULL.
+      inline void reset(T* = nullptr);
+      //- Delete object (if the pointer is valid) and set pointer to nullptr.
       inline void clear();
     // Member operators
       //- Return reference to the object data
@@ -84,7 +84,7 @@ inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap)
 :
   ptr_{ap.ptr_}
 {
-  ap.ptr_ = 0;
+  ap.ptr_ = nullptr;
 }
 
 
@@ -93,11 +93,11 @@ inline mousse::autoPtr<T>::autoPtr(const autoPtr<T>& ap, const bool reUse)
 {
   if (reUse) {
     ptr_ = ap.ptr_;
-    ap.ptr_ = 0;
+    ap.ptr_ = nullptr;
   } else if (ap.valid()) {
     ptr_ = ap().clone().ptr();
   } else {
-    ptr_ = NULL;
+    ptr_ = nullptr;
   }
 }
 
@@ -113,14 +113,14 @@ inline mousse::autoPtr<T>::~autoPtr()
 template<class T>
 inline bool mousse::autoPtr<T>::empty() const
 {
-  return !ptr_;
+  return ptr_ == nullptr;
 }
 
 
 template<class T>
 inline bool mousse::autoPtr<T>::valid() const
 {
-  return ptr_;
+  return ptr_ != nullptr;
 }
 
 
@@ -128,7 +128,7 @@ template<class T>
 inline T* mousse::autoPtr<T>::ptr()
 {
   T* ptr = ptr_;
-  ptr_ = 0;
+  ptr_ = nullptr;
   return ptr;
 }
 
@@ -136,7 +136,7 @@ inline T* mousse::autoPtr<T>::ptr()
 template<class T>
 inline void mousse::autoPtr<T>::set(T* p)
 {
-  if (ptr_) {
+  if (ptr_ != nullptr) {
     FATAL_ERROR_IN("void mousse::autoPtr<T>::set(T*)")
       << "object of type " << typeid(T).name()
       << " already allocated"
@@ -149,7 +149,7 @@ inline void mousse::autoPtr<T>::set(T* p)
 template<class T>
 inline void mousse::autoPtr<T>::reset(T* p)
 {
-  if (ptr_) {
+  if (ptr_ != nullptr) {
     delete ptr_;
   }
   ptr_ = p;
@@ -159,14 +159,15 @@ inline void mousse::autoPtr<T>::reset(T* p)
 template<class T>
 inline void mousse::autoPtr<T>::clear()
 {
-  reset(0);
+  reset(nullptr);
 }
+
 
 // Member Operators
 template<class T>
 inline T& mousse::autoPtr<T>::operator()()
 {
-  if (!ptr_) {
+  if (ptr_ == nullptr) {
     FATAL_ERROR_IN("T& mousse::autoPtr<T>::operator()()")
       << "object of type " << typeid(T).name()
       << " is not allocated"
@@ -179,7 +180,7 @@ inline T& mousse::autoPtr<T>::operator()()
 template<class T>
 inline const T& mousse::autoPtr<T>::operator()() const
 {
-  if (!ptr_) {
+  if (ptr_ == nullptr) {
     FATAL_ERROR_IN("const T& mousse::autoPtr<T>::operator()() const")
       << "object of type " << typeid(T).name()
       << " is not allocated"
@@ -199,7 +200,7 @@ inline mousse::autoPtr<T>::operator const T&() const
 template<class T>
 inline T* mousse::autoPtr<T>::operator->()
 {
-  if (!ptr_) {
+  if (ptr_ == nullptr) {
     FATAL_ERROR_IN("mousse::autoPtr<T>::operator->()")
       << "object of type " << typeid(T).name()
       << " is not allocated"

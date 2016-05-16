@@ -12,12 +12,12 @@
 //   and velocity sourced face-by-face from the boundaryT and boundaryU fields
 //   of the cloud.
 
-
 #include "_inflow_boundary_model.hpp"
 #include "poly_mesh.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class FreeStream
 :
@@ -36,7 +36,7 @@ class FreeStream
     // + Inner List - one Field for every species to be introduced
     // + Each field entry corresponding to a face to be injected across
     //   with a particular species
-    List<List<Field<scalar> > > particleFluxAccumulators_;
+    List<List<Field<scalar>>> particleFluxAccumulators_;
 public:
   //- Runtime type information
   TYPE_NAME("FreeStream");
@@ -56,8 +56,9 @@ public:
     //- Introduce particles
     virtual void inflow();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_free_stream.cpp"
-#endif
+
+#include "_free_stream.ipp"
+
 #endif

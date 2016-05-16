@@ -19,8 +19,10 @@
 #include "sensible_internal_energy.hpp"
 #include "thermo.hpp"
 #include "solid_thermo_physics_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Enthalpy-based
 MAKE_SOLID_THERMO
 (
@@ -33,6 +35,7 @@ MAKE_SOLID_THERMO
   rhoConst,
   specie
 );
+
 MAKE_SOLID_THERMO
 (
   solidThermo,
@@ -44,6 +47,7 @@ MAKE_SOLID_THERMO
   rhoConst,
   specie
 );
+
 MAKE_SOLID_THERMO
 (
   solidThermo,
@@ -55,6 +59,7 @@ MAKE_SOLID_THERMO
   rhoConst,
   specie
 );
+
 MAKE_SOLID_THERMO_PHYSICS_TYPE
 (
   solidThermo,
@@ -62,4 +67,6 @@ MAKE_SOLID_THERMO_PHYSICS_TYPE
   pureMixture,
   hTransportThermoPoly8SolidThermoPhysics
 );
+
 }  // namespace mousse
+

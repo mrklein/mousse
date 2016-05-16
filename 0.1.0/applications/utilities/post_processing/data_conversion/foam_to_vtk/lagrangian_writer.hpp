@@ -8,18 +8,22 @@
 //   mousse::lagrangianWriter
 // Description
 //   Write fields (internal).
-// SourceFiles
-//   lagrangian_writer.cpp
-//   lagrangian_writer_templates.cpp
+
 #include "ofstream.hpp"
 #include "cloud.hpp"
 #include "vol_fields.hpp"
 #include "point_fields.hpp"
 #include "vtk_mesh.hpp"
+
+
 using namespace mousse;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class volPointInterpolation;
+
+
 class lagrangianWriter
 {
   const vtkMesh& vMesh_;
@@ -49,8 +53,9 @@ public:
     template<class Type>
     void writeIOField(const wordList&);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "lagrangian_writer_templates.cpp"
-#endif
+
+#include "lagrangian_writer.ipp"
+
 #endif

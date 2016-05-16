@@ -27,11 +27,13 @@
   #include <readline/history.h>
 #endif
 
+
 using namespace mousse;
 
 #ifdef HAS_READLINE
 static const char* historyFile = ".setSet";
 #endif
+
 
 // Write set to VTK readable files
 void writeVTK
@@ -41,14 +43,12 @@ void writeVTK
   const fileName& vtkName
 )
 {
-  if (isA<faceSet>(currentSet))
-  {
+  if (isA<faceSet>(currentSet)) {
     // Faces of set with OpenFOAM faceID as value
     faceList setFaces{currentSet.size()};
     labelList faceValues{currentSet.size()};
     label setFaceI = 0;
-    FOR_ALL_CONST_ITER(topoSet, currentSet, iter)
-    {
+    FOR_ALL_CONST_ITER(topoSet, currentSet, iter) {
       setFaces[setFaceI] = mesh.faces()[iter.key()];
       faceValues[setFaceI] = iter.key();
       setFaceI++;
@@ -63,32 +63,23 @@ void writeVTK
       faceValues,
       mesh.time().path()/vtkName
     );
-  }
-  else if (isA<cellSet>(currentSet))
-  {
+  } else if (isA<cellSet>(currentSet)) {
     // External faces of cellset with OpenFOAM cellID as value
     Map<label> cellFaces{currentSet.size()};
-    FOR_ALL_CONST_ITER(cellSet, currentSet, iter)
-    {
+    FOR_ALL_CONST_ITER(cellSet, currentSet, iter) {
       label cellI = iter.key();
       const cell& cFaces = mesh.cells()[cellI];
-      FOR_ALL(cFaces, i)
-      {
+      FOR_ALL(cFaces, i) {
         label faceI = cFaces[i];
-        if (mesh.isInternalFace(faceI))
-        {
+        if (mesh.isInternalFace(faceI)) {
           label otherCellI = mesh.faceOwner()[faceI];
-          if (otherCellI == cellI)
-          {
+          if (otherCellI == cellI) {
             otherCellI = mesh.faceNeighbour()[faceI];
           }
-          if (!currentSet.found(otherCellI))
-          {
+          if (!currentSet.found(otherCellI)) {
             cellFaces.insert(faceI, cellI);
           }
-        }
-        else
-        {
+        } else {
           cellFaces.insert(faceI, cellI);
         }
       }
@@ -96,8 +87,7 @@ void writeVTK
     faceList setFaces{cellFaces.size()};
     labelList faceValues{cellFaces.size()};
     label setFaceI = 0;
-    FOR_ALL_CONST_ITER(Map<label>, cellFaces, iter)
-    {
+    FOR_ALL_CONST_ITER(Map<label>, cellFaces, iter) {
       setFaces[setFaceI] = mesh.faces()[iter.key()];
       faceValues[setFaceI] = iter();              // Cell ID
       setFaceI++;
@@ -112,9 +102,7 @@ void writeVTK
       faceValues,
       mesh.time().path()/vtkName
     );
-  }
-  else if (isA<pointSet>(currentSet))
-  {
+  } else if (isA<pointSet>(currentSet)) {
     writePointSet
     (
       true,
@@ -122,18 +110,19 @@ void writeVTK
       currentSet,
       mesh.time().path()/vtkName
     );
-  }
-  else
-  {
+  } else {
     WARNING_IN
     (
       "void writeVTK"
       "(const polyMesh& mesh, const topoSet& currentSet,"
       "const fileName& vtkName)"
-    )   << "Don't know how to handle set of type " << currentSet.type()
-      << endl;
+    )
+    << "Don't know how to handle set of type " << currentSet.type()
+    << endl;
   }
 }
+
+
 void printHelp(Ostream& os)
 {
   os << "Please type 'help', 'list', 'quit', 'time ddd'"
@@ -192,6 +181,7 @@ void printHelp(Ostream& os)
     << endl;
 }
 
+
 void printAllSets(const polyMesh& mesh, Ostream& os)
 {
   IOobjectList objects
@@ -207,67 +197,56 @@ void printAllSets(const polyMesh& mesh, Ostream& os)
     polyMesh::meshSubDir/"sets"
   };
   IOobjectList cellSets{objects.lookupClass(cellSet::typeName)};
-  if (cellSets.size())
-  {
+  if (cellSets.size()) {
     os << "cellSets:" << endl;
-    FOR_ALL_CONST_ITER(IOobjectList, cellSets, iter)
-    {
+    FOR_ALL_CONST_ITER(IOobjectList, cellSets, iter) {
       cellSet set{*iter()};
       os << '\t' << set.name() << "\tsize:" << set.size() << endl;
     }
   }
   IOobjectList faceSets{objects.lookupClass(faceSet::typeName)};
-  if (faceSets.size())
-  {
+  if (faceSets.size()) {
     os << "faceSets:" << endl;
-    FOR_ALL_CONST_ITER(IOobjectList, faceSets, iter)
-    {
+    FOR_ALL_CONST_ITER(IOobjectList, faceSets, iter) {
       faceSet set{*iter()};
       os << '\t' << set.name() << "\tsize:" << set.size() << endl;
     }
   }
   IOobjectList pointSets{objects.lookupClass(pointSet::typeName)};
-  if (pointSets.size())
-  {
+  if (pointSets.size()) {
     os << "pointSets:" << endl;
-    FOR_ALL_CONST_ITER(IOobjectList, pointSets, iter)
-    {
+    FOR_ALL_CONST_ITER(IOobjectList, pointSets, iter) {
       pointSet set{*iter()};
       os << '\t' << set.name() << "\tsize:" << set.size() << endl;
     }
   }
   const cellZoneMesh& cellZones = mesh.cellZones();
-  if (cellZones.size())
-  {
+  if (cellZones.size()) {
     os << "cellZones:" << endl;
-    FOR_ALL(cellZones, i)
-    {
+    FOR_ALL(cellZones, i) {
       const cellZone& zone = cellZones[i];
       os << '\t' << zone.name() << "\tsize:" << zone.size() << endl;
     }
   }
   const faceZoneMesh& faceZones = mesh.faceZones();
-  if (faceZones.size())
-  {
+  if (faceZones.size()) {
     os << "faceZones:" << endl;
-    FOR_ALL(faceZones, i)
-    {
+    FOR_ALL(faceZones, i) {
       const faceZone& zone = faceZones[i];
       os << '\t' << zone.name() << "\tsize:" << zone.size() << endl;
     }
   }
   const pointZoneMesh& pointZones = mesh.pointZones();
-  if (pointZones.size())
-  {
+  if (pointZones.size()) {
     os << "pointZones:" << endl;
-    FOR_ALL(pointZones, i)
-    {
+    FOR_ALL(pointZones, i) {
       const pointZone& zone = pointZones[i];
       os << '\t' << zone.name() << "\tsize:" << zone.size() << endl;
     }
   }
   os << endl;
 }
+
 
 template<class ZoneType>
 void removeZone
@@ -277,26 +256,23 @@ void removeZone
 )
 {
   label zoneID = zones.findZoneID(setName);
-  if (zoneID != -1)
-  {
-    Info << "Removing zone " << setName << " at index " << zoneID << endl;
-    // Shuffle to last position
-    labelList oldToNew{zones.size()};
-    label newI = 0;
-    FOR_ALL(oldToNew, i)
-    {
-      if (i != zoneID)
-      {
-        oldToNew[i] = newI++;
-      }
+  if (zoneID == -1)
+    return;
+  Info << "Removing zone " << setName << " at index " << zoneID << endl;
+  // Shuffle to last position
+  labelList oldToNew{zones.size()};
+  label newI = 0;
+  FOR_ALL(oldToNew, i) {
+    if (i != zoneID) {
+      oldToNew[i] = newI++;
     }
-    oldToNew[zoneID] = newI;
-    zones.reorder(oldToNew);
-    // Remove last element
-    zones.setSize(zones.size()-1);
-    zones.clearAddressing();
-    zones.write();
   }
+  oldToNew[zoneID] = newI;
+  zones.reorder(oldToNew);
+  // Remove last element
+  zones.setSize(zones.size()-1);
+  zones.clearAddressing();
+  zones.write();
 }
 
 // Physically remove a set
@@ -320,32 +296,26 @@ void removeSet
     ),
     polyMesh::meshSubDir/"sets"
   };
-  if (objects.found(setName))
-  {
+  if (objects.found(setName)) {
     // Remove file
     fileName object = objects[setName]->objectPath();
     Info << "Removing file " << object << endl;
     rm(object);
   }
   // See if zone
-  if (setType == cellZoneSet::typeName)
-  {
+  if (setType == cellZoneSet::typeName) {
     removeZone
     (
       const_cast<cellZoneMesh&>(mesh.cellZones()),
       setName
     );
-  }
-  else if (setType == faceZoneSet::typeName)
-  {
+  } else if (setType == faceZoneSet::typeName) {
     removeZone
     (
       const_cast<faceZoneMesh&>(mesh.faceZones()),
       setName
     );
-  }
-  else if (setType == pointZoneSet::typeName)
-  {
+  } else if (setType == pointZoneSet::typeName) {
     removeZone
     (
       const_cast<pointZoneMesh&>(mesh.pointZones()),
@@ -353,6 +323,7 @@ void removeSet
     );
   }
 }
+
 
 // Read command and execute. Return true if ok, false otherwise.
 bool doCommand
@@ -379,112 +350,99 @@ bool doCommand
   // Set to work on
   autoPtr<topoSet> currentSetPtr;
   word sourceType;
-  try
-  {
-    topoSetSource::setAction action =
-      topoSetSource::toAction(actionName);
+  try {
+    topoSetSource::setAction action = topoSetSource::toAction(actionName);
     IOobject::readOption r;
-    if (action == topoSetSource::REMOVE)
-    {
+    if (action == topoSetSource::REMOVE) {
       removeSet(mesh, setType, setName);
-    }
-    else if
-    (
-      (action == topoSetSource::NEW) || (action == topoSetSource::CLEAR)
-    )
-    {
+    } else if ((action == topoSetSource::NEW)
+               || (action == topoSetSource::CLEAR)) {
       r = IOobject::NO_READ;
       currentSetPtr = topoSet::New(setType, mesh, setName, typSize);
-    }
-    else
-    {
+    } else {
       r = IOobject::MUST_READ;
       currentSetPtr = topoSet::New(setType, mesh, setName, r);
       topoSet& currentSet = currentSetPtr();
       // Presize it according to current mesh data.
       currentSet.resize(max(currentSet.size(), typSize));
     }
-    if (currentSetPtr.valid())
-    {
+    if (currentSetPtr.valid()) {
       topoSet& currentSet = currentSetPtr();
-      Info << "    Set:" << currentSet.name()
-        << "  Size:" << returnReduce(currentSet.size(), sumOp<label>())
-        << "  Action:" << actionName
+      Info
+        << "     Set: " << currentSet.name()
+        << "    Size: " << returnReduce(currentSet.size(), sumOp<label>())
+        << "  Action: " << actionName
         << endl;
-      switch (action)
-      {
+      switch (action) {
         case topoSetSource::CLEAR:
-        {
-          // Already handled above by not reading
-          break;
-        }
+          {
+            // Already handled above by not reading
+            break;
+          }
         case topoSetSource::INVERT:
-        {
-          currentSet.invert(currentSet.maxSize(mesh));
-          break;
-        }
+          {
+            currentSet.invert(currentSet.maxSize(mesh));
+            break;
+          }
         case topoSetSource::LIST:
-        {
-          currentSet.writeDebug(Pout, mesh, 100);
-          Pout << endl;
-          break;
-        }
+          {
+            currentSet.writeDebug(Pout, mesh, 100);
+            Pout << endl;
+            break;
+          }
         case topoSetSource::SUBSET:
-        {
-          if (is >> sourceType)
           {
-            autoPtr<topoSetSource> setSource
-            {
-              topoSetSource::New
-              (
-                sourceType,
-                mesh,
-                is
-              )
-            };
-            // Backup current set.
-            autoPtr<topoSet> oldSet
-            {
-              topoSet::New
-              (
-                setType,
-                mesh,
-                currentSet.name() + "_old2",
-                currentSet
-              )
-            };
-            currentSet.clear();
-            setSource().applyToSet(topoSetSource::NEW, currentSet);
-            // Combine new value of currentSet with old one.
-            currentSet.subset(oldSet);
+            if (is >> sourceType) {
+              autoPtr<topoSetSource> setSource
+              {
+                topoSetSource::New
+                (
+                  sourceType,
+                  mesh,
+                  is
+                )
+              };
+              // Backup current set.
+              autoPtr<topoSet> oldSet
+              {
+                topoSet::New
+                (
+                  setType,
+                  mesh,
+                  currentSet.name() + "_old2",
+                  currentSet
+                )
+              };
+              currentSet.clear();
+              setSource().applyToSet(topoSetSource::NEW, currentSet);
+              // Combine new value of currentSet with old one.
+              currentSet.subset(oldSet);
+            }
+            break;
           }
-          break;
-        }
         default:
-        {
-          if (is >> sourceType)
           {
-            autoPtr<topoSetSource> setSource
-            {
-              topoSetSource::New
-              (
-                sourceType,
-                mesh,
-                is
-              )
-            };
-            setSource().applyToSet(action, currentSet);
+            if (is >> sourceType) {
+              autoPtr<topoSetSource> setSource
+              {
+                topoSetSource::New
+                (
+                  sourceType,
+                  mesh,
+                  is
+                )
+              };
+              setSource().applyToSet(action, currentSet);
+            }
           }
-        }
       }
-      if (action != topoSetSource::LIST)
-      {
+      if (action != topoSetSource::LIST) {
         // Set will have been modified.
         // Synchronize for coupled patches.
-        if (!noSync) currentSet.sync(mesh);
+        if (!noSync)
+          currentSet.sync(mesh);
         // Write
-        if (writeVTKFile)
-        {
+        if (writeVTKFile) {
           mkDir(mesh.time().path()/"VTK"/currentSet.name());
           fileName vtkName
           {
@@ -498,9 +456,7 @@ bool doCommand
             << currentSet.instance()/currentSet.local()/currentSet.name()
             << " and to vtk file " << vtkName << endl << endl;
           writeVTK(mesh, currentSet, vtkName);
-        }
-        else
-        {
+        } else {
           Info << "    Writing " << currentSet.name()
             << " (size "
             << returnReduce(currentSet.size(), sumOp<label>())
@@ -508,34 +464,28 @@ bool doCommand
             << currentSet.instance()/currentSet.local() /currentSet.name()
             << endl << endl;
         }
-        if (writeCurrentTime)
-        {
+        if (writeCurrentTime) {
           currentSet.instance() = mesh.time().timeName();
         }
         currentSet.write();
       }
     }
-  }
-  catch (mousse::IOerror& fIOErr)
-  {
+  } catch (mousse::IOerror& fIOErr) {
     ok = false;
     Pout << fIOErr.message().c_str() << endl;
-    if (sourceType.size())
-    {
+    if (sourceType.size()) {
       Pout << topoSetSource::usage(sourceType).c_str();
     }
-  }
-  catch (mousse::error& fErr)
-  {
+  } catch (mousse::error& fErr) {
     ok = false;
     Pout << fErr.message().c_str() << endl;
-    if (sourceType.size())
-    {
+    if (sourceType.size()) {
       Pout << topoSetSource::usage(sourceType).c_str();
     }
   }
   return ok;
 }
+
 
 // Status returned from parsing the first token of the line
 enum commandStatus
@@ -545,6 +495,7 @@ enum commandStatus
   VALIDSETCMD,    // ,,    is a valid     ,,
   VALIDZONECMD    // ,,    is a valid     zone      ,,
 };
+
 
 void printMesh(const Time& runTime, const polyMesh& mesh)
 {
@@ -556,43 +507,44 @@ void printMesh(const Time& runTime, const polyMesh& mesh)
     << "  bb:" << mesh.bounds() << nl;
 }
 
+
 polyMesh::readUpdateState meshReadUpdate(polyMesh& mesh)
 {
   polyMesh::readUpdateState stat = mesh.readUpdate();
-  switch(stat)
-  {
+  switch(stat) {
     case polyMesh::UNCHANGED:
-    {
-      Info << "    mesh not changed." << endl;
-      break;
-    }
+      {
+        Info << "    mesh not changed." << endl;
+        break;
+      }
     case polyMesh::POINTS_MOVED:
-    {
-      Info << "    points moved; topology unchanged." << endl;
-      break;
-    }
+      {
+        Info << "    points moved; topology unchanged." << endl;
+        break;
+      }
     case polyMesh::TOPO_CHANGE:
-    {
-      Info << "    topology changed; patches unchanged." << nl << "    ";
-      printMesh(mesh.time(), mesh);
-      break;
-    }
+      {
+        Info << "    topology changed; patches unchanged." << nl << "    ";
+        printMesh(mesh.time(), mesh);
+        break;
+      }
     case polyMesh::TOPO_PATCH_CHANGE:
-    {
-      Info<< "    topology changed and patches changed." << nl << "    ";
-      printMesh(mesh.time(), mesh);
-      break;
-    }
+      {
+        Info<< "    topology changed and patches changed." << nl << "    ";
+        printMesh(mesh.time(), mesh);
+        break;
+      }
     default:
-    {
-      FATAL_ERROR_IN("meshReadUpdate(polyMesh&)")
-        << "Illegal mesh update state "
-        << stat  << abort(FatalError);
-      break;
-    }
+      {
+        FATAL_ERROR_IN("meshReadUpdate(polyMesh&)")
+          << "Illegal mesh update state "
+          << stat  << abort(FatalError);
+        break;
+      }
   }
   return stat;
 }
+
 
 commandStatus parseType
 (
@@ -602,23 +554,16 @@ commandStatus parseType
   IStringStream& is
 )
 {
-  if (setType.empty())
-  {
+  if (setType.empty()) {
     Info << "Type 'help' for usage information" << endl;
     return INVALID;
-  }
-  else if (setType == "help")
-  {
+  } else if (setType == "help") {
     printHelp(Info);
     return INVALID;
-  }
-  else if (setType == "list")
-  {
+  } else if (setType == "list") {
     printAllSets(mesh, Info);
     return INVALID;
-  }
-  else if (setType == "time")
-  {
+  } else if (setType == "time") {
     scalar requestedTime = readScalar(is);
     instantList Times = runTime.times();
     label nearestIndex = Time::findClosestTimeIndex(Times, requestedTime);
@@ -630,24 +575,16 @@ commandStatus parseType
     // Optionally re-read mesh
     meshReadUpdate(mesh);
     return INVALID;
-  }
-  else if (setType == "quit")
-  {
+  } else if (setType == "quit") {
     Info << "Quitting ..." << endl;
     return QUIT;
-  }
-  else if (setType == "cellSet" || setType == "faceSet"
-           || setType == "pointSet")
-  {
+  } else if (setType == "cellSet" || setType == "faceSet"
+             || setType == "pointSet") {
     return VALIDSETCMD;
-  }
-  else if (setType == "cellZoneSet" || setType == "faceZoneSet"
-           || setType == "pointZoneSet")
-  {
+  } else if (setType == "cellZoneSet" || setType == "faceZoneSet"
+             || setType == "pointZoneSet") {
     return VALIDZONECMD;
-  }
-  else
-  {
+  } else {
     SERIOUS_ERROR_IN
     (
       "commandStatus parseType(Time&, polyMesh&, const word&"
@@ -661,27 +598,23 @@ commandStatus parseType
   }
 }
 
+
 commandStatus parseAction(const word& actionName)
 {
   commandStatus stat = INVALID;
-  if (actionName.size())
-  {
-    try
-    {
+  if (actionName.size()) {
+    try {
       (void)topoSetSource::toAction(actionName);
       stat = VALIDSETCMD;
-    }
-    catch (mousse::IOerror& fIOErr)
-    {
+    } catch (mousse::IOerror& fIOErr) {
       stat = INVALID;
-    }
-    catch (mousse::error& fErr)
-    {
+    } catch (mousse::error& fErr) {
       stat = INVALID;
     }
   }
   return stat;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -707,8 +640,7 @@ int main(int argc, char *argv[])
   const bool loop = args.optionFound("loop");
   const bool batch = args.optionFound("batch");
   const bool noSync = args.optionFound("noSync");
-  if (loop && !batch)
-  {
+  if (loop && !batch) {
     FATAL_ERROR_IN(args.executable())
       << "Can only loop in batch mode."
       << exit(FatalError);
@@ -720,29 +652,25 @@ int main(int argc, char *argv[])
   printAllSets(mesh, Info);
   // Read history if interactive
 #ifdef HAS_READLINE
-  if (!batch && !read_history((runTime.path()/historyFile).c_str()))
-  {
+  if (!batch && !read_history((runTime.path()/historyFile).c_str())) {
     Info << "Successfully read history from " << historyFile << endl;
   }
 #endif
   // Exit status
   int status = 0;
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     // Handle geometry/topology changes
     meshReadUpdate(mesh);
     // Main command read & execute loop
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    autoPtr<IFstream> fileStreamPtr{NULL};
-    if (batch)
-    {
+    autoPtr<IFstream> fileStreamPtr{nullptr};
+    if (batch) {
       const fileName batchFile = args["batch"];
       Info << "Reading commands from file " << batchFile << endl;
       // we cannot handle .gz files
-      if (!isFile(batchFile, false))
-      {
+      if (!isFile(batchFile, false)) {
         FATAL_ERROR_IN(args.executable())
           << "Cannot open file " << batchFile << exit(FatalError);
       }
@@ -754,8 +682,7 @@ int main(int argc, char *argv[])
     bool quit = false;
     FatalError.throwExceptions();
     FatalIOError.throwExceptions();
-    do
-    {
+    do {
       string rawLine;
       // Type: cellSet, faceSet, pointSet
       word setType;
@@ -764,44 +691,34 @@ int main(int argc, char *argv[])
       // Action (new, invert etc.)
       word actionName;
       commandStatus stat = INVALID;
-      if (fileStreamPtr.valid())
-      {
-        if (!fileStreamPtr().good())
-        {
+      if (fileStreamPtr.valid()) {
+        if (!fileStreamPtr().good()) {
           Info << "End of batch file" << endl;
           // No error.
           break;
         }
         fileStreamPtr().getLine(rawLine);
-        if (rawLine.size())
-        {
+        if (rawLine.size()) {
           Info << "Doing:" << rawLine << endl;
         }
-      }
-      else
-      {
+      } else {
 #ifdef HAS_READLINE
         {
           char* linePtr = readline("readline>");
-          if (linePtr)
-          {
+          if (linePtr) {
             rawLine = string(linePtr);
-            if (*linePtr)
-            {
+            if (*linePtr) {
               add_history(linePtr);
               write_history(historyFile);
             }
             free(linePtr);   // readline uses malloc, not new.
-          }
-          else
-          {
+          } else {
             break;
           }
         }
 #else
         {
-          if (!std::cin.good())
-          {
+          if (!std::cin.good()) {
             Info << "End of cin" << endl;
             // No error.
             break;
@@ -813,59 +730,51 @@ int main(int argc, char *argv[])
       }
       // Strip off anything after #
       string::size_type i = rawLine.find_first_of("#");
-      if (i != string::npos)
-      {
+      if (i != string::npos) {
         rawLine = rawLine(0, i);
       }
-      if (rawLine.empty())
-      {
+      if (rawLine.empty()) {
         continue;
       }
       IStringStream is{rawLine + ' '};
       // Type: cellSet, faceSet, pointSet, faceZoneSet
       is >> setType;
       stat = parseType(runTime, mesh, setType, is);
-      if (stat == VALIDSETCMD || stat == VALIDZONECMD)
-      {
-        if (is >> setName)
-        {
-          if (is >> actionName)
-          {
+      if (stat == VALIDSETCMD || stat == VALIDZONECMD) {
+        if (is >> setName) {
+          if (is >> actionName) {
             stat = parseAction(actionName);
           }
         }
       }
-      if (stat == QUIT)
-      {
+      if (stat == QUIT) {
         // Make sure to quit
         quit = true;
-      }
-      else if (stat == VALIDSETCMD || stat == VALIDZONECMD)
-      {
-        bool ok = doCommand
-        (
-          mesh,
-          setType,
-          setName,
-          actionName,
-          writeVTK,
-          loop,   // if in looping mode dump sets to time directory
-          noSync,
-          is
-        );
-        if (!ok && batch)
-        {
+      } else if (stat == VALIDSETCMD || stat == VALIDZONECMD) {
+        bool ok =
+          doCommand
+          (
+            mesh,
+            setType,
+            setName,
+            actionName,
+            writeVTK,
+            loop,   // if in looping mode dump sets to time directory
+            noSync,
+            is
+          );
+        if (!ok && batch) {
           // Exit with error.
           quit = true;
           status = 1;
         }
       }
     } while (!quit);
-    if (quit)
-    {
+    if (quit) {
       break;
     }
   }
   Info << "\nEnd\n" << endl;
   return status;
 }
+

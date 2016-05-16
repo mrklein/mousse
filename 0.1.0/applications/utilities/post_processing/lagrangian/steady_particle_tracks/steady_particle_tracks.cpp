@@ -16,10 +16,12 @@
 #include "field.hpp"
 #include "steady_particle_tracks_templates.hpp"
 
+
 using namespace mousse;
 
-namespace mousse
-{
+
+namespace mousse {
+
 label validateFields
 (
   const List<word>& userFields,
@@ -27,8 +29,7 @@ label validateFields
 )
 {
   List<bool> ok{userFields.size(), false};
-  FOR_ALL(userFields, i)
-  {
+  FOR_ALL(userFields, i) {
     ok[i] = ok[i] || fieldOk<label>(cloudObjs, userFields[i]);
     ok[i] = ok[i] || fieldOk<scalar>(cloudObjs, userFields[i]);
     ok[i] = ok[i] || fieldOk<vector>(cloudObjs, userFields[i]);
@@ -37,30 +38,32 @@ label validateFields
     ok[i] = ok[i] || fieldOk<tensor>(cloudObjs, userFields[i]);
   }
   label nOk = 0;
-  FOR_ALL(ok, i)
-  {
-    if (ok[i])
-    {
+  FOR_ALL(ok, i) {
+    if (ok[i]) {
       nOk++;
-    }
-    else
-    {
+    } else {
       Info << "\n*** Warning: user specified field '" << userFields[i]
         << "' unavailable" << endl;
     }
   }
   return nOk;
 }
+
+
 template<>
 void writeVTK(OFstream& os, const label& value)
 {
   os << value;
 }
+
+
 template<>
 void writeVTK(OFstream& os, const scalar& value)
 {
   os << value;
 }
+
+
 }
 int main(int argc, char *argv[])
 {
@@ -73,19 +76,16 @@ int main(int argc, char *argv[])
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
   #include "create_fields.inc"
-
   fileName vtkPath{runTime.path()/"VTK"};
   mkDir(vtkPath);
   typedef HashTable<label, labelPair, labelPair::Hash<>> trackTableType;
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     fileName vtkTimePath{runTime.path()/"VTK"/runTime.timeName()};
     mkDir(vtkTimePath);
     Info << "    Reading particle positions" << endl;
     PtrList<passiveParticle> particles{0};
-
     // transfer particles to (more convenient) list
     {
       passiveParticleCloud ppc{mesh, cloudName};
@@ -93,8 +93,7 @@ int main(int argc, char *argv[])
         << " particles" << endl;
       particles.setSize(ppc.size());
       label i = 0;
-      FOR_ALL_ITER(passiveParticleCloud, ppc, iter)
-      {
+      FOR_ALL_ITER(passiveParticleCloud, ppc, iter) {
         particles.set(i++, ppc.remove(&iter()));
       }
       // myCloud should now be empty
@@ -104,43 +103,34 @@ int main(int argc, char *argv[])
 
     {
       trackTableType trackTable;
-      FOR_ALL(particles, i)
-      {
+      FOR_ALL(particles, i) {
         const label origProc = particles[i].origProc();
         const label origId = particles[i].origId();
         const trackTableType::const_iterator& iter =
           trackTable.find(labelPair(origProc, origId));
-        if (iter == trackTable.end())
-        {
+        if (iter == trackTable.end()) {
           particleToTrack[i] = nTracks;
           trackTable.insert(labelPair(origProc, origId), nTracks);
           nTracks++;
-        }
-        else
-        {
+        } else {
           particleToTrack[i] = iter();
         }
       }
     }
-    if (nTracks == 0)
-    {
+    if (nTracks == 0) {
       Info << "\n    No track data" << endl;
-    }
-    else
-    {
+    } else {
       Info << "\n    Generating " << nTracks << " tracks" << endl;
       // determine length of each track
       labelList trackLengths{nTracks, 0};
-      FOR_ALL(particleToTrack, i)
-      {
+      FOR_ALL(particleToTrack, i) {
         const label trackI = particleToTrack[i];
         trackLengths[trackI]++;
       }
       // particle "age" property used to sort the tracks
       List<SortableList<scalar>> agePerTrack{nTracks};
       List<List<label>> particleMap{nTracks};
-      FOR_ALL(trackLengths, i)
-      {
+      FOR_ALL(trackLengths, i) {
         const label length = trackLengths[i];
         agePerTrack[i].setSize(length);
         particleMap[i].setSize(length);
@@ -152,14 +142,12 @@ int main(int argc, char *argv[])
         runTime.timeName(),
         cloud::prefix/cloudName
       };
-
       // TODO: gather age across all procs
       {
         tmp<scalarField> tage = readParticleField<scalar>("age", cloudObjs);
         const scalarField& age = tage();
         List<label> trackSamples{nTracks, 0};
-        FOR_ALL(particleToTrack, i)
-        {
+        FOR_ALL(particleToTrack, i) {
           const label trackI = particleToTrack[i];
           const label sampleI = trackSamples[trackI];
           agePerTrack[trackI][sampleI] = age[i];
@@ -168,8 +156,7 @@ int main(int argc, char *argv[])
         }
         tage.clear();
       }
-      if (Pstream::master())
-      {
+      if (Pstream::master()) {
         OFstream os{vtkTimePath/"particleTracks.vtk"};
         Info << "\n    Writing particle tracks to " << os.name() << endl;
         label nPoints = sum(trackLengths);
@@ -181,8 +168,7 @@ int main(int argc, char *argv[])
         Info << "\n    Writing points" << endl;
 
         {
-          FOR_ALL(agePerTrack, i)
-          {
+          FOR_ALL(agePerTrack, i) {
             agePerTrack[i].sort();
             const labelList& ids = agePerTrack[i].indices();
             labelList& particleIds = particleMap[i];
@@ -190,15 +176,13 @@ int main(int argc, char *argv[])
             {
               // update addressing
               List<label> sortedIds{ids};
-              FOR_ALL(sortedIds, j)
-              {
+              FOR_ALL(sortedIds, j) {
                 sortedIds[j] = particleIds[ids[j]];
               }
               particleIds = sortedIds;
             }
 
-            FOR_ALL(ids, j)
-            {
+            FOR_ALL(ids, j) {
               const label localId = particleIds[j];
               const vector& pos = particles[localId].position();
               os << pos.x() << ' ' << pos.y() << ' ' << pos.z()
@@ -214,14 +198,11 @@ int main(int argc, char *argv[])
         // Write ids of track points to file
         {
           label globalPtI = 0;
-          FOR_ALL(particleMap, i)
-          {
+          FOR_ALL(particleMap, i) {
             os << particleMap[i].size() << nl;
-            FOR_ALL(particleMap[i], j)
-            {
+            FOR_ALL(particleMap[i], j) {
               os << ' ' << globalPtI++;
-              if (((j + 1) % 10 == 0) && (j != 0))
-              {
+              if (((j + 1) % 10 == 0) && (j != 0)) {
                 os << nl;
               }
             }
@@ -231,7 +212,7 @@ int main(int argc, char *argv[])
         const label nFields = validateFields(userFields, cloudObjs);
         os << "POINT_DATA " << nPoints << nl
           << "FIELD attributes " << nFields << nl;
-        Info<< "\n    Processing fields" << nl << endl;
+        Info << "\n    Processing fields" << nl << endl;
         processFields<label>(os, particleMap, userFields, cloudObjs);
         processFields<scalar>(os, particleMap, userFields, cloudObjs);
         processFields<vector>(os, particleMap, userFields, cloudObjs);
@@ -245,3 +226,4 @@ int main(int argc, char *argv[])
   Info << "\ndone" << endl;
   return 0;
 }
+

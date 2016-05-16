@@ -9,12 +9,13 @@
 // Description
 //   Templated abstract base class for multiphase compressible
 //   turbulence models.
-// SourceFiles
-//   phase_compressible_turbulence_model.cpp
+
 #include "_turbulence_model.hpp"
 #include "compressible_turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class TransportModel>
 class PhaseCompressibleTurbulenceModel
 :
@@ -96,8 +97,9 @@ public:
     // (derivative of phase-pressure w.r.t. phase-fraction)
     virtual tmp<surfaceScalarField> pPrimef() const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "phase_compressible_turbulence_model.cpp"
-#endif
+
+#include "phase_compressible_turbulence_model.ipp"
+
 #endif

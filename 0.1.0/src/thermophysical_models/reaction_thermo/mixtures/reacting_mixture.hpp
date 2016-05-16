@@ -8,20 +8,21 @@
 //   mousse::reactingMixture
 // Description
 //   mousse::reactingMixture
-// SourceFiles
-//   reacting_mixture.cpp
+
 #include "species_table.hpp"
 #include "chemistry_reader.hpp"
 #include "multi_component_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class reactingMixture
 :
   public speciesTable,
-  public autoPtr<chemistryReader<ThermoType> >,
+  public autoPtr<chemistryReader<ThermoType>>,
   public multiComponentMixture<ThermoType>,
-  public PtrList<Reaction<ThermoType> >
+  public PtrList<Reaction<ThermoType>>
 {
 public:
   //- The type of thermo package this mixture is instantiated for
@@ -41,19 +42,20 @@ public:
     void read(const dictionary&);
     label size() const
     {
-      return PtrList<Reaction<ThermoType> >::size();
+      return PtrList<Reaction<ThermoType>>::size();
     }
     Reaction<ThermoType>& operator [] (const label i)
     {
-      return PtrList<Reaction<ThermoType> >::operator[](i);
+      return PtrList<Reaction<ThermoType>>::operator[](i);
     }
     const Reaction<ThermoType>& operator [] (const label i) const
     {
-      return PtrList<Reaction<ThermoType> >::operator[](i);
+      return PtrList<Reaction<ThermoType>>::operator[](i);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "reacting_mixture.cpp"
-#endif
+
+#include "reacting_mixture.ipp"
+
 #endif

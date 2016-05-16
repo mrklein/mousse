@@ -4,33 +4,36 @@
 
 #include "fv_cfd.hpp"
 #include "piso_control.hpp"
+
+
 int main(int argc, char *argv[])
 {
-#include "set_root_case.inc"
-#include "create_time.inc"
-#include "create_mesh.inc"
-  pisoControl piso(mesh);
-#include "create_fields.inc"
-#include "init_continuity_errs.inc"
-  Info<< "\nStarting time loop\n" << endl;
+  #include "set_root_case.inc"
+  #include "create_time.inc"
+  #include "create_mesh.inc"
+  pisoControl piso{mesh};
+  #include "create_fields.inc"
+  #include "init_continuity_errs.inc"
+  Info << "\nStarting time loop\n" << endl;
   while (runTime.loop()) {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     #include "courant_no.inc"
     // Momentum predictor
-    fvVectorMatrix UEqn {
+    fvVectorMatrix UEqn
+    {
       fvm::ddt(U)
-      + fvm::div(phi, U)
-      - fvm::laplacian(nu, U)
+    + fvm::div(phi, U)
+    - fvm::laplacian(nu, U)
     };
     if (piso.momentumPredictor())
       solve(UEqn == -fvc::grad(p));
     // --- PISO loop
-    while (piso.correct())
-    {
-      volScalarField rAU(1.0/UEqn.A());
-      volVectorField HbyA("HbyA", U);
+    while (piso.correct()) {
+      volScalarField rAU{1.0/UEqn.A()};
+      volVectorField HbyA{"HbyA", U};
       HbyA = rAU*UEqn.H();
-      surfaceScalarField phiHbyA {
+      surfaceScalarField phiHbyA
+      {
         "phiHbyA",
         (fvc::interpolate(HbyA) & mesh.Sf())
           + fvc::interpolate(rAU)*fvc::ddtCorr(U, phi)
@@ -39,7 +42,12 @@ int main(int argc, char *argv[])
       // Non-orthogonal pressure corrector loop
       while (piso.correctNonOrthogonal()) {
         // Pressure corrector
-        fvScalarMatrix pEqn{fvm::laplacian(rAU, p) == fvc::div(phiHbyA)};
+        fvScalarMatrix pEqn
+        {
+          fvm::laplacian(rAU, p)
+        ==
+          fvc::div(phiHbyA)
+        };
         pEqn.setReference(pRefCell, pRefValue);
         pEqn.solve(mesh.solver(p.select(piso.finalInnerIter())));
         if (piso.finalNonOrthogonalIter())
@@ -50,10 +58,10 @@ int main(int argc, char *argv[])
       U.correctBoundaryConditions();
     }
     runTime.write();
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

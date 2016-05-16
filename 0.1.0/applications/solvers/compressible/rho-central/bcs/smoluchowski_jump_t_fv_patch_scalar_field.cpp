@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "basic_thermo.hpp"
 #include "mathematical_constants.hpp"
+
+
 // Constructors 
 mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
 (
@@ -28,6 +30,8 @@ mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
   refGrad() = 0.0;
   valueFraction() = 0.0;
 }
+
+
 mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
 (
   const smoluchowskiJumpTFvPatchScalarField& ptf,
@@ -45,6 +49,8 @@ mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
   Twall_{ptf.Twall_},
   gamma_{ptf.gamma_}
 {}
+
+
 mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
 (
   const fvPatch& p,
@@ -61,16 +67,15 @@ mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
   Twall_{"Twall", dict, p.size()},
   gamma_{dict.lookupOrDefault<scalar>("gamma", 1.4)}
 {
-  if (mag(accommodationCoeff_) < SMALL || mag(accommodationCoeff_) > 2.0)
-  {
+  if (mag(accommodationCoeff_) < SMALL || mag(accommodationCoeff_) > 2.0) {
     FATAL_IO_ERROR_IN
     (
       "smoluchowskiJumpTFvPatchScalarField::"
       "smoluchowskiJumpTFvPatchScalarField"
       "("
-      "    const fvPatch&,"
-      "    const DimensionedField<scalar, volMesh>&,"
-      "    const dictionary&"
+      "  const fvPatch&,"
+      "  const DimensionedField<scalar, volMesh>&,"
+      "  const dictionary&"
       ")",
       dict
     )
@@ -78,21 +83,20 @@ mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
     << "(0 < accommodationCoeff <= 1)" << endl
     << exit(FatalIOError);
   }
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
       scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(patchInternalField());
   }
   refValue() = *this;
   refGrad() = 0.0;
   valueFraction() = 0.0;
 }
+
+
 mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
 (
   const smoluchowskiJumpTFvPatchScalarField& ptpsf,
@@ -104,6 +108,8 @@ mousse::smoluchowskiJumpTFvPatchScalarField::smoluchowskiJumpTFvPatchScalarField
   Twall_{ptpsf.Twall_},
   gamma_{ptpsf.gamma_}
 {}
+
+
 // Member Functions 
 // Map from self
 void mousse::smoluchowskiJumpTFvPatchScalarField::autoMap
@@ -113,6 +119,8 @@ void mousse::smoluchowskiJumpTFvPatchScalarField::autoMap
 {
   mixedFvPatchScalarField::autoMap(m);
 }
+
+
 // Reverse-map the given fvPatchField onto this fvPatchField
 void mousse::smoluchowskiJumpTFvPatchScalarField::rmap
 (
@@ -122,11 +130,12 @@ void mousse::smoluchowskiJumpTFvPatchScalarField::rmap
 {
   mixedFvPatchField<scalar>::rmap(ptf, addr);
 }
+
+
 // Update the coefficients associated with the patch field
 void mousse::smoluchowskiJumpTFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchScalarField& pmu =
@@ -159,6 +168,8 @@ void mousse::smoluchowskiJumpTFvPatchScalarField::updateCoeffs()
   refGrad() = 0.0;
   mixedFvPatchScalarField::updateCoeffs();
 }
+
+
 // Write
 void mousse::smoluchowskiJumpTFvPatchScalarField::write(Ostream& os) const
 {
@@ -174,11 +185,15 @@ void mousse::smoluchowskiJumpTFvPatchScalarField::write(Ostream& os) const
     << gamma_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   smoluchowskiJumpTFvPatchScalarField
 );
+
 }
+

@@ -8,9 +8,12 @@
 //   mousse::FallOffReactionRate
 // Description
 //   General class for handling unimolecular/recombination fall-off reactions.
+
 #include "third_body_efficiencies.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class ReactionRate, class FallOffFunction>
 class FallOffReactionRate;
@@ -20,6 +23,8 @@ inline Ostream& operator<<
   Ostream&,
   const FallOffReactionRate<ReactionRate, FallOffFunction>&
 );
+
+
 template<class ReactionRate, class FallOffFunction>
 class FallOffReactionRate
 {
@@ -71,7 +76,9 @@ public:
       const FallOffReactionRate<ReactionRate, FallOffFunction>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ReactionRate, class FallOffFunction>
@@ -89,6 +96,8 @@ FallOffReactionRate
   F_{F},
   thirdBodyEfficiencies_{tbes}
 {}
+
+
 template<class ReactionRate, class FallOffFunction>
 inline mousse::FallOffReactionRate<ReactionRate, FallOffFunction>::
 FallOffReactionRate
@@ -104,6 +113,8 @@ FallOffReactionRate
 {
   is.readEnd("FallOffReactionRate(Istream&)");
 }
+
+
 template<class ReactionRate, class FallOffFunction>
 inline mousse::FallOffReactionRate<ReactionRate, FallOffFunction>::
 FallOffReactionRate
@@ -117,6 +128,8 @@ FallOffReactionRate
   F_{dict.subDict("F")},
   thirdBodyEfficiencies_{species, dict.subDict("thirdBodyEfficiencies")}
 {}
+
+
 // Member Functions 
 template<class ReactionRate, class FallOffFunction>
 inline mousse::scalar
@@ -132,37 +145,41 @@ mousse::FallOffReactionRate<ReactionRate, FallOffFunction>::operator()
   scalar Pr = k0*thirdBodyEfficiencies_.M(c)/kInf;
   return kInf*(Pr/(1 + Pr))*F_(T, Pr);
 }
+
+
 template<class ReactionRate, class FallOffFunction>
 inline void mousse::FallOffReactionRate<ReactionRate, FallOffFunction>::write
 (
   Ostream& os
 ) const
 {
-  os  << indent << "k0" << nl;
-  os  << indent << token::BEGIN_BLOCK << nl;
-  os  << incrIndent;
+  os << indent << "k0" << nl;
+  os << indent << token::BEGIN_BLOCK << nl;
+  os << incrIndent;
   k0_.write(os);
-  os  << decrIndent;
-  os  << indent << token::END_BLOCK << nl;
-  os  << indent << "kInf" << nl;
-  os  << indent << token::BEGIN_BLOCK << nl;
-  os  << incrIndent;
+  os << decrIndent;
+  os << indent << token::END_BLOCK << nl;
+  os << indent << "kInf" << nl;
+  os << indent << token::BEGIN_BLOCK << nl;
+  os << incrIndent;
   kInf_.write(os);
-  os  << decrIndent;
-  os  << indent << token::END_BLOCK << nl;
-  os  << indent << "F" << nl;
-  os  << indent << token::BEGIN_BLOCK << nl;
-  os  << incrIndent;
+  os << decrIndent;
+  os << indent << token::END_BLOCK << nl;
+  os << indent << "F" << nl;
+  os << indent << token::BEGIN_BLOCK << nl;
+  os << incrIndent;
   F_.write(os);
-  os  << decrIndent;
-  os  << indent << token::END_BLOCK << nl;
-  os  << indent << "thirdBodyEfficiencies" << nl;
-  os  << indent << token::BEGIN_BLOCK << nl;
-  os  << incrIndent;
+  os << decrIndent;
+  os << indent << token::END_BLOCK << nl;
+  os << indent << "thirdBodyEfficiencies" << nl;
+  os << indent << token::BEGIN_BLOCK << nl;
+  os << incrIndent;
   thirdBodyEfficiencies_.write(os);
-  os  << decrIndent;
-  os  << indent << token::END_BLOCK << nl;
+  os << decrIndent;
+  os << indent << token::END_BLOCK << nl;
 }
+
+
 template<class ReactionRate, class FallOffFunction>
 inline mousse::Ostream& mousse::operator<<
 (
@@ -170,7 +187,7 @@ inline mousse::Ostream& mousse::operator<<
   const FallOffReactionRate<ReactionRate, FallOffFunction>& forr
 )
 {
-  os<< token::BEGIN_LIST
+  os << token::BEGIN_LIST
     << forr.k0_ << token::SPACE
     << forr.kInf_ << token::SPACE
     << forr.F_ << token::SPACE
@@ -178,4 +195,5 @@ inline mousse::Ostream& mousse::operator<<
     << token::END_LIST;
   return os;
 }
+
 #endif

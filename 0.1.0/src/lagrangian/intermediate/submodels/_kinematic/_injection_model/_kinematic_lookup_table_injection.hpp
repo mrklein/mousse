@@ -66,12 +66,13 @@ public:
       const KinematicLookupTableInjection<CloudType>& im
     );
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new KinematicLookupTableInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new KinematicLookupTableInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~KinematicLookupTableInjection();
@@ -110,8 +111,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_kinematic_lookup_table_injection.cpp"
-#endif
+
+#include "_kinematic_lookup_table_injection.ipp"
+
 #endif

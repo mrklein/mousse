@@ -5,12 +5,12 @@
 #include "md.hpp"
 #include "fv_cfd.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_mesh.inc"
-
   IOdictionary mdInitialiseDict
   {
     {
@@ -35,15 +35,13 @@ int main(int argc, char *argv[])
   potential pot{mesh, mdInitialiseDict, idListDict};
   moleculeCloud molecules{mesh, pot, mdInitialiseDict};
   label totalMolecules = molecules.size();
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     reduce(totalMolecules, sumOp<label>());
   }
   Info << nl << "Total number of molecules added: " << totalMolecules
     << nl << endl;
   IOstream::defaultPrecision(15);
-  if (!mesh.write())
-  {
+  if (!mesh.write()) {
     FATAL_ERROR_IN(args.executable())
       << "Failed writing moleculeCloud."
       << nl << exit(FatalError);
@@ -53,3 +51,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

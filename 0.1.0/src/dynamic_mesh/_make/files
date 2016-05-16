@@ -1,107 +1,105 @@
-attach_detach/attach_detach.cpp
-attach_detach/attach_interface.cpp
-attach_detach/detach_interface.cpp
-attach_detach/attach_detach_point_match_map.cpp
+attach_detach.cpp
+attach_interface.cpp
+detach_interface.cpp
+attach_detach_point_match_map.cpp
 
-layer_addition_removal/layer_addition_removal.cpp
-layer_addition_removal/set_layer_pairing.cpp
-layer_addition_removal/add_cell_layer.cpp
-layer_addition_removal/remove_cell_layer.cpp
+layer_addition_removal.cpp
+set_layer_pairing.cpp
+add_cell_layer.cpp
+remove_cell_layer.cpp
 
-enriched_patch = sliding_interface/enriched_patch
-$(enriched_patch)/enriched_patch.cpp
-$(enriched_patch)/enriched_patch_point_map.cpp
-$(enriched_patch)/enriched_patch_faces.cpp
-$(enriched_patch)/enriched_patch_point_points.cpp
-$(enriched_patch)/enriched_patch_cut_faces.cpp
-$(enriched_patch)/enriched_patch_master_points.cpp
+enriched_patch.cpp
+enriched_patch_point_map.cpp
+enriched_patch_faces.cpp
+enriched_patch_point_points.cpp
+enriched_patch_cut_faces.cpp
+enriched_patch_master_points.cpp
 
 
-poly_mesh_modifier = poly_topo_change/poly_mesh_modifier
-$(poly_mesh_modifier)/poly_mesh_modifier.cpp
-$(poly_mesh_modifier)/poly_mesh_modifier_new.cpp
+poly_topo_change/poly_mesh_modifier.cpp
+poly_topo_change/poly_mesh_modifier_new.cpp
 
-poly_topo_change/poly_topo_change/topo_action/topo_actions.cpp
-poly_topo_change/poly_topo_changer/poly_topo_changer.cpp
-poly_topo_change/poly_topo_change/poly_topo_change.cpp
-poly_topo_change/poly_topo_change/add_patch_cell_layer.cpp
-poly_topo_change/poly_topo_change/point_edge_collapse/point_edge_collapse.cpp
-poly_topo_change/poly_topo_change/edge_collapser.cpp
-poly_topo_change/poly_topo_change/face_collapser.cpp
-poly_topo_change/poly_topo_change/hex_ref8.cpp
-poly_topo_change/poly_topo_change/remove_cells.cpp
-poly_topo_change/poly_topo_change/remove_faces.cpp
-poly_topo_change/poly_topo_change/refinement_data.cpp
-poly_topo_change/poly_topo_change/refinement_distance_data.cpp
-poly_topo_change/poly_topo_change/refinement_history.cpp
-poly_topo_change/poly_topo_change/remove_points.cpp
-poly_topo_change/poly_topo_change/combine_faces.cpp
-poly_topo_change/poly_topo_change/duplicate_points.cpp
-poly_topo_change/poly_topo_change/tet_decomposer.cpp
+poly_topo_change/topo_actions.cpp
+poly_topo_change/poly_topo_changer.cpp
+poly_topo_change/poly_topo_change.cpp
+poly_topo_change/add_patch_cell_layer.cpp
+poly_topo_change/point_edge_collapse.cpp
+poly_topo_change/edge_collapser.cpp
+poly_topo_change/face_collapser.cpp
+poly_topo_change/hex_ref8.cpp
+poly_topo_change/remove_cells.cpp
+poly_topo_change/remove_faces.cpp
+poly_topo_change/refinement_data.cpp
+poly_topo_change/refinement_distance_data.cpp
+poly_topo_change/refinement_history.cpp
+poly_topo_change/remove_points.cpp
+poly_topo_change/combine_faces.cpp
+poly_topo_change/duplicate_points.cpp
+poly_topo_change/tet_decomposer.cpp
 
-sliding_interface/sliding_interface.cpp
-sliding_interface/sliding_interface_project_points.cpp
-sliding_interface/couple_sliding_interface.cpp
-sliding_interface/sliding_interface_attached_addressing.cpp
-sliding_interface/sliding_interface_clear_couple.cpp
-sliding_interface/decouple_sliding_interface.cpp
+sliding_interface.cpp
+sliding_interface_project_points.cpp
+couple_sliding_interface.cpp
+sliding_interface_attached_addressing.cpp
+sliding_interface_clear_couple.cpp
+decouple_sliding_interface.cpp
 
-perfect_interface/perfect_interface.cpp
+perfect_interface.cpp
 
-boundary_mesh/boundary_mesh.cpp
-boundary_patch/boundary_patch.cpp
-set_updater/set_updater.cpp
+boundary_mesh.cpp
+boundary_patch.cpp
+set_updater.cpp
 
 mesh_modifiers = mesh_cut/mesh_modifiers
-$(mesh_modifiers)/boundary_cutter/boundary_cutter.cpp
-$(mesh_modifiers)/mesh_cutter/mesh_cutter.cpp
-$(mesh_modifiers)/mesh_cut_and_remove/mesh_cut_and_remove.cpp
-$(mesh_modifiers)/undoable_mesh_cutter/undoable_mesh_cutter.cpp
-$(mesh_modifiers)/refinement_iterator/refinement_iterator.cpp
-$(mesh_modifiers)/multi_dir_refinement/multi_dir_refinement.cpp
+$(mesh_modifiers)/boundary_cutter.cpp
+$(mesh_modifiers)/mesh_cutter.cpp
+$(mesh_modifiers)/mesh_cut_and_remove.cpp
+$(mesh_modifiers)/undoable_mesh_cutter.cpp
+$(mesh_modifiers)/refinement_iterator.cpp
+$(mesh_modifiers)/multi_dir_refinement.cpp
 
-mesh_cut/cell_looper/cell_looper.cpp
-mesh_cut/cell_looper/topo_cell_looper.cpp
-mesh_cut/cell_looper/geom_cell_looper.cpp
-mesh_cut/cell_looper/hex_cell_looper.cpp
-mesh_cut/directions/directions.cpp
-mesh_cut/directions/direction_info/direction_info.cpp
-mesh_cut/edge_vertex/edge_vertex.cpp
-mesh_cut/cell_cuts/cell_cuts.cpp
-mesh_cut/split_cell/split_cell.cpp
-mesh_cut/refine_cell/refine_cell.cpp
-mesh_cut/wall_layer_cells/wall_layer_cells.cpp
-mesh_cut/wall_layer_cells/wall_normal_info/wall_normal_info.cpp
+mesh_cut/cell_looper.cpp
+mesh_cut/topo_cell_looper.cpp
+mesh_cut/geom_cell_looper.cpp
+mesh_cut/hex_cell_looper.cpp
+mesh_cut/directions.cpp
+mesh_cut/direction_info.cpp
+mesh_cut/edge_vertex.cpp
+mesh_cut/cell_cuts.cpp
+mesh_cut/split_cell.cpp
+mesh_cut/refine_cell.cpp
+mesh_cut/wall_layer_cells.cpp
+mesh_cut/wall_normal_info.cpp
 
-poly_topo_change/attach_poly_topo_changer/attach_poly_topo_changer.cpp
-poly_topo_change/repatch_poly_topo_changer/repatch_poly_topo_changer.cpp
+poly_topo_change/attach_poly_topo_changer.cpp
+poly_topo_change/repatch_poly_topo_changer.cpp
 
-fv_mesh_adder/fv_mesh_adder.cpp
-fv_mesh_distribute/fv_mesh_distribute.cpp
-poly_mesh_adder/face_couple_info.cpp
-poly_mesh_adder/poly_mesh_adder.cpp
+fv_mesh_adder.cpp
+fv_mesh_distribute.cpp
+face_couple_info.cpp
+poly_mesh_adder.cpp
 
-fv_mesh_tools/fv_mesh_tools.cpp
+fv_mesh_tools.cpp
 
 motion_smoother/motion_smoother.cpp
 motion_smoother/motion_smoother_algo.cpp
 motion_smoother/motion_smoother_algo_check.cpp
 motion_smoother/motion_smoother_data.cpp
-motion_smoother/poly_mesh_geometry/poly_mesh_geometry.cpp
-motion_smoother/bad_quality_to_cell/bad_quality_to_cell.cpp
-motion_smoother/bad_quality_to_face/bad_quality_to_face.cpp
+motion_smoother/poly_mesh_geometry.cpp
+motion_smoother/bad_quality_to_cell.cpp
+motion_smoother/bad_quality_to_face.cpp
 
-motion_solver/motion_solver/motion_solver.cpp
-motion_solver/displacement/displacement_motion_solver.cpp
-motion_solver/component_displacement/component_displacement_motion_solver.cpp
-motion_solver/velocity/velocity_motion_solver.cpp
-motion_solver/component_velocity/component_velocity_motion_solver.cpp
+motion_solver/motion_solver.cpp
+motion_solver/displacement_motion_solver.cpp
+motion_solver/component_displacement_motion_solver.cpp
+motion_solver/velocity_motion_solver.cpp
+motion_solver/component_velocity_motion_solver.cpp
 
-create_shell_mesh/create_shell_mesh.cpp
+create_shell_mesh.cpp
 
-extrude_patch_mesh/extrude_patch_mesh.cpp
+extrude_patch_mesh.cpp
 
-poly_mesh_filter/poly_mesh_filter_settings.cpp
-poly_mesh_filter/poly_mesh_filter.cpp
+poly_mesh_filter_settings.cpp
+poly_mesh_filter.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_dynamic_mesh

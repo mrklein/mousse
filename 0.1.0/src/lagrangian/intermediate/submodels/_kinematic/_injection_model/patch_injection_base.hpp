@@ -12,18 +12,21 @@
 //   provide a more stochsatic view of the injection process.  Patch faces are
 //   triangulated, and area fractions accumulated.  The fractional areas are
 //   then applied to determine across which face a parcel is to be injected.
-// SourceFiles
-//   patch_injection_base.cpp
+
 #include "word.hpp"
 #include "label_list.hpp"
 #include "scalar_list.hpp"
 #include "vector_list.hpp"
 #include "face_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
 class polyMesh;
 class cachedRandom;
+
+
 class patchInjectionBase
 {
 protected:
@@ -68,5 +71,8 @@ public:
       label& tetPtI
     );
 };
+
 } // end namespace mousse
+
 #endif
+

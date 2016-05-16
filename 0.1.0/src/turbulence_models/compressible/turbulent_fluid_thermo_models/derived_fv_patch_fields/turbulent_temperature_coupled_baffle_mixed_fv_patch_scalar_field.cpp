@@ -7,10 +7,11 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "mapped_patch_base.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 // Constructors 
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
@@ -30,6 +31,8 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 1.0;
 }
+
+
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 (
@@ -46,6 +49,8 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   kappaLayers_{ptf.kappaLayers_},
   contactRes_{ptf.contactRes_}
 {}
+
+
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 (
@@ -61,8 +66,7 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   kappaLayers_{0},
   contactRes_{0.0}
 {
-  if (!isA<mappedPatchBase>(this->patch().patch()))
-  {
+  if (!isA<mappedPatchBase>(this->patch().patch())) {
     FATAL_ERROR_IN
     (
       "turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::"
@@ -72,43 +76,40 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
       "    const DimensionedField<scalar, volMesh>& iF,\n"
       "    const dictionary& dict\n"
       ")\n"
-    )   << "\n    patch type '" << p.type()
-      << "' not type '" << mappedPatchBase::typeName << "'"
-      << "\n    for patch " << p.name()
-      << " of field " << dimensionedInternalField().name()
-      << " in file " << dimensionedInternalField().objectPath()
-      << exit(FatalError);
+    )
+    << "\n    patch type '" << p.type()
+    << "' not type '" << mappedPatchBase::typeName << "'"
+    << "\n    for patch " << p.name()
+    << " of field " << dimensionedInternalField().name()
+    << " in file " << dimensionedInternalField().objectPath()
+    << exit(FatalError);
   }
-  if (dict.found("thicknessLayers"))
-  {
+  if (dict.found("thicknessLayers")) {
     dict.lookup("thicknessLayers") >> thicknessLayers_;
     dict.lookup("kappaLayers") >> kappaLayers_;
-    if (thicknessLayers_.size() > 0)
-    {
+    if (thicknessLayers_.size() > 0) {
       // Calculate effective thermal resistance by harmonic averaging
-      FOR_ALL(thicknessLayers_, iLayer)
-      {
+      FOR_ALL(thicknessLayers_, iLayer) {
         contactRes_ += thicknessLayers_[iLayer]/kappaLayers_[iLayer];
       }
       contactRes_ = 1.0/contactRes_;
     }
   }
-  fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
-  if (dict.found("refValue"))
-  {
+  fvPatchScalarField::operator=(scalarField{"value", dict, p.size()});
+  if (dict.found("refValue")) {
     // Full restart
-    refValue() = scalarField("refValue", dict, p.size());
-    refGrad() = scalarField("refGradient", dict, p.size());
-    valueFraction() = scalarField("valueFraction", dict, p.size());
-  }
-  else
-  {
+    refValue() = scalarField{"refValue", dict, p.size()};
+    refGrad() = scalarField{"refGradient", dict, p.size()};
+    valueFraction() = scalarField{"valueFraction", dict, p.size()};
+  } else {
     // Start from user entered data. Assume fixedValue.
     refValue() = *this;
     refGrad() = 0.0;
     valueFraction() = 1.0;
   }
 }
+
+
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::
 turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 (
@@ -123,17 +124,18 @@ turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
   kappaLayers_{wtcsf.kappaLayers_},
   contactRes_{wtcsf.contactRes_}
 {}
+
+
 // Member Functions 
 void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Since we're inside initEvaluate/evaluate there might be processor
   // comms underway. Change the tag we use.
   int oldTag = UPstream::msgType();
-  UPstream::msgType() = oldTag+1;
+  UPstream::msgType() = oldTag + 1;
   // Get the coupling information from the mappedPatchBase
   const mappedPatchBase& mpp =
     refCast<const mappedPatchBase>(patch().patch());
@@ -142,7 +144,6 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
   const fvPatch& nbrPatch =
     refCast<const fvMesh>(nbrMesh).boundary()[samplePatchI];
   // Calculate the temperature by harmonic averaging
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const turbulentTemperatureCoupledBaffleMixedFvPatchScalarField& nbrField =
   refCast
   <
@@ -157,13 +158,10 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
   // Swap to obtain full local values of neighbour internal field
   tmp<scalarField> nbrIntFld{new scalarField{nbrField.size(), 0.0}};
   tmp<scalarField> nbrKDelta{new scalarField{nbrField.size(), 0.0}};
-  if (contactRes_ == 0.0)
-  {
+  if (contactRes_ == 0.0) {
     nbrIntFld() = nbrField.patchInternalField();
     nbrKDelta() = nbrField.kappa(nbrField)*nbrPatch.deltaCoeffs();
-  }
-  else
-  {
+  } else {
     nbrIntFld() = nbrField;
     nbrKDelta() = contactRes_;
   }
@@ -188,10 +186,9 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
   this->refGrad() = 0.0;
   this->valueFraction() = nbrKDelta()/(nbrKDelta() + myKDelta());
   mixedFvPatchScalarField::updateCoeffs();
-  if (debug)
-  {
+  if (debug) {
     scalar Q = gSum(kappa(*this)*patch().magSf()*snGrad());
-    Info<< patch().boundaryMesh().mesh().name() << ':'
+    Info << patch().boundaryMesh().mesh().name() << ':'
       << patch().name() << ':'
       << this->dimensionedInternalField().name() << " <- "
       << nbrMesh.name() << ':'
@@ -207,6 +204,8 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::updateCoeffs()
   // Restore tag
   UPstream::msgType() = oldTag;
 }
+
+
 void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::write
 (
   Ostream& os
@@ -219,10 +218,14 @@ void turbulentTemperatureCoupledBaffleMixedFvPatchScalarField::write
   kappaLayers_.writeEntry("kappaLayers", os);
   temperatureCoupledBase::write(os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 );
+
 }  // namespace compressible
 }  // namespace mousse
+

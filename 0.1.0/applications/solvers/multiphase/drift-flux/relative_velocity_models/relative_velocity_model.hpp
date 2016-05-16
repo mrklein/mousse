@@ -1,19 +1,20 @@
+#ifndef RELATIVE_VELOCITY_MODEL_HPP_
+#define RELATIVE_VELOCITY_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::relativeVelocityModel
-// Description
-// SourceFiles
-//   relative_velocity_model.cpp
-#ifndef RELATIVE_VELOCITY_MODEL_HPP_
-#define RELATIVE_VELOCITY_MODEL_HPP_
+
 #include "fv_cfd.hpp"
 #include "dictionary.hpp"
 #include "incompressible_two_phase_interacting_mixture.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class relativeVelocityModel
 {
 protected:
@@ -82,5 +83,8 @@ public:
     //- Update the diffusion velocity
     virtual void correct() = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

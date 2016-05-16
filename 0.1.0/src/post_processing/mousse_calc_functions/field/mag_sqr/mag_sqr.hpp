@@ -8,13 +8,13 @@
 //   mousse::calcTypes::magSqr
 // Description
 //   Calculates and writes the magnitude-sqaured of a field for each time
-// SourceFiles
-//   mag_sqr.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class magSqr
 :
   public calcType
@@ -61,9 +61,10 @@ public:
   //- Destructor
   virtual ~magSqr();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_mag_sqr_field.cpp"
-#endif
+
+#include "write_mag_sqr_field.ipp"
+
 #endif

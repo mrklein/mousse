@@ -1,22 +1,14 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  3.0.x                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
-\*---------------------------------------------------------------------------*/
+// mousse: CFD toolbox
+
 FoamFile
 {
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    object      particleTrackDict;
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      particleTrackDict;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 cloudName       reactingCloud1Tracks;
-
 fields ( d U T );
 
-// ************************************************************************* //
-
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -5,8 +5,10 @@
 #include "alpha_contact_angle_fv_patch_scalar_field.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 alphaContactAngleFvPatchScalarField::interfaceThetaProps::interfaceThetaProps
 (
   Istream& is
@@ -17,6 +19,8 @@ alphaContactAngleFvPatchScalarField::interfaceThetaProps::interfaceThetaProps
   thetaA_{readScalar(is)},
   thetaR_{readScalar(is)}
 {}
+
+
 Istream& operator>>
 (
   Istream& is,
@@ -26,6 +30,8 @@ Istream& operator>>
   is >> tp.theta0_ >> tp.uTheta_ >> tp.thetaA_ >> tp.thetaR_;
   return is;
 }
+
+
 Ostream& operator<<
 (
   Ostream& os,
@@ -38,6 +44,8 @@ Ostream& operator<<
     << tp.thetaR_;
   return os;
 }
+
+
 // Constructors 
 alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 (
@@ -47,6 +55,8 @@ alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 :
   zeroGradientFvPatchScalarField{p, iF}
 {}
+
+
 alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 (
   const alphaContactAngleFvPatchScalarField& gcpsf,
@@ -58,6 +68,8 @@ alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
   zeroGradientFvPatchScalarField{gcpsf, p, iF, mapper},
   thetaProps_{gcpsf.thetaProps_}
 {}
+
+
 alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 (
   const fvPatch& p,
@@ -70,6 +82,8 @@ alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 {
   evaluate();
 }
+
+
 alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
 (
   const alphaContactAngleFvPatchScalarField& gcpsf,
@@ -79,6 +93,8 @@ alphaContactAngleFvPatchScalarField::alphaContactAngleFvPatchScalarField
   zeroGradientFvPatchScalarField{gcpsf, iF},
   thetaProps_{gcpsf.thetaProps_}
 {}
+
+
 // Member Functions 
 void alphaContactAngleFvPatchScalarField::write(Ostream& os) const
 {
@@ -87,9 +103,13 @@ void alphaContactAngleFvPatchScalarField::write(Ostream& os) const
     << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphaContactAngleFvPatchScalarField
 );
+
 }  // namespace mousse
+

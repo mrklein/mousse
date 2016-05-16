@@ -8,9 +8,7 @@
 //   mousse::radiation::radiationModel
 // Description
 //   Top level model for radiation modelling
-// SourceFiles
-//   radiation_model.cpp
-//   radiation_model_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
@@ -18,16 +16,21 @@
 #include "dimensioned_field.hpp"
 #include "fv_matrices_fwd.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fluidThermo;
 class fvMesh;
-namespace radiation
-{
+
+namespace radiation {
+
 // Forward declaration of classes
 class absorptionEmissionModel;
 class scatterModel;
 class sootModel;
+
+
 class radiationModel
 :
   public IOdictionary
@@ -124,10 +127,7 @@ public:
       virtual bool read() = 0;
     // Access
       //- Radiation model on/off flag
-      const Switch radiation() const
-      {
-        return radiation_;
-      }
+      const Switch radiation() const { return radiation_; }
       //- Source term component (for power of T^4)
       virtual tmp<volScalarField> Rp() const = 0;
       //- Source term component (constant)
@@ -145,21 +145,26 @@ public:
       //- Access to soot Model
       const sootModel& soot() const;
 };
-#define addToRadiationRunTimeSelectionTables(model)                           \
-                                       \
-  ADD_TO_RUN_TIME_SELECTION_TABLE                                                \
-  (                                                                         \
-    radiationModel,                                                       \
-    model,                                                                \
-    dictionary                                                            \
-  );                                                                        \
-                                       \
-  ADD_TO_RUN_TIME_SELECTION_TABLE                                                \
-  (                                                                         \
-    radiationModel,                                                       \
-    model,                                                                \
-    T                                                                     \
+
+
+#define ADD_TO_RADIATION_RUN_TIME_SELECTION_TABLES(model)                     \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    radiationModel,                                                           \
+    model,                                                                    \
+    dictionary                                                                \
+  );                                                                          \
+                                                                              \
+  ADD_TO_RUN_TIME_SELECTION_TABLE                                             \
+  (                                                                           \
+    radiationModel,                                                           \
+    model,                                                                    \
+    T                                                                         \
   );
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

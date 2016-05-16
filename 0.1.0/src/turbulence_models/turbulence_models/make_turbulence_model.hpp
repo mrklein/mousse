@@ -4,8 +4,7 @@
 
 #define MAKE_BASE_TURBULENCE_MODEL(Alpha, Rho, baseModel, BaseModel, Transport)\
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
+  namespace mousse {                                                          \
     typedef TurbulenceModel                                                   \
     <                                                                         \
       Alpha,                                                                  \
@@ -70,34 +69,30 @@
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG                                   \
     (mousse::SType##Models::Type<mousse::BaseModel>, 0);                      \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace SType##Models                                                   \
-    {                                                                         \
-      typedef Type<BaseModel> Type##SType##BaseModel;                         \
+  namespace mousse {                                                          \
+  namespace SType##Models {                                                   \
+    typedef Type<BaseModel> Type##SType##BaseModel;                           \
                                                                               \
-      ADD_TO_RUN_TIME_SELECTION_TABLE                                         \
-      (                                                                       \
-        SType##BaseModel,                                                     \
-        Type##SType##BaseModel,                                               \
-        dictionary                                                            \
-      );                                                                      \
-    }                                                                         \
+    ADD_TO_RUN_TIME_SELECTION_TABLE                                           \
+    (                                                                         \
+      SType##BaseModel,                                                       \
+      Type##SType##BaseModel,                                                 \
+      dictionary                                                              \
+    );                                                                        \
+  }                                                                           \
   }
 
 
 #define MAKE_TURBULENCE_MODEL(BaseModel, SType, Type)                         \
-  namespace mousse                                                            \
-  {                                                                           \
-    namespace SType##Models                                                   \
-    {                                                                         \
-      DEFINE_TYPE_NAME_AND_DEBUG(Type, 0);                                    \
+  namespace mousse {                                                          \
+  namespace SType##Models {                                                   \
+    DEFINE_TYPE_NAME_AND_DEBUG(Type, 0);                                      \
                                                                               \
-      ADD_TO_RUN_TIME_SELECTION_TABLE                                         \
-      (                                                                       \
-        SType##BaseModel,                                                     \
-        Type,                                                                 \
-        dictionary                                                            \
-      );                                                                      \
-    }                                                                         \
+    ADD_TO_RUN_TIME_SELECTION_TABLE                                           \
+    (                                                                         \
+      SType##BaseModel,                                                       \
+      Type,                                                                   \
+      dictionary                                                              \
+    );                                                                        \
+  }                                                                           \
   }

@@ -10,6 +10,7 @@
 #include "ras_model.hpp"
 #include "les_model.hpp"
 
+
 MAKE_BASE_TURBULENCE_MODEL
 (
   geometricOneField,
@@ -19,13 +20,16 @@ MAKE_BASE_TURBULENCE_MODEL
   transportModel
 );
 
+
 #define MAKE_RAS_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (transportModelIncompressibleTurbulenceModel, RAS, Type)
 
+
 #define MAKE_LES_MODEL(Type)                                                  \
   MAKE_TEMPLATED_TURBULENCE_MODEL                                             \
   (transportModelIncompressibleTurbulenceModel, LES, Type)
+
 
 // RAS models
 #include "spalart_allmaras.hpp"

@@ -8,18 +8,23 @@
 //   mousse::SprayParcel
 // Description
 //   Reacing spray parcel, with added functionality for atomization and breakup
+
 #include "particle.hpp"
 #include "demand_driven_entry.hpp"
-namespace mousse
-{
-template<class ParcelType>
-class SprayParcel;
+
+
+namespace mousse {
+
+template<class ParcelType> class SprayParcel;
+
 template<class ParcelType>
 Ostream& operator<<
 (
   Ostream&,
   const SprayParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class SprayParcel
 :
@@ -165,15 +170,16 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new SprayParcel<ParcelType>(*this));
+      return autoPtr<particle>{new SprayParcel<ParcelType>{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>
-      (
-        new SprayParcel<ParcelType>(*this, mesh)
-      );
+      return
+        autoPtr<particle>
+        {
+          new SprayParcel<ParcelType>{*this, mesh}
+        };
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -183,14 +189,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<SprayParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<SprayParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<SprayParcel<ParcelType> >
-        (
-          new SprayParcel<ParcelType>(mesh_, is, true)
-        );
+        return
+          autoPtr<SprayParcel<ParcelType>>
+          {
+            new SprayParcel<ParcelType>{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -345,7 +352,9 @@ public:
       const SprayParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -355,6 +364,8 @@ inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties()
   sigma0_{this->dict_, 0.0},
   mu0_{this->dict_, 0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -365,6 +376,8 @@ inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
   sigma0_{cp.sigma0_},
   mu0_{cp.mu0_}
 {}
+
+
 template<class ParcelType>
 inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -375,6 +388,8 @@ inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
   sigma0_{this->dict_, "sigma0"},
   mu0_{this->dict_, "mu0"}
 {}
+
+
 template<class ParcelType>
 inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -418,6 +433,8 @@ inline mousse::SprayParcel<ParcelType>::constantProperties::constantProperties
   sigma0_{this->dict_, sigma0},
   mu0_{this->dict_, mu0}
 {}
+
+
 template<class ParcelType>
 inline mousse::SprayParcel<ParcelType>::SprayParcel
 (
@@ -443,6 +460,8 @@ inline mousse::SprayParcel<ParcelType>::SprayParcel
   tMom_{GREAT},
   user_{0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::SprayParcel<ParcelType>::SprayParcel
 (
@@ -504,6 +523,8 @@ inline mousse::SprayParcel<ParcelType>::SprayParcel
   tMom_{tMom},
   user_{user}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -511,144 +532,198 @@ mousse::SprayParcel<ParcelType>::constantProperties::sigma0() const
 {
   return sigma0_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::SprayParcel<ParcelType>::constantProperties::mu0() const
 {
   return mu0_.value();
 }
+
+
 // SprayParcel Member Functions
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::d0() const
 {
   return d0_;
 }
+
+
 template<class ParcelType>
 inline const mousse::vector& mousse::SprayParcel<ParcelType>::position0() const
 {
   return position0_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::sigma() const
 {
   return sigma_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::mu() const
 {
   return mu_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::liquidCore() const
 {
   return liquidCore_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::KHindex() const
 {
   return KHindex_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::y() const
 {
   return y_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::yDot() const
 {
   return yDot_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::tc() const
 {
   return tc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::ms() const
 {
   return ms_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::injector() const
 {
   return injector_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::tMom() const
 {
   return tMom_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::SprayParcel<ParcelType>::user() const
 {
   return user_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::d0()
 {
   return d0_;
 }
+
+
 template<class ParcelType>
 inline mousse::vector& mousse::SprayParcel<ParcelType>::position0()
 {
   return position0_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::sigma()
 {
   return sigma_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::mu()
 {
   return mu_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::liquidCore()
 {
   return liquidCore_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::KHindex()
 {
   return KHindex_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::y()
 {
   return y_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::yDot()
 {
   return yDot_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::tc()
 {
   return tc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::ms()
 {
   return ms_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::injector()
 {
   return injector_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::tMom()
 {
   return tMom_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::SprayParcel<ParcelType>::user()
 {
   return user_;
 }
-#ifdef NoRepository
-  #include "_spray_parcel.cpp"
-#endif
+
+#include "_spray_parcel.ipp"
+
 #endif

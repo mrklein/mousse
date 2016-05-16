@@ -27,14 +27,14 @@
 // SeeAlso
 //   mousse::mixedFvPatchScalarField
 //   mousse::radiationCoupledBase
-// SourceFiles
-//   wide_band_diffusive_radiation_mixed_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "radiation_coupled_base.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class wideBandDiffusiveRadiationMixedFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -77,10 +77,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new wideBandDiffusiveRadiationMixedFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new wideBandDiffusiveRadiationMixedFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     wideBandDiffusiveRadiationMixedFvPatchScalarField
@@ -94,10 +95,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new wideBandDiffusiveRadiationMixedFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new wideBandDiffusiveRadiationMixedFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Access
@@ -119,6 +121,9 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
 }
+
 #endif
+

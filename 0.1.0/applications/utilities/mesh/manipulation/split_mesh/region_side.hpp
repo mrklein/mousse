@@ -16,16 +16,17 @@
 //    from starting face.
 //   - List of faces using an internal point of the region visitable by
 //    edge-face-edge walking from the correct side of the region.
-// SourceFiles
-//   region_side.cpp
 
 #include "hash_set.hpp"
 #include "type_info.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Forward declaration of classes
 class primitiveMesh;
+
+
 class regionSide
 {
   // Private data
@@ -98,14 +99,11 @@ public:
     );
   // Member Functions
     // Access
-      const labelHashSet& sideOwner() const
-      {
-        return sideOwner_;
-      }
-      const labelHashSet& insidePointFaces() const
-      {
-        return insidePointFaces_;
-      }
+      const labelHashSet& sideOwner() const { return sideOwner_; }
+      const labelHashSet& insidePointFaces() const { return insidePointFaces_; }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -2,10 +2,8 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-if (adjustTimeStep)
-{
-  if (CoNum == -GREAT)
-  {
+if (adjustTimeStep) {
+  if (CoNum == -GREAT) {
     CoNum = SMALL;
   }
   const scalar TFactorFluid = maxCo/(CoNum + SMALL);

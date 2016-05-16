@@ -10,13 +10,13 @@
 //   Simple infinitely fast chemistry combustion model based on the principle
 //   mixed is burnt. Additional parameter C is used to distribute the heat
 //   release rate.in time
-// SourceFiles
-//   infinitely_fast_chemistry.cpp
+
 #include "single_step_combustion.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 template<class CombThermoType, class ThermoType>
 class infinitelyFastChemistry
 :
@@ -50,9 +50,10 @@ public:
       //- Update properties
       virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "infinitely_fast_chemistry.cpp"
-#endif
+
+#include "infinitely_fast_chemistry.ipp"
+
 #endif

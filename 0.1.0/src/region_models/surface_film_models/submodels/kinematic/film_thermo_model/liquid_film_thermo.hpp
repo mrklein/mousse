@@ -8,18 +8,19 @@
 //   mousse::liquidFilmThermo
 // Description
 //   Liquid thermo model
-// SourceFiles
-//   liquid_film_thermo.cpp
+
 #include "film_thermo_model.hpp"
 #include "liquid_properties.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Forward class declarations
 class thermoSingleLayer;
+
+
 class liquidFilmThermo
 :
   public filmThermoModel
@@ -95,7 +96,10 @@ public:
       //- Return thermal conductivity [W/m/K]
       virtual tmp<volScalarField> kappa() const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

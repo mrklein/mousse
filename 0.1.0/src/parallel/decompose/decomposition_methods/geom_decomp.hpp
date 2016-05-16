@@ -8,12 +8,13 @@
 //   mousse::geomDecomp
 // Description
 //   Geometrical domain decomposition
-// SourceFiles
-//   geom_decomp.cpp
+
 #include "decomposition_method.hpp"
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class geomDecomp
 :
   public decompositionMethod
@@ -42,5 +43,8 @@ public:
     //- Like decompose but with uniform weights on the points
     virtual labelList decompose(const pointField&) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

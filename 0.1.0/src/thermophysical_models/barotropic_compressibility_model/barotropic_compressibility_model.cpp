@@ -3,12 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "barotropic_compressibility_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(barotropicCompressibilityModel, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(barotropicCompressibilityModel, dictionary);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(barotropicCompressibilityModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(barotropicCompressibilityModel, dictionary);
+
 }
+
+
 // Constructors 
 mousse::barotropicCompressibilityModel::barotropicCompressibilityModel
 (
@@ -17,20 +22,21 @@ mousse::barotropicCompressibilityModel::barotropicCompressibilityModel
   const word& psiName
 )
 :
-  compressibilityProperties_(compressibilityProperties),
+  compressibilityProperties_{compressibilityProperties},
   psi_
-  (
-    IOobject
-    (
+  {
+    {
       psiName,
       gamma.mesh().time().timeName(),
       gamma.mesh()
-    ),
+    },
     gamma.mesh(),
-    dimensionedScalar(psiName, dimensionSet(0, -2, 2, 0, 0), 0)
-  ),
-  gamma_(gamma)
+    {psiName, dimensionSet(0, -2, 2, 0, 0), 0}
+  },
+  gamma_{gamma}
 {}
+
+
 // Member Functions 
 bool mousse::barotropicCompressibilityModel::read
 (
@@ -40,3 +46,4 @@ bool mousse::barotropicCompressibilityModel::read
   compressibilityProperties_ = compressibilityProperties;
   return true;
 }
+

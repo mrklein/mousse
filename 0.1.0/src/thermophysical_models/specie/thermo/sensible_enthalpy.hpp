@@ -9,8 +9,9 @@
 // Description
 //   Thermodynamics mapping class to expose the sensible enthalpy function
 //   as the standard enthalpy function h(T).
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Thermo>
 class sensibleEnthalpy
 {
@@ -83,5 +84,8 @@ public:
         return thermo.THs(h, p, T0);
       }
 };
+
 }  // namespace mousse
+
 #endif
+

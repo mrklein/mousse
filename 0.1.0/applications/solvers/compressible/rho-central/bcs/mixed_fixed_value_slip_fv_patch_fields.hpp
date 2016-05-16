@@ -7,8 +7,13 @@
 
 #include "mixed_fixed_value_slip_fv_patch_field.hpp"
 #include "field_types.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD_TYPEDEFS(mixedFixedValueSlip);
+
 }  // namespace mousse
+
 #endif
+

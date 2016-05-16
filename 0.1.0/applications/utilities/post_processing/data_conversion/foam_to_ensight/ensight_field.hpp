@@ -4,9 +4,11 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   ensight_field.cpp
+
 #include "ensight_mesh.hpp"
 #include "fv_mesh_subset.hpp"
+
+
 //- Wrapper to get hold of the field or the subsetted field
 template<class Type>
 mousse::tmp<mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh> >
@@ -15,6 +17,8 @@ volField
   const mousse::fvMeshSubset&,
   const mousse::GeometricField<Type, mousse::fvPatchField, mousse::volMesh>& vf
 );
+
+
 template<class Type>
 void ensightField
 (
@@ -27,6 +31,8 @@ void ensightField
   const bool nodeValues,
   mousse::Ostream& ensightCaseFile
 );
+
+
 template<class Type>
 void writePatchField
 (
@@ -39,7 +45,7 @@ void writePatchField
   const mousse::label timeIndex,
   mousse::Ostream& ensightCaseFile
 );
-#ifdef NoRepository
-  #include "ensight_field.cpp"
-#endif
+
+#include "ensight_field.ipp"
+
 #endif

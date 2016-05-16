@@ -1,0 +1,8 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/clean-functions
+
+clean_case
+rm -rf sets
+rm -f validation/*.eps validation/log.*

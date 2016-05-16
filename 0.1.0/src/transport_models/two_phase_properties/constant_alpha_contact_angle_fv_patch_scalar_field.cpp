@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_mesh.hpp"
 #include "fv_patch_field_mapper.hpp"
+
+
 // Constructors 
 mousse::constantAlphaContactAngleFvPatchScalarField::
 constantAlphaContactAngleFvPatchScalarField
@@ -14,9 +16,11 @@ constantAlphaContactAngleFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  alphaContactAngleFvPatchScalarField(p, iF),
-  theta0_(0.0)
+  alphaContactAngleFvPatchScalarField{p, iF},
+  theta0_{0.0}
 {}
+
+
 mousse::constantAlphaContactAngleFvPatchScalarField::
 constantAlphaContactAngleFvPatchScalarField
 (
@@ -26,9 +30,11 @@ constantAlphaContactAngleFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  alphaContactAngleFvPatchScalarField(gcpsf, p, iF, mapper),
-  theta0_(gcpsf.theta0_)
+  alphaContactAngleFvPatchScalarField{gcpsf, p, iF, mapper},
+  theta0_{gcpsf.theta0_}
 {}
+
+
 mousse::constantAlphaContactAngleFvPatchScalarField::
 constantAlphaContactAngleFvPatchScalarField
 (
@@ -37,20 +43,24 @@ constantAlphaContactAngleFvPatchScalarField
   const dictionary& dict
 )
 :
-  alphaContactAngleFvPatchScalarField(p, iF, dict),
-  theta0_(readScalar(dict.lookup("theta0")))
+  alphaContactAngleFvPatchScalarField{p, iF, dict},
+  theta0_{readScalar(dict.lookup("theta0"))}
 {
   evaluate();
 }
+
+
 mousse::constantAlphaContactAngleFvPatchScalarField::
 constantAlphaContactAngleFvPatchScalarField
 (
   const constantAlphaContactAngleFvPatchScalarField& gcpsf
 )
 :
-  alphaContactAngleFvPatchScalarField(gcpsf),
-  theta0_(gcpsf.theta0_)
+  alphaContactAngleFvPatchScalarField{gcpsf},
+  theta0_{gcpsf.theta0_}
 {}
+
+
 mousse::constantAlphaContactAngleFvPatchScalarField::
 constantAlphaContactAngleFvPatchScalarField
 (
@@ -58,9 +68,11 @@ constantAlphaContactAngleFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  alphaContactAngleFvPatchScalarField(gcpsf, iF),
-  theta0_(gcpsf.theta0_)
+  alphaContactAngleFvPatchScalarField{gcpsf, iF},
+  theta0_{gcpsf.theta0_}
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::scalarField>
 mousse::constantAlphaContactAngleFvPatchScalarField::theta
@@ -69,8 +81,10 @@ mousse::constantAlphaContactAngleFvPatchScalarField::theta
   const fvsPatchVectorField&
 ) const
 {
-  return tmp<scalarField>(new scalarField(size(), theta0_));
+  return tmp<scalarField>{new scalarField{size(), theta0_}};
 }
+
+
 void mousse::constantAlphaContactAngleFvPatchScalarField::write
 (
   Ostream& os
@@ -80,11 +94,15 @@ void mousse::constantAlphaContactAngleFvPatchScalarField::write
   os.writeKeyword("theta0") << theta0_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   constantAlphaContactAngleFvPatchScalarField
 );
+
 }
+

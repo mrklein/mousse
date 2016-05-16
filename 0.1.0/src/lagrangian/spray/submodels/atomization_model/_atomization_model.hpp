@@ -8,18 +8,15 @@
 //   mousse::AtomizationModel
 // Description
 //   Templated atomization model class
-// SourceFiles
-//   _atomization_model.cpp
-//   _atomization_model_new.cpp
-
 
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class AtomizationModel
 :
@@ -88,7 +85,9 @@ public:
       cachedRandom& rndGen
     ) const = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_ATOMIZATION_MODEL(CloudType)                                     \
                                                                               \
@@ -99,14 +98,14 @@ public:
     0                                                                         \
   );                                                                          \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      AtomizationModel<sprayCloudType>,                                       \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    AtomizationModel<sprayCloudType>,                                         \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_ATOMIZATION_MODEL_TYPE(SS, CloudType)                            \
                                                                               \
@@ -117,7 +116,7 @@ public:
     adddictionaryConstructorToTable<mousse::SS<sprayCloudType>>               \
       add##SS##CloudType##sprayCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_atomization_model.cpp"
-#endif
+
+#include "_atomization_model.ipp"
+
 #endif

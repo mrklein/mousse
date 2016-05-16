@@ -10,25 +10,29 @@
 //   Constant properties Transport package.
 //   Templated into a given thermodynamics package (needed for thermal
 //   conductivity).
-// SourceFiles
-//   const_iso_solid_transport_i.hpp
-//   const_iso_solid_transport.cpp
+
 #include "vector.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Thermo> class constIsoSolidTransport;
+
 template<class Thermo>
 inline constIsoSolidTransport<Thermo> operator*
 (
   const scalar,
   const constIsoSolidTransport<Thermo>&
 );
+
 template<class Thermo>
 Ostream& operator<<
 (
   Ostream&,
   const constIsoSolidTransport<Thermo>&
 );
+
+
 template<class Thermo>
 class constIsoSolidTransport
 :
@@ -93,7 +97,9 @@ public:
       const constIsoSolidTransport&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class thermo>
@@ -106,6 +112,8 @@ inline mousse::constIsoSolidTransport<thermo>::constIsoSolidTransport
   thermo{t},
   kappa_{kappa}
 {}
+
+
 template<class thermo>
 inline mousse::constIsoSolidTransport<thermo>::constIsoSolidTransport
 (
@@ -116,6 +124,8 @@ inline mousse::constIsoSolidTransport<thermo>::constIsoSolidTransport
   thermo{name, ct},
   kappa_{ct.kappa_}
 {}
+
+
 template<class Thermo>
 inline mousse::autoPtr<mousse::constIsoSolidTransport<Thermo>>
 mousse::constIsoSolidTransport<Thermo>::New
@@ -128,6 +138,8 @@ mousse::constIsoSolidTransport<Thermo>::New
     new constIsoSolidTransport<Thermo>{dict}
   };
 }
+
+
 // Member Functions 
 template<class thermo>
 inline mousse::scalar mousse::constIsoSolidTransport<thermo>::
@@ -135,12 +147,16 @@ kappa(const scalar /*p*/, const scalar /*T*/) const
 {
   return kappa_;
 }
+
+
 template<class thermo>
 inline mousse::vector mousse::constIsoSolidTransport<thermo>::
 Kappa(const scalar /*p*/, const scalar /*T*/) const
 {
   return vector(kappa_, kappa_, kappa_);
 }
+
+
 template<class thermo>
 inline mousse::scalar mousse::constIsoSolidTransport<thermo>::
 mu(const scalar /*p*/, const scalar /*T*/) const
@@ -149,17 +165,21 @@ mu(const scalar /*p*/, const scalar /*T*/) const
   (
     "mousse::scalar mousse::constIsoSolidTransport<thermo>mu::"
     "("
-    "    const scalar p, const scalar T"
+    "  const scalar p, const scalar T"
     ") const"
   );
   return scalar(0);
 }
+
+
 template<class thermo>
 inline mousse::scalar mousse::constIsoSolidTransport<thermo>::
 alphah(const scalar p, const scalar T) const
 {
   return kappa_/this->Cpv(p, T);
 }
+
+
 // Member Operators 
 template<class thermo>
 inline mousse::constIsoSolidTransport<thermo>&
@@ -172,6 +192,8 @@ mousse::constIsoSolidTransport<thermo>::operator=
   kappa_ = ct.kappa_;
   return *this;
 }
+
+
 template<class thermo>
 inline void mousse::constIsoSolidTransport<thermo>::operator+=
 (
@@ -184,6 +206,8 @@ inline void mousse::constIsoSolidTransport<thermo>::operator+=
   scalar molr2 = ct.nMoles()/this->nMoles();
   kappa_ = molr1*kappa_ + molr2*ct.kappa_;
 }
+
+
 template<class thermo>
 inline void mousse::constIsoSolidTransport<thermo>::operator-=
 (
@@ -196,6 +220,8 @@ inline void mousse::constIsoSolidTransport<thermo>::operator-=
   scalar molr2 = ct.nMoles()/this->nMoles();
   kappa_ = molr1*kappa_ - molr2*ct.kappa_;
 }
+
+
 // Friend Operators 
 template<class thermo>
 inline mousse::constIsoSolidTransport<thermo> mousse::operator*
@@ -207,7 +233,6 @@ inline mousse::constIsoSolidTransport<thermo> mousse::operator*
   return {s*static_cast<const thermo&>(ct), ct.kappa_};
 }
 
-#ifdef NoRepository
-#   include "const_iso_solid_transport.cpp"
-#endif
+#include "const_iso_solid_transport.ipp"
+
 #endif

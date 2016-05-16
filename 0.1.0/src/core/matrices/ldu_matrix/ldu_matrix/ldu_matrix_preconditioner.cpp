@@ -63,14 +63,15 @@ mousse::lduMatrix::preconditioner::New
       << symMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::preconditioner>
-    {
-      constructorIter()
-      (
-        sol,
-        controls
-      )
-    };
+    return
+      autoPtr<lduMatrix::preconditioner>
+      {
+        constructorIter()
+        (
+          sol,
+          controls
+        )
+      };
   } else if (sol.matrix().asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
@@ -87,14 +88,15 @@ mousse::lduMatrix::preconditioner::New
       << asymMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::preconditioner>
-    {
-      constructorIter()
-      (
-        sol,
-        controls
-      )
-    };
+    return
+      autoPtr<lduMatrix::preconditioner>
+      {
+        constructorIter()
+        (
+          sol,
+          controls
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (
@@ -105,6 +107,6 @@ mousse::lduMatrix::preconditioner::New
     << "cannot solve incomplete matrix, "
        "no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
-    return autoPtr<lduMatrix::preconditioner>{NULL};
+    return autoPtr<lduMatrix::preconditioner>{nullptr};
   }
 }

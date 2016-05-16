@@ -11,13 +11,18 @@
 //     F = Sp(U - Up) + Su
 //   Explicit contribution, Su specified as a force
 //   Implicit coefficient, Sp specified as force/velocity
+
 #include "tuple2.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions
 class forceSuSp;
 inline forceSuSp operator+(const forceSuSp& susp1, const forceSuSp& susp2);
 inline forceSuSp operator*(const forceSuSp& susp, const scalar s);
+
+
 class forceSuSp
 :
   public Tuple2<vector, scalar>
@@ -64,11 +69,15 @@ public:
         const forceSuSp& susp
       );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::forceSuSp::forceSuSp()
 {}
+
+
 inline mousse::forceSuSp::forceSuSp
 (
   const Tuple2<vector, scalar>& fs
@@ -76,48 +85,68 @@ inline mousse::forceSuSp::forceSuSp
 :
   Tuple2<vector, scalar>{fs}
 {}
+
+
 inline mousse::forceSuSp::forceSuSp(const vector& Su, const scalar Sp)
 {
   first() = Su;
   second() = Sp;
 }
+
+
 inline mousse::forceSuSp::forceSuSp(Istream& is)
 :
   Tuple2<vector, scalar>{is}
 {}
+
+
 // Member Functions 
 inline const mousse::vector& mousse::forceSuSp::Su() const
 {
   return first();
 }
+
+
 inline mousse::scalar mousse::forceSuSp::Sp() const
 {
   return second();
 }
+
+
 inline mousse::vector& mousse::forceSuSp::Su()
 {
   return first();
 }
+
+
 inline mousse::scalar& mousse::forceSuSp::Sp()
 {
   return second();
 }
+
+
 // Operators
 inline void mousse::forceSuSp::operator=(const forceSuSp& susp)
 {
   first() = susp.first();
   second() = susp.second();
 }
+
+
 inline void mousse::forceSuSp::operator+=(const forceSuSp& susp)
 {
   first() += susp.first();
   second() += susp.second();
 }
+
+
 inline void mousse::forceSuSp::operator-=(const forceSuSp& susp)
 {
   first() -= susp.first();
   second() -= susp.second();
 }
+
+
 // Friend Operators 
 inline mousse::forceSuSp mousse::operator+
 (
@@ -125,18 +154,23 @@ inline mousse::forceSuSp mousse::operator+
   const forceSuSp& susp2
 )
 {
-  return forceSuSp
-  (
-    susp1.first() + susp2.first(),
-    susp1.second() + susp2.second()
-  );
+  return
+    forceSuSp
+    {
+      susp1.first() + susp2.first(),
+      susp1.second() + susp2.second()
+    };
 }
+
+
 inline mousse::forceSuSp mousse::operator*
 (
   const scalar s,
   const forceSuSp& susp
 )
 {
-  return forceSuSp(susp.first()*s, susp.second()*s);
+  return forceSuSp{susp.first()*s, susp.second()*s};
 }
+
 #endif
+

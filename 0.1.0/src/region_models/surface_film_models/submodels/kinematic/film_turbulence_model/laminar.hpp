@@ -8,15 +8,14 @@
 //   mousse::regionModels::surfaceFilmModels::laminar
 // Description
 //   Film laminar turbulence model.
-// SourceFiles
-//   laminar.cpp
+
 #include "film_turbulence_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class laminar
 :
   public filmTurbulenceModel
@@ -48,7 +47,10 @@ public:
       //- Return the source for the film momentum equation
       virtual tmp<fvVectorMatrix> Su(volVectorField& U) const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

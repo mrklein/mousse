@@ -8,17 +8,15 @@
 //   mousse::filmRadiationModel
 // Description
 //   Base class for film radiation models
-// SourceFiles
-//   film_radiation_model.cpp
-//   film_radiation_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class filmRadiationModel
 :
   public filmSubModelBase
@@ -68,7 +66,10 @@ public:
       //- Return the radiation sensible enthalpy source
       virtual tmp<volScalarField> Shs() = 0;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

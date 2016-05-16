@@ -7,8 +7,10 @@
 #include "solid_thermo_physics_types.hpp"
 #include "chemistry_reader.hpp"
 #include "foam_chemistry_reader.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Solid chemistry readers based on sensibleEnthalpy
 MAKE_CHEMISTRY_READER(constGasHThermoPhysics);
 MAKE_CHEMISTRY_READER(gasHThermoPhysics);
@@ -46,4 +48,6 @@ MAKE_CHEMISTRY_READER(hExpKappaConstSolidThermoPhysics);
 MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hConstSolidThermoPhysics);
 MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hPowerSolidThermoPhysics);
 MAKE_CHEMISTRY_READER_TYPE(foamChemistryReader, hExpKappaConstSolidThermoPhysics);
+
 }  // namespace mousse
+

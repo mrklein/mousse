@@ -13,7 +13,11 @@
 #include "mesh_tools.hpp"
 #include "pair.hpp"
 #include "global_index.hpp"
+
+
 using namespace mousse;
+
+
 // Locate point on patch. Returns (mesh) point label.
 label findPoint(const primitivePatch& pp, const point& nearPoint)
 {
@@ -24,19 +28,15 @@ label findPoint(const primitivePatch& pp, const point& nearPoint)
   label minI = -1;
   scalar almostMinDistSqr = GREAT;
   label almostMinI = -1;
-  FOR_ALL(meshPoints, i)
-  {
+  FOR_ALL(meshPoints, i) {
     label pointI = meshPoints[i];
     scalar distSqr = magSqr(nearPoint - points[pointI]);
-    if (distSqr < minDistSqr)
-    {
+    if (distSqr < minDistSqr) {
       almostMinDistSqr = minDistSqr;
       almostMinI = minI;
       minDistSqr = distSqr;
       minI = pointI;
-    }
-    else if (distSqr < almostMinDistSqr)
-    {
+    } else if (distSqr < almostMinDistSqr) {
       almostMinDistSqr = distSqr;
       almostMinI = pointI;
     }
@@ -49,16 +49,15 @@ label findPoint(const primitivePatch& pp, const point& nearPoint)
     << "    next nearest point : " << almostMinI
     << " distance " <<  mousse::sqrt(almostMinDistSqr)
     << " at " << points[almostMinI] << endl;
-  if (almostMinDistSqr < 4*minDistSqr)
-  {
+  if (almostMinDistSqr < 4*minDistSqr) {
     Info << "Next nearest too close to nearest. Aborting" << endl;
     return -1;
-  }
-  else
-  {
+  } else {
     return minI;
   }
 }
+
+
 // Locate edge on patch. Return mesh edge label.
 label findEdge
 (
@@ -76,38 +75,34 @@ label findEdge
   label minI = -1;
   scalar almostMinDist = GREAT;
   label almostMinI = -1;
-  FOR_ALL(edges, edgeI)
-  {
+  FOR_ALL(edges, edgeI) {
     const edge& e = edges[edgeI];
     pointHit pHit{e.line(localPoints).nearestDist(nearPoint)};
-    if (pHit.hit())
-    {
-      if (pHit.distance() < minDist)
-      {
-        almostMinDist = minDist;
-        almostMinI = minI;
-        minDist = pHit.distance();
-        minI = meshTools::findEdge
+    if (!pHit.hit())
+      continue;
+    if (pHit.distance() < minDist) {
+      almostMinDist = minDist;
+      almostMinI = minI;
+      minDist = pHit.distance();
+      minI =
+        meshTools::findEdge
         (
           mesh,
           meshPoints[e[0]],
           meshPoints[e[1]]
         );
-      }
-      else if (pHit.distance() < almostMinDist)
-      {
-        almostMinDist = pHit.distance();
-        almostMinI = meshTools::findEdge
+    } else if (pHit.distance() < almostMinDist) {
+      almostMinDist = pHit.distance();
+      almostMinI =
+        meshTools::findEdge
         (
           mesh,
           meshPoints[e[0]],
           meshPoints[e[1]]
         );
-      }
     }
   }
-  if (minI == -1)
-  {
+  if (minI == -1) {
     Info << "Did not find edge close to point " << nearPoint << endl;
     return -1;
   }
@@ -120,16 +115,15 @@ label findEdge
     << " distance " << almostMinDist << " endpoints "
     << mesh.edges()[almostMinI].line(points) << nl
     << endl;
-  if (almostMinDist < 2*minDist)
-  {
+  if (almostMinDist < 2*minDist) {
     Info << "Next nearest too close to nearest. Aborting" << endl;
     return -1;
-  }
-  else
-  {
+  } else {
     return minI;
   }
 }
+
+
 // Find face on patch. Return mesh face label.
 label findFace
 (
@@ -144,27 +138,21 @@ label findFace
   label minI = -1;
   scalar almostMinDist = GREAT;
   label almostMinI = -1;
-  FOR_ALL(pp, patchFaceI)
-  {
+  FOR_ALL(pp, patchFaceI) {
     pointHit pHit(pp[patchFaceI].nearestPoint(nearPoint, points));
-    if (pHit.hit())
-    {
-      if (pHit.distance() < minDist)
-      {
-        almostMinDist = minDist;
-        almostMinI = minI;
-        minDist = pHit.distance();
-        minI = patchFaceI + mesh.nInternalFaces();
-      }
-      else if (pHit.distance() < almostMinDist)
-      {
-        almostMinDist = pHit.distance();
-        almostMinI = patchFaceI + mesh.nInternalFaces();
-      }
+    if (!pHit.hit())
+      continue;
+    if (pHit.distance() < minDist) {
+      almostMinDist = minDist;
+      almostMinI = minI;
+      minDist = pHit.distance();
+      minI = patchFaceI + mesh.nInternalFaces();
+    } else if (pHit.distance() < almostMinDist) {
+      almostMinDist = pHit.distance();
+      almostMinI = patchFaceI + mesh.nInternalFaces();
     }
   }
-  if (minI == -1)
-  {
+  if (minI == -1) {
     Info << "Did not find face close to point " << nearPoint << endl;
     return -1;
   }
@@ -177,32 +165,28 @@ label findFace
     << " distance " << almostMinDist
     << " to face centre " << mesh.faceCentres()[almostMinI] << nl
     << endl;
-  if (almostMinDist < 2*minDist)
-  {
+  if (almostMinDist < 2*minDist) {
     Info << "Next nearest too close to nearest. Aborting" << endl;
     return -1;
-  }
-  else
-  {
+  } else {
     return minI;
   }
 }
+
+
 // Find cell with cell centre close to given point.
 label findCell(const primitiveMesh& mesh, const point& nearPoint)
 {
   label cellI = mesh.findCell(nearPoint);
-  if (cellI != -1)
-  {
+  if (cellI != -1) {
     scalar distToCcSqr = magSqr(nearPoint - mesh.cellCentres()[cellI]);
     const labelList& cPoints = mesh.cellPoints()[cellI];
     label minI = -1;
     scalar minDistSqr = GREAT;
-    FOR_ALL(cPoints, i)
-    {
+    FOR_ALL(cPoints, i) {
       label pointI = cPoints[i];
       scalar distSqr = magSqr(nearPoint - mesh.points()[pointI]);
-      if (distSqr < minDistSqr)
-      {
+      if (distSqr < minDistSqr) {
         minDistSqr = distSqr;
         minI = pointI;
       }
@@ -216,8 +200,7 @@ label findCell(const primitiveMesh& mesh, const point& nearPoint)
       << " distance " << mousse::sqrt(minDistSqr)
       << " to " << mesh.points()[minI] << nl
       << endl;
-    if (minDistSqr < 4*distToCcSqr)
-    {
+    if (minDistSqr < 4*distToCcSqr) {
       Info << "Mesh point too close to nearest cell centre. Aborting"
         << endl;
       cellI = -1;
@@ -225,6 +208,8 @@ label findCell(const primitiveMesh& mesh, const point& nearPoint)
   }
   return cellI;
 }
+
+
 int main(int argc, char *argv[])
 {
   #include "add_overwrite_option.inc"
@@ -249,11 +234,7 @@ int main(int argc, char *argv[])
   List<Pair<point>> edgesToSplit{dict.lookup("edgesToSplit")};
   List<Pair<point>> facesToTriangulate{dict.lookup("facesToTriangulate")};
   bool cutBoundary =
-  {
-    pointsToMove.size()
-    || edgesToSplit.size()
-    || facesToTriangulate.size()
-  };
+    pointsToMove.size() || edgesToSplit.size() || facesToTriangulate.size();
   List<Pair<point>> edgesToCollapse{dict.lookup("edgesToCollapse")};
   bool collapseEdge = edgesToCollapse.size();
   List<Pair<point>> cellsToPyramidise{dict.lookup("cellsToSplit")};
@@ -270,8 +251,7 @@ int main(int argc, char *argv[])
     << endl;
   if ((cutBoundary && collapseEdge)
       || (cutBoundary && cellsToSplit)
-      || (collapseEdge && cellsToSplit))
-  {
+      || (collapseEdge && cellsToSplit)) {
     FATAL_ERROR_IN(args.executable())
       << "Used more than one mesh modifying module "
       << "(boundary cutting, cell splitting, edge collapsing)" << nl
@@ -289,12 +269,10 @@ int main(int argc, char *argv[])
   bool validInputs = true;
   Info << nl << "Looking up points to move ..." << nl << endl;
   Map<point> pointToPos{pointsToMove.size()};
-  FOR_ALL(pointsToMove, i)
-  {
+  FOR_ALL(pointsToMove, i) {
     const Pair<point>& pts = pointsToMove[i];
     label pointI = findPoint(allBoundary, pts.first());
-    if (pointI == -1 || !pointToPos.insert(pointI, pts.second()))
-    {
+    if (pointI == -1 || !pointToPos.insert(pointI, pts.second())) {
       Info << "Could not insert mesh point " << pointI
         << " for input point " << pts.first() << nl
         << "Perhaps the point is already marked for moving?" << endl;
@@ -303,13 +281,11 @@ int main(int argc, char *argv[])
   }
   Info << nl << "Looking up edges to split ..." << nl << endl;
   Map<List<point>> edgeToCuts{edgesToSplit.size()};
-  FOR_ALL(edgesToSplit, i)
-  {
+  FOR_ALL(edgesToSplit, i) {
     const Pair<point>& pts = edgesToSplit[i];
     label edgeI = findEdge(mesh, allBoundary, pts.first());
     if (edgeI == -1
-        || !edgeToCuts.insert(edgeI, List<point>(1, pts.second())))
-    {
+        || !edgeToCuts.insert(edgeI, List<point>(1, pts.second()))) {
       Info << "Could not insert mesh edge " << edgeI
         << " for input point " << pts.first() << nl
         << "Perhaps the edge is already marked for cutting?" << endl;
@@ -318,12 +294,10 @@ int main(int argc, char *argv[])
   }
   Info << nl << "Looking up faces to triangulate ..." << nl << endl;
   Map<point> faceToDecompose{facesToTriangulate.size()};
-  FOR_ALL(facesToTriangulate, i)
-  {
+  FOR_ALL(facesToTriangulate, i) {
     const Pair<point>& pts = facesToTriangulate[i];
     label faceI = findFace(mesh, allBoundary, pts.first());
-    if (faceI == -1 || !faceToDecompose.insert(faceI, pts.second()))
-    {
+    if (faceI == -1 || !faceToDecompose.insert(faceI, pts.second())) {
       Info << "Could not insert mesh face " << faceI
         << " for input point " << pts.first() << nl
         << "Perhaps the face is already marked for splitting?" << endl;
@@ -333,12 +307,10 @@ int main(int argc, char *argv[])
   Info << nl << "Looking up cells to convert to pyramids around"
     << " cell centre ..." << nl << endl;
   Map<point> cellToPyrCentre{cellsToPyramidise.size()};
-  FOR_ALL(cellsToPyramidise, i)
-  {
+  FOR_ALL(cellsToPyramidise, i) {
     const Pair<point>& pts = cellsToPyramidise[i];
     label cellI = findCell(mesh, pts.first());
-    if (cellI == -1 || !cellToPyrCentre.insert(cellI, pts.second()))
-    {
+    if (cellI == -1 || !cellToPyrCentre.insert(cellI, pts.second())) {
       Info << "Could not insert mesh cell " << cellI
         << " for input point " << pts.first() << nl
         << "Perhaps the cell is already marked for splitting?" << endl;
@@ -347,25 +319,20 @@ int main(int argc, char *argv[])
   }
   Info << nl << "Looking up edges to collapse ..." << nl << endl;
   Map<point> edgeToPos{edgesToCollapse.size()};
-  FOR_ALL(edgesToCollapse, i)
-  {
+  FOR_ALL(edgesToCollapse, i) {
     const Pair<point>& pts = edgesToCollapse[i];
     label edgeI = findEdge(mesh, allBoundary, pts.first());
-    if (edgeI == -1 || !edgeToPos.insert(edgeI, pts.second()))
-    {
+    if (edgeI == -1 || !edgeToPos.insert(edgeI, pts.second())) {
       Info << "Could not insert mesh edge " << edgeI
         << " for input point " << pts.first() << nl
         << "Perhaps the edge is already marked for collaping?" << endl;
       validInputs = false;
     }
   }
-  if (!validInputs)
-  {
+  if (!validInputs) {
     Info << nl << "There was a problem in one of the inputs in the"
       << " dictionary. Not modifying mesh." << endl;
-  }
-  else if (cellToPyrCentre.size())
-  {
+  } else if (cellToPyrCentre.size()) {
     Info << nl << "All input cells located. Modifying mesh." << endl;
     // Mesh change engine
     cellSplitter cutter{mesh};
@@ -375,25 +342,19 @@ int main(int argc, char *argv[])
     cutter.setRefinement(cellToPyrCentre, meshMod);
     // Do changes
     autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
-    if (morphMap().hasMotionPoints())
-    {
+    if (morphMap().hasMotionPoints()) {
       mesh.movePoints(morphMap().preMotionPoints());
     }
     cutter.updateMesh(morphMap());
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
-    }
-    else
-    {
+    } else {
       mesh.setInstance(oldInstance);
     }
     // Write resulting mesh
     Info << "Writing modified mesh to time " << runTime.timeName() << endl;
     mesh.write();
-  }
-  else if (edgeToPos.size())
-  {
+  } else if (edgeToPos.size()) {
     Info << nl << "All input edges located. Modifying mesh." << endl;
     // Mesh change engine
     edgeCollapser cutter{mesh};
@@ -403,8 +364,7 @@ int main(int argc, char *argv[])
     PackedBoolList collapseEdge{mesh.nEdges()};
     Map<point> collapsePointToLocation{mesh.nPoints()};
     // Get new positions and construct collapse network
-    FOR_ALL_CONST_ITER(Map<point>, edgeToPos, iter)
-    {
+    FOR_ALL_CONST_ITER(Map<point>, edgeToPos, iter) {
       label edgeI = iter.key();
       const edge& e = edges[edgeI];
       collapseEdge[edgeI] = true;
@@ -414,42 +374,36 @@ int main(int argc, char *argv[])
     // Move master point to destination.
     mesh.movePoints(newPoints);
     List<pointEdgeCollapse> allPointInfo;
-    const globalIndex globalPoints(mesh.nPoints());
+    const globalIndex globalPoints{mesh.nPoints()};
     labelList pointPriority{mesh.nPoints(), 0};
     cutter.consistentCollapse
-    (
-      globalPoints,
-      pointPriority,
-      collapsePointToLocation,
-      collapseEdge,
-      allPointInfo
-    );
+      (
+        globalPoints,
+        pointPriority,
+        collapsePointToLocation,
+        collapseEdge,
+        allPointInfo
+      );
     // Topo change container
     polyTopoChange meshMod{mesh};
     // Insert
     cutter.setRefinement(allPointInfo, meshMod);
     // Do changes
     autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
-    if (morphMap().hasMotionPoints())
-    {
+    if (morphMap().hasMotionPoints()) {
       mesh.movePoints(morphMap().preMotionPoints());
     }
     // Not implemented yet:
     //cutter.updateMesh(morphMap());
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
-    }
-    else
-    {
+    } else {
       mesh.setInstance(oldInstance);
     }
     // Write resulting mesh
     Info << "Writing modified mesh to time " << runTime.timeName() << endl;
     mesh.write();
-  }
-  else
-  {
+  } else {
     Info << nl << "All input points located. Modifying mesh." << endl;
     // Mesh change engine
     boundaryCutter cutter{mesh};
@@ -457,26 +411,22 @@ int main(int argc, char *argv[])
     polyTopoChange meshMod{mesh};
     // Insert commands into meshMod
     cutter.setRefinement
-    (
-      pointToPos,
-      edgeToCuts,
-      Map<labelPair>(0),  // Faces to split diagonally
-      faceToDecompose,    // Faces to triangulate
-      meshMod
-    );
+      (
+        pointToPos,
+        edgeToCuts,
+        Map<labelPair>{0},  // Faces to split diagonally
+        faceToDecompose,    // Faces to triangulate
+        meshMod
+      );
     // Do changes
     autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
-    if (morphMap().hasMotionPoints())
-    {
+    if (morphMap().hasMotionPoints()) {
       mesh.movePoints(morphMap().preMotionPoints());
     }
     cutter.updateMesh(morphMap());
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
-    }
-    else
-    {
+    } else {
       mesh.setInstance(oldInstance);
     }
     // Write resulting mesh
@@ -486,3 +436,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

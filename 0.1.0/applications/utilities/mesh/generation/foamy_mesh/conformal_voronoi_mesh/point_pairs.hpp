@@ -12,15 +12,20 @@
 //   e.g.,
 //     ( (0 1) (3 1) )
 //     ( (0 2) (5 1) )
+
 #include "label_pair.hpp"
 #include "hash_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef HashSet
 <
   Pair<labelPair>,
   FixedList<labelPair, 2>::Hash<>
 > ptPairTable;
+
+
 template<class Triangulation>
 class pointPairs
 :
@@ -82,8 +87,9 @@ public:
       );
       void reIndex(const Map<label>& oldToNewIndices);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "point_pairs.cpp"
-#endif
+
+#include "point_pairs.ipp"
+
 #endif

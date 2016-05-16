@@ -8,7 +8,9 @@
 #include "ioobject_list.hpp"
 #include "vol_fields.hpp"
 
+
 using namespace mousse;
+
 
 template<class Type>
 void subsetVolFields
@@ -19,8 +21,7 @@ void subsetVolFields
 )
 {
   const fvMesh& baseMesh = subsetter.baseMesh();
-  FOR_ALL(fieldNames, i)
-  {
+  FOR_ALL(fieldNames, i) {
     const word& fieldName = fieldNames[i];
     Info << "Subsetting field " << fieldName << endl;
     GeometricField<Type, fvPatchField, volMesh> fld
@@ -38,6 +39,7 @@ void subsetVolFields
   }
 }
 
+
 template<class Type>
 void subsetSurfaceFields
 (
@@ -47,8 +49,7 @@ void subsetSurfaceFields
 )
 {
   const fvMesh& baseMesh = subsetter.baseMesh();
-  FOR_ALL(fieldNames, i)
-  {
+  FOR_ALL(fieldNames, i) {
     const word& fieldName = fieldNames[i];
     Info << "Subsetting field " << fieldName << endl;
     GeometricField<Type, fvsPatchField, surfaceMesh> fld
@@ -66,6 +67,7 @@ void subsetSurfaceFields
   }
 }
 
+
 template<class Type>
 void subsetPointFields
 (
@@ -76,8 +78,7 @@ void subsetPointFields
 )
 {
   const fvMesh& baseMesh = subsetter.baseMesh();
-  FOR_ALL(fieldNames, i)
-  {
+  FOR_ALL(fieldNames, i) {
     const word& fieldName = fieldNames[i];
     Info << "Subsetting field " << fieldName << endl;
     GeometricField<Type, pointPatchField, pointMesh> fld
@@ -94,6 +95,7 @@ void subsetPointFields
     subFields.set(i, subsetter.interpolate(fld));
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -127,13 +129,9 @@ int main(int argc, char *argv[])
   word meshInstance = mesh.pointsInstance();
   word fieldsInstance = runTime.timeName();
   const bool overwrite = args.optionFound("overwrite");
-  const bool specifiedInstance = args.optionReadIfPresent
-  (
-    "resultTime",
-    fieldsInstance
-  );
-  if (specifiedInstance)
-  {
+  const bool specifiedInstance =
+    args.optionReadIfPresent("resultTime", fieldsInstance);
+  if (specifiedInstance) {
     // Set both mesh and field to this time
     meshInstance = fieldsInstance;
   }
@@ -141,21 +139,17 @@ int main(int argc, char *argv[])
   // Create mesh subsetting engine
   fvMeshSubset subsetter{mesh};
   label patchI = -1;
-  if (args.optionFound("patch"))
-  {
+  if (args.optionFound("patch")) {
     const word patchName = args["patch"];
     patchI = mesh.boundaryMesh().findPatchID(patchName);
-    if (patchI == -1)
-    {
+    if (patchI == -1) {
       FATAL_ERROR_IN(args.executable()) << "Illegal patch " << patchName
         << nl << "Valid patches are " << mesh.boundaryMesh().names()
         << exit(FatalError);
     }
     Info << "Adding exposed internal faces to patch " << patchName << endl
       << endl;
-  }
-  else
-  {
+  } else {
     Info << "Adding exposed internal faces to a patch called"
       << " \"oldInternalFaces\" (created if necessary)" << endl
       << endl;
@@ -164,7 +158,6 @@ int main(int argc, char *argv[])
   subsetter.setLargeCellSubset(currentSet, patchI, true);
   IOobjectList objects{mesh, runTime.timeName()};
   // Read vol fields and subset
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~
   wordList scalarNames{objects.names(volScalarField::typeName)};
   PtrList<volScalarField> scalarFlds{scalarNames.size()};
   subsetVolFields(subsetter, scalarNames, scalarFlds);
@@ -187,7 +180,6 @@ int main(int argc, char *argv[])
   PtrList<volTensorField> tensorFlds{tensorNames.size()};
   subsetVolFields(subsetter, tensorNames, tensorFlds);
   // Read surface fields and subset
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   wordList surfScalarNames{objects.names(surfaceScalarField::typeName)};
   PtrList<surfaceScalarField> surfScalarFlds{surfScalarNames.size()};
   subsetSurfaceFields(subsetter, surfScalarNames, surfScalarFlds);
@@ -221,7 +213,6 @@ int main(int argc, char *argv[])
   PtrList<surfaceTensorField> surfTensorFlds{surfTensorNames.size()};
   subsetSurfaceFields(subsetter, surfTensorNames, surfTensorFlds);
   // Read point fields and subset
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const pointMesh& pMesh = pointMesh::New(mesh);
   wordList pointScalarNames{objects.names(pointScalarField::typeName)};
   PtrList<pointScalarField> pointScalarFlds{pointScalarNames.size()};
@@ -263,97 +254,79 @@ int main(int argc, char *argv[])
   PtrList<pointTensorField> pointTensorFlds{pointTensorNames.size()};
   subsetPointFields(subsetter, pMesh, pointTensorNames, pointTensorFlds);
   // Write mesh and fields to new time
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (overwrite || specifiedInstance)
-  {
+  if (overwrite || specifiedInstance) {
     runTime.setTime(instant(fieldsInstance), 0);
     subsetter.subMesh().setInstance(meshInstance);
-  }
-  else
-  {
+  } else {
     runTime++;
   }
   Info << "Writing subsetted mesh and fields to time " << runTime.timeName()
     << endl;
   subsetter.subMesh().write();
   // Subsetting adds 'subset' prefix. Rename field to be like original.
-  FOR_ALL(scalarFlds, i)
-  {
+  FOR_ALL(scalarFlds, i) {
     scalarFlds[i].rename(scalarNames[i]);
     scalarFlds[i].write();
   }
-  FOR_ALL(vectorFlds, i)
-  {
+  FOR_ALL(vectorFlds, i) {
     vectorFlds[i].rename(vectorNames[i]);
     vectorFlds[i].write();
   }
-  FOR_ALL(sphericalTensorFlds, i)
-  {
+  FOR_ALL(sphericalTensorFlds, i) {
     sphericalTensorFlds[i].rename(sphericalTensorNames[i]);
     sphericalTensorFlds[i].write();
   }
-  FOR_ALL(symmTensorFlds, i)
-  {
+  FOR_ALL(symmTensorFlds, i) {
     symmTensorFlds[i].rename(symmTensorNames[i]);
     symmTensorFlds[i].write();
   }
-  FOR_ALL(tensorFlds, i)
-  {
+  FOR_ALL(tensorFlds, i) {
     tensorFlds[i].rename(tensorNames[i]);
     tensorFlds[i].write();
   }
   // Surface ones.
-  FOR_ALL(surfScalarFlds, i)
-  {
+  FOR_ALL(surfScalarFlds, i) {
     surfScalarFlds[i].rename(surfScalarNames[i]);
     surfScalarFlds[i].write();
   }
-  FOR_ALL(surfVectorFlds, i)
-  {
+  FOR_ALL(surfVectorFlds, i) {
     surfVectorFlds[i].rename(surfVectorNames[i]);
     surfVectorFlds[i].write();
   }
-  FOR_ALL(surfSphericalTensorFlds, i)
-  {
+  FOR_ALL(surfSphericalTensorFlds, i) {
     surfSphericalTensorFlds[i].rename(surfSphericalTensorNames[i]);
     surfSphericalTensorFlds[i].write();
   }
-  FOR_ALL(surfSymmTensorFlds, i)
-  {
+  FOR_ALL(surfSymmTensorFlds, i) {
     surfSymmTensorFlds[i].rename(surfSymmTensorNames[i]);
     surfSymmTensorFlds[i].write();
   }
-  FOR_ALL(surfTensorNames, i)
-  {
+  FOR_ALL(surfTensorNames, i) {
     surfTensorFlds[i].rename(surfTensorNames[i]);
     surfTensorFlds[i].write();
   }
   // Point ones
-  FOR_ALL(pointScalarFlds, i)
-  {
+  FOR_ALL(pointScalarFlds, i) {
     pointScalarFlds[i].rename(pointScalarNames[i]);
     pointScalarFlds[i].write();
   }
-  FOR_ALL(pointVectorFlds, i)
-  {
+  FOR_ALL(pointVectorFlds, i) {
     pointVectorFlds[i].rename(pointVectorNames[i]);
     pointVectorFlds[i].write();
   }
-  FOR_ALL(pointSphericalTensorFlds, i)
-  {
+  FOR_ALL(pointSphericalTensorFlds, i) {
     pointSphericalTensorFlds[i].rename(pointSphericalTensorNames[i]);
     pointSphericalTensorFlds[i].write();
   }
-  FOR_ALL(pointSymmTensorFlds, i)
-  {
+  FOR_ALL(pointSymmTensorFlds, i) {
     pointSymmTensorFlds[i].rename(pointSymmTensorNames[i]);
     pointSymmTensorFlds[i].write();
   }
-  FOR_ALL(pointTensorNames, i)
-  {
+  FOR_ALL(pointTensorNames, i) {
     pointTensorFlds[i].rename(pointTensorNames[i]);
     pointTensorFlds[i].write();
   }
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

@@ -8,14 +8,15 @@
 //   mousse::pointFieldReconstructor
 // Description
 //   Point field reconstructor.
-// SourceFiles
-//   point_field_reconstructor.cpp
+
 #include "point_mesh.hpp"
 #include "point_fields.hpp"
 #include "point_patch_field_mapper_patch_ref.hpp"
 #include "ioobject_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pointFieldReconstructor
 {
   // Private data
@@ -42,25 +43,13 @@ public:
         //- Construct given size
         pointPatchFieldReconstructor(const label size)
         :
-          size_(size)
+          size_{size}
         {}
       // Member functions
-        label size() const
-        {
-          return size_;
-        }
-        bool direct() const
-        {
-          return true;
-        }
-        bool hasUnmapped() const
-        {
-          return false;
-        }
-        const labelUList& directAddressing() const
-        {
-          return labelUList::null();
-        }
+        label size() const { return size_; }
+        bool direct() const { return true; }
+        bool hasUnmapped() const { return false; }
+        const labelUList& directAddressing() const { return labelUList::null(); }
     };
   // Constructors
     //- Construct from components
@@ -77,13 +66,10 @@ public:
     pointFieldReconstructor& operator=(const pointFieldReconstructor&) = delete;
   // Member Functions
     //- Return number of fields reconstructed
-    label nReconstructed() const
-    {
-      return nReconstructed_;
-    }
+    label nReconstructed() const { return nReconstructed_; }
     //- Reconstruct field
     template<class Type>
-    tmp<GeometricField<Type, pointPatchField, pointMesh> >
+    tmp<GeometricField<Type, pointPatchField, pointMesh>>
     reconstructField(const IOobject& fieldIoObject);
     //- Reconstruct and write all fields
     template<class Type>
@@ -93,8 +79,9 @@ public:
       const HashSet<word>& selectedFields
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "point_field_reconstructor_reconstruct_fields.cpp"
-#endif
+
+#include "point_field_reconstructor_reconstruct_fields.ipp"
+
 #endif

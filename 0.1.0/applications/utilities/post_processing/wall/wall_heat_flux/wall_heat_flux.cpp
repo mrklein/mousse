@@ -7,6 +7,7 @@
 #include "solid_thermo.hpp"
 #include "wall_fv_patch.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -16,8 +17,7 @@ int main(int argc, char *argv[])
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
 
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
@@ -32,10 +32,8 @@ int main(int argc, char *argv[])
     const surfaceScalarField::GeometricBoundaryField& patchHeatFlux =
       heatFlux.boundaryField();
     Info << "\nWall heat fluxes [W]" << endl;
-    FOR_ALL(patchHeatFlux, patchi)
-    {
-      if (isA<wallFvPatch>(mesh.boundary()[patchi]))
-      {
+    FOR_ALL(patchHeatFlux, patchi) {
+      if (isA<wallFvPatch>(mesh.boundary()[patchi])) {
         Info << mesh.boundary()[patchi].name()
           << " "
           << gSum(mesh.magSf().boundaryField()[patchi]*patchHeatFlux[patchi])
@@ -53,8 +51,7 @@ int main(int argc, char *argv[])
       mesh,
       {"wallHeatFlux", heatFlux.dimensions(), 0.0}
     };
-    FOR_ALL(wallHeatFlux.boundaryField(), patchi)
-    {
+    FOR_ALL(wallHeatFlux.boundaryField(), patchi) {
       wallHeatFlux.boundaryField()[patchi] = patchHeatFlux[patchi];
     }
     wallHeatFlux.write();
@@ -62,3 +59,4 @@ int main(int argc, char *argv[])
   Info << "End" << endl;
   return 0;
 }
+

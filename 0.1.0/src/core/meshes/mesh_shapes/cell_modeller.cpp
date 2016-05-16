@@ -19,7 +19,7 @@ mousse::cellModeller::cellModeller()
       maxIndex = models_[i].index();
   }
   modelPtrs_.setSize(maxIndex + 1);
-  modelPtrs_ = NULL;
+  modelPtrs_ = nullptr;
   // For all the words in the wordlist, set the details of the model
   // to those specified by the word name and the other parameters
   // given. This should result in an automatic 'read' of the model

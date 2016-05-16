@@ -5,13 +5,15 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_no_composition.hpp"
 #include "_single_phase_mixture.hpp"
+
 
 #define MAKE_REACTING_PARCEL_COMPOSITION_MODELS(CloudType)                    \
                                                                               \
   MAKE_COMPOSITION_MODEL(CloudType);                                          \
   MAKE_COMPOSITION_MODEL_TYPE(NoComposition, CloudType);                      \
   MAKE_COMPOSITION_MODEL_TYPE(SinglePhaseMixture, CloudType);
+
 #endif
+

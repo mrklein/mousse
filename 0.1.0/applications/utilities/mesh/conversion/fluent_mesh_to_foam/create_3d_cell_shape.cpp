@@ -4,8 +4,10 @@
 
 #include "cell_shape_recognition.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 cellShape create3DCellShape
 (
   const label cellIndex,
@@ -18,10 +20,10 @@ cellShape create3DCellShape
 {
   // List of pointers to shape models for 3-D shape recognition
   static List<const cellModel*> fluentCellModelLookup
-  (
+  {
     7,
     reinterpret_cast<const cellModel*>(0)
-  );
+  };
   fluentCellModelLookup[2] = cellModeller::lookup("tet");
   fluentCellModelLookup[4] = cellModeller::lookup("hex");
   fluentCellModelLookup[5] = cellModeller::lookup("pyr");
@@ -38,8 +40,7 @@ cellShape create3DCellShape
   };
   const cellModel& curModel = *fluentCellModelLookup[fluentCellModelID];
   // Checking
-  if (faceLabels.size() != curModel.nFaces())
-  {
+  if (faceLabels.size() != curModel.nFaces()) {
     FATAL_ERROR_IN
     (
       "create3DCellShape(const label cellIndex, "
@@ -55,25 +56,18 @@ cellShape create3DCellShape
   }
   // make a list of outward-pointing faces
   labelListList localFaces{faceLabels.size()};
-  FOR_ALL(faceLabels, faceI)
-  {
+  FOR_ALL(faceLabels, faceI) {
     const label curFaceLabel = faceLabels[faceI];
     const labelList& curFace = faces[curFaceLabel];
-    if (owner[curFaceLabel] == cellIndex)
-    {
+    if (owner[curFaceLabel] == cellIndex) {
       localFaces[faceI] = curFace;
-    }
-    else if (neighbour[curFaceLabel] == cellIndex)
-    {
+    } else if (neighbour[curFaceLabel] == cellIndex) {
       // Reverse the face
       localFaces[faceI].setSize(curFace.size());
-      FOR_ALL_REVERSE(curFace, i)
-      {
+      FOR_ALL_REVERSE(curFace, i) {
         localFaces[faceI][curFace.size() - i - 1] = curFace[i];
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN
       (
         "create3DCellShape(const label cellIndex, "
@@ -109,23 +103,19 @@ cellShape create3DCellShape
   const labelList& firstModelFace =
     modelFaces[faceMatchingOrder[fluentCellModelID][0]];
   bool found = false;
-  FOR_ALL(localFaces, meshFaceI)
-  {
-    if (localFaces[meshFaceI].size() == firstModelFace.size())
-    {
+  FOR_ALL(localFaces, meshFaceI) {
+    if (localFaces[meshFaceI].size() == firstModelFace.size()) {
       // Match. Insert points into the pointLabels
       found = true;
       const labelList& curMeshFace = localFaces[meshFaceI];
       meshFaceUsed[meshFaceI] = true;
-      FOR_ALL(curMeshFace, pointI)
-      {
+      FOR_ALL(curMeshFace, pointI) {
         pointLabels[firstModelFace[pointI]] = curMeshFace[pointI];
       }
       break;
     }
   }
-  if (!found)
-  {
+  if (!found) {
     FATAL_ERROR_IN
     (
       "create3DCellShape(const label cellIndex, "
@@ -138,71 +128,53 @@ cellShape create3DCellShape
     << firstModelFace << " Mesh faces: " << localFaces
     << abort(FatalError);
   }
-  for (label modelFaceI = 1; modelFaceI < modelFaces.size(); modelFaceI++)
-  {
+  for (label modelFaceI = 1; modelFaceI < modelFaces.size(); modelFaceI++) {
     // get the next model face
     const labelList& curModelFace =
       modelFaces[faceMatchingOrder[fluentCellModelID][modelFaceI]];
     found = false;
     // Loop through mesh faces until a match is found
-    FOR_ALL(localFaces, meshFaceI)
-    {
+    FOR_ALL(localFaces, meshFaceI) {
       if (!meshFaceUsed[meshFaceI]
-          && localFaces[meshFaceI].size() == curModelFace.size())
-      {
+          && localFaces[meshFaceI].size() == curModelFace.size()) {
         // A possible match. A mesh face will be rotated, so make a copy
         labelList meshFaceLabels = localFaces[meshFaceI];
-        for
-        (
-          label rotation = 0;
-          rotation < meshFaceLabels.size();
-          rotation++
-        )
-        {
+        for (label rotation = 0;
+             rotation < meshFaceLabels.size();
+             rotation++) {
           // try matching the face
           label nMatchedLabels = 0;
-          FOR_ALL(meshFaceLabels, pointI)
-          {
-            if
-            (
-              pointLabels[curModelFace[pointI]] == meshFaceLabels[pointI]
-            )
-            {
+          FOR_ALL(meshFaceLabels, pointI) {
+            if (pointLabels[curModelFace[pointI]] == meshFaceLabels[pointI]) {
               nMatchedLabels++;
             }
           }
-          if (nMatchedLabels >= 2)
-          {
+          if (nMatchedLabels >= 2) {
             // match!
             found = true;
           }
-          if (found)
-          {
+          if (found) {
             // match found. Insert mesh face
-            FOR_ALL(meshFaceLabels, pointI)
-            {
+            FOR_ALL(meshFaceLabels, pointI) {
               pointLabels[curModelFace[pointI]] =
                 meshFaceLabels[pointI];
             }
             meshFaceUsed[meshFaceI] = true;
             break;
-          }
-          else
-          {
+          } else {
             // No match found. Rotate face
             label firstLabel = meshFaceLabels[0];
-            for (label i = 1; i < meshFaceLabels.size(); i++)
-            {
+            for (label i = 1; i < meshFaceLabels.size(); i++) {
               meshFaceLabels[i - 1] = meshFaceLabels[i];
             }
             meshFaceLabels.last() = firstLabel;
           }
         }
-        if (found) break;
+        if (found)
+          break;
       }
     }
-    if (!found)
-    {
+    if (!found) {
       // A model face is not matched. Shape detection failed
       FATAL_ERROR_IN
       (
@@ -221,4 +193,6 @@ cellShape create3DCellShape
   }
   return cellShape{curModel, pointLabels};
 }
+
 }  // namespace mousse
+

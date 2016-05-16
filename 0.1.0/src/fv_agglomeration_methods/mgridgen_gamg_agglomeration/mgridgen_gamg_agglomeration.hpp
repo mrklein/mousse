@@ -8,18 +8,19 @@
 //   mousse::MGridGenGAMGAgglomeration
 // Description
 //   Agglomerate using the MGridGen algorithm.
-// SourceFiles
-//   mgridgen_gamg_agglomeration.cpp
-//   mgridgen_gamg_agglomerate.cpp
+
 #include "fv_mesh.hpp"
 #include "gamg_agglomeration.hpp"
-extern "C"
-{
+extern "C" {
 #include "mgridgen.h"
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 class MGridGenGAMGAgglomeration
 :
   public GAMGAgglomeration
@@ -84,5 +85,8 @@ public:
       const MGridGenGAMGAgglomeration&
     ) = delete;
 };
+
 }  // namespace mousse
+
 #endif
+

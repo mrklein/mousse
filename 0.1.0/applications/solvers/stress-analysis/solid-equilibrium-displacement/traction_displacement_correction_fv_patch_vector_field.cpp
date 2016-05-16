@@ -5,8 +5,10 @@
 #include "traction_displacement_correction_fv_patch_vector_field.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 tractionDisplacementCorrectionFvPatchVectorField::
 tractionDisplacementCorrectionFvPatchVectorField
@@ -22,6 +24,8 @@ tractionDisplacementCorrectionFvPatchVectorField
   fvPatchVectorField::operator=(patchInternalField());
   gradient() = vector::zero;
 }
+
+
 tractionDisplacementCorrectionFvPatchVectorField::
 tractionDisplacementCorrectionFvPatchVectorField
 (
@@ -35,6 +39,8 @@ tractionDisplacementCorrectionFvPatchVectorField
   traction_{tdpvf.traction_, mapper},
   pressure_{tdpvf.pressure_, mapper}
 {}
+
+
 tractionDisplacementCorrectionFvPatchVectorField::
 tractionDisplacementCorrectionFvPatchVectorField
 (
@@ -50,6 +56,8 @@ tractionDisplacementCorrectionFvPatchVectorField
   fvPatchVectorField::operator=(patchInternalField());
   gradient() = vector::zero;
 }
+
+
 tractionDisplacementCorrectionFvPatchVectorField::
 tractionDisplacementCorrectionFvPatchVectorField
 (
@@ -60,6 +68,8 @@ tractionDisplacementCorrectionFvPatchVectorField
   traction_{tdpvf.traction_},
   pressure_{tdpvf.pressure_}
 {}
+
+
 tractionDisplacementCorrectionFvPatchVectorField::
 tractionDisplacementCorrectionFvPatchVectorField
 (
@@ -71,6 +81,8 @@ tractionDisplacementCorrectionFvPatchVectorField
   traction_{tdpvf.traction_},
   pressure_{tdpvf.pressure_}
 {}
+
+
 // Member Functions 
 void tractionDisplacementCorrectionFvPatchVectorField::autoMap
 (
@@ -81,6 +93,8 @@ void tractionDisplacementCorrectionFvPatchVectorField::autoMap
   traction_.autoMap(m);
   pressure_.autoMap(m);
 }
+
+
 // Reverse-map the given fvPatchField onto this fvPatchField
 void tractionDisplacementCorrectionFvPatchVectorField::rmap
 (
@@ -94,17 +108,16 @@ void tractionDisplacementCorrectionFvPatchVectorField::rmap
   traction_.rmap(dmptf.traction_, addr);
   pressure_.rmap(dmptf.pressure_, addr);
 }
+
+
 // Update the coefficients associated with the patch field
 void tractionDisplacementCorrectionFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const dictionary& mechanicalProperties = db().lookupObject<IOdictionary>
-  (
-    "mechanicalProperties"
-  );
+  const dictionary& mechanicalProperties =
+    db().lookupObject<IOdictionary>("mechanicalProperties");
   const fvPatchField<scalar>& rho =
     patch().lookupPatchField<volScalarField, scalar>("rho");
   const fvPatchField<scalar>& rhoE =
@@ -115,8 +128,7 @@ void tractionDisplacementCorrectionFvPatchVectorField::updateCoeffs()
   scalarField mu{E/(2.0*(1.0 + nu))};
   scalarField lambda{nu*E/((1.0 + nu)*(1.0 - 2.0*nu))};
   Switch planeStress{mechanicalProperties.lookup("planeStress")};
-  if (planeStress)
-  {
+  if (planeStress) {
     lambda = nu*E/((1.0 + nu)*(1.0 - nu));
   }
   vectorField n{patch().nf()};
@@ -125,11 +137,13 @@ void tractionDisplacementCorrectionFvPatchVectorField::updateCoeffs()
   const fvPatchField<tensor>& sigmaExp =
     patch().lookupPatchField<volTensorField, tensor>("sigmaExp");
   gradient() =
-  (
-    (traction_ + pressure_*n)/rho - (n & (sigmaD + sigmaExp))
-  )/(2.0*mu + lambda);
+    (
+      (traction_ + pressure_*n)/rho - (n & (sigmaD + sigmaExp))
+    )/(2.0*mu + lambda);
   fixedGradientFvPatchVectorField::updateCoeffs();
 }
+
+
 // Write
 void tractionDisplacementCorrectionFvPatchVectorField::write(Ostream& os) const
 {
@@ -138,9 +152,13 @@ void tractionDisplacementCorrectionFvPatchVectorField::write(Ostream& os) const
   pressure_.writeEntry("pressure", os);
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   tractionDisplacementCorrectionFvPatchVectorField
 );
+
 }  // namespace mousse
+

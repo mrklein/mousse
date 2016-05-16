@@ -8,25 +8,31 @@
 //   mousse::basicReactingCloud
 // Description
 //   Cloud class to introduce reacting parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"
 #include "_reacting_cloud.hpp"
 #include "basic_reacting_parcel.hpp"
-namespace mousse
-{
-  typedef ReactingCloud
+
+
+namespace mousse {
+
+typedef ReactingCloud
+<
+  ThermoCloud
   <
-    ThermoCloud
+    KinematicCloud
     <
-      KinematicCloud
+      Cloud
       <
-        Cloud
-        <
-          basicReactingParcel
-        >
+        basicReactingParcel
       >
     >
-  > basicReactingCloud;
+  >
+> basicReactingCloud;
+
 }
+
 #endif
+

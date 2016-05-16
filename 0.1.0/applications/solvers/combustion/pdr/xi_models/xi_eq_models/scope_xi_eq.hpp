@@ -1,3 +1,6 @@
+#ifndef SCOPE_XI_EQ_HPP_
+#define SCOPE_XI_EQ_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2013 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,16 +11,14 @@
 //   with a linear correction function to give a plausible profile for XiEq.
 //   See \link SCOPELaminarFlameSpeed.H \endlink for details on the SCOPE laminar
 //   flame speed model.
-// SourceFiles
-//   scope_xi_eq.cpp
-#ifndef SCOPE_XI_EQ_HPP_
-#define SCOPE_XI_EQ_HPP_
+
 #include "xi_eq_model.hpp"
 #include "scope_laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace XiEqModels
-{
+
+
+namespace mousse {
+namespace XiEqModels {
+
 class SCOPEXiEq
 :
   public XiEqModel
@@ -63,6 +64,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& XiEqProperties);
 };
+
 }  // namespace XiEqModels
 }  // namespace mousse
+
 #endif
+

@@ -4,6 +4,8 @@
 
 #include "indexed_vertex_enum.hpp"
 #include "pstream.hpp"
+
+
 // Static Data Members
 template<>
 const char*
@@ -25,8 +27,11 @@ mousse::NamedEnum<mousse::indexedVertexEnum::vertexType, 15>::names[] =
   "Far",
   "Constrained"
 };
+
 const mousse::NamedEnum<mousse::indexedVertexEnum::vertexType, 15>
 mousse::indexedVertexEnum::vertexTypeNames_;
+
+
 template<>
 const char*
 mousse::NamedEnum<mousse::indexedVertexEnum::vertexMotion, 2>::names[] =
@@ -34,6 +39,8 @@ mousse::NamedEnum<mousse::indexedVertexEnum::vertexMotion, 2>::names[] =
   "fixed",
   "movable"
 };
+
+
 const mousse::NamedEnum<mousse::indexedVertexEnum::vertexMotion, 2>
 vertexMotionNames_;
 mousse::Ostream& mousse::operator<<
@@ -42,9 +49,11 @@ mousse::Ostream& mousse::operator<<
   const mousse::indexedVertexEnum::vertexType& v
 )
 {
-  os  << static_cast<int>(v);
+  os << static_cast<int>(v);
   return os;
 }
+
+
 mousse::Istream& mousse::operator>>
 (
   Istream& is,
@@ -52,7 +61,8 @@ mousse::Istream& mousse::operator>>
 )
 {
   int type;
-  is  >> type;
+  is >> type;
   v = static_cast<mousse::indexedVertexEnum::vertexType>(type);
   return is;
 }
+

@@ -1,35 +1,31 @@
-auto_hex_mesh             = auto_hex_mesh
-auto_hex_mesh_driver       = $(auto_hex_mesh)/auto_hex_mesh_driver
+auto_hex_mesh/auto_layer_driver.cpp
+/* auto_hex_mesh)/auto_layer_driver_shrink.c */
+auto_hex_mesh/auto_snap_driver.cpp
+auto_hex_mesh/auto_snap_driver_feature.cpp
+auto_hex_mesh/auto_refine_driver.cpp
 
-$(auto_hex_mesh_driver)/auto_layer_driver.cpp
-/* $(auto_hex_mesh_driver)/auto_layer_driver_shrink.c */
-$(auto_hex_mesh_driver)/auto_snap_driver.cpp
-$(auto_hex_mesh_driver)/auto_snap_driver_feature.cpp
-$(auto_hex_mesh_driver)/auto_refine_driver.cpp
+auto_hex_mesh/layer_parameters.cpp
+auto_hex_mesh/refinement_parameters.cpp
+auto_hex_mesh/snap_parameters.cpp
+auto_hex_mesh/point_data.cpp
 
-$(auto_hex_mesh_driver)/layer_parameters/layer_parameters.cpp
-$(auto_hex_mesh_driver)/refinement_parameters/refinement_parameters.cpp
-$(auto_hex_mesh_driver)/snap_parameters/snap_parameters.cpp
-$(auto_hex_mesh_driver)/point_data/point_data.cpp
+auto_hex_mesh/mesh_refinement_baffles.cpp
+auto_hex_mesh/mesh_refinement.cpp
+auto_hex_mesh/mesh_refinement_merge.cpp
+auto_hex_mesh/mesh_refinement_problem_cells.cpp
+auto_hex_mesh/mesh_refinement_refine.cpp
+auto_hex_mesh/patch_face_orientation.cpp
 
-$(auto_hex_mesh)/mesh_refinement/mesh_refinement_baffles.cpp
-$(auto_hex_mesh)/mesh_refinement/mesh_refinement.cpp
-$(auto_hex_mesh)/mesh_refinement/mesh_refinement_merge.cpp
-$(auto_hex_mesh)/mesh_refinement/mesh_refinement_problem_cells.cpp
-$(auto_hex_mesh)/mesh_refinement/mesh_refinement_refine.cpp
-$(auto_hex_mesh)/mesh_refinement/patch_face_orientation.cpp
+auto_hex_mesh/refinement_features.cpp
+auto_hex_mesh/surface_zones_info.cpp
+auto_hex_mesh/refinement_surfaces.cpp
+auto_hex_mesh/shell_surfaces.cpp
+auto_hex_mesh/tracked_particle.cpp
+auto_hex_mesh/tracked_particle_cloud.cpp
 
-$(auto_hex_mesh)/refinement_features/refinement_features.cpp
-$(auto_hex_mesh)/refinement_surfaces/surface_zones_info.cpp
-$(auto_hex_mesh)/refinement_surfaces/refinement_surfaces.cpp
-$(auto_hex_mesh)/shell_surfaces/shell_surfaces.cpp
-$(auto_hex_mesh)/tracked_particle/tracked_particle.cpp
-$(auto_hex_mesh)/tracked_particle/tracked_particle_cloud.cpp
-
-mesh_mover = $(auto_hex_mesh)/external_displacement_mesh_mover
-$(mesh_mover)/displacement_mesh_mover_motion_solver.cpp
-$(mesh_mover)/external_displacement_mesh_mover.cpp
-$(mesh_mover)/medial_axis_mesh_mover.cpp
-$(mesh_mover)/zero_fixed_value/zero_fixed_value_point_patch_fields.cpp
+auto_hex_mesh/displacement_mesh_mover_motion_solver.cpp
+auto_hex_mesh/external_displacement_mesh_mover.cpp
+auto_hex_mesh/medial_axis_mesh_mover.cpp
+auto_hex_mesh/zero_fixed_value_point_patch_fields.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_auto_mesh

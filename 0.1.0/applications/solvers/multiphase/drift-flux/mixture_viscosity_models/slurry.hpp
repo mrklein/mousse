@@ -1,3 +1,6 @@
+#ifndef SLURRY_HPP_
+#define SLURRY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -13,18 +16,18 @@
 //      D.G. Thomas,
 //      J. Colloid Sci. 20 (3), 1965, p267.
 //   \endverbatim
-// SourceFiles
-//   slurry.cpp
-#ifndef SLURRY_HPP_
-#define SLURRY_HPP_
+
 #include "mixture_viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class incompressibleTwoPhaseInteractingMixture;
-namespace mixtureViscosityModels
-{
+
+namespace mixtureViscosityModels {
+
 class slurry
 :
   public mixtureViscosityModel
@@ -56,6 +59,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace mixtureViscosityModels
 }  // namespace mousse
+
 #endif
+

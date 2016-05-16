@@ -11,12 +11,13 @@
 //   Gives per physics ('fluid', 'solid') the names of the regions. There
 //   is no assumption on this level that one region should only have one
 //   set of physics.
-// SourceFiles
-//   region_properties.cpp
+
 #include "time.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class regionProperties
 :
   public HashTable<wordList>
@@ -32,5 +33,8 @@ public:
   //- Destructor
   ~regionProperties();
 };
+
 }  // namespace mousse
+
 #endif
+

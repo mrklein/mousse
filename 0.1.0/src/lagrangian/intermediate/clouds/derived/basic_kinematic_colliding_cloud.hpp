@@ -8,21 +8,27 @@
 //   mousse::basicKinematicCollidingCloud
 // Description
 //   Cloud class to introduce kinematic colliding parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_colliding_cloud.hpp"
 #include "basic_kinematic_colliding_parcel.hpp"
-namespace mousse
-{
-  typedef CollidingCloud
+
+
+namespace mousse {
+
+typedef CollidingCloud
+<
+  KinematicCloud
   <
-    KinematicCloud
+    Cloud
     <
-      Cloud
-      <
-        basicKinematicCollidingParcel
-      >
+      basicKinematicCollidingParcel
     >
-  > basicKinematicCollidingCloud;
+  >
+> basicKinematicCollidingCloud;
+
 }
+
 #endif
+

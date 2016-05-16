@@ -4,11 +4,8 @@
 
 #include "stream_line_particle.hpp"
 #include "vector_field_io_field.hpp"
-// Static Data Members
-namespace mousse
-{
-//    defineParticleTypeNameAndDebug(streamLineParticle, 0);
-}
+
+
 // Private Member Functions 
 mousse::scalar mousse::streamLineParticle::calcSubCycleDeltaT
 (
@@ -17,7 +14,7 @@ mousse::scalar mousse::streamLineParticle::calcSubCycleDeltaT
   const vector& U
 ) const
 {
-  particle testParticle(*this);
+  particle testParticle{*this};
   bool oldKeepParticle = td.keepParticle;
   bool oldSwitchProcessor = td.switchProcessor;
   scalar fraction = testParticle.trackToFace(position()+dt*U, td);
@@ -26,6 +23,8 @@ mousse::scalar mousse::streamLineParticle::calcSubCycleDeltaT
   // Adapt the dt to subdivide the trajectory into substeps.
   return dt*fraction/td.nSubCycle_;
 }
+
+
 mousse::vector mousse::streamLineParticle::interpolateFields
 (
   const trackingData& td,
@@ -34,40 +33,29 @@ mousse::vector mousse::streamLineParticle::interpolateFields
   const label faceI
 )
 {
-  if (cellI == -1)
-  {
+  if (cellI == -1) {
     FATAL_ERROR_IN("streamLineParticle::interpolateFields(..)")
       << "Cell:" << cellI << abort(FatalError);
   }
   sampledScalars_.setSize(td.vsInterp_.size());
-  FOR_ALL(td.vsInterp_, scalarI)
-  {
+  FOR_ALL(td.vsInterp_, scalarI) {
     sampledScalars_[scalarI].append
     (
-      td.vsInterp_[scalarI].interpolate
-      (
-        position,
-        cellI,
-        faceI
-      )
+      td.vsInterp_[scalarI].interpolate(position, cellI, faceI)
     );
   }
   sampledVectors_.setSize(td.vvInterp_.size());
-  FOR_ALL(td.vvInterp_, vectorI)
-  {
+  FOR_ALL(td.vvInterp_, vectorI) {
     sampledVectors_[vectorI].append
     (
-      td.vvInterp_[vectorI].interpolate
-      (
-        position,
-        cellI,
-        faceI
-      )
+      td.vvInterp_[vectorI].interpolate(position, cellI, faceI)
     );
   }
   const DynamicList<vector>& U = sampledVectors_[td.UIndex_];
   return U.last();
 }
+
+
 // Constructors 
 mousse::streamLineParticle::streamLineParticle
 (
@@ -77,9 +65,11 @@ mousse::streamLineParticle::streamLineParticle
   const label lifeTime
 )
 :
-  particle(mesh, position, cellI),
-  lifeTime_(lifeTime)
+  particle{mesh, position, cellI},
+  lifeTime_{lifeTime}
 {}
+
+
 mousse::streamLineParticle::streamLineParticle
 (
   const polyMesh& mesh,
@@ -87,23 +77,19 @@ mousse::streamLineParticle::streamLineParticle
   bool readFields
 )
 :
-  particle(mesh, is, readFields)
+  particle{mesh, is, readFields}
 {
-  if (readFields)
-  {
-    //if (is.format() == IOstream::ASCII)
+  if (readFields) {
     List<scalarList> sampledScalars;
     List<vectorList> sampledVectors;
-    is  >> lifeTime_ >> sampledPositions_ >> sampledScalars
+    is >> lifeTime_ >> sampledPositions_ >> sampledScalars
       >> sampledVectors;
     sampledScalars_.setSize(sampledScalars.size());
-    FOR_ALL(sampledScalars, i)
-    {
+    FOR_ALL(sampledScalars, i) {
       sampledScalars_[i].transfer(sampledScalars[i]);
     }
     sampledVectors_.setSize(sampledVectors.size());
-    FOR_ALL(sampledVectors, i)
-    {
+    FOR_ALL(sampledVectors, i) {
       sampledVectors_[i].transfer(sampledVectors[i]);
     }
   }
@@ -114,16 +100,20 @@ mousse::streamLineParticle::streamLineParticle
     "(const Cloud<streamLineParticle>&, Istream&, bool)"
   );
 }
+
+
 mousse::streamLineParticle::streamLineParticle
 (
   const streamLineParticle& p
 )
 :
-  particle(p),
-  lifeTime_(p.lifeTime_),
-  sampledPositions_(p.sampledPositions_),
-  sampledScalars_(p.sampledScalars_)
+  particle{p},
+  lifeTime_{p.lifeTime_},
+  sampledPositions_{p.sampledPositions_},
+  sampledScalars_{p.sampledScalars_}
 {}
+
+
 // Member Functions 
 bool mousse::streamLineParticle::move
 (
@@ -136,49 +126,33 @@ bool mousse::streamLineParticle::move
   td.keepParticle = true;
   scalar tEnd = (1.0 - stepFraction())*trackTime;
   scalar maxDt = mesh_.bounds().mag();
-  while
-  (
-    td.keepParticle
-  && !td.switchProcessor
-  && lifeTime_ > 0
-  )
-  {
+  while (td.keepParticle && !td.switchProcessor && lifeTime_ > 0) {
     // set the lagrangian time-step
     scalar dt = maxDt;
     // Cross cell in steps:
     // - at subiter 0 calculate dt to cross cell in nSubCycle steps
     // - at the last subiter do all of the remaining track
-    for (label subIter = 0; subIter < td.nSubCycle_; subIter++)
-    {
+    for (label subIter = 0; subIter < td.nSubCycle_; subIter++) {
       --lifeTime_;
       // Store current position and sampled velocity.
       sampledPositions_.append(position());
       vector U = interpolateFields(td, position(), cell(), face());
-      if (!td.trackForward_)
-      {
+      if (!td.trackForward_) {
         U = -U;
       }
       scalar magU = mag(U);
-      if (magU < SMALL)
-      {
+      if (magU < SMALL) {
         // Stagnant particle. Might as well stop
         lifeTime_ = 0;
         break;
       }
       U /= magU;
-      if (td.trackLength_ < GREAT)
-      {
+      if (td.trackLength_ < GREAT) {
         dt = td.trackLength_;
-        //Pout<< "    subiteration " << subIter
-        //    << " : fixed length: updated dt:" << dt << endl;
-      }
-      else if (subIter == 0 && td.nSubCycle_ > 1)
-      {
+      } else if (subIter == 0 && td.nSubCycle_ > 1) {
         // Adapt dt to cross cell in a few steps
         dt = calcSubCycleDeltaT(td, dt, U);
-      }
-      else if (subIter == td.nSubCycle_ - 1)
-      {
+      } else if (subIter == td.nSubCycle_ - 1) {
         // Do full step on last subcycle
         dt = maxDt;
       }
@@ -186,44 +160,31 @@ bool mousse::streamLineParticle::move
       dt *= fraction;
       tEnd -= dt;
       stepFraction() = 1.0 - tEnd/trackTime;
-      if (tEnd <= ROOTVSMALL)
-      {
+      if (tEnd <= ROOTVSMALL) {
         // Force removal
         lifeTime_ = 0;
       }
-      if
-      (
-        face() != -1
-      || !td.keepParticle
-      ||  td.switchProcessor
-      ||  lifeTime_ == 0
-      )
-      {
+      if (face() != -1 || !td.keepParticle ||  td.switchProcessor
+          ||  lifeTime_ == 0) {
         break;
       }
     }
   }
-  if (!td.keepParticle || lifeTime_ == 0)
-  {
-    if (lifeTime_ == 0)
-    {
-      if (debug)
-      {
-        Pout<< "streamLineParticle : Removing stagnant particle:"
+  if (!td.keepParticle || lifeTime_ == 0) {
+    if (lifeTime_ == 0) {
+      if (debug) {
+        Pout << "streamLineParticle : Removing stagnant particle:"
           << p.position()
           << " sampled positions:" << sampledPositions_.size()
           << endl;
       }
       td.keepParticle = false;
-    }
-    else
-    {
+    } else {
       // Normal exit. Store last position and fields
       sampledPositions_.append(position());
       interpolateFields(td, position(), cell(), face());
-      if (debug)
-      {
-        Pout<< "streamLineParticle : Removing particle:"
+      if (debug) {
+        Pout << "streamLineParticle : Removing particle:"
           << p.position()
           << " sampled positions:" << sampledPositions_.size()
           << endl;
@@ -234,15 +195,13 @@ bool mousse::streamLineParticle::move
     td.allPositions_.append(vectorList());
     vectorList& top = td.allPositions_.last();
     top.transfer(sampledPositions_);
-    FOR_ALL(sampledScalars_, i)
-    {
+    FOR_ALL(sampledScalars_, i) {
       //td.allScalars_[i].append(sampledScalars_[i]);
       td.allScalars_[i].append(scalarList());
       scalarList& top = td.allScalars_[i].last();
       top.transfer(sampledScalars_[i]);
     }
-    FOR_ALL(sampledVectors_, i)
-    {
+    FOR_ALL(sampledVectors_, i) {
       //td.allVectors_[i].append(sampledVectors_[i]);
       td.allVectors_[i].append(vectorList());
       vectorList& top = td.allVectors_[i].last();
@@ -251,6 +210,8 @@ bool mousse::streamLineParticle::move
   }
   return td.keepParticle;
 }
+
+
 bool mousse::streamLineParticle::hitPatch
 (
   const polyPatch&,
@@ -263,6 +224,8 @@ bool mousse::streamLineParticle::hitPatch
   // Disable generic patch interaction
   return false;
 }
+
+
 void mousse::streamLineParticle::hitWedgePatch
 (
   const wedgePolyPatch&,
@@ -272,6 +235,8 @@ void mousse::streamLineParticle::hitWedgePatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::hitSymmetryPlanePatch
 (
   const symmetryPlanePolyPatch&,
@@ -281,6 +246,8 @@ void mousse::streamLineParticle::hitSymmetryPlanePatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::hitSymmetryPatch
 (
   const symmetryPolyPatch&,
@@ -290,6 +257,8 @@ void mousse::streamLineParticle::hitSymmetryPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::hitCyclicPatch
 (
   const cyclicPolyPatch&,
@@ -299,6 +268,8 @@ void mousse::streamLineParticle::hitCyclicPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::hitProcessorPatch
 (
   const processorPolyPatch&,
@@ -308,6 +279,8 @@ void mousse::streamLineParticle::hitProcessorPatch
   // Switch particle
   td.switchProcessor = true;
 }
+
+
 void mousse::streamLineParticle::hitWallPatch
 (
   const wallPolyPatch&,
@@ -318,6 +291,8 @@ void mousse::streamLineParticle::hitWallPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::hitPatch
 (
   const polyPatch&,
@@ -327,72 +302,59 @@ void mousse::streamLineParticle::hitPatch
   // Remove particle
   td.keepParticle = false;
 }
+
+
 void mousse::streamLineParticle::readFields(Cloud<streamLineParticle>& c)
 {
-  if (!c.size())
-  {
+  if (!c.size()) {
     return;
   }
   particle::readFields(c);
-  IOField<label> lifeTime
-  (
-    c.fieldIOobject("lifeTime", IOobject::MUST_READ)
-  );
+  IOField<label> lifeTime{c.fieldIOobject("lifeTime", IOobject::MUST_READ)};
   c.checkFieldIOobject(c, lifeTime);
   vectorFieldIOField sampledPositions
-  (
-    c.fieldIOobject("sampledPositions", IOobject::MUST_READ)
-  );
-  c.checkFieldIOobject(c, sampledPositions);
-//    vectorFieldIOField sampleVelocity
-//    (
-//        c.fieldIOobject("sampleVelocity", IOobject::MUST_READ)
-//    );
-//    c.checkFieldIOobject(c, sampleVelocity);
-  label i = 0;
-  FOR_ALL_ITER(Cloud<streamLineParticle>, c, iter)
   {
+    c.fieldIOobject("sampledPositions", IOobject::MUST_READ)
+  };
+  c.checkFieldIOobject(c, sampledPositions);
+  label i = 0;
+  FOR_ALL_ITER(Cloud<streamLineParticle>, c, iter) {
     iter().lifeTime_ = lifeTime[i];
     iter().sampledPositions_.transfer(sampledPositions[i]);
-//        iter().sampleVelocity_.transfer(sampleVelocity[i]);
     i++;
   }
 }
+
+
 void mousse::streamLineParticle::writeFields(const Cloud<streamLineParticle>& c)
 {
   particle::writeFields(c);
   label np =  c.size();
   IOField<label> lifeTime
-  (
+  {
     c.fieldIOobject("lifeTime", IOobject::NO_READ),
     np
-  );
+  };
   vectorFieldIOField sampledPositions
-  (
+  {
     c.fieldIOobject("sampledPositions", IOobject::NO_READ),
     np
-  );
-//    vectorFieldIOField sampleVelocity
-//    (
-//        c.fieldIOobject("sampleVelocity", IOobject::NO_READ),
-//        np
-//    );
+  };
   label i = 0;
-  FOR_ALL_CONST_ITER(Cloud<streamLineParticle>, c, iter)
-  {
+  FOR_ALL_CONST_ITER(Cloud<streamLineParticle>, c, iter) {
     lifeTime[i] = iter().lifeTime_;
     sampledPositions[i] = iter().sampledPositions_;
-//        sampleVelocity[i] = iter().sampleVelocity_;
     i++;
   }
   lifeTime.write();
   sampledPositions.write();
-//    sampleVelocity.write();
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<(Ostream& os, const streamLineParticle& p)
 {
-  os  << static_cast<const particle&>(p)
+  os << static_cast<const particle&>(p)
     << token::SPACE << p.lifeTime_
     << token::SPACE << p.sampledPositions_
     << token::SPACE << p.sampledScalars_
@@ -401,3 +363,4 @@ mousse::Ostream& mousse::operator<<(Ostream& os, const streamLineParticle& p)
   os.check("Ostream& operator<<(Ostream&, const streamLineParticle&)");
   return os;
 }
+

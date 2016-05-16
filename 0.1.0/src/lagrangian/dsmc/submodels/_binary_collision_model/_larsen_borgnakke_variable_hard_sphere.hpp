@@ -9,9 +9,12 @@
 // Description
 //   Variable Hard Sphere BinaryCollision Model with Larsen Borgnakke internal
 //   energy redistribution.  Based on the INELRS subroutine in Bird's DSMC0R.FOR
+
 #include "_binary_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class LarsenBorgnakkeVariableHardSphere
 :
@@ -58,8 +61,9 @@ public:
       typename CloudType::parcelType& pQ
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_larsen_borgnakke_variable_hard_sphere.cpp"
-#endif
+
+#include "_larsen_borgnakke_variable_hard_sphere.ipp"
+
 #endif

@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_BLACK_MODY_EMISSION_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_BLACK_MODY_EMISSION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,23 +10,21 @@
 //   Class black body emission
 //   Table of black body emissive power taken from:
 //     Modest, "Radiative Heat Transfer", pp.775-777, 1993
-// SourceFiles
-//   black_body_emission.cpp
-#ifndef blackModyEmission_H
-#define blackModyEmission_H
+
 #include "vol_fields.hpp"
 #include "dimensioned_scalar.hpp"
 #include "interpolation_table.hpp"
 #include "vector_2d.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class blackBodyEmission
 {
 public:
   //- Static table of black body emissive power
-  static const List<Tuple2<scalar, scalar> > emissivePowerTable;
+  static const List<Tuple2<scalar, scalar>> emissivePowerTable;
 private:
   // Private data
     //- Interpolation table of black body emissive power
@@ -74,6 +75,9 @@ public:
     // Update black body emission
     void correct(const label lambdaI, const Vector2D<scalar>& band);
 };
+
 }  // namespace mousse
 }  // namespace radiation
+
 #endif
+

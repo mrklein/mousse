@@ -12,12 +12,16 @@
 //     Murphy, J. J., Shaddix, C. R., Combustion kinetics of coal chars
 //     in oxygen-enriched environments, Combustion and Flame 144,
 //     pp710-729, 2006
+
 #include "_surface_reaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
-template<class CloudType>
-class COxidationMurphyShaddix;
+template<class CloudType> class COxidationMurphyShaddix;
+
+
 template<class CloudType>
 class COxidationMurphyShaddix
 :
@@ -76,12 +80,13 @@ public:
       const COxidationMurphyShaddix<CloudType>& srm
     );
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceReactionModel<CloudType> >
-      (
-        new COxidationMurphyShaddix<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceReactionModel<CloudType>>
+        {
+          new COxidationMurphyShaddix<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~COxidationMurphyShaddix();
@@ -108,8 +113,9 @@ public:
       scalarField& dMassSRCarrier
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "c_oxidation_murphy_shaddix.cpp"
-#endif
+
+#include "c_oxidation_murphy_shaddix.ipp"
+
 #endif

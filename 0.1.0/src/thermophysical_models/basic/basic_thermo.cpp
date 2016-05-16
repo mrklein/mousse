@@ -11,29 +11,29 @@
 #include "fixed_jump_ami_fv_patch_fields.hpp"
 #include "energy_jump_fv_patch_scalar_field.hpp"
 #include "energy_jump_ami_fv_patch_scalar_field.hpp"
-/* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(basicThermo, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(basicThermo, fvMesh);
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(basicThermo, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(basicThermo, fvMesh);
+
 }
-const mousse::word mousse::basicThermo::dictName("thermophysicalProperties");
+
+const mousse::word mousse::basicThermo::dictName{"thermophysicalProperties"};
+
+
 // Protected Member Functions 
 mousse::wordList mousse::basicThermo::heBoundaryBaseTypes()
 {
-  const volScalarField::GeometricBoundaryField& tbf =
-    this->T_.boundaryField();
-  wordList hbt(tbf.size(), word::null);
-  FOR_ALL(tbf, patchi)
-  {
-    if (isA<fixedJumpFvPatchScalarField>(tbf[patchi]))
-    {
+  const volScalarField::GeometricBoundaryField& tbf = this->T_.boundaryField();
+  wordList hbt{tbf.size(), word::null};
+  FOR_ALL(tbf, patchi) {
+    if (isA<fixedJumpFvPatchScalarField>(tbf[patchi])) {
       const fixedJumpFvPatchScalarField& pf =
         dynamic_cast<const fixedJumpFvPatchScalarField&>(tbf[patchi]);
       hbt[patchi] = pf.interfaceFieldType();
-    }
-    else if (isA<fixedJumpAMIFvPatchScalarField>(tbf[patchi]))
-    {
+    } else if (isA<fixedJumpAMIFvPatchScalarField>(tbf[patchi])) {
       const fixedJumpAMIFvPatchScalarField& pf =
         dynamic_cast<const fixedJumpAMIFvPatchScalarField&>
         (
@@ -44,76 +44,66 @@ mousse::wordList mousse::basicThermo::heBoundaryBaseTypes()
   }
   return hbt;
 }
+
+
 mousse::wordList mousse::basicThermo::heBoundaryTypes()
 {
-  const volScalarField::GeometricBoundaryField& tbf =
-    this->T_.boundaryField();
+  const volScalarField::GeometricBoundaryField& tbf = this->T_.boundaryField();
   wordList hbt = tbf.types();
-  FOR_ALL(tbf, patchi)
-  {
-    if (isA<fixedValueFvPatchScalarField>(tbf[patchi]))
-    {
+  FOR_ALL(tbf, patchi) {
+    if (isA<fixedValueFvPatchScalarField>(tbf[patchi])) {
       hbt[patchi] = fixedEnergyFvPatchScalarField::typeName;
-    }
-    else if
-    (
-      isA<zeroGradientFvPatchScalarField>(tbf[patchi])
-    || isA<fixedGradientFvPatchScalarField>(tbf[patchi])
-    )
-    {
+    } else if (isA<zeroGradientFvPatchScalarField>(tbf[patchi])
+               || isA<fixedGradientFvPatchScalarField>(tbf[patchi])) {
       hbt[patchi] = gradientEnergyFvPatchScalarField::typeName;
-    }
-    else if (isA<mixedFvPatchScalarField>(tbf[patchi]))
-    {
+    } else if (isA<mixedFvPatchScalarField>(tbf[patchi])) {
       hbt[patchi] = mixedEnergyFvPatchScalarField::typeName;
-    }
-    else if (isA<fixedJumpFvPatchScalarField>(tbf[patchi]))
-    {
+    } else if (isA<fixedJumpFvPatchScalarField>(tbf[patchi])) {
       hbt[patchi] = energyJumpFvPatchScalarField::typeName;
-    }
-    else if (isA<fixedJumpAMIFvPatchScalarField>(tbf[patchi]))
-    {
+    } else if (isA<fixedJumpAMIFvPatchScalarField>(tbf[patchi])) {
       hbt[patchi] = energyJumpAMIFvPatchScalarField::typeName;
-    }
-    else if (tbf[patchi].type() == "energyRegionCoupledFvPatchScalarField")
-    {
+    } else if (tbf[patchi].type() == "energyRegionCoupledFvPatchScalarField") {
       hbt[patchi] = "energyRegionCoupledFvPatchScalarField";
     }
   }
   return hbt;
 }
+
+
 // Constructors 
+
 mousse::volScalarField& mousse::basicThermo::lookupOrConstruct
 (
   const fvMesh& mesh,
   const char* name
 ) const
 {
-  if (!mesh.objectRegistry::foundObject<volScalarField>(name))
-  {
+  if (!mesh.objectRegistry::foundObject<volScalarField>(name)) {
     volScalarField* fPtr
-    (
+    {
       new volScalarField
-      (
-        IOobject
-        (
+      {
+        {
           name,
           mesh.time().timeName(),
           mesh,
           IOobject::MUST_READ,
           IOobject::AUTO_WRITE
-        ),
+        },
         mesh
-      )
-    );
+      }
+    };
     // Transfer ownership of this object to the objectRegistry
     fPtr->store(fPtr);
   }
-  return const_cast<volScalarField&>
-  (
-    mesh.objectRegistry::lookupObject<volScalarField>(name)
-  );
+  return
+    const_cast<volScalarField&>
+    (
+      mesh.objectRegistry::lookupObject<volScalarField>(name)
+    );
 }
+
+
 mousse::basicThermo::basicThermo
 (
   const fvMesh& mesh,
@@ -121,45 +111,44 @@ mousse::basicThermo::basicThermo
 )
 :
   IOdictionary
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName(dictName, phaseName),
       mesh.time().constant(),
       mesh,
       IOobject::MUST_READ_IF_MODIFIED,
       IOobject::NO_WRITE
-    )
-  ),
-  phaseName_(phaseName),
-  p_(lookupOrConstruct(mesh, "p")),
+    }
+  },
+  phaseName_{phaseName},
+  p_{lookupOrConstruct(mesh, "p")},
   T_
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName("T"),
       mesh.time().timeName(),
       mesh,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh
-  ),
+  },
   alpha_
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName("thermo:alpha"),
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     mesh,
-    dimensionSet(1, -1, -1, 0, 0)
-  ),
+    {1, -1, -1, 0, 0}
+  },
   dpdt_(lookupOrDefault<Switch>("dpdt", true))
 {}
+
+
 mousse::basicThermo::basicThermo
 (
   const fvMesh& mesh,
@@ -168,45 +157,44 @@ mousse::basicThermo::basicThermo
 )
 :
   IOdictionary
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName(dictName, phaseName),
       mesh.time().constant(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     dict
-  ),
-  phaseName_(phaseName),
-  p_(lookupOrConstruct(mesh, "p")),
+  },
+  phaseName_{phaseName},
+  p_{lookupOrConstruct(mesh, "p")},
   T_
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName("T"),
       mesh.time().timeName(),
       mesh,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh
-  ),
+  },
   alpha_
-  (
-    IOobject
-    (
+  {
+    {
       phasePropertyName("thermo:alpha"),
       mesh.time().timeName(),
       mesh,
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     mesh,
-    dimensionSet(1, -1, -1, 0, 0)
-  )
+    {1, -1, -1, 0, 0}
+  }
 {}
+
+
 // Selectors
 mousse::autoPtr<mousse::basicThermo> mousse::basicThermo::New
 (
@@ -216,56 +204,52 @@ mousse::autoPtr<mousse::basicThermo> mousse::basicThermo::New
 {
   return New<basicThermo>(mesh, phaseName);
 }
+
+
 // Destructor 
 mousse::basicThermo::~basicThermo()
 {}
+
+
 // Member Functions 
 const mousse::basicThermo& mousse::basicThermo::lookupThermo
 (
   const fvPatchScalarField& pf
 )
 {
-  if (pf.db().foundObject<basicThermo>(dictName))
-  {
+  typedef HashTable<const basicThermo*> thermoTable;
+  if (pf.db().foundObject<basicThermo>(dictName)) {
     return pf.db().lookupObject<basicThermo>(dictName);
-  }
-  else
-  {
-    HashTable<const basicThermo*> thermos =
-      pf.db().lookupClass<basicThermo>();
-    for
-    (
-      HashTable<const basicThermo*>::iterator iter = thermos.begin();
-      iter != thermos.end();
-      ++iter
-    )
-    {
-      if
-      (
-        &(iter()->he().dimensionedInternalField())
-       == &(pf.dimensionedInternalField())
-      )
-      {
+  } else {
+    thermoTable thermos = pf.db().lookupClass<basicThermo>();
+    for (thermoTable::iterator iter = thermos.begin();
+         iter != thermos.end();
+         ++iter) {
+      if (&(iter()->he().dimensionedInternalField())
+          == &(pf.dimensionedInternalField())) {
         return *iter();
       }
     }
   }
   return pf.db().lookupObject<basicThermo>(dictName);
 }
+
+
 void mousse::basicThermo::validate
 (
   const string& app,
   const word& a
 ) const
 {
-  if (!(he().name() == phasePropertyName(a)))
-  {
+  if (!(he().name() == phasePropertyName(a))) {
     FATAL_ERROR_IN(app)
       << "Supported energy type is " << phasePropertyName(a)
       << ", thermodynamics package provides " << he().name()
       << exit(FatalError);
   }
 }
+
+
 void mousse::basicThermo::validate
 (
   const string& app,
@@ -273,14 +257,8 @@ void mousse::basicThermo::validate
   const word& b
 ) const
 {
-  if
-  (
-   !(
-      he().name() == phasePropertyName(a)
-    || he().name() == phasePropertyName(b)
-    )
-  )
-  {
+  if (he().name() != phasePropertyName(a)
+      && he().name() != phasePropertyName(b)) {
     FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << " and " << phasePropertyName(b)
@@ -288,6 +266,8 @@ void mousse::basicThermo::validate
       << exit(FatalError);
   }
 }
+
+
 void mousse::basicThermo::validate
 (
   const string& app,
@@ -296,15 +276,9 @@ void mousse::basicThermo::validate
   const word& c
 ) const
 {
-  if
-  (
-   !(
-      he().name() == phasePropertyName(a)
-    || he().name() == phasePropertyName(b)
-    || he().name() == phasePropertyName(c)
-    )
-  )
-  {
+  if (he().name() != phasePropertyName(a)
+      && he().name() == phasePropertyName(b)
+      && he().name() == phasePropertyName(c)) {
     FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << ", " << phasePropertyName(b)
@@ -313,6 +287,8 @@ void mousse::basicThermo::validate
       << exit(FatalError);
   }
 }
+
+
 void mousse::basicThermo::validate
 (
   const string& app,
@@ -322,16 +298,10 @@ void mousse::basicThermo::validate
   const word& d
 ) const
 {
-  if
-  (
-   !(
-      he().name() == phasePropertyName(a)
-    || he().name() == phasePropertyName(b)
-    || he().name() == phasePropertyName(c)
-    || he().name() == phasePropertyName(d)
-    )
-  )
-  {
+  if(he().name() != phasePropertyName(a)
+     && he().name() != phasePropertyName(b)
+     && he().name() != phasePropertyName(c)
+     && he().name() != phasePropertyName(d)) {
     FATAL_ERROR_IN(app)
       << "Supported energy types are " << phasePropertyName(a)
       << ", " << phasePropertyName(b)
@@ -341,72 +311,78 @@ void mousse::basicThermo::validate
       << exit(FatalError);
   }
 }
+
+
 mousse::wordList mousse::basicThermo::splitThermoName
 (
   const word& thermoName,
   const int nCmpt
 )
 {
-  wordList cmpts(nCmpt);
+  wordList cmpts{nCmpt};
   string::size_type beg=0, end=0, endb=0, endc=0;
   int i = 0;
-  while
-  (
-    (endb = thermoName.find('<', beg)) != string::npos
-  || (endc = thermoName.find(',', beg)) != string::npos
-  )
-  {
-    if (endb == string::npos)
-    {
+  while((endb = thermoName.find('<', beg)) != string::npos
+        || (endc = thermoName.find(',', beg)) != string::npos) {
+    if (endb == string::npos) {
       end = endc;
-    }
-    else if ((endc = thermoName.find(',', beg)) != string::npos)
-    {
+    } else if ((endc = thermoName.find(',', beg)) != string::npos) {
       end = min(endb, endc);
-    }
-    else
-    {
+    } else {
       end = endb;
     }
-    if (beg < end)
-    {
+    if (beg < end) {
       cmpts[i] = thermoName.substr(beg, end-beg);
       cmpts[i++].replaceAll(">","");
     }
     beg = end + 1;
   }
-  if (beg < thermoName.size())
-  {
+  if (beg < thermoName.size()) {
     cmpts[i] = thermoName.substr(beg, string::npos);
     cmpts[i++].replaceAll(">","");
   }
   return cmpts;
 }
+
+
 mousse::volScalarField& mousse::basicThermo::p()
 {
   return p_;
 }
+
+
 const mousse::volScalarField& mousse::basicThermo::p() const
 {
   return p_;
 }
+
+
 const mousse::volScalarField& mousse::basicThermo::T() const
 {
   return T_;
 }
+
+
 mousse::volScalarField& mousse::basicThermo::T()
 {
   return T_;
 }
+
+
 const mousse::volScalarField& mousse::basicThermo::alpha() const
 {
   return alpha_;
 }
+
+
 const mousse::scalarField& mousse::basicThermo::alpha(const label patchi) const
 {
   return alpha_.boundaryField()[patchi];
 }
+
+
 bool mousse::basicThermo::read()
 {
   return regIOobject::read();
 }
+

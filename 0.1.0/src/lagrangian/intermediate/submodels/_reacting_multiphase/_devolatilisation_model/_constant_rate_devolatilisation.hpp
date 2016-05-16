@@ -9,9 +9,12 @@
 // Description
 //   Constant rate devolatisation model
 //   - need to set vapourisation temperature to 600 K
+
 #include "_devolatilisation_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ConstantRateDevolatilisation
 :
@@ -20,7 +23,7 @@ class ConstantRateDevolatilisation
   // Private data
     // Model constants
       //- List of volatile data - (name A0)
-      List<Tuple2<word, scalar> > volatileData_;
+      List<Tuple2<word, scalar>> volatileData_;
       //- List of initial volatile mass fractions
       List<scalar> YVolatile0_;
       //- Mapping between local and cloud gaseous species
@@ -41,12 +44,13 @@ public:
       const ConstantRateDevolatilisation<CloudType>& dm
     );
     //- Construct and return a clone
-    virtual autoPtr<DevolatilisationModel<CloudType> > clone() const
+    virtual autoPtr<DevolatilisationModel<CloudType>> clone() const
     {
-      return autoPtr<DevolatilisationModel<CloudType> >
-      (
-        new ConstantRateDevolatilisation<CloudType>(*this)
-      );
+      return
+        autoPtr<DevolatilisationModel<CloudType>>
+        {
+          new ConstantRateDevolatilisation<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ConstantRateDevolatilisation();
@@ -66,8 +70,9 @@ public:
       scalarField& dMassDV
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_constant_rate_devolatilisation.cpp"
-#endif
+
+#include "_constant_rate_devolatilisation.ipp"
+
 #endif

@@ -8,21 +8,21 @@
 //   mousse::viscosityModels::HerschelBulkley
 // Description
 //   Herschel-Bulkley non-Newtonian viscosity model.
-// SourceFiles
-//   herschel_bulkley.cpp
+
 #include "viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace viscosityModels
-{
+
+
+namespace mousse {
+namespace viscosityModels {
+
 class HerschelBulkley
 :
   public viscosityModel
 {
   // Private data
-    dictionary HerschelBulkleyCoeffs_;
+    dictionary coeffs_;
     dimensionedScalar k_;
     dimensionedScalar n_;
     dimensionedScalar tau0_;
@@ -31,6 +31,7 @@ class HerschelBulkley
   // Private Member Functions
     //- Calculate and return the laminar viscosity
     tmp<volScalarField> calcNu() const;
+
 public:
   //- Runtime type information
   TYPE_NAME("HerschelBulkley");
@@ -48,10 +49,7 @@ public:
   {}
   // Member Functions
     //- Return the laminar viscosity
-    tmp<volScalarField> nu() const
-    {
-      return nu_;
-    }
+    tmp<volScalarField> nu() const { return nu_; }
     //- Return the laminar viscosity for patch
     tmp<scalarField> nu(const label patchi) const
     {
@@ -65,6 +63,8 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace viscosityModels
 }  // namespace mousse
+
 #endif

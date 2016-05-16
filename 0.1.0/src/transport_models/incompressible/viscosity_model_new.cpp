@@ -5,6 +5,8 @@
 #include "viscosity_model.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 mousse::autoPtr<mousse::viscosityModel> mousse::viscosityModel::New
 (
   const word& name,
@@ -14,21 +16,21 @@ mousse::autoPtr<mousse::viscosityModel> mousse::viscosityModel::New
 )
 {
   const word modelType(viscosityProperties.lookup("transportModel"));
-  Info<< "Selecting incompressible transport model " << modelType << endl;
+  Info << "Selecting incompressible transport model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "viscosityModel::New(const volVectorField&, "
       "const surfaceScalarField&)"
-    )   << "Unknown viscosityModel type "
-      << modelType << nl << nl
-      << "Valid viscosityModels are : " << endl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown viscosityModel type "
+    << modelType << nl << nl
+    << "Valid viscosityModels are : " << endl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<viscosityModel>
-    (cstrIter()(name, viscosityProperties, U, phi));
+  return
+    autoPtr<viscosityModel>{cstrIter()(name, viscosityProperties, U, phi)};
 }

@@ -8,13 +8,13 @@
 //   mousse::laminarFlameSpeedModels::constant
 // Description
 //   Constant laminar flame speed model.
-// SourceFiles
-//   select_laminar_flame_speed.cpp
+
 #include "laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace laminarFlameSpeedModels
-{
+
+
+namespace mousse {
+namespace laminarFlameSpeedModels {
+
 class constant
 :
   public laminarFlameSpeed
@@ -22,10 +22,6 @@ class constant
 private:
   // Const laminar flame speed
     dimensionedScalar Su_;
-  // Private Member Functions
-    //- Construct as copy (not implemented)
-    constant(const constant&);
-    void operator=(const constant&);
 public:
   //- Runtime type information
   TYPE_NAME("constant");
@@ -36,12 +32,16 @@ public:
       const dictionary&,
       const psiuReactionThermo&
     );
+    constant(const constant&) = delete;
+    void operator=(const constant&) = delete;
   //- Destructor
   virtual ~constant();
   // Member functions
     //- Return the laminar flame speed [m/s]
     tmp<volScalarField> operator()() const;
 };
-} // End laminarFlameSpeedModels
+
+}  // namespace laminarFlameSpeedModels
 }  // namespace mousse
+
 #endif

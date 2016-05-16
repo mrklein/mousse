@@ -8,12 +8,13 @@
 //   mousse::rhoThermo
 // Description
 //   Basic thermodynamic properties based on density
-// SourceFiles
-//   rho_thermo.cpp
+
 #include "fluid_thermo.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rhoThermo
 :
   public fluidThermo
@@ -27,9 +28,6 @@ protected:
     volScalarField psi_;
     //- Dynamic viscosity [kg/m/s]
     volScalarField mu_;
-  // Protected Member Functions
-    //- Construct as copy (not implemented)
-    rhoThermo(const rhoThermo&);
 public:
   //- Runtime type information
   TYPE_NAME("rhoThermo");
@@ -56,6 +54,8 @@ public:
       const dictionary&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    rhoThermo(const rhoThermo&) = delete;
   //- Selector
   static autoPtr<rhoThermo> New
   (

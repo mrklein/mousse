@@ -8,13 +8,13 @@
 //   mousse::calcTypes::mag
 // Description
 //   Calculates and writes the magnitude of a field for each time
-// SourceFiles
-//   mag.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class mag
 :
   public calcType
@@ -61,9 +61,10 @@ public:
   //- Destructor
   virtual ~mag();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_mag_field.cpp"
-#endif
+
+#include "write_mag_field.ipp"
+
 #endif

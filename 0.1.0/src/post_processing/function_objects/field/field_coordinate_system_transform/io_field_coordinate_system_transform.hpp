@@ -7,9 +7,14 @@
 
 #include "field_coordinate_system_transform.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<fieldCoordinateSystemTransform>
-    IOfieldCoordinateSystemTransform;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<fieldCoordinateSystemTransform>
+  IOfieldCoordinateSystemTransform;
+
 }
+
 #endif
+

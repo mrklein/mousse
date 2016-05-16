@@ -13,6 +13,7 @@
 #include "pimple_control.hpp"
 #include "fv_io_option_list.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -31,38 +32,32 @@ int main(int argc, char *argv[])
   #include "compressible_courant_no.inc"
   #include "set_initial_delta_t.inc"
   #include "start_summary.inc"
-
-  Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_engine_time_controls.inc"
     #include "compressible_courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
-    Info<< "Crank angle = " << runTime.theta() << " CA-deg" << endl;
+    Info << "Crank angle = " << runTime.theta() << " CA-deg" << endl;
     mesh.move();
     parcels.evolve();
     #include "rho_eqn.inc"
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       #include "y_eqn.inc"
       #include "e_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
     #include "log_summary.inc"
     rho = thermo.rho();
-    if (runTime.write())
-    {
+    if (runTime.write()) {
       combustion->dQ()().write();
     }
     Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"

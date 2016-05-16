@@ -8,17 +8,18 @@
 //   mousse::vectorTools
 // Description
 //   Functions for analysing the relationships between vectors
+
 #include "vector.hpp"
 #include "unit_conversion.hpp"
-namespace mousse
-{
-//- Collection of functions for testing relationships between two vectors.
-namespace vectorTools
-{
-  //- Test if a and b are parallel: a^b = 0
-  //  Uses the cross product, so the tolerance is proportional to
-  //  the sine of the angle between a and b in radians
-  template<typename T>
+
+
+namespace mousse {
+namespace vectorTools {
+
+//- Test if a and b are parallel: a^b = 0
+//  Uses the cross product, so the tolerance is proportional to
+//  the sine of the angle between a and b in radians
+template<typename T>
   bool areParallel
   (
     const Vector<T>& a,
@@ -27,14 +28,12 @@ namespace vectorTools
   )
   {
     return (mag(a ^ b) < tolerance) ? true : false;
-//        return ( mag( mag(a & b)/(mag(a)*mag(b)) - 1.0 ) < tolerance )
-//               ? true
-//               : false;
   }
-  //- Test if a and b are orthogonal: a.b = 0
-  //  Uses the dot product, so the tolerance is proportional to
-  //  the cosine of the angle between a and b in radians
-  template<typename T>
+
+//- Test if a and b are orthogonal: a.b = 0
+//  Uses the dot product, so the tolerance is proportional to
+//  the cosine of the angle between a and b in radians
+template<typename T>
   bool areOrthogonal
   (
     const Vector<T>& a,
@@ -44,8 +43,9 @@ namespace vectorTools
   {
     return (mag(a & b) < tolerance) ? true : false;
   }
-  //- Test if angle between a and b is acute: a.b > 0
-  template<typename T>
+
+//- Test if angle between a and b is acute: a.b > 0
+template<typename T>
   bool areAcute
   (
     const Vector<T>& a,
@@ -54,8 +54,10 @@ namespace vectorTools
   {
     return ((a & b) > 0) ? true : false;
   }
-  //- Test if angle between a and b is obtuse: a.b < 0
-  template<typename T>
+
+
+//- Test if angle between a and b is obtuse: a.b < 0
+template<typename T>
   bool areObtuse
   (
     const Vector<T>& a,
@@ -64,8 +66,10 @@ namespace vectorTools
   {
     return ((a & b) < 0) ? true : false;
   }
-  //- Calculate angle between a and b in radians
-  template<typename T>
+
+
+//- Calculate angle between a and b in radians
+template<typename T>
   T cosPhi
   (
     const Vector<T>& a,
@@ -77,8 +81,10 @@ namespace vectorTools
     // Enforce bounding between -1 and 1
     return min(max(cosPhi, -1), 1);
   }
-  //- Calculate angle between a and b in radians
-  template<typename T>
+
+
+//- Calculate angle between a and b in radians
+template<typename T>
   T radAngleBetween
   (
     const Vector<T>& a,
@@ -90,8 +96,10 @@ namespace vectorTools
     // Enforce bounding between -1 and 1
     return acos( min(max(cosPhi, -1), 1) );
   }
-  //- Calculate angle between a and b in degrees
-  template<typename T>
+
+
+//- Calculate angle between a and b in degrees
+template<typename T>
   T degAngleBetween
   (
     const Vector<T>& a,
@@ -101,6 +109,9 @@ namespace vectorTools
   {
     return radToDeg(radAngleBetween(a, b, tolerance));
   }
+
 }  // namespace vectorTools
 }  // namespace mousse
+
 #endif
+

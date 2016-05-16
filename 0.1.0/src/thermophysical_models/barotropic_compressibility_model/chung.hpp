@@ -8,12 +8,13 @@
 //   mousse::compressibilityModels::Chung
 // Description
 //   Chung compressibility model.
-// SourceFiles
-//   chung.cpp
+
 #include "barotropic_compressibility_model.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 namespace compressibilityModels
 {
 class Chung
@@ -45,6 +46,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& compressibilityProperties);
 };
+
 }  // namespace compressibilityModels
 }  // namespace mousse
+
 #endif
+

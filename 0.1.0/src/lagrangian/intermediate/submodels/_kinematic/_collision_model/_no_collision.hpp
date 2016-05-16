@@ -8,11 +8,12 @@
 //   mousse::NoCollision
 // Description
 //   Place holder for 'none' option
-// SourceFiles
-//   _no_collision.cpp
+
 #include "_collision_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoCollision
 :
@@ -27,12 +28,13 @@ public:
     //- Construct copy
     NoCollision(const NoCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CollisionModel<CloudType> > clone() const
+    virtual autoPtr<CollisionModel<CloudType>> clone() const
     {
-      return autoPtr<CollisionModel<CloudType> >
-      (
-        new NoCollision<CloudType>(*this)
-      );
+      return
+        autoPtr<CollisionModel<CloudType>>
+        {
+          new NoCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoCollision();
@@ -49,8 +51,9 @@ public:
     // Collision function
     virtual void collide();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_collision.cpp"
-#endif
+
+#include "_no_collision.ipp"
+
 #endif

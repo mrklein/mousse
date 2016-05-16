@@ -34,11 +34,12 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::fixedGradientFvPatchField
-// SourceFiles
-//   gradient_energy_fv_patch_scalar_field.cpp
+
 #include "fixed_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class gradientEnergyFvPatchScalarField
 :
   public fixedGradientFvPatchScalarField
@@ -77,10 +78,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new gradientEnergyFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new gradientEnergyFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     gradientEnergyFvPatchScalarField
@@ -94,15 +96,19 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new gradientEnergyFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new gradientEnergyFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
       //- Update the coefficients associated with the patch field
       virtual void updateCoeffs();
 };
+
 }  // namespace mousse
+
 #endif
+

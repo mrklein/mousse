@@ -6,7 +6,9 @@
 #include "time.hpp"
 #include "mirror_fv_mesh.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -14,8 +16,7 @@ int main(int argc, char *argv[])
   #include "set_root_case.inc"
   #include "create_time.inc"
   const bool overwrite = args.optionFound("overwrite");
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   mirrorFvMesh mesh
@@ -33,3 +34,4 @@ int main(int argc, char *argv[])
   Info << "End" << endl;
   return 0;
 }
+

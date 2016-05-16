@@ -6,6 +6,8 @@
 #include "channel_index.hpp"
 #include "make_graph.hpp"
 #include "os_specific.hpp"
+
+
 int main(int argc, char *argv[])
 {
   argList::noParallel();
@@ -30,10 +32,9 @@ int main(int argc, char *argv[])
   };
   channelIndex channelIndexing{mesh, channelDict};
   // For each time step read all fields
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Collapsing fields for time " << runTime.timeName() << endl;
+    Info << "Collapsing fields for time " << runTime.timeName() << endl;
     #include "read_fields.inc"
     // Average fields over channel down to a line
     #include "collapse.inc"

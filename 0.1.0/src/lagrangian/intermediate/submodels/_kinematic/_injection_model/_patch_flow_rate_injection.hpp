@@ -17,14 +17,17 @@
 //   - Initial parcel velocity given by local flow velocity
 //   - Parcel diameters obtained by distribution model
 //   - Parcels injected randomly across the patch
-// SourceFiles
-//   _patch_flow_rate_injection.cpp
+
 #include "_injection_model.hpp"
 #include "patch_injection_base.hpp"
 #include "time_data_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class distributionModel;
+
+
 template<class CloudType>
 class PatchFlowRateInjection
 :
@@ -58,12 +61,13 @@ public:
     //- Construct copy
     PatchFlowRateInjection(const PatchFlowRateInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new PatchFlowRateInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new PatchFlowRateInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~PatchFlowRateInjection();
@@ -107,8 +111,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_patch_flow_rate_injection.cpp"
-#endif
+
+#include "_patch_flow_rate_injection.ipp"
+
 #endif

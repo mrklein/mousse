@@ -4,15 +4,19 @@
 
 #include "instability_g.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace XiGModels
-{
+namespace mousse {
+namespace XiGModels {
+
 DEFINE_TYPE_NAME_AND_DEBUG(instabilityG, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(XiGModel, instabilityG, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::XiGModels::instabilityG::instabilityG
 (
@@ -27,15 +31,21 @@ mousse::XiGModels::instabilityG::instabilityG
   lambdaIn_{XiGModelCoeffs_.lookup("lambdaIn")},
   XiGModel_{XiGModel::New(XiGModelCoeffs_, thermo, turbulence, Su)}
 {}
+
+
 // Destructor 
 mousse::XiGModels::instabilityG::~instabilityG()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::XiGModels::instabilityG::G() const
 {
   volScalarField turbXiG{XiGModel_->G()};
   return (GIn_*GIn_/(GIn_ + turbXiG) + turbXiG);
 }
+
+
 mousse::tmp<mousse::volScalarField> mousse::XiGModels::instabilityG::Db() const
 {
   const objectRegistry& db = Su_.db();
@@ -45,6 +55,8 @@ mousse::tmp<mousse::volScalarField> mousse::XiGModels::instabilityG::Db() const
   return XiGModel_->Db()
     + rho*Su_*(Xi - 1.0)*mgb*(0.5*lambdaIn_)/(mgb + 1.0/lambdaIn_);
 }
+
+
 bool mousse::XiGModels::instabilityG::read(const dictionary& XiGProperties)
 {
   XiGModel::read(XiGProperties);
@@ -52,3 +64,4 @@ bool mousse::XiGModels::instabilityG::read(const dictionary& XiGProperties)
   XiGModelCoeffs_.lookup("lambdaIn") >> lambdaIn_;
   return true;
 }
+

@@ -6,10 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cellSets
-// Description
+
 #include "label_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellSets
 {
 public:
@@ -28,17 +30,17 @@ public:
     //- Construct given the number ov cells
     cellSets(const label nCells)
     :
-      nTets(0),
-      nPyrs(0),
-      nPrisms(0),
-      nHexesWedges(0),
-      nPolys(0),
-      tets(nCells),
-      pyrs(nCells),
-      prisms(nCells),
-      wedges(nCells),
-      hexes(nCells),
-      polys(nCells)
+      nTets{0},
+      nPyrs{0},
+      nPrisms{0},
+      nHexesWedges{0},
+      nPolys{0},
+      tets{nCells},
+      pyrs{nCells},
+      prisms{nCells},
+      wedges{nCells},
+      hexes{nCells},
+      polys{nCells}
     {}
   // Member Functions
     void setSize(const label nCells)
@@ -56,5 +58,8 @@ public:
       polys.setSize(nCells);
     }
 };
+
 }  // namespace mousse
+
 #endif
+

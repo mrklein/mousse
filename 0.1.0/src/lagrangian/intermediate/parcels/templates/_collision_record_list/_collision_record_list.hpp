@@ -6,42 +6,46 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::CollisionRecordList
-// Description
-// SourceFiles
-//   _collision_record_list.cpp
-//   _collision_record_list_io.cpp
+
 #include "dynamic_list.hpp"
 #include "_pair_collision_record.hpp"
 #include "_wall_collision_record.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
-template<class PairType, class WallType>
-class CollisionRecordList;
+template<class PairType, class WallType> class CollisionRecordList;
+
 template<class PairType, class WallType>
 inline bool operator==
 (
   const CollisionRecordList<PairType, WallType>&,
   const CollisionRecordList<PairType, WallType>&
 );
+
 template<class PairType, class WallType>
 inline bool operator!=
 (
   const CollisionRecordList<PairType, WallType>&,
   const CollisionRecordList<PairType, WallType>&
 );
+
 template<class PairType, class WallType>
 Istream& operator>>(Istream&, CollisionRecordList<PairType, WallType>&);
+
 template<class PairType, class WallType>
 Ostream& operator<<(Ostream&, const CollisionRecordList<PairType, WallType>&);
+
+
 template<class PairType, class WallType>
 class CollisionRecordList
 {
   // Private data
     //- List of active pair collisions
-    DynamicList<PairCollisionRecord<PairType> > pairRecords_;
+    DynamicList<PairCollisionRecord<PairType>> pairRecords_;
     //- List of active wall collisions
-    DynamicList<WallCollisionRecord<WallType> > wallRecords_;
+    DynamicList<WallCollisionRecord<WallType>> wallRecords_;
 public:
   // Constructors
     //- Construct null
@@ -63,10 +67,10 @@ public:
   ~CollisionRecordList();
   // Member Functions
     //- Return the active pair collisions
-    inline const DynamicList<PairCollisionRecord<PairType> >&
+    inline const DynamicList<PairCollisionRecord<PairType>>&
       pairRecords() const;
     //- Return the active wall collisions
-    inline const DynamicList<WallCollisionRecord<WallType> >&
+    inline const DynamicList<WallCollisionRecord<WallType>>&
       wallRecords() const;
     // Fields representing the data from each record, i.e if the
     // records 0-N containing each data members {a, b, c, d...}
@@ -151,22 +155,26 @@ public:
         const CollisionRecordList<PairType, WallType>&
       );
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class PairType, class WallType>
-const mousse::DynamicList<mousse::PairCollisionRecord<PairType> >&
+const mousse::DynamicList<mousse::PairCollisionRecord<PairType>>&
 mousse::CollisionRecordList<PairType, WallType>::pairRecords() const
 {
   return pairRecords_;
 }
+
+
 template<class PairType, class WallType>
-const mousse::DynamicList<mousse::WallCollisionRecord<WallType> >&
+const mousse::DynamicList<mousse::WallCollisionRecord<WallType>>&
 mousse::CollisionRecordList<PairType, WallType>::wallRecords() const
 {
   return wallRecords_;
 }
-#ifdef NoRepository
-#   include "_collision_record_list.cpp"
-#endif
+
+#include "_collision_record_list.ipp"
+
 #endif

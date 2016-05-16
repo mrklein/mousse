@@ -8,21 +8,26 @@
 //   mousse::basicReactingParcel
 // Description
 //   Definition of basic reacting parcel
-// SourceFiles
-//   basic_reacting_parcel.cpp
+
 #include "contiguous.hpp"
 #include "particle.hpp"
 #include "_kinematic_parcel.hpp"
 #include "_thermo_parcel.hpp"
 #include "_reacting_parcel.hpp"
-namespace mousse
+
+
+namespace mousse {
+
+typedef ReactingParcel<ThermoParcel<KinematicParcel<particle>>>
+  basicReactingParcel;
+
+template<>
+inline bool contiguous<basicReactingParcel>()
 {
-  typedef ReactingParcel<ThermoParcel<KinematicParcel<particle> > >
-    basicReactingParcel;
-  template<>
-  inline bool contiguous<basicReactingParcel>()
-  {
-    return false;
-  }
+  return false;
 }
+
+}
+
 #endif
+

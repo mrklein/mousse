@@ -3,14 +3,22 @@
 // Copyright (C) 2016 mousse project
 
 #include "kinematic_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(kinematicCloud, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(kinematicCloud, 0);
+
 }
+
+
 // Constructors 
 mousse::kinematicCloud::kinematicCloud()
 {}
+
+
 //  Destructor  
 mousse::kinematicCloud::~kinematicCloud()
 {}
+

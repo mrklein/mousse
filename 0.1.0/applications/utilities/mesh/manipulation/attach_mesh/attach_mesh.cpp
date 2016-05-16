@@ -7,7 +7,9 @@
 #include "time.hpp"
 #include "attach_poly_topo_changer.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -19,18 +21,17 @@ int main(int argc, char *argv[])
   #include "create_poly_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
   const bool overwrite = args.optionFound("overwrite");
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   Info << "Time = " << runTime.timeName() << nl
     << "Attaching sliding interface" << endl;
   attachPolyTopoChanger(mesh).attach();
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
   }
   mesh.write();
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

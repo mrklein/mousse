@@ -19,8 +19,7 @@ PtrList<dimensionedScalar> rhoMin{fluidRegions.size()};
 PtrList<IOMRFZoneList> MRFfluid{fluidRegions.size()};
 PtrList<fv::IOoptionList> fluidFvOptions{fluidRegions.size()};
 // Populate fluid field pointer lists
-FOR_ALL(fluidRegions, i)
-{
+FOR_ALL(fluidRegions, i) {
   Info << "*** Reading fluid mesh thermophysical properties for region "
     << fluidRegions[i].name() << nl << endl;
   Info << "    Adding to thermoFluid\n" << endl;
@@ -207,13 +206,13 @@ FOR_ALL(fluidRegions, i)
       )
     }
   );
-  Info<< "    Adding MRF\n" << endl;
+  Info << "    Adding MRF\n" << endl;
   MRFfluid.set
   (
     i,
     new IOMRFZoneList{fluidRegions[i]}
   );
-  Info<< "    Adding fvOptions\n" << endl;
+  Info << "    Adding fvOptions\n" << endl;
   fluidFvOptions.set
   (
     i,

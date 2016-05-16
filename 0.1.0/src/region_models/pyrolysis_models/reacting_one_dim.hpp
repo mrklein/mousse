@@ -8,17 +8,16 @@
 //   mousse::reactingOneDim
 // Description
 //   Reacting, 1-D pyrolysis model
-// SourceFiles
-//   reacting_one_dim.cpp
+
 #include "pyrolysis_model.hpp"
 #include "basic_solid_chemistry_model.hpp"
 #include "radiation_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace pyrolysisModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace pyrolysisModels {
+
 class reactingOneDim
 :
   public pyrolysisModel
@@ -163,13 +162,16 @@ public:
       //- Provide some feedback
       virtual void info();
 };
+
 }  // namespace pyrolysisModels
 }  // namespace regionModels
 }  // namespace mousse
+
 
 inline mousse::label
 mousse::regionModels::pyrolysisModels::reactingOneDim::nNonOrthCorr() const
 {
   return nNonOrthCorr_;
 }
+
 #endif

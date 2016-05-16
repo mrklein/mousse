@@ -10,10 +10,9 @@
 //   grpTurbulence
 // Description
 //   Linear viscous stress turbulence model base class
-// SourceFiles
-//   linear_viscous_stress.cpp
-namespace mousse
-{
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class linearViscousStress
 :
@@ -55,8 +54,9 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct() = 0;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "linear_viscous_stress.cpp"
-#endif
+
+#include "linear_viscous_stress.ipp"
+
 #endif

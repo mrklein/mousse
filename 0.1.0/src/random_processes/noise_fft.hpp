@@ -8,12 +8,13 @@
 //   mousse::noiseFFT
 // Description
 //   FFT of the pressure field
-// SourceFiles
-//   noise_fft.cpp
+
 #include "scalar_field.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class noiseFFT
 :
   public scalarField
@@ -63,5 +64,8 @@ public:
     //- Convert the db-field into Pa
     tmp<scalarField> dbToPa(const tmp<scalarField>& db) const;
 };
+
 }  // namespace mousse
+
 #endif
+

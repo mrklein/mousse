@@ -10,6 +10,7 @@
 #include "graph.hpp"
 #include "piso_control.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -21,30 +22,28 @@ int main(int argc, char *argv[])
   #include "read_turbulence_properties.inc"
   #include "init_continuity_errs.inc"
 
-  Info<< nl << "Starting time loop" << endl;
-  while (runTime.loop())
-  {
-    Info<< "Time = " << runTime.timeName() << nl << endl;
-    force.internalField() = ReImSum
-    (
-      fft::reverseTransform
+  Info << nl << "Starting time loop" << endl;
+  while (runTime.loop()) {
+    Info << "Time = " << runTime.timeName() << nl << endl;
+    force.internalField() =
+      ReImSum
       (
-        K/(mag(K) + 1.0e-6) ^ forceGen.newField(), K.nn()
-      )
-    );
+        fft::reverseTransform
+        (
+          K/(mag(K) + 1.0e-6) ^ forceGen.newField(), K.nn()
+        )
+      );
     #include "global_properties.inc"
-    fvVectorMatrix UEqn
-    {
+    fvVectorMatrix UEqn {
       fvm::ddt(U)
-      + fvm::div(phi, U)
-      - fvm::laplacian(nu, U)
-      ==
+    + fvm::div(phi, U)
+    - fvm::laplacian(nu, U)
+    ==
       force
     };
     solve(UEqn == -fvc::grad(p));
     // --- PISO loop
-    while (piso.correct())
-    {
+    while (piso.correct()) {
       volScalarField rAU{1.0/UEqn.A()};
       surfaceScalarField rAUf{"rAUf", fvc::interpolate(rAU)};
       volVectorField HbyA{"HbyA", U};
@@ -54,10 +53,7 @@ int main(int argc, char *argv[])
         "phiHbyA",
         (fvc::interpolate(HbyA) & mesh.Sf()) + rAUf*fvc::ddtCorr(U, phi)
       };
-      fvScalarMatrix pEqn
-      {
-        fvm::laplacian(rAUf, p) == fvc::div(phiHbyA)
-      };
+      fvScalarMatrix pEqn{fvm::laplacian(rAUf, p) == fvc::div(phiHbyA)};
       pEqn.solve(mesh.solver(p.select(piso.finalInnerIter())));
       phi = phiHbyA - pEqn.flux();
       #include "continuity_errs.inc"
@@ -65,8 +61,7 @@ int main(int argc, char *argv[])
       U.correctBoundaryConditions();
     }
     runTime.write();
-    if (runTime.outputTime())
-    {
+    if (runTime.outputTime()) {
       calcEk(U, K).write
       (
         runTime.path()/"graphs"/runTime.timeName(),
@@ -74,10 +69,11 @@ int main(int argc, char *argv[])
         runTime.graphFormat()
       );
     }
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

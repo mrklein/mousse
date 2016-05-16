@@ -1,4 +1,4 @@
-Info<< "Reading thermal properties\n" << endl;
+Info << "Reading thermal properties\n" << endl;
 IOdictionary thermalProperties
 {
   {
@@ -17,7 +17,7 @@ volScalarField threeKalpha
     mesh
   },
   mesh,
-  {"0", dimensionSet(0, 2, -2 , -1, 0), 0.0}
+  {"0", dimensionSet{0, 2, -2 , -1, 0}, 0.0}
 };
 volScalarField DT
 {
@@ -27,10 +27,9 @@ volScalarField DT
     mesh
   },
   mesh,
-  {"0", dimensionSet(0, 2, -1 , 0, 0), 0.0}
+  {"0", dimensionSet{0, 2, -1 , 0, 0}, 0.0}
 };
-if (thermalStress)
-{
+if (thermalStress) {
   autoPtr<volScalarField> CPtr;
   IOobject CIO
   {
@@ -40,8 +39,7 @@ if (thermalStress)
   };
   const dictionary& CDict = thermalProperties.subDict("C");
   word CType{CDict.lookup("type")};
-  if (CType == "uniform")
-  {
+  if (CType == "uniform") {
     scalar CValue{readScalar(CDict.lookup("value"))};
     CPtr.reset
     (
@@ -49,25 +47,17 @@ if (thermalStress)
       {
         CIO,
         mesh,
-        {"C", dimensionSet(0, 2, -2 , -1, 0), CValue},
+        {"C", dimensionSet{0, 2, -2 , -1, 0}, CValue},
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (CType == "field")
-  {
+  } else if (CType == "field") {
     CIO.readOpt() = IOobject::MUST_READ;
     CPtr.reset
     (
-      new volScalarField
-      {
-        CIO,
-        mesh
-      }
+      new volScalarField{CIO, mesh}
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "readThermalProperties.H"
@@ -85,8 +75,7 @@ if (thermalStress)
   };
   const dictionary& kDict = thermalProperties.subDict("k");
   word kType{kDict.lookup("type")};
-  if (kType == "uniform")
-  {
+  if (kType == "uniform") {
     scalar rhoKValue{readScalar(kDict.lookup("value"))};
     rhoKPtr.reset
     (
@@ -94,25 +83,17 @@ if (thermalStress)
       {
         rhoKIO,
         mesh,
-        {"rhoK", dimensionSet(1, 1, -3 , -1, 0), rhoKValue},
+        {"rhoK", dimensionSet{1, 1, -3 , -1, 0}, rhoKValue},
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (kType == "field")
-  {
+  } else if (kType == "field") {
     rhoKIO.readOpt() = IOobject::MUST_READ;
     rhoKPtr.reset
     (
-      new volScalarField
-      {
-        rhoKIO,
-        mesh
-      }
+      new volScalarField{rhoKIO, mesh}
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "readThermalProperties.H"
@@ -130,8 +111,7 @@ if (thermalStress)
   };
   const dictionary& alphaDict = thermalProperties.subDict("alpha");
   word alphaType{alphaDict.lookup("type")};
-  if (alphaType == "uniform")
-  {
+  if (alphaType == "uniform") {
     scalar alphaValue{readScalar(alphaDict.lookup("value"))};
     alphaPtr.reset
     (
@@ -143,32 +123,21 @@ if (thermalStress)
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (alphaType == "field")
-  {
+  } else if (alphaType == "field") {
     alphaIO.readOpt() = IOobject::MUST_READ;
-    alphaPtr.reset
-    (
-      new volScalarField
-      {
-        alphaIO,
-        mesh
-      }
-    );
-  }
-  else
-  {
+    alphaPtr.reset(new volScalarField{alphaIO, mesh});
+  } else {
     FATAL_ERROR_IN
     (
-      "readThermalProperties.H"
+      "read_thermal_properties.inc"
     )
     << "Valid type entries are uniform or field for alpha"
     << abort(FatalError);
   }
   volScalarField& alpha = alphaPtr();
-  Info<< "Normalising k : k/rho\n" << endl;
+  Info << "Normalising k : k/rho\n" << endl;
   volScalarField k{rhoK/rho};
-  Info<< "Calculating thermal coefficients\n" << endl;
+  Info << "Calculating thermal coefficients\n" << endl;
   threeKalpha = threeK*alpha;
   DT = k/C;
 }

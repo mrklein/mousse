@@ -13,6 +13,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -23,8 +24,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (Uheader.headerOk())
-  {
+  if (Uheader.headerOk()) {
     Info << "    Reading U" << endl;
     volVectorField U{Uheader, mesh};
     volTensorField gradU{fvc::grad(U)};
@@ -40,14 +40,12 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     Info << "mag(Q) max/min : "
       << max(Q).value() << " "
       << min(Q).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       Q.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No U" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

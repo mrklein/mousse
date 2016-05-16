@@ -60,7 +60,7 @@ mousse::LduMatrix<Type, DType, LUType>::H(const Field<Type>& psi) const
   {
     new Field<Type>{lduAddr().size(), pTraits<Type>::zero}
   };
-  if (lowerPtr_ || upperPtr_) {
+  if (lowerPtr_ != nullptr || upperPtr_ != nullptr) {
     Field<Type> & Hpsi = tHpsi();
     Type* __restrict__ HpsiPtr = Hpsi.begin();
     const Type* __restrict__ psiPtr = psi.begin();
@@ -127,22 +127,22 @@ void mousse::LduMatrix<Type, DType, LUType>::operator=(const LduMatrix& A)
     << "attempted assignment to self"
     << abort(FatalError);
   }
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() = A.diag();
   }
-  if (A.upperPtr_) {
+  if (A.upperPtr_ != nullptr) {
     upper() = A.upper();
-  } else if (upperPtr_) {
+  } else if (upperPtr_ != nullptr) {
     delete upperPtr_;
-    upperPtr_ = NULL;
+    upperPtr_ = nullptr;
   }
-  if (A.lowerPtr_) {
+  if (A.lowerPtr_ != nullptr) {
     lower() = A.lower();
-  } else if (lowerPtr_) {
+  } else if (lowerPtr_ != nullptr) {
     delete lowerPtr_;
-    lowerPtr_ = NULL;
+    lowerPtr_ = nullptr;
   }
-  if (A.sourcePtr_) {
+  if (A.sourcePtr_ != nullptr) {
     source() = A.source();
   }
   interfacesUpper_ = A.interfacesUpper_;
@@ -153,16 +153,16 @@ void mousse::LduMatrix<Type, DType, LUType>::operator=(const LduMatrix& A)
 template<class Type, class DType, class LUType>
 void mousse::LduMatrix<Type, DType, LUType>::negate()
 {
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     diagPtr_->negate();
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     upperPtr_->negate();
   }
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     lowerPtr_->negate();
   }
-  if (sourcePtr_) {
+  if (sourcePtr_ != nullptr) {
     sourcePtr_->negate();
   }
   negate(interfacesUpper_);
@@ -173,16 +173,16 @@ void mousse::LduMatrix<Type, DType, LUType>::negate()
 template<class Type, class DType, class LUType>
 void mousse::LduMatrix<Type, DType, LUType>::operator+=(const LduMatrix& A)
 {
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() += A.diag();
   }
-  if (A.sourcePtr_) {
+  if (A.sourcePtr_ != nullptr) {
     source() += A.source();
   }
   if (symmetric() && A.symmetric()) {
     upper() += A.upper();
   } else if (symmetric() && A.asymmetric()) {
-    if (upperPtr_) {
+    if (upperPtr_ != nullptr) {
       lower();
     } else {
       upper();
@@ -190,7 +190,7 @@ void mousse::LduMatrix<Type, DType, LUType>::operator+=(const LduMatrix& A)
     upper() += A.upper();
     lower() += A.lower();
   } else if (asymmetric() && A.symmetric()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       lower() += A.upper();
       upper() += A.upper();
     } else {
@@ -201,10 +201,10 @@ void mousse::LduMatrix<Type, DType, LUType>::operator+=(const LduMatrix& A)
     lower() += A.lower();
     upper() += A.upper();
   } else if (diagonal()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upper() = A.upper();
     }
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lower() = A.lower();
     }
   } else if (A.diagonal()) {
@@ -225,16 +225,16 @@ void mousse::LduMatrix<Type, DType, LUType>::operator+=(const LduMatrix& A)
 template<class Type, class DType, class LUType>
 void mousse::LduMatrix<Type, DType, LUType>::operator-=(const LduMatrix& A)
 {
-  if (A.diagPtr_) {
+  if (A.diagPtr_ != nullptr) {
     diag() -= A.diag();
   }
-  if (A.sourcePtr_) {
+  if (A.sourcePtr_ != nullptr) {
     source() -= A.source();
   }
   if (symmetric() && A.symmetric()) {
     upper() -= A.upper();
   } else if (symmetric() && A.asymmetric()) {
-    if (upperPtr_) {
+    if (upperPtr_ != nullptr) {
       lower();
     } else {
       upper();
@@ -242,7 +242,7 @@ void mousse::LduMatrix<Type, DType, LUType>::operator-=(const LduMatrix& A)
     upper() -= A.upper();
     lower() -= A.lower();
   } else if (asymmetric() && A.symmetric()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       lower() -= A.upper();
       upper() -= A.upper();
     } else {
@@ -253,10 +253,10 @@ void mousse::LduMatrix<Type, DType, LUType>::operator-=(const LduMatrix& A)
     lower() -= A.lower();
     upper() -= A.upper();
   } else if (diagonal()) {
-    if (A.upperPtr_) {
+    if (A.upperPtr_ != nullptr) {
       upper() = -A.upper();
     }
-    if (A.lowerPtr_) {
+    if (A.lowerPtr_ != nullptr) {
       lower() = -A.lower();
     }
   } else if (A.diagonal()) {
@@ -279,10 +279,10 @@ void mousse::LduMatrix<Type, DType, LUType>::operator*=
   const scalarField& sf
 )
 {
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     *diagPtr_ *= sf;
   }
-  if (sourcePtr_) {
+  if (sourcePtr_ != nullptr) {
     *sourcePtr_ *= sf;
   }
   // Non-uniform scaling causes a symmetric matrix
@@ -292,10 +292,10 @@ void mousse::LduMatrix<Type, DType, LUType>::operator*=
     Field<LUType>& lower = this->lower();
     const unallocLabelList& l = lduAddr().lowerAddr();
     const unallocLabelList& u = lduAddr().upperAddr();
-    for (label face=0; face<upper.size(); face++) {
+    for (label face=0; face < upper.size(); face++) {
       upper[face] *= sf[l[face]];
     }
-    for (label face=0; face<lower.size(); face++) {
+    for (label face=0; face < lower.size(); face++) {
       lower[face] *= sf[u[face]];
     }
   }
@@ -313,16 +313,16 @@ void mousse::LduMatrix<Type, DType, LUType>::operator*=
 template<class Type, class DType, class LUType>
 void mousse::LduMatrix<Type, DType, LUType>::operator*=(scalar s)
 {
-  if (diagPtr_) {
+  if (diagPtr_ != nullptr) {
     *diagPtr_ *= s;
   }
-  if (sourcePtr_) {
+  if (sourcePtr_ != nullptr) {
     *sourcePtr_ *= s;
   }
-  if (upperPtr_) {
+  if (upperPtr_ != nullptr) {
     *upperPtr_ *= s;
   }
-  if (lowerPtr_) {
+  if (lowerPtr_ != nullptr) {
     *lowerPtr_ *= s;
   }
   interfacesUpper_ *= s;

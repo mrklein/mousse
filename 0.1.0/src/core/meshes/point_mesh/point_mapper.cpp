@@ -12,10 +12,12 @@
 // Private Member Functions 
 void mousse::pointMapper::calcAddressing() const
 {
-  if (directAddrPtr_
-      || interpolationAddrPtr_
-      || weightsPtr_
-      || insertedPointLabelsPtr_) {
+  const bool hasDirect = directAddrPtr_ != nullptr;
+  const bool hasInterpolation = interpolationAddrPtr_ != nullptr;
+  const bool hasWeights = weightsPtr_ != nullptr;
+  const bool hasIPL = insertedPointLabelsPtr_ != nullptr;
+
+  if (hasDirect || hasInterpolation || hasWeights || hasIPL) {
     FATAL_ERROR_IN("void pointMapper::calcAddressing() const")
       << "Addressing already calculated."
       << abort(FatalError);
@@ -71,14 +73,14 @@ void mousse::pointMapper::calcAddressing() const
       }
     }
     // Grab inserted points (for them the size of addressing is still zero)
-    insertedPointLabelsPtr_ = new labelList(pMesh_.size());
+    insertedPointLabelsPtr_ = new labelList{pMesh_.size()};
     labelList& insertedPoints = *insertedPointLabelsPtr_;
     label nInsertedPoints = 0;
     FOR_ALL(addr, pointI) {
       if (addr[pointI].empty()) {
         // Mapped from a dummy point. Take point 0 with weight 1.
-        addr[pointI] = labelList(1, label(0));
-        w[pointI] = scalarList(1, 1.0);
+        addr[pointI] = labelList{1, label(0)};
+        w[pointI] = scalarList{1, 1.0};
         insertedPoints[nInsertedPoints] = pointI;
         nInsertedPoints++;
       }
@@ -105,10 +107,10 @@ mousse::pointMapper::pointMapper(const pointMesh& pMesh, const mapPolyMesh& mpm)
   mpm_{mpm},
   insertedPoints_{true},
   direct_{false},
-  directAddrPtr_{NULL},
-  interpolationAddrPtr_{NULL},
-  weightsPtr_{NULL},
-  insertedPointLabelsPtr_{NULL}
+  directAddrPtr_{nullptr},
+  interpolationAddrPtr_{nullptr},
+  weightsPtr_{nullptr},
+  insertedPointLabelsPtr_{nullptr}
 {
   // Check for possibility of direct mapping
   if (mpm_.pointsFromPointsMap().empty()) {
@@ -169,7 +171,7 @@ const mousse::labelUList& mousse::pointMapper::directAddressing() const
     // No inserted points.  Re-use pointMap
     return mpm_.pointMap();
   } else {
-    if (!directAddrPtr_) {
+    if (directAddrPtr_ == nullptr) {
       calcAddressing();
     }
     return *directAddrPtr_;
@@ -187,7 +189,7 @@ const mousse::labelListList& mousse::pointMapper::addressing() const
     << "Requested interpolative addressing for a direct mapper."
     << abort(FatalError);
   }
-  if (!interpolationAddrPtr_) {
+  if (interpolationAddrPtr_ == nullptr) {
     calcAddressing();
   }
   return *interpolationAddrPtr_;
@@ -204,7 +206,7 @@ const mousse::scalarListList& mousse::pointMapper::weights() const
     << "Requested interpolative weights for a direct mapper."
     << abort(FatalError);
   }
-  if (!weightsPtr_) {
+  if (weightsPtr_ == nullptr) {
     calcAddressing();
   }
   return *weightsPtr_;

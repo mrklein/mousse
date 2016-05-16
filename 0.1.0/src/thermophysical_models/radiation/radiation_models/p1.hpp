@@ -13,15 +13,14 @@
 //   - all surfaces are diffuse
 //   - tends to over predict radiative fluxes from sources/sinks
 //    *** SOURCES NOT CURRENTLY INCLUDED ***
-// SourceFiles
-//   p1.cpp
 
 #include "radiation_model.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class P1
 :
   public radiationModel
@@ -61,8 +60,11 @@ public:
       //- Source term component (for power of T^4)
       virtual tmp<volScalarField> Rp() const;
       //- Source term component (constant)
-      virtual tmp<DimensionedField<scalar, volMesh> > Ru() const;
+      virtual tmp<DimensionedField<scalar, volMesh>> Ru() const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

@@ -8,17 +8,16 @@
 //   mousse::thermalBaffle
 // Description
 //   2D thermal baffle
-// SourceFiles
-//   thermal_baffle.cpp
+
 #include "thermal_baffle_model.hpp"
 #include "vol_fields_fwd.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace thermalBaffleModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace thermalBaffleModels {
+
 class thermalBaffle
 :
   public thermalBaffleModel
@@ -108,16 +107,8 @@ public:
       //- Provide some feedback
       virtual void info();
 };
-}  // namespace thermalBaffleModels
-}  // namespace regionModels
-}  // namespace mousse
 
-namespace mousse
-{
-namespace regionModels
-{
-namespace thermalBaffleModels
-{
+
 inline tmp<scalarField> thermalBaffle::he
 (
   const scalarField& p,
@@ -127,11 +118,16 @@ inline tmp<scalarField> thermalBaffle::he
 {
   return thermo_->he(p, T, patchI);
 }
+
+
 inline tmp<volScalarField> thermalBaffle::he() const
 {
   return thermo_->he();
 }
+
 }  // namespace thermalBaffleModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
+
+
 // Constructors 
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
@@ -21,6 +23,8 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   refGrad() = 0.0;
   valueFraction() = 0.0;
 }
+
+
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
   const wallHeatTransferFvPatchScalarField& ptf,
@@ -33,6 +37,8 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   Tinf_{ptf.Tinf_, mapper},
   alphaWall_{ptf.alphaWall_, mapper}
 {}
+
+
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
   const fvPatch& p,
@@ -47,18 +53,17 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   refValue() = Tinf_;
   refGrad() = 0.0;
   valueFraction() = 0.0;
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
-      scalarField("value", dict, p.size())
+      scalarField{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     evaluate();
   }
 }
+
+
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
   const wallHeatTransferFvPatchScalarField& tppsf
@@ -68,6 +73,8 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   Tinf_{tppsf.Tinf_},
   alphaWall_{tppsf.alphaWall_}
 {}
+
+
 mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
 (
   const wallHeatTransferFvPatchScalarField& tppsf,
@@ -78,6 +85,8 @@ mousse::wallHeatTransferFvPatchScalarField::wallHeatTransferFvPatchScalarField
   Tinf_{tppsf.Tinf_},
   alphaWall_{tppsf.alphaWall_}
 {}
+
+
 // Member Functions 
 void mousse::wallHeatTransferFvPatchScalarField::autoMap
 (
@@ -88,6 +97,8 @@ void mousse::wallHeatTransferFvPatchScalarField::autoMap
   Tinf_.autoMap(m);
   alphaWall_.autoMap(m);
 }
+
+
 void mousse::wallHeatTransferFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -100,6 +111,8 @@ void mousse::wallHeatTransferFvPatchScalarField::rmap
   Tinf_.rmap(tiptf.Tinf_, addr);
   alphaWall_.rmap(tiptf.alphaWall_, addr);
 }
+
+
 void mousse::wallHeatTransferFvPatchScalarField::updateCoeffs()
 {
   if (updated())
@@ -119,11 +132,12 @@ void mousse::wallHeatTransferFvPatchScalarField::updateCoeffs()
   valueFraction() =
     1.0/
     (
-      1.0
-     + turbModel.kappaEff(patchi)*patch().deltaCoeffs()/alphaWall_
+      1.0 + turbModel.kappaEff(patchi)*patch().deltaCoeffs()/alphaWall_
     );
   mixedFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::wallHeatTransferFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -131,11 +145,15 @@ void mousse::wallHeatTransferFvPatchScalarField::write(Ostream& os) const
   alphaWall_.writeEntry("alphaWall", os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   wallHeatTransferFvPatchScalarField
 );
+
 }
+

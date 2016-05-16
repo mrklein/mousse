@@ -8,14 +8,14 @@
 //   mousse::calcTypes::randomise
 // Description
 //   Adds a random component to a field, with a given perturbation magnitude.
-// SourceFiles
-//   randomise.cpp
+
 #include "calc_type.hpp"
 #include "random.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class randomise
 :
   public calcType
@@ -64,9 +64,10 @@ public:
   //- Destructor
   virtual ~randomise();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_random_field.cpp"
-#endif
+
+#include "write_random_field.ipp"
+
 #endif

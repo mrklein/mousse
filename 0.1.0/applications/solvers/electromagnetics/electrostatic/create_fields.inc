@@ -1,4 +1,4 @@
-  Info<< "Reading physicalProperties\n" << endl;
+  Info << "Reading physicalProperties\n" << endl;
   IOdictionary physicalProperties
   {
     {
@@ -8,15 +8,9 @@
       IOobject::MUST_READ_IF_MODIFIED
     }
   };
-  dimensionedScalar epsilon0
-  {
-    physicalProperties.lookup("epsilon0")
-  };
-  dimensionedScalar k
-  {
-    physicalProperties.lookup("k")
-  };
-  Info<< "Reading field phi\n" << endl;
+  dimensionedScalar epsilon0{physicalProperties.lookup("epsilon0")};
+  dimensionedScalar k{physicalProperties.lookup("k")};
+  Info << "Reading field phi\n" << endl;
   volScalarField phi
   {
     {
@@ -28,7 +22,7 @@
     },
     mesh
   };
-  Info<< "Reading field rho\n" << endl;
+  Info << "Reading field rho\n" << endl;
   volScalarField rho
   {
     {
@@ -40,7 +34,7 @@
     },
     mesh
   };
-  Info<< "Calculating field rhoFlux\n" << endl;
+  Info << "Calculating field rhoFlux\n" << endl;
   surfaceScalarField rhoFlux
   {
     {

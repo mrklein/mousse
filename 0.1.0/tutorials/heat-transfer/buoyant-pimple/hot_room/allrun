@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1
+
+. $WM_PROJECT_DIR/bin/tools/run-functions
+
+# Get application name
+readonly APPLICATION=$(get_application)
+
+run_application block-mesh
+cp -r 0.org 0
+run_application set-fields
+run_application $APPLICATION

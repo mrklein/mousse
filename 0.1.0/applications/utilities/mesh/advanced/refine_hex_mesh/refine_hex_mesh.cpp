@@ -19,7 +19,11 @@
 #include "surface_fields.hpp"
 #include "point_fields.hpp"
 #include "_read_fields.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   #include "add_overwrite_option.inc"
@@ -36,13 +40,13 @@ int main(int argc, char *argv[])
   runTime.functionObjects().off();
   #include "create_named_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
-  word cellSetName(args.args()[1]);
+  word cellSetName{args.args()[1]};
   const bool overwrite = args.optionFound("overwrite");
   const bool minSet = args.optionFound("minSet");
-  Info<< "Reading cells to refine from cellSet " << cellSetName
+  Info << "Reading cells to refine from cellSet " << cellSetName
     << nl << endl;
   cellSet cellsToRefine{mesh, cellSetName};
-  Info<< "Read " << returnReduce(cellsToRefine.size(), sumOp<label>())
+  Info << "Read " << returnReduce(cellsToRefine.size(), sumOp<label>())
     << " cells to refine from cellSet " << cellSetName << nl
     << endl;
   // Read objects in time directory
@@ -77,7 +81,8 @@ int main(int argc, char *argv[])
   // Construct refiner without unrefinement. Read existing point/cell level.
   hexRef8 meshCutter{mesh};
   // Some stats
-  Info<< "Read mesh:" << nl
+  Info
+    << "Read mesh:" << nl
     << "    cells:" << mesh.globalData().nTotalCells() << nl
     << "    faces:" << mesh.globalData().nTotalFaces() << nl
     << "    points:" << mesh.globalData().nTotalPoints() << nl
@@ -101,8 +106,7 @@ int main(int argc, char *argv[])
   polyTopoChange meshMod{mesh};
   // Play refinement commands into mesh changer.
   meshCutter.setRefinement(newCellsToRefine, meshMod);
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
   }
   // Create mesh, return map from old to new mesh.
@@ -112,20 +116,19 @@ int main(int argc, char *argv[])
   // Update numbering of cells/vertices.
   meshCutter.updateMesh(map);
   // Optionally inflate mesh
-  if (map().hasMotionPoints())
-  {
+  if (map().hasMotionPoints()) {
     mesh.movePoints(map().preMotionPoints());
   }
-  Info<< "Refined from " << returnReduce(map().nOldCells(), sumOp<label>())
+  Info << "Refined from " << returnReduce(map().nOldCells(), sumOp<label>())
     << " to " << mesh.globalData().nTotalCells() << " cells." << nl << endl;
-  if (overwrite)
-  {
+  if (overwrite) {
     mesh.setInstance(oldInstance);
     meshCutter.setInstance(oldInstance);
   }
-  Info<< "Writing mesh to " << runTime.timeName() << endl;
+  Info << "Writing mesh to " << runTime.timeName() << endl;
   mesh.write();
   meshCutter.write();
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

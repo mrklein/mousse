@@ -28,14 +28,17 @@
 //   \endverbatim
 // SourceFiles
 //   solid_mixture_properties.cpp
-//   see_also
-//   foam::solid_properties
+// SeeAlso
+//   mousse::solidProperties
+
 #include "scalar_field.hpp"
 #include "ptr_list.hpp"
 #include "solid_properties.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class solidMixtureProperties
 {
   // Private data
@@ -52,10 +55,7 @@ public:
     //- Construct and return a clone
     virtual autoPtr<solidMixtureProperties> clone() const
     {
-      return autoPtr<solidMixtureProperties>
-      (
-        new solidMixtureProperties(*this)
-      );
+      return autoPtr<solidMixtureProperties>{new solidMixtureProperties{*this}};
     }
   //- Destructor
   virtual ~solidMixtureProperties()
@@ -90,5 +90,8 @@ public:
     //  of mass fractions
     scalar Cp(const scalarField& Y) const;
 };
+
 }  // namespace mousse
+
 #endif
+

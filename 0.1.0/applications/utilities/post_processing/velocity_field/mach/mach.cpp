@@ -5,6 +5,19 @@
 #include "calc.hpp"
 #include "fluid_thermo.hpp"
 
+
+inline bool hasThermo(const mousse::Time& time, const mousse::fvMesh& mesh)
+{
+  mousse::IOobject thermo
+  {
+    mousse::basicThermo::dictName,
+    time.constant(),
+    mesh
+  };
+  return thermo.headerOk();
+}
+
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -23,20 +36,10 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     IOobject::MUST_READ
   };
   // Check U and T exists
-  if (Uheader.headerOk() && Theader.headerOk())
-  {
+  if (Uheader.headerOk() && Theader.headerOk()) {
     autoPtr<volScalarField> MachPtr;
     volVectorField U{Uheader, mesh};
-    if
-    (
-      IOobject
-      {
-        basicThermo::dictName,
-        runTime.constant(),
-        mesh
-      }.headerOk()
-    )
-    {
+    if (hasThermo(runTime, mesh)) {
       // thermophysical Mach
       autoPtr<fluidThermo> thermo{fluidThermo::New(mesh)};
       volScalarField Cp{thermo->Cp()};
@@ -53,9 +56,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
           mag(U)/(sqrt((Cp/Cv)*(Cp - Cv)*thermo->T()))
         }
       );
-    }
-    else
-    {
+    } else {
       // thermodynamic Mach
       IOdictionary thermoProps
       {
@@ -83,14 +84,12 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
       );
     }
     Info << "Mach max : " << max(MachPtr()).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       MachPtr().write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    Missing U or T" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

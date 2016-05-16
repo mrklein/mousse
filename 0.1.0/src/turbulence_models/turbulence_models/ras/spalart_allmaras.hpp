@@ -39,18 +39,18 @@
 //       kappa       0.41;
 //     }
 //   \endverbatim
-// SourceFiles
-//   spalart_allmaras.cpp
+
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class SpalartAllmaras
 :
-  public eddyViscosity<RASModel<BasicTurbulenceModel> >
+  public eddyViscosity<RASModel<BasicTurbulenceModel>>
 {
 protected:
   // Protected data
@@ -123,9 +123,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "spalart_allmaras.cpp"
-#endif
+
+#include "spalart_allmaras.ipp"
+
 #endif

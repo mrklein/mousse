@@ -113,17 +113,17 @@
 // SeeAlso
 //   mousse::turbulentTemperatureCoupledBaffleMixedFvPatchScalarField
 //   mousse::regionModels::thermalBaffleModels::thermalBaffleModel
-// SourceFiles
-//   thermal_baffle_fv_patch_scalar_field.cpp
+
 #include "auto_ptr.hpp"
 #include "region_model.hpp"
 #include "thermal_baffle_model.hpp"
 #include "extrude_patch_mesh.hpp"
 #include "turbulent_temperature_rad_coupled_mixed_fv_patch_scalar_field.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 class thermalBaffleFvPatchScalarField
 :
   public turbulentTemperatureRadCoupledMixedFvPatchScalarField
@@ -176,10 +176,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new thermalBaffleFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new thermalBaffleFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     thermalBaffleFvPatchScalarField
@@ -193,10 +194,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new thermalBaffleFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new thermalBaffleFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Mapping functions
@@ -216,6 +218,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

@@ -6,12 +6,12 @@
 #include "zero_gradient_fv_patch_fields.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "kinematic_single_layer.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(mappedConvectiveHeatTransfer, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -20,6 +20,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   mappedConvectiveHeatTransfer,
   dictionary
 );
+
+
 // Constructors 
 mappedConvectiveHeatTransfer::mappedConvectiveHeatTransfer
 (
@@ -27,42 +29,44 @@ mappedConvectiveHeatTransfer::mappedConvectiveHeatTransfer
   const dictionary& /*dict*/
 )
 :
-  heatTransferModel(owner),
+  heatTransferModel{owner},
   htcConvPrimary_
-  (
-    IOobject
-    (
+  {
+    {
       "htcConv",
       owner.time().timeName(),
       owner.primaryMesh(),
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     owner.primaryMesh()
-  ),
+  },
   htcConvFilm_
-  (
-    IOobject
-    (
+  {
+    {
       htcConvPrimary_.name(), // must have same name as above for mapping
       owner.time().timeName(),
       owner.regionMesh(),
       IOobject::NO_READ,
       IOobject::NO_WRITE
-    ),
+    },
     owner.regionMesh(),
-    dimensionedScalar("zero", dimMass/pow3(dimTime)/dimTemperature, 0.0),
+    {"zero", dimMass/pow3(dimTime)/dimTemperature, 0.0},
     owner.mappedPushedFieldPatchTypes<scalar>()
-  )
+  }
 {
   // Update the primary-side convective heat transfer coefficient
   htcConvPrimary_.correctBoundaryConditions();
   // Pull the data from the primary region via direct mapped BCs
   htcConvFilm_.correctBoundaryConditions();
 }
+
+
 // Destructor 
 mappedConvectiveHeatTransfer::~mappedConvectiveHeatTransfer()
 {}
+
+
 // Member Functions 
 void mappedConvectiveHeatTransfer::correct()
 {
@@ -71,10 +75,14 @@ void mappedConvectiveHeatTransfer::correct()
   // Pull the data from the primary region via direct mapped BCs
   htcConvFilm_.correctBoundaryConditions();
 }
+
+
 tmp<volScalarField> mappedConvectiveHeatTransfer::h() const
 {
   return htcConvFilm_;
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

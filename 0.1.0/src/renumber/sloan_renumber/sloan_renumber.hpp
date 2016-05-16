@@ -9,12 +9,13 @@
 // Description
 //   Sloan renumbering algorithm
 //   E.g. http://www.apav.it/sito_ratio/file_pdf/ratio_4/capitolo_1.pdf
-// SourceFiles
-//   sloan_renumber.cpp
+
 #include "renumber_method.hpp"
 #include "switch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class SloanRenumber
 :
   public renumberMethod
@@ -40,7 +41,7 @@ public:
     virtual labelList renumber(const pointField&) const
     {
       NOT_IMPLEMENTED("SloanRenumber::renumber(const pointField&)");
-      return labelList(0);
+      return labelList{0};
     }
     //- Return the order in which cells need to be visited, i.e.
     //  from ordered back to original cell label.
@@ -60,5 +61,8 @@ public:
       const pointField& cc
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

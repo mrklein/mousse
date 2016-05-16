@@ -8,16 +8,18 @@
 //   mousse::solidParticleCloud
 // Description
 //   A Cloud of solid particles
-// SourceFiles
-//   solid_particle_cloud.cpp
-//   solid_particle_cloud_io.cpp
+
 #include "cloud.hpp"
 #include "solid_particle.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class fvMesh;
+
+
 class solidParticleCloud
 :
   public Cloud<solidParticle>
@@ -53,23 +55,33 @@ public:
       //  gravitational acceleration
       void move(const dimensionedVector& g);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline const mousse::fvMesh& mousse::solidParticleCloud::mesh() const
 {
   return mesh_;
 }
+
+
 inline mousse::scalar mousse::solidParticleCloud::rhop() const
 {
   return rhop_;
 }
+
+
 inline mousse::scalar mousse::solidParticleCloud::e() const
 {
   return e_;
 }
+
+
 inline mousse::scalar mousse::solidParticleCloud::mu() const
 {
   return mu_;
 }
+
 #endif
+

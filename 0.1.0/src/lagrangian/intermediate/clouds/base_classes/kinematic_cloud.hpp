@@ -8,12 +8,13 @@
 //   mousse::kinematicCloud
 // Description
 //   Virtual abstract base class for templated KinematicCloud
-// SourceFiles
-//   kinematic_cloud.hpp
+
 #include "type_info.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class kinematicCloud
 {
 public:
@@ -59,5 +60,8 @@ public:
   //- Destructor
   virtual ~kinematicCloud();
 };
+
 }  // namespace mousse
+
 #endif
+

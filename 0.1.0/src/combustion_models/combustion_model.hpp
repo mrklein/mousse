@@ -8,12 +8,13 @@
 //   mousse::combustionModel
 // Description
 //   Base class for combustion models
-// SourceFiles
-//   combustion_model.cpp
+
 #include "iodictionary.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class combustionModel
 :
   public IOdictionary
@@ -81,21 +82,20 @@ public:
     //- Update properties from given dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 inline const mousse::fvMesh& mousse::combustionModel::mesh() const
 {
   return mesh_;
 }
+
+
 inline const mousse::surfaceScalarField& mousse::combustionModel::phi() const
 {
-  if (turbulencePtr_)
-  {
-    return turbulencePtr_->phi();
-  }
-  else
-  {
+  if (!turbulencePtr_) {
     FATAL_ERROR_IN
     (
       "const mousse::compressibleTurbulenceModel& "
@@ -105,18 +105,15 @@ inline const mousse::surfaceScalarField& mousse::combustionModel::phi() const
     << "combustionModel::setTurbulence "
     << "(compressibleTurbulenceModel& )"
     << abort(FatalError);
-    return turbulencePtr_->phi();
   }
+  return turbulencePtr_->phi();
 }
+
+
 inline const mousse::compressibleTurbulenceModel&
 mousse::combustionModel::turbulence() const
 {
-  if (turbulencePtr_)
-  {
-    return *turbulencePtr_;
-  }
-  else
-  {
+  if (!turbulencePtr_) {
     FATAL_ERROR_IN
     (
       "const mousse::compressibleTurbulenceModel& "
@@ -126,13 +123,17 @@ mousse::combustionModel::turbulence() const
     << "combustionModel::setTurbulence "
     << "(compressibleTurbulenceModel& )"
     << abort(FatalError);
-    return *turbulencePtr_;
   }
+  return *turbulencePtr_;
 }
+
+
 inline const mousse::Switch& mousse::combustionModel::active() const
 {
   return active_;
 }
+
+
 inline void mousse::combustionModel::setTurbulence
 (
   compressibleTurbulenceModel& turbModel
@@ -140,8 +141,12 @@ inline void mousse::combustionModel::setTurbulence
 {
   turbulencePtr_ = &turbModel;
 }
+
+
 inline const mousse::dictionary& mousse::combustionModel::coeffs() const
 {
   return coeffs_;
 }
+
 #endif
+

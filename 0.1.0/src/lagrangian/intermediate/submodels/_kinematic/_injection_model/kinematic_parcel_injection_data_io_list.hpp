@@ -6,14 +6,17 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::kinematicParcelInjectionDataIOList
-// Description
-// SourceFiles
-//   kinematic_parcel_injection_data_io_list.cpp
+
 #include "iolist.hpp"
 #include "kinematic_parcel_injection_data.hpp"
-namespace mousse
-{
-  typedef IOList<kinematicParcelInjectionData>
-    kinematicParcelInjectionDataIOList;
+
+
+namespace mousse {
+
+typedef IOList<kinematicParcelInjectionData>
+  kinematicParcelInjectionDataIOList;
+
 }
+
 #endif
+

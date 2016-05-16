@@ -7,31 +7,37 @@
 
 #include "fv_cfd.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-  template<class GeoField>
-  void addToFieldList
-  (
-    PtrList<GeoField>& fieldList,
-    const IOobject& obj,
-    const label fieldI,
-    const typename GeoField::Mesh& mesh
-  );
-  template<class GeoField>
-  void outputFieldList
-  (
-    const PtrList<GeoField>& fieldList,
-    const label patchI
-  );
-  template<class GeoField>
-  void collectFieldList
-  (
-    const PtrList<GeoField>& fieldList,
-    const label patchI,
-    HashTable<word>& fieldToType
-  );
+
+
+namespace mousse {
+
+template<class GeoField>
+void addToFieldList
+(
+  PtrList<GeoField>& fieldList,
+  const IOobject& obj,
+  const label fieldI,
+  const typename GeoField::Mesh& mesh
+);
+
+template<class GeoField>
+void outputFieldList
+(
+  const PtrList<GeoField>& fieldList,
+  const label patchI
+);
+
+template<class GeoField>
+void collectFieldList
+(
+  const PtrList<GeoField>& fieldList,
+  const label patchI,
+  HashTable<word>& fieldToType
+);
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "patch_summary_templates.cpp"
+
+#include "patch_summary_templates.ipp"
+
 #endif
-#endif
+

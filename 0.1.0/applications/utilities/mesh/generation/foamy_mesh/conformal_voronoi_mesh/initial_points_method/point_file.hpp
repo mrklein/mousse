@@ -9,14 +9,15 @@
 // Description
 //   Inserts points at locations specified in a pointFile into the surfaces to
 //   be conformed to of the conformalVoronoiMesh
-// SourceFiles
-//   point_file.cpp
+
 #include "file_name.hpp"
 #include "point_io_field.hpp"
 #include "switch.hpp"
 #include "initial_points_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class pointFile
 :
   public initialPointsMethod
@@ -52,5 +53,8 @@ public:
     //- Return the initial points for the conformalVoronoiMesh
     virtual List<Vb::Point> initialPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

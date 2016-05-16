@@ -10,12 +10,12 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "mapped_wall_poly_patch.hpp"
 #include "map_distribute.hpp"
-namespace mousse
-{
-namespace compressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace compressible {
+namespace RASModels {
+
 // Constructors 
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
@@ -31,6 +31,8 @@ alphatFilmWallFunctionFvPatchScalarField
   kappa_{0.41},
   Prt_{0.85}
 {}
+
+
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
 (
@@ -47,6 +49,8 @@ alphatFilmWallFunctionFvPatchScalarField
   kappa_{ptf.kappa_},
   Prt_{ptf.Prt_}
 {}
+
+
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
 (
@@ -62,6 +66,8 @@ alphatFilmWallFunctionFvPatchScalarField
   kappa_{dict.lookupOrDefault("kappa", 0.41)},
   Prt_{dict.lookupOrDefault("Prt", 0.85)}
 {}
+
+
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
 (
@@ -75,6 +81,8 @@ alphatFilmWallFunctionFvPatchScalarField
   kappa_{fwfpsf.kappa_},
   Prt_{fwfpsf.Prt_}
 {}
+
+
 alphatFilmWallFunctionFvPatchScalarField::
 alphatFilmWallFunctionFvPatchScalarField
 (
@@ -89,11 +97,12 @@ alphatFilmWallFunctionFvPatchScalarField
   kappa_{fwfpsf.kappa_},
   Prt_{fwfpsf.Prt_}
 {}
+
+
 // Member Functions 
 void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   typedef regionModels::surfaceFilmModels::surfaceFilmModel modelType;
@@ -103,8 +112,7 @@ void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
   UPstream::msgType() = oldTag+1;
   bool foundFilm =
     db().time().foundObject<modelType>("surfaceFilmProperties");
-  if (!foundFilm)
-  {
+  if (!foundFilm) {
     // do nothing on construction - film model doesn't exist yet
     return;
   }
@@ -113,18 +121,19 @@ void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
   const modelType& filmModel =
     db().time().lookupObject<modelType>("surfaceFilmProperties");
   const label filmPatchI = filmModel.regionPatchID(patchi);
-  tmp<volScalarField> mDotFilm(filmModel.primaryMassTrans());
+  tmp<volScalarField> mDotFilm{filmModel.primaryMassTrans()};
   scalarField mDotFilmp = mDotFilm().boundaryField()[filmPatchI];
   filmModel.toPrimary(filmPatchI, mDotFilmp);
   // Retrieve RAS turbulence model
-  const turbulenceModel& turbModel = db().lookupObject<turbulenceModel>
-  (
-    IOobject::groupName
+  const turbulenceModel& turbModel =
+    db().lookupObject<turbulenceModel>
     (
-      turbulenceModel::propertiesName,
-      dimensionedInternalField().group()
-    )
-  );
+      IOobject::groupName
+      (
+        turbulenceModel::propertiesName,
+        dimensionedInternalField().group()
+      )
+    );
   const scalarField& y = turbModel.y()[patchi];
   const scalarField& rhow = turbModel.rho().boundaryField()[patchi];
   const tmp<volScalarField> tk = turbModel.k();
@@ -136,24 +145,20 @@ void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
   const scalar Cmu25 = pow(Cmu_, 0.25);
   // Populate alphat field values
   scalarField& alphat = *this;
-  FOR_ALL(alphat, faceI)
-  {
+  FOR_ALL(alphat, faceI) {
     label faceCellI = patch().faceCells()[faceI];
     scalar uTau = Cmu25*sqrt(k[faceCellI]);
     scalar yPlus = y[faceI]*uTau/(muw[faceI]/rhow[faceI]);
     scalar Pr = muw[faceI]/alphaw[faceI];
     scalar factor = 0.0;
     scalar mStar = mDotFilmp[faceI]/(y[faceI]*uTau);
-    if (yPlus > yPlusCrit_)
-    {
+    if (yPlus > yPlusCrit_) {
       scalar expTerm = exp(min(50.0, yPlusCrit_*mStar*Pr));
       scalar yPlusRatio = yPlus/yPlusCrit_;
       scalar powTerm = mStar*Prt_/kappa_;
       factor =
         mStar/(expTerm*(pow(yPlusRatio, powTerm)) - 1.0 + ROOTVSMALL);
-    }
-    else
-    {
+    } else {
       scalar expTerm = exp(min(50.0, yPlus*mStar*Pr));
       factor = mStar/(expTerm - 1.0 + ROOTVSMALL);
     }
@@ -165,6 +170,8 @@ void alphatFilmWallFunctionFvPatchScalarField::updateCoeffs()
   UPstream::msgType() = oldTag;
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 // Member Functions 
 void alphatFilmWallFunctionFvPatchScalarField::write(Ostream& os) const
 {
@@ -176,11 +183,15 @@ void alphatFilmWallFunctionFvPatchScalarField::write(Ostream& os) const
   os.writeKeyword("Prt") << Prt_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   alphatFilmWallFunctionFvPatchScalarField
 );
+
 }  // namespace RASModels
 }  // namespace compressible
 }  // namespace mousse
+

@@ -1,3 +1,6 @@
+#ifndef THREE_PHASE_INTERFACE_PROPERTIES_HPP_
+#define THREE_PHASE_INTERFACE_PROPERTIES_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,14 +10,13 @@
 //   Properties to aid interFoam :
 //   1. Correct the alpha boundary condition for dynamic contact angle.
 //   2. Calculate interface curvature.
-// SourceFiles
-//   three_phase_interface_properties.cpp
-#ifndef THREE_PHASE_INTERFACE_PROPERTIES_HPP_
-#define THREE_PHASE_INTERFACE_PROPERTIES_HPP_
+
 #include "incompressible_three_phase_mixture.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class threePhaseInterfaceProperties
 {
   // Private data
@@ -30,9 +32,6 @@ class threePhaseInterfaceProperties
     surfaceScalarField nHatf_;
     volScalarField K_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct and assignment
-    threePhaseInterfaceProperties(const threePhaseInterfaceProperties&);
-    void operator=(const threePhaseInterfaceProperties&);
     //- Correction for the boundary condition on the unit normal nHat on
     //  walls to produce the correct contact dynamic angle.
     //  Calculated from the component of U parallel to the wall
@@ -51,6 +50,9 @@ public:
     (
       const incompressibleThreePhaseMixture& mixture
     );
+    //- Disallow default bitwise copy construct and assignment
+    threePhaseInterfaceProperties(const threePhaseInterfaceProperties&) = delete;
+    void operator=(const threePhaseInterfaceProperties&) = delete;
   // Member Functions
     scalar cAlpha() const
     {
@@ -70,11 +72,9 @@ public:
     }
     tmp<volScalarField> sigma() const
     {
-      volScalarField limitedAlpha2{max(mixture_.alpha2(), scalar(0))};
-      volScalarField limitedAlpha3{max(mixture_.alpha3(), scalar(0))};
-      return
-        (limitedAlpha2*sigma12_ + limitedAlpha3*sigma13_)
-       /(limitedAlpha2 + limitedAlpha3 + SMALL);
+      volScalarField la2{max(mixture_.alpha2(), scalar{0})};
+      volScalarField la3{max(mixture_.alpha3(), scalar{0})};
+      return (la2*sigma12_ + la3*sigma13_)/(la2 + la3 + SMALL);
     }
     tmp<volScalarField> sigmaK() const
     {
@@ -89,5 +89,8 @@ public:
       calculateK();
     }
 };
+
 }  // namespace mousse
+
 #endif
+

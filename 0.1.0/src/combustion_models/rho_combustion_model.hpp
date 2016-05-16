@@ -8,18 +8,16 @@
 //   mousse::rhoCombustionModel
 // Description
 //   Combustion models for rho-based thermodynamics
-// SourceFiles
-//   rho_combustion_model_i.hpp
-//   rho_combustion_model.cpp
-//   rho_combustion_model_new.cpp
+
 #include "combustion_model.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "rho_reaction_thermo.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 class rhoCombustionModel
 :
   public combustionModel
@@ -74,6 +72,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read();
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
+
 #endif
+

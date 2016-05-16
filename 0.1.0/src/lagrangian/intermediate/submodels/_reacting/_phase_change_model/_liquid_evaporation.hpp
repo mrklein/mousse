@@ -9,10 +9,13 @@
 // Description
 //   Liquid evaporation model
 //   - uses ideal gas assumption
+
 #include "_phase_change_model.hpp"
 #include "liquid_mixture_properties.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class LiquidEvaporation
 :
@@ -42,12 +45,13 @@ public:
     //- Construct copy
     LiquidEvaporation(const LiquidEvaporation<CloudType>& pcm);
     //- Construct and return a clone
-    virtual autoPtr<PhaseChangeModel<CloudType> > clone() const
+    virtual autoPtr<PhaseChangeModel<CloudType>> clone() const
     {
-      return autoPtr<PhaseChangeModel<CloudType> >
-      (
-        new LiquidEvaporation<CloudType>(*this)
-      );
+      return
+        autoPtr<PhaseChangeModel<CloudType>>
+        {
+          new LiquidEvaporation<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~LiquidEvaporation();
@@ -81,8 +85,9 @@ public:
     //- Return maximum/limiting temperature
     virtual scalar TMax(const scalar p, const scalarField& X) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_liquid_evaporation.cpp"
-#endif
+
+#include "_liquid_evaporation.ipp"
+
 #endif

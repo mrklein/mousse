@@ -221,7 +221,7 @@ void mousse::Cloud<ParticleType>::move(TrackData& td, const scalar trackTime)
     // Stream into send buffers
     FOR_ALL(particleTransferLists, i) {
       if (particleTransferLists[i].size()) {
-        UOPstream particleStream{neighbourProcs[i], pBufs};
+        UOPstream particleStream{static_cast<int>(neighbourProcs[i]), pBufs};
         particleStream
           << patchIndexTransferLists[i]
           << particleTransferLists[i];

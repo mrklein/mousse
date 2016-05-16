@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -30,17 +33,15 @@
 //   In 1D the direction of the rays is X (nPhi and nTheta are ignored)
 //   In 2D the direction of the rays is on X-Y plane (only nPhi is considered)
 //   In 3D (nPhi and nTheta are considered)
-// SourceFiles
-//   fv_dom.cpp
-#ifndef radiationModelTHERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
-#define radiationModelTHERMOPHYSICAL_MODELS_RADIATION_RADIATION_MODELS_FV_DOM_FV_DOM_HPP_
+
 #include "radiative_intensity_ray.hpp"
 #include "radiation_model.hpp"
 #include "fv_matrices.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class fvDOM
 :
   public radiationModel
@@ -73,9 +74,9 @@ class fvDOM
     //- Convergence criterion
     scalar convergence_;
     //- Maximum number of iterations
-    scalar maxIter_;
+    label maxIter_;
     //- List of cached fvMatrices for rays
-    List<PtrList<fvScalarMatrix> >fvRayDiv_;
+    List<PtrList<fvScalarMatrix>> fvRayDiv_;
     //- Cache convection div matrix
     bool cacheDiv_;
     //- Maximum omega weight
@@ -118,7 +119,7 @@ public:
       //- Source term component (for power of T^4)
       virtual tmp<volScalarField> Rp() const;
       //- Source term component (constant)
-      virtual tmp<DimensionedField<scalar, volMesh> > Ru() const;
+      virtual tmp<DimensionedField<scalar, volMesh>> Ru() const;
     // Access
       //- Ray intensity for rayI
       inline const radiativeIntensityRay& IRay(const label rayI) const;
@@ -162,11 +163,14 @@ public:
       inline scalar omegaMax() const;
 };
 
+
 inline const mousse::radiation::radiativeIntensityRay&
 mousse::radiation::fvDOM::IRay(const label rayI) const
 {
   return  IRay_[rayI];
 }
+
+
 inline const mousse::volScalarField&
 mousse::radiation::fvDOM::IRayLambda
 (
@@ -176,26 +180,38 @@ mousse::radiation::fvDOM::IRayLambda
 {
   return IRay_[rayI].ILambda(lambdaI);
 }
+
+
 inline mousse::label mousse::radiation::fvDOM::nTheta() const
 {
   return nTheta_;
 }
+
+
 inline mousse::label mousse::radiation::fvDOM::nPhi() const
 {
   return nPhi_;
 }
+
+
 inline mousse::label mousse::radiation::fvDOM::nRay() const
 {
   return nRay_;
 }
+
+
 inline mousse::label mousse::radiation::fvDOM::nLambda() const
 {
   return nLambda_;
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::a() const
 {
   return a_;
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::aLambda
 (
   const label lambdaI
@@ -203,27 +219,39 @@ inline const mousse::volScalarField& mousse::radiation::fvDOM::aLambda
 {
   return aLambda_[lambdaI];
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::G() const
 {
   return G_;
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::Qr() const
 {
   return Qr_;
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::Qin() const
 {
   return Qin_;
 }
+
+
 inline const mousse::volScalarField& mousse::radiation::fvDOM::Qem() const
 {
   return Qem_;
 }
+
+
 inline const mousse::radiation::blackBodyEmission&
 mousse::radiation::fvDOM::blackBody() const
 {
   return blackBody_;
 }
+
+
 inline const mousse::fvScalarMatrix& mousse::radiation::fvDOM::fvRayDiv
 (
   const label rayId,
@@ -232,14 +260,21 @@ inline const mousse::fvScalarMatrix& mousse::radiation::fvDOM::fvRayDiv
 {
   return fvRayDiv_[lambdaI][rayId];
 }
+
+
 inline bool mousse::radiation::fvDOM::cacheDiv() const
 {
   return cacheDiv_;
 }
+
+
 inline mousse::scalar mousse::radiation::fvDOM::omegaMax() const
 {
   return omegaMax_;
 }
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

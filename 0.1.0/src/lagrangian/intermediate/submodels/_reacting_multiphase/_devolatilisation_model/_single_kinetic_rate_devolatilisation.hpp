@@ -27,9 +27,12 @@
 //       );
 //       volatileResidualCoeff 1e-6;
 //     }
+
 #include "_devolatilisation_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class SingleKineticRateDevolatilisation
 :
@@ -50,23 +53,23 @@ class SingleKineticRateDevolatilisation
       //- Null constructor
       volatileData()
       :
-        name_(word::null),
-        A1_(0.0),
-        E_(0.0)
+        name_{word::null},
+        A1_{0.0},
+        E_{0.0}
       {}
       //- Construct from Istream
       volatileData(Istream& is)
       :
-        name_(is),
-        A1_(readScalar(is)),
-        E_(readScalar(is))
+        name_{is},
+        A1_{readScalar(is)},
+        E_{readScalar(is)}
       {}
       //- Construct as copy
       volatileData(const volatileData& vd)
       :
-        name_(vd.name_),
-        A1_(vd.A1_),
-        E_(vd.E_)
+        name_{vd.name_},
+        A1_{vd.A1_},
+        E_{vd.E_}
       {}
     //- Destructor
     ~volatileData()
@@ -74,33 +77,24 @@ class SingleKineticRateDevolatilisation
     // Public Member Functions
       // Access
         //- Return const access to the name
-        const word& name() const
-        {
-          return name_;
-        }
+        const word& name() const { return name_; }
         //- Return const access to the activation energy
-        scalar A1() const
-        {
-          return A1_;
-        }
+        scalar A1() const { return A1_; }
         //- Return const access to the pre-exponential factor
-        scalar E() const
-        {
-          return E_;
-        }
+        scalar E() const { return E_; }
     // IOstream Operators
       //- Read from Istream
       friend Istream& operator>>(Istream& is, volatileData& vd)
       {
         is.readBeginList("volatileData");
-        is  >>  vd.name_  >> vd.A1_  >> vd.E_;
+        is >>  vd.name_  >> vd.A1_  >> vd.E_;
         is.readEndList("volatileData");
         return is;
       }
       //- Write to Ostream
       friend Ostream& operator<<(Ostream& os, const volatileData& vd)
       {
-        os  << token::BEGIN_LIST
+        os << token::BEGIN_LIST
           << vd.name_ << token::SPACE
           << vd.A1_ << token::SPACE
           << vd.E_
@@ -136,12 +130,13 @@ public:
       const SingleKineticRateDevolatilisation<CloudType>& dm
     );
     //- Construct and return a clone
-    virtual autoPtr<DevolatilisationModel<CloudType> > clone() const
+    virtual autoPtr<DevolatilisationModel<CloudType>> clone() const
     {
-      return autoPtr<DevolatilisationModel<CloudType> >
-      (
-        new SingleKineticRateDevolatilisation<CloudType>(*this)
-      );
+      return
+        autoPtr<DevolatilisationModel<CloudType>>
+        {
+          new SingleKineticRateDevolatilisation<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~SingleKineticRateDevolatilisation();
@@ -161,8 +156,9 @@ public:
       scalarField& dMassDV
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_single_kinetic_rate_devolatilisation.cpp"
-#endif
+
+#include "_single_kinetic_rate_devolatilisation.ipp"
+
 #endif

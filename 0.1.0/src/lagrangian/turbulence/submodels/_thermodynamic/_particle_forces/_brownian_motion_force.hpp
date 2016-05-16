@@ -8,15 +8,13 @@
 //   mousse::BrownianMotionForce
 // Description
 //   Calculates particle Brownian motion force
-// SourceFiles
-//   _brownian_motion_force.cpp
-
 
 #include "_particle_force.hpp"
 #include "cached_random.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class BrownianMotionForce
 :
@@ -54,10 +52,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType>>
-      {
-        new BrownianMotionForce<CloudType>{*this}
-      };
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new BrownianMotionForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~BrownianMotionForce();
@@ -80,20 +79,23 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline mousse::scalar mousse::BrownianMotionForce<CloudType>::lambda() const
 {
   return lambda_;
 }
+
+
 template<class CloudType>
 inline bool mousse::BrownianMotionForce<CloudType>::turbulence() const
 {
   return turbulence_;
 }
 
-#ifdef NoRepository
-  #include "_brownian_motion_force.cpp"
-#endif
+#include "_brownian_motion_force.ipp"
+
 #endif

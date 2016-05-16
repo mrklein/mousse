@@ -37,13 +37,14 @@
 //     ...
 //   }
 //   \endverbatim
-// SourceFiles
-//   temperature_coupled_base.cpp
+
 #include "scalar_field.hpp"
 #include "named_enum.hpp"
 #include "fv_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class temperatureCoupledBase
 {
 public:
@@ -105,5 +106,8 @@ public:
     //- Write
     void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -4,8 +4,12 @@
 
 #include "basic_kinematic_parcel.hpp"
 #include "_cloud.hpp"
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicKinematicParcel, 0);
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicKinematicParcel>, 0);
+
+
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(basicKinematicParcel, 0);
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<basicKinematicParcel>, 0);
+
 }
+

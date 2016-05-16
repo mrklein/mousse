@@ -1,4 +1,4 @@
-Info<< "Reading field p\n" << endl;
+Info << "Reading field p\n" << endl;
 volScalarField p
 {
   {
@@ -10,7 +10,7 @@ volScalarField p
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -27,7 +27,7 @@ label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, simple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
-Info<< "Reading field pa\n" << endl;
+Info << "Reading field pa\n" << endl;
 volScalarField pa
 {
   {
@@ -39,7 +39,7 @@ volScalarField pa
   },
   mesh
 };
-Info<< "Reading field Ua\n" << endl;
+Info << "Reading field Ua\n" << endl;
 volVectorField Ua
 {
   {
@@ -62,7 +62,7 @@ setRefCell
   paRefValue
 );
 mesh.setFluxRequired(pa.name());
-singlePhaseTransportModel laminarTransport(U, phi);
+singlePhaseTransportModel laminarTransport{U, phi};
 autoPtr<incompressible::turbulenceModel> turbulence
 {
   incompressible::turbulenceModel::New(U, phi, laminarTransport)
@@ -85,4 +85,3 @@ volScalarField alpha
   lambda*max(Ua & U, zeroSensitivity)
 };
 zeroCells(alpha, inletCells);
-//zeroCells(alpha, outletCells);

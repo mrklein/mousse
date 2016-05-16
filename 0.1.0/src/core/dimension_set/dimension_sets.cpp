@@ -16,9 +16,9 @@ namespace mousse {
 //- Since dimensionSystems() can be reread we actually store a copy of
 //  the controlDict subDict (v.s. a reference to the subDict for e.g.
 //  dimensionedConstants)
-dictionary* dimensionSystemsPtr_{NULL};
-HashTable<dimensionedScalar>* unitSetPtr_{NULL};
-dimensionSets* writeUnitSetPtr_{NULL};
+dictionary* dimensionSystemsPtr_{nullptr};
+HashTable<dimensionedScalar>* unitSetPtr_{nullptr};
+dimensionSets* writeUnitSetPtr_{nullptr};
 
 //- Helper class to
 //  - register re-reader
@@ -59,15 +59,9 @@ dictionary& dimensionSystems()
 {
   if (!dimensionSystemsPtr_)
   {
-    dictionary* cachedPtr = NULL;
-    dimensionSystemsPtr_ = new dictionary
-    {
-      debug::switchSet
-      (
-        "DimensionSets",
-        cachedPtr
-      )
-    };
+    dictionary* cachedPtr = nullptr;
+    dimensionSystemsPtr_ =
+      new dictionary{debug::switchSet("DimensionSets", cachedPtr)};
   }
   return *dimensionSystemsPtr_;
 }
@@ -89,14 +83,13 @@ const HashTable<dimensionedScalar>& unitSet()
         << dict.name() << exit(FatalIOError);
     }
     const dictionary& unitDict = dict.subDict(unitSetCoeffs);
-    unitSetPtr_ = new HashTable<dimensionedScalar>(unitDict.size());
+    unitSetPtr_ = new HashTable<dimensionedScalar>{unitDict.size()};
     FOR_ALL_CONST_ITER(dictionary, unitDict, iter) {
       if (iter().keyword() != "writeUnits") {
         dimensionedScalar dt;
         dt.read(iter().stream(), unitDict);
         bool ok = unitSetPtr_->insert(iter().keyword(), dt);
-        if (!ok)
-        {
+        if (!ok) {
           FATAL_IO_ERROR_IN("unitSet()", dict)
             << "Duplicate unit " << iter().keyword()
             << " in DimensionSets dictionary"
@@ -112,7 +105,7 @@ const HashTable<dimensionedScalar>& unitSet()
         wordList{0}
       )
     };
-    writeUnitSetPtr_ = new dimensionSets(*unitSetPtr_, writeUnitNames);
+    writeUnitSetPtr_ = new dimensionSets{*unitSetPtr_, writeUnitNames};
     if (writeUnitNames.size() != 0 && writeUnitNames.size() != 7) {
       FATAL_IO_ERROR_IN("unitSet()", dict)
         << "Cannot find entry \"writeUnits\" in " << unitDict.name()
@@ -173,7 +166,7 @@ mousse::dimensionSets::dimensionSets
   valid_{false}
 {
   FOR_ALL(unitNames, i) {
-    units_.set(i, new dimensionedScalar(units[unitNames[i]]));
+    units_.set(i, new dimensionedScalar{units[unitNames[i]]});
   }
   if (unitNames.size() == 7) {
     valid_ = true;

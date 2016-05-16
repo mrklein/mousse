@@ -8,17 +8,17 @@
 //   mousse::barotropicCompressibilityModel
 // Description
 //   Abstract class for barotropic compressibility models
-// SourceFiles
-//   barotropic_compressibility_model.cpp
-//   newbarotropic_compressibility_model.cpp
+
 #include "iodictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "vol_fields.hpp"
 #include "dimensioned_scalar.hpp"
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class barotropicCompressibilityModel
 {
 protected:
@@ -87,5 +87,8 @@ public:
     //- Read compressibilityProperties dictionary
     virtual bool read(const dictionary& compressibilityProperties) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

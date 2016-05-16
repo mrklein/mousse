@@ -8,11 +8,12 @@
 //   mousse::randomRenumber
 // Description
 //   Random renumber. Just to see effect of renumbering.
-// SourceFiles
-//   random_renumber.cpp
+
 #include "renumber_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class randomRenumber
 :
   public renumberMethod
@@ -52,5 +53,8 @@ public:
       const pointField& cc
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

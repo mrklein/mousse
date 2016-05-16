@@ -7,6 +7,7 @@
 #include "turbulent_fluid_thermo_model.hpp"
 #include "incompressible/single_phase_transport_model.hpp"
 
+
 void calcIncompressible
 (
   const fvMesh& mesh,
@@ -16,19 +17,19 @@ void calcIncompressible
 )
 {
   #include "create_phi.inc"
-  singlePhaseTransportModel laminarTransport(U, phi);
+  singlePhaseTransportModel laminarTransport{U, phi};
   autoPtr<incompressible::turbulenceModel> model
   {
     incompressible::turbulenceModel::New(U, phi, laminarTransport)
   };
-  const volSymmTensorField Reff(model->devReff());
-  FOR_ALL(wallShearStress.boundaryField(), patchI)
-  {
+  const volSymmTensorField Reff{model->devReff()};
+  FOR_ALL(wallShearStress.boundaryField(), patchI) {
     wallShearStress.boundaryField()[patchI] =
       (-mesh.Sf().boundaryField()[patchI]/mesh.magSf().boundaryField()[patchI])
       & Reff.boundaryField()[patchI];
   }
 }
+
 
 void calcCompressible
 (
@@ -46,8 +47,7 @@ void calcCompressible
     IOobject::MUST_READ,
     IOobject::NO_WRITE
   };
-  if (!rhoHeader.headerOk())
-  {
+  if (!rhoHeader.headerOk()) {
     Info<< "    no rho field" << endl;
     return;
   }
@@ -61,14 +61,14 @@ void calcCompressible
     compressible::turbulenceModel::New(rho, U, phi, thermo)
   };
   const volSymmTensorField Reff{model->devRhoReff()};
-  FOR_ALL(wallShearStress.boundaryField(), patchI)
-  {
+  FOR_ALL(wallShearStress.boundaryField(), patchI) {
     wallShearStress.boundaryField()[patchI] =
     (
-     -mesh.Sf().boundaryField()[patchI]/mesh.magSf().boundaryField()[patchI]
+      -mesh.Sf().boundaryField()[patchI]/mesh.magSf().boundaryField()[patchI]
     ) & Reff.boundaryField()[patchI];
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -78,8 +78,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_named_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     mesh.readUpdate();
@@ -103,29 +102,15 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ,
       IOobject::NO_WRITE
     };
-    if (UHeader.headerOk())
-    {
+    if (UHeader.headerOk()) {
       Info << "Reading field U\n" << endl;
       volVectorField U{UHeader, mesh};
-      if
-      (
-        IOobject
-        {
-          basicThermo::dictName,
-          runTime.constant(),
-          mesh
-        }.headerOk()
-      )
-      {
+      if (IOobject{basicThermo::dictName, runTime.constant(), mesh}.headerOk()) {
         calcCompressible(mesh, runTime, U, wallShearStress);
-      }
-      else
-      {
+      } else {
         calcIncompressible(mesh, runTime, U, wallShearStress);
       }
-    }
-    else
-    {
+    } else {
       Info << "    no U field" << endl;
     }
     Info << "Writing wall shear stress to field " << wallShearStress.name()
@@ -135,3 +120,4 @@ int main(int argc, char *argv[])
   Info << "End" << endl;
   return 0;
 }
+

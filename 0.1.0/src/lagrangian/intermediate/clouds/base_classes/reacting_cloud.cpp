@@ -3,14 +3,22 @@
 // Copyright (C) 2016 mousse project
 
 #include "reacting_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(reactingCloud, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(reactingCloud, 0);
+
 }
+
+
 // Constructors 
 mousse::reactingCloud::reactingCloud()
 {}
+
+
 //  Destructor  
 mousse::reactingCloud::~reactingCloud()
 {}
+

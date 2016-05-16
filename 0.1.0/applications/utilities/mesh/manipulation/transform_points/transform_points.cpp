@@ -14,8 +14,10 @@
 #include "istring_stream.hpp"
 #include "mathematical_constants.hpp"
 
+
 using namespace mousse;
 using namespace mousse::constant::mathematical;
+
 
 template<class GeoField>
 void readAndRotateFields
@@ -27,13 +29,14 @@ void readAndRotateFields
 )
 {
   ReadFields(mesh, objects, flds);
-  FOR_ALL(flds, i)
-  {
+  FOR_ALL(flds, i) {
     Info << "Transforming " << flds[i].name() << endl;
-    dimensionedTensor dimT("t", flds[i].dimensions(), T);
+    dimensionedTensor dimT{"t", flds[i].dimensions(), T};
     transform(flds[i], dimT, flds[i]);
   }
 }
+
+
 void rotateFields(const argList& args, const Time& runTime, const tensor& T)
 {
   #include "create_named_mesh.inc"
@@ -63,6 +66,8 @@ void rotateFields(const argList& args, const Time& runTime, const tensor& T)
   readAndRotateFields(stFlds, mesh, T, objects);
   mesh.write();
 }
+
+
 int main(int argc, char *argv[])
 {
   argList::addOption
@@ -107,12 +112,9 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   word regionName = polyMesh::defaultRegion;
   fileName meshDir;
-  if (args.optionReadIfPresent("region", regionName))
-  {
+  if (args.optionReadIfPresent("region", regionName)) {
     meshDir = regionName/polyMesh::meshSubDir;
-  }
-  else
-  {
+  } else {
     meshDir = polyMesh::meshSubDir;
   }
   pointIOField points
@@ -130,53 +132,41 @@ int main(int argc, char *argv[])
   };
   const bool doRotateFields = args.optionFound("rotateFields");
   // this is not actually stringent enough:
-  if (args.options().empty())
-  {
+  if (args.options().empty()) {
     FATAL_ERROR_IN(args.executable())
       << "No options supplied, please use one or more of "
        "-translate, -rotate or -scale options."
       << exit(FatalError);
   }
   vector v;
-  if (args.optionReadIfPresent("translate", v))
-  {
+  if (args.optionReadIfPresent("translate", v)) {
     Info << "Translating points by " << v << endl;
     points += v;
   }
-  if (args.optionFound("rotate"))
-  {
-    Pair<vector> n1n2
-    (
-      args.optionLookup("rotate")()
-    );
+  if (args.optionFound("rotate")) {
+    Pair<vector> n1n2{args.optionLookup("rotate")()};
     n1n2[0] /= mag(n1n2[0]);
     n1n2[1] /= mag(n1n2[1]);
     tensor T = rotationTensor(n1n2[0], n1n2[1]);
     Info << "Rotating points by " << T << endl;
     points = transform(T, points);
-    if (doRotateFields)
-    {
+    if (doRotateFields) {
       rotateFields(args, runTime, T);
     }
-  }
-  else if (args.optionReadIfPresent("rollPitchYaw", v))
-  {
+  } else if (args.optionReadIfPresent("rollPitchYaw", v)) {
     Info << "Rotating points by" << nl
       << "    roll  " << v.x() << nl
       << "    pitch " << v.y() << nl
       << "    yaw   " << v.z() << nl;
     // Convert to radians
     v *= pi/180.0;
-    quaternion R(v.x(), v.y(), v.z());
+    quaternion R{v.x(), v.y(), v.z()};
     Info << "Rotating points by quaternion " << R << endl;
     points = transform(R, points);
-    if (doRotateFields)
-    {
+    if (doRotateFields) {
       rotateFields(args, runTime, R.R());
     }
-  }
-  else if (args.optionReadIfPresent("yawPitchRoll", v))
-  {
+  } else if (args.optionReadIfPresent("yawPitchRoll", v)) {
     Info << "Rotating points by" << nl
       << "    yaw   " << v.x() << nl
       << "    pitch " << v.y() << nl
@@ -186,18 +176,16 @@ int main(int argc, char *argv[])
     scalar yaw = v.x();
     scalar pitch = v.y();
     scalar roll = v.z();
-    quaternion R = quaternion(vector(0, 0, 1), yaw);
-    R *= quaternion(vector(0, 1, 0), pitch);
-    R *= quaternion(vector(1, 0, 0), roll);
+    quaternion R = quaternion{vector(0, 0, 1), yaw};
+    R *= quaternion(vector{0, 1, 0}, pitch);
+    R *= quaternion(vector{1, 0, 0}, roll);
     Info << "Rotating points by quaternion " << R << endl;
     points = transform(R, points);
-    if (doRotateFields)
-    {
+    if (doRotateFields) {
       rotateFields(args, runTime, R.R());
     }
   }
-  if (args.optionReadIfPresent("scale", v))
-  {
+  if (args.optionReadIfPresent("scale", v)) {
     Info << "Scaling points by " << v << endl;
     points.replace(vector::X, v.x()*points.component(vector::X));
     points.replace(vector::Y, v.y()*points.component(vector::Y));
@@ -209,3 +197,4 @@ int main(int argc, char *argv[])
   points.write();
   return 0;
 }
+

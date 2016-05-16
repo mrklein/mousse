@@ -1,3 +1,6 @@
+#ifndef ALGEBRAIC_HPP_
+#define ALGEBRAIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,17 +11,15 @@
 //   with a linear correction function to give a plausible profile for Xi.
 //   See report TR/HGW/10 for details on the Weller two equations model.
 //   See \link XiModel.H \endlink for more details on flame wrinkling modelling.
-// SourceFiles
-//   algebraic.cpp
-#ifndef ALGEBRAIC_HPP_
-#define ALGEBRAIC_HPP_
+
 #include "xi_model.hpp"
 #include "xi_eq_model.hpp"
 #include "xi_g_model.hpp"
-namespace mousse
-{
-namespace XiModels
-{
+
+
+namespace mousse {
+namespace XiModels {
+
 class algebraic
 :
   public XiModel
@@ -61,6 +62,9 @@ public:
       XiEqModel_().writeFields();
     }
 };
+
 }  // namespace XiModels
 }  // namespace mousse
+
 #endif
+

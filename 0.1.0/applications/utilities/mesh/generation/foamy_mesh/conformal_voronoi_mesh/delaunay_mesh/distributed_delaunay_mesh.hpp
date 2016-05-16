@@ -6,19 +6,19 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::DistributedDelaunayMesh
-// Description
-// SourceFiles
-//   distributed_delaunay_mesh_i.hpp
-//   distributed_delaunay_mesh.cpp
-//   distributed_delaunay_mesh_io.cpp
+
 #include "delaunay_mesh.hpp"
 #include "background_mesh_decomposition.hpp"
 #include "auto_ptr.hpp"
 #include "bound_box.hpp"
 #include "indexed_vertex.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mapDistribute;
+
+
 template<class Triangulation>
 class DistributedDelaunayMesh
 :
@@ -26,8 +26,8 @@ class DistributedDelaunayMesh
 {
 public:
     typedef typename Triangulation::Vertex_handle Vertex_handle;
-    typedef typename Triangulation::Cell_handle   Cell_handle;
-    typedef typename Triangulation::Point         Point;
+    typedef typename Triangulation::Cell_handle Cell_handle;
+    typedef typename Triangulation::Point Point;
     typedef typename Triangulation::Finite_vertices_iterator
       Finite_vertices_iterator;
     typedef typename Triangulation::Finite_cells_iterator
@@ -37,7 +37,7 @@ public:
     typedef typename DelaunayMesh<Triangulation>::labelPairHashSet
       labelPairHashSet;
 private:
-    autoPtr<List<boundBox> > allBackgroundMeshBounds_;
+    autoPtr<List<boundBox>> allBackgroundMeshBounds_;
   // Private Member Functions
     //-
     bool distributeBoundBoxes(const boundBox& bb);
@@ -124,9 +124,9 @@ public:
 //        distributeField();
   // Queries
 };
+
 }  // namespace mousse
-//#include "distributed_delaunay_mesh_i.hpp"
-#ifdef NoRepository
-  #include "distributed_delaunay_mesh.cpp"
-#endif
+
+#include "distributed_delaunay_mesh.ipp"
+
 #endif

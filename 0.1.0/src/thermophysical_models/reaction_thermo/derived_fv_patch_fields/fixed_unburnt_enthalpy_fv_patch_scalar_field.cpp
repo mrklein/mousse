@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "psiu_reaction_thermo.hpp"
+
+
 // Constructors 
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
@@ -17,6 +19,8 @@ fixedUnburntEnthalpyFvPatchScalarField
 :
   fixedValueFvPatchScalarField{p, iF}
 {}
+
+
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
 (
@@ -28,6 +32,8 @@ fixedUnburntEnthalpyFvPatchScalarField
 :
   fixedValueFvPatchScalarField{ptf, p, iF, mapper}
 {}
+
+
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
 (
@@ -38,6 +44,8 @@ fixedUnburntEnthalpyFvPatchScalarField
 :
   fixedValueFvPatchScalarField{p, iF, dict}
 {}
+
+
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
 (
@@ -46,6 +54,8 @@ fixedUnburntEnthalpyFvPatchScalarField
 :
   fixedValueFvPatchScalarField{tppsf}
 {}
+
+
 mousse::fixedUnburntEnthalpyFvPatchScalarField::
 fixedUnburntEnthalpyFvPatchScalarField
 (
@@ -55,17 +65,16 @@ fixedUnburntEnthalpyFvPatchScalarField
 :
   fixedValueFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::fixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const psiuReactionThermo& thermo = db().lookupObject<psiuReactionThermo>
-  (
-    basicThermo::dictName
-  );
+  const psiuReactionThermo& thermo =
+    db().lookupObject<psiuReactionThermo>(basicThermo::dictName);
   const label patchi = patch().index();
   const scalarField& pw = thermo.p().boundaryField()[patchi];
   fvPatchScalarField& Tw =
@@ -74,11 +83,15 @@ void mousse::fixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
   operator==(thermo.heu(pw, Tw, patchi));
   fixedValueFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   fixedUnburntEnthalpyFvPatchScalarField
 );
+
 }
+

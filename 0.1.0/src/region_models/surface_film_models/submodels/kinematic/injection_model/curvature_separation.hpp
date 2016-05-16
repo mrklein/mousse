@@ -16,16 +16,15 @@
 //   Based on description given by
 //     Owen and D. J. Ryley. The flow of thin liquid films around corners.
 //     International Journal of Multiphase Flow, 11(1):51-62, 1985.
-// SourceFiles
-//   curvature_separation.cpp
+
 #include "injection_model.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class curvatureSeparation
 :
   public injectionModel
@@ -38,7 +37,7 @@ protected:
     scalar deltaByR1Min_;
     //- List of radii for patches - if patch not defined, radius
     // calculated based on mesh geometry
-    List<Tuple2<label, scalar> > definedPatchRadii_;
+    List<Tuple2<label, scalar>> definedPatchRadii_;
     //- Magnitude of gravity vector
     scalar magG_;
     //- Direction of gravity vector
@@ -75,7 +74,10 @@ public:
         scalarField& diameterToInject
       );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

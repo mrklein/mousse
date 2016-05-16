@@ -20,13 +20,13 @@
 //     Journal of Computational Physics
 //     Volume 170, Issue 2, Pages 523-549, July 2001
 //   \endverbatim
-// SourceFiles
-//   explicit.cpp
+
 #include "_packing_model.hpp"
-namespace mousse
-{
-namespace PackingModels
-{
+
+
+namespace mousse {
+namespace PackingModels {
+
 template<class CloudType>
 class Explicit
 :
@@ -39,7 +39,7 @@ private:
     //- Velocity average
     const AveragingMethod<vector>* uAverage_;
     //- Stress average field
-    autoPtr<AveragingMethod<scalar> > stressAverage_;
+    autoPtr<AveragingMethod<scalar>> stressAverage_;
     //- Correction limiter
     autoPtr<CorrectionLimitingMethod> correctionLimiting_;
 public:
@@ -51,12 +51,13 @@ public:
     //- Construct copy
     Explicit(const Explicit<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<PackingModel<CloudType> > clone() const
+    virtual autoPtr<PackingModel<CloudType>> clone() const
     {
-      return autoPtr<PackingModel<CloudType> >
-      (
-        new Explicit<CloudType>(*this)
-      );
+      return
+        autoPtr<PackingModel<CloudType>>
+        {
+          new Explicit<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~Explicit();
@@ -70,9 +71,10 @@ public:
       const scalar deltaT
     ) const;
 };
+
 }  // namespace PackingModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_explicit.cpp"
-#endif
+
+#include "_explicit.ipp"
+
 #endif

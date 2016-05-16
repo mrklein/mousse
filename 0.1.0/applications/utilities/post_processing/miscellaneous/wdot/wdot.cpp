@@ -4,6 +4,7 @@
 
 #include "fv_cfd.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -11,8 +12,7 @@ int main(int argc, char *argv[])
   #include "create_time.inc"
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     mesh.readUpdate();
     volScalarField mgb
@@ -70,3 +70,4 @@ int main(int argc, char *argv[])
   }
   return 0;
 }
+

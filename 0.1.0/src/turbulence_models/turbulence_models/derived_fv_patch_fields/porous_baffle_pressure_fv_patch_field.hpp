@@ -49,11 +49,12 @@
 //   \endverbatim
 // Note
 //   The underlying \c patchType should be set to \c cyclic
-// SourceFiles
-//   porous_baffle_pressure_fv_patch_field.cpp
+
 #include "fixed_jump_fv_patch_field.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class porousBafflePressureFvPatchField
 :
   public fixedJumpFvPatchField<scalar>
@@ -101,12 +102,13 @@ public:
       const porousBafflePressureFvPatchField&
     );
     //- Construct and return a clone
-    virtual tmp<fvPatchField<scalar> > clone() const
+    virtual tmp<fvPatchField<scalar>> clone() const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new porousBafflePressureFvPatchField(*this)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new porousBafflePressureFvPatchField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     porousBafflePressureFvPatchField
@@ -115,15 +117,16 @@ public:
       const DimensionedField<scalar, volMesh>&
     );
     //- Construct and return a clone setting internal field reference
-    virtual tmp<fvPatchField<scalar> > clone
+    virtual tmp<fvPatchField<scalar>> clone
     (
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchField<scalar> >
-      (
-        new porousBafflePressureFvPatchField(*this, iF)
-      );
+      return
+        tmp<fvPatchField<scalar>>
+        {
+          new porousBafflePressureFvPatchField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -132,5 +135,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

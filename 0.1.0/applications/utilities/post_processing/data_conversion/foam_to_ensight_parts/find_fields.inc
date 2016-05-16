@@ -3,34 +3,27 @@
 HashTable<word> volumeFields;
 // 2. the fields for each cloud:
 HashTable< HashTable<word>> cloudFields;
-if (timeDirs.size())
-{
+if (timeDirs.size()) {
   IOobjectList objs{mesh, timeDirs.last().name()};
-  FOR_ALL_CONST_ITER(IOobjectList, objs, fieldIter)
-  {
+  FOR_ALL_CONST_ITER(IOobjectList, objs, fieldIter) {
     const IOobject& obj = *fieldIter();
     const word& fieldName = obj.name();
     const word& fieldType = obj.headerClassName();
-    if (fieldName.size() > 2 && fieldName(fieldName.size()-2, 2) == "_0")
-    {
+    if (fieldName.size() > 2 && fieldName(fieldName.size() - 2, 2) == "_0") {
       // ignore _0 fields
-    }
-    else if (volFieldTypes.found(fieldType))
-    {
+    } else if (volFieldTypes.found(fieldType)) {
       // simply ignore types that we don't handle
       volumeFields.insert(fieldName, fieldType);
     }
   }
-  //
   // now check for lagrangian/<cloudName>
-  //
-  fileNameList cloudDirs = readDir
-  (
-    runTime.path()/timeDirs.last().name()/regionPrefix/cloud::prefix,
-    fileName::DIRECTORY
-  );
-  FOR_ALL(cloudDirs, cloudI)
-  {
+  fileNameList cloudDirs =
+    readDir
+    (
+      runTime.path()/timeDirs.last().name()/regionPrefix/cloud::prefix,
+      fileName::DIRECTORY
+    );
+  FOR_ALL(cloudDirs, cloudI) {
     const word& cloudName = cloudDirs[cloudI];
     // Create a new hash table for each cloud
     cloudFields.insert(cloudName, HashTable<word>());
@@ -43,41 +36,34 @@ if (timeDirs.size())
       cloud::prefix/cloudName
     };
     bool hasPositions = false;
-    FOR_ALL_CONST_ITER(IOobjectList, objs, fieldIter)
-    {
+    FOR_ALL_CONST_ITER(IOobjectList, objs, fieldIter) {
       const IOobject obj = *fieldIter();
       const word& fieldName = obj.name();
       const word& fieldType = obj.headerClassName();
-      if (fieldName == "positions")
-      {
+      if (fieldName == "positions") {
         hasPositions = true;
-      }
-      else if (cloudFieldTypes.found(fieldType))
-      {
+      } else if (cloudFieldTypes.found(fieldType)) {
         // simply ignore types that we don't handle
         cloudIter().insert(fieldName, fieldType);
       }
     }
     // drop this cloud if it has no positions or is otherwise empty
-    if (!hasPositions || cloudIter().empty())
-    {
-      Info<< "removing cloud " << cloudName << endl;
+    if (!hasPositions || cloudIter().empty()) {
+      Info << "removing cloud " << cloudName << endl;
       cloudFields.erase(cloudIter);
     }
   }
   //
   // verify that the variable is present for all times
   //
-  for (label i=0; volumeFields.size() && i < timeDirs.size(); ++i)
-  {
+  for (label i=0; volumeFields.size() && i < timeDirs.size(); ++i) {
     IOobjectList objs{mesh, timeDirs[i].name()};
-    FOR_ALL_ITER(HashTable<word>, volumeFields, fieldIter)
-    {
+    FOR_ALL_ITER(HashTable<word>, volumeFields, fieldIter) {
       const word& fieldName = fieldIter.key();
-      if (!objs.found(fieldName))
-      {
+      if (!objs.found(fieldName)) {
         volumeFields.erase(fieldIter);
       }
     }
   }
 }
+

@@ -34,14 +34,14 @@
 //   mousse::radiation::radiationModel
 //   mousse::radiation::fvDOM
 //   mousse::mixedFvPatchField
-// SourceFiles
-//   grey_diffusive_radiation_mixed_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "radiation_coupled_base.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class greyDiffusiveRadiationMixedFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -85,9 +85,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new greyDiffusiveRadiationMixedFvPatchScalarField(*this)
-      );
+      {
+        new greyDiffusiveRadiationMixedFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     greyDiffusiveRadiationMixedFvPatchScalarField
@@ -102,23 +102,16 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new greyDiffusiveRadiationMixedFvPatchScalarField(*this, iF)
-      );
+      {
+        new greyDiffusiveRadiationMixedFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access
       //- Return the temperature field name
-      const word& TName() const
-      {
-        return TName_;
-      }
-      //- Return reference to the temperature field name to allow
-      //  adjustment
-      word& TName()
-      {
-        return TName_;
-      }
+      const word& TName() const { return TName_; }
+      //- Return reference to the temperature field name to allow adjustment
+      word& TName() { return TName_; }
     // Evaluation functions
       //- Update the coefficients associated with the patch field
       virtual void updateCoeffs();
@@ -126,6 +119,9 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

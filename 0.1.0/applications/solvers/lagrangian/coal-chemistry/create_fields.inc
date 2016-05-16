@@ -1,16 +1,15 @@
-Info<< "Creating combustion model\n" << endl;
+Info << "Creating combustion model\n" << endl;
 autoPtr<combustionModels::psiCombustionModel> combustion
 {
   combustionModels::psiCombustionModel::New(mesh)
 };
 psiReactionThermo& thermo = combustion->thermo();
 thermo.validate(args.executable(), "h", "e");
-SLGThermo slgThermo(mesh, thermo);
+SLGThermo slgThermo{mesh, thermo};
 basicSpecieMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
-const word inertSpecie(thermo.lookup("inertSpecie"));
-if (!composition.contains(inertSpecie))
-{
+const word inertSpecie{thermo.lookup("inertSpecie")};
+if (!composition.contains(inertSpecie)) {
   FATAL_ERROR_IN(args.executable())
     << "Specified inert specie '" << inertSpecie << "' not found in "
     << "species list. Available species:" << composition.species()
@@ -20,8 +19,7 @@ volScalarField& p = thermo.p();
 const volScalarField& T = thermo.T();
 const volScalarField& psi = thermo.psi();
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
-FOR_ALL(Y, i)
-{
+FOR_ALL(Y, i) {
   fields.add(Y[i]);
 }
 fields.add(thermo.he());
@@ -62,7 +60,7 @@ volScalarField pDyn
   mesh,
   {"zero", dimPressure, 0.0}
 };
-Info<< "\nReading field U\n" << endl;
+Info << "\nReading field U\n" << endl;
 volVectorField U
 {
   {
@@ -79,13 +77,7 @@ mesh.setFluxRequired(p.name());
 Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
 // Set the turbulence into the combustion model
 combustion->setTurbulence(turbulence());

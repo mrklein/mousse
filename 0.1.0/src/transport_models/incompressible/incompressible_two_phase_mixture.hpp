@@ -8,14 +8,15 @@
 //   mousse::incompressibleTwoPhaseMixture
 // Description
 //   A two-phase incompressible transportModel
-// SourceFiles
-//   incompressible_two_phase_mixture.cpp
+
 #include "incompressible/transport_model.hpp"
 #include "incompressible/viscosity_model.hpp"
 #include "two_phase_mixture.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class incompressibleTwoPhaseMixture
 :
   public IOdictionary,
@@ -48,39 +49,21 @@ public:
   {}
   // Member Functions
     //- Return const-access to phase1 viscosityModel
-    const viscosityModel& nuModel1() const
-    {
-      return nuModel1_();
-    }
+    const viscosityModel& nuModel1() const { return nuModel1_(); }
     //- Return const-access to phase2 viscosityModel
-    const viscosityModel& nuModel2() const
-    {
-      return nuModel2_();
-    }
+    const viscosityModel& nuModel2() const { return nuModel2_(); }
     //- Return const-access to phase1 density
-    const dimensionedScalar& rho1() const
-    {
-      return rho1_;
-    }
+    const dimensionedScalar& rho1() const { return rho1_; }
     //- Return const-access to phase2 density
-    const dimensionedScalar& rho2() const
-    {
-      return rho2_;
-    };
+    const dimensionedScalar& rho2() const { return rho2_; };
     //- Return const-access to the mixture velocity
-    const volVectorField& U() const
-    {
-      return U_;
-    }
+    const volVectorField& U() const { return U_; }
     //- Return the dynamic laminar viscosity
     tmp<volScalarField> mu() const;
     //- Return the face-interpolated dynamic laminar viscosity
     tmp<surfaceScalarField> muf() const;
     //- Return the kinematic laminar viscosity
-    virtual tmp<volScalarField> nu() const
-    {
-      return nu_;
-    }
+    virtual tmp<volScalarField> nu() const { return nu_; }
     //- Return the laminar viscosity for patch
     virtual tmp<scalarField> nu(const label patchi) const
     {
@@ -96,5 +79,8 @@ public:
     //- Read base transportProperties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

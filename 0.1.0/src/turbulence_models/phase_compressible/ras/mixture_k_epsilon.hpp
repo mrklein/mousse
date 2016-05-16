@@ -35,18 +35,18 @@
 //       sigmaEps    1.3;
 //     }
 //   \endverbatim
-// SourceFiles
-//   mixture_k_epsilon.cpp
+
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class mixtureKEpsilon
 :
-  public eddyViscosity<RASModel<BasicTurbulenceModel> >
+  public eddyViscosity<RASModel<BasicTurbulenceModel>>
 {
   // Private data
     mutable mixtureKEpsilon<BasicTurbulenceModel> *liquidTurbulencePtr_;
@@ -105,27 +105,30 @@ protected:
     //- Return the effective diffusivity for k
     tmp<volScalarField> DkEff(const volScalarField& nutm) const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          "DkEff",
-          nutm/sigmak_
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            "DkEff",
+            nutm/sigmak_
+          }
+        };
     }
     //- Return the effective diffusivity for epsilon
     tmp<volScalarField> DepsilonEff(const volScalarField& nutm) const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          "DepsilonEff",
-          nutm/sigmaEps_
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            "DepsilonEff",
+            nutm/sigmaEps_
+          }
+        };
     }
+
 public:
   typedef typename BasicTurbulenceModel::alphaField alphaField;
   typedef typename BasicTurbulenceModel::rhoField rhoField;
@@ -155,21 +158,16 @@ public:
     //- Re-read model coefficients if they have changed
     virtual bool read();
     //- Return the turbulence kinetic energy
-    virtual tmp<volScalarField> k() const
-    {
-      return k_;
-    }
+    virtual tmp<volScalarField> k() const { return k_; }
     //- Return the turbulence kinetic energy dissipation rate
-    virtual tmp<volScalarField> epsilon() const
-    {
-      return epsilon_;
-    }
+    virtual tmp<volScalarField> epsilon() const { return epsilon_; }
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "mixture_k_epsilon.cpp"
-#endif
+
+#include "mixture_k_epsilon.ipp"
+
 #endif

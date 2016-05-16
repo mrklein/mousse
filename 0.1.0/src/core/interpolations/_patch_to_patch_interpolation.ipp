@@ -13,12 +13,13 @@ template<class FromPatch, class ToPatch>
 const scalar
 PatchToPatchInterpolation<FromPatch, ToPatch>::directHitTol = 1e-5;
 
+
 // Private Member Functions 
 template<class FromPatch, class ToPatch>
 const labelList&
 PatchToPatchInterpolation<FromPatch, ToPatch>::pointAddr() const
 {
-  if (!pointAddressingPtr_) {
+  if (pointAddressingPtr_ == nullptr) {
     calcPointAddressing();
   }
   return *pointAddressingPtr_;
@@ -29,7 +30,7 @@ template<class FromPatch, class ToPatch>
 const FieldField<Field, scalar>&
 PatchToPatchInterpolation<FromPatch, ToPatch>::pointWeights() const
 {
-  if (!pointWeightsPtr_) {
+  if (pointWeightsPtr_ == nullptr) {
     calcPointAddressing();
   }
   return *pointWeightsPtr_;
@@ -40,7 +41,7 @@ template<class FromPatch, class ToPatch>
 const labelList&
 PatchToPatchInterpolation<FromPatch, ToPatch>::faceAddr() const
 {
-  if (!faceAddressingPtr_) {
+  if (faceAddressingPtr_ == nullptr) {
     calcFaceAddressing();
   }
   return *faceAddressingPtr_;
@@ -51,7 +52,7 @@ template<class FromPatch, class ToPatch>
 const FieldField<Field, scalar>&
 PatchToPatchInterpolation<FromPatch, ToPatch>::faceWeights() const
 {
-  if (!faceWeightsPtr_) {
+  if (faceWeightsPtr_ == nullptr) {
     calcFaceAddressing();
   }
   return *faceWeightsPtr_;
@@ -85,12 +86,12 @@ PatchToPatchInterpolation<FromPatch, ToPatch>::PatchToPatchInterpolation
   toPatch_{toPatch},
   alg_{alg},
   dir_{dir},
-  pointAddressingPtr_{NULL},
-  pointWeightsPtr_{NULL},
-  pointDistancePtr_{NULL},
-  faceAddressingPtr_{NULL},
-  faceWeightsPtr_{NULL},
-  faceDistancePtr_{NULL}
+  pointAddressingPtr_{nullptr},
+  pointWeightsPtr_{nullptr},
+  pointDistancePtr_{nullptr},
+  faceAddressingPtr_{nullptr},
+  faceWeightsPtr_{nullptr},
+  faceDistancePtr_{nullptr}
 {}
 
 
@@ -108,7 +109,7 @@ const scalarField&
 PatchToPatchInterpolation<FromPatch, ToPatch>
 ::pointDistanceToIntersection() const
 {
-  if (!pointDistancePtr_) {
+  if (pointDistancePtr_ == nullptr) {
     calcPointAddressing();
   }
   return *pointDistancePtr_;
@@ -120,7 +121,7 @@ const scalarField&
 PatchToPatchInterpolation<FromPatch, ToPatch>
 ::faceDistanceToIntersection() const
 {
-  if (!faceDistancePtr_) {
+  if (faceDistancePtr_ == nullptr) {
     calcFaceAddressing();
   }
   return *faceDistancePtr_;

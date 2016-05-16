@@ -8,9 +8,12 @@
 //   mousse::NoDispersion
 // Description
 //   Place holder for 'none' option
+
 #include "_dispersion_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoDispersion
 :
@@ -25,12 +28,12 @@ public:
     //- Construct copy
     NoDispersion(const NoDispersion<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DispersionModel<CloudType> > clone() const
+    virtual autoPtr<DispersionModel<CloudType>> clone() const
     {
-      return autoPtr<DispersionModel<CloudType> >
-      (
-        new NoDispersion<CloudType>(*this)
-      );
+      return autoPtr<DispersionModel<CloudType>>
+      {
+        new NoDispersion<CloudType>{*this}
+      };
     }
   //- Destructor
   virtual ~NoDispersion();
@@ -48,8 +51,10 @@ public:
       scalar& tTurb
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_dispersion.cpp"
+
+#include "_no_dispersion.ipp"
+
 #endif
-#endif
+

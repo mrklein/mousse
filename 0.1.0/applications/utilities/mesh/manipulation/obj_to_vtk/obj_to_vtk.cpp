@@ -10,18 +10,19 @@
 #include "point.hpp"
 #include "dynamic_list.hpp"
 
+
 using namespace mousse;
+
 
 string getLine(std::ifstream& is)
 {
   string line;
-  do
-  {
+  do {
     std::getline(is, line);
-  }
-  while (line.size() && line[0] == '#');
+  } while (line.size() && line[0] == '#');
   return line;
 }
+
 
 // Read space-separated vertices (with optional '/' arguments)
 labelList parseVertices(const string& line)
@@ -29,52 +30,43 @@ labelList parseVertices(const string& line)
   DynamicList<label> verts;
   // Assume 'l' is followed by space.
   string::size_type endNum = 1;
-  do
-  {
+  do {
     string::size_type startNum = line.find_first_not_of(' ', endNum);
-    if (startNum == string::npos)
-    {
+    if (startNum == string::npos) {
       break;
     }
     endNum = line.find(' ', startNum);
     string vertexSpec;
-    if (endNum != string::npos)
-    {
-      vertexSpec = line.substr(startNum, endNum-startNum);
-    }
-    else
-    {
+    if (endNum != string::npos) {
+      vertexSpec = line.substr(startNum, endNum - startNum);
+    } else {
       vertexSpec = line.substr(startNum, line.size() - startNum);
     }
     string::size_type slashPos = vertexSpec.find('/');
     label vertI = 0;
-    if (slashPos != string::npos)
-    {
+    if (slashPos != string::npos) {
       IStringStream intStream{vertexSpec.substr(0, slashPos)};
       intStream >> vertI;
-    }
-    else
-    {
+    } else {
       IStringStream intStream{vertexSpec};
       intStream >> vertI;
     }
     verts.append(vertI - 1);
-  }
-  while (true);
+  } while (true);
   return verts.shrink();
 }
+
 
 int main(int argc, char *argv[])
 {
   argList::noParallel();
   argList::validArgs.append("OBJ file");
   argList::validArgs.append("output VTK file");
-  argList args(argc, argv);
+  argList args{argc, argv};
   const fileName objName = args[1];
   const fileName outName = args[2];
-  std::ifstream OBJfile(objName.c_str());
-  if (!OBJfile.good())
-  {
+  std::ifstream OBJfile{objName.c_str()};
+  if (!OBJfile.good()) {
     FATAL_ERROR_IN(args.executable())
       << "Cannot read file " << objName << exit(FatalError);
   }
@@ -85,38 +77,27 @@ int main(int argc, char *argv[])
   DynamicList<labelList> polygons;
   bool hasWarned = false;
   label lineNo = 0;
-  while (OBJfile.good())
-  {
+  while (OBJfile.good()) {
     string line = getLine(OBJfile);
     lineNo++;
     // Read first word
     IStringStream lineStream{line};
     word cmd;
     lineStream >> cmd;
-    if (cmd == "v")
-    {
+    if (cmd == "v") {
       scalar x, y, z;
       lineStream >> x >> y >> z;
       points.append(point(x, y, z));
-    }
-    else if (cmd == "vn")
-    {
+    } else if (cmd == "vn") {
       scalar x, y, z;
       lineStream >> x >> y >> z;
       pointNormals.append(vector(x, y, z));
-    }
-    else if (cmd == "l")
-    {
+    } else if (cmd == "l") {
       polyLines.append(parseVertices(line));
-    }
-    else if (cmd == "f")
-    {
+    } else if (cmd == "f") {
       polygons.append(parseVertices(line));
-    }
-    else if (cmd != "")
-    {
-      if (!hasWarned)
-      {
+    } else if (cmd != "") {
+      if (!hasWarned) {
         hasWarned = true;
         WARNING_IN(args.executable())
           << "Unrecognized OBJ command " << cmd << nl
@@ -129,9 +110,7 @@ int main(int argc, char *argv[])
       }
     }
   }
-  //
   // Write as vtk 'polydata' file
-  //
   OFstream outFile{outName};
   outFile
     << "# vtk DataFile Version 2.0\n"
@@ -139,47 +118,39 @@ int main(int argc, char *argv[])
     << "ASCII\n"
     << "DATASET POLYDATA\n"
     << "POINTS " << points.size() << " float\n";
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     const point& pt = points[i];
     outFile << pt.x() << ' ' << pt.y() << ' ' << pt.z() << nl;
   }
   outFile
     << "VERTICES " << points.size() << ' ' << (2 * points.size()) << nl;
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     outFile << 1 << ' ' << i << nl;
   }
   label nItems = 0;
-  FOR_ALL(polyLines, polyI)
-  {
+  FOR_ALL(polyLines, polyI) {
     nItems += polyLines[polyI].size() + 1;
   }
   outFile
     << "LINES " << polyLines.size() << ' ' << nItems << nl;
-  FOR_ALL(polyLines, polyI)
-  {
+  FOR_ALL(polyLines, polyI) {
     const labelList& line = polyLines[polyI];
     outFile << line.size();
-    FOR_ALL(line, i)
-    {
+    FOR_ALL(line, i) {
       outFile << ' ' << line[i];
     }
     outFile << nl;
   }
   nItems = 0;
-  FOR_ALL(polygons, polyI)
-  {
+  FOR_ALL(polygons, polyI) {
     nItems += polygons[polyI].size() + 1;
   }
   outFile
     << "POLYGONS " << polygons.size() << ' ' << nItems << nl;
-  FOR_ALL(polygons, polyI)
-  {
+  FOR_ALL(polygons, polyI) {
     const labelList& line = polygons[polyI];
     outFile << line.size();
-    FOR_ALL(line, i)
-    {
+    FOR_ALL(line, i) {
       outFile << ' ' << line[i];
     }
     outFile << nl;
@@ -188,23 +159,17 @@ int main(int argc, char *argv[])
     << "POINT_DATA " << points.size() << nl
     << "SCALARS pointID float 1\n"
     << "LOOKUP_TABLE default\n";
-  FOR_ALL(points, i)
-  {
+  FOR_ALL(points, i) {
     outFile << i;
-    if ((i % 10) == 1)
-    {
+    if ((i % 10) == 1) {
       outFile << nl;
-    }
-    else
-    {
+    } else {
       outFile << ' ';
     }
   }
-  if (!pointNormals.empty())
-  {
+  if (!pointNormals.empty()) {
     outFile << nl << "NORMALS pointNormals float\n";
-    FOR_ALL(pointNormals, i)
-    {
+    FOR_ALL(pointNormals, i) {
       const vector& n = pointNormals[i];
       outFile << n.x() << ' ' << n.y() << ' ' << n.z() << nl;
     }
@@ -212,3 +177,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

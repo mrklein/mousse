@@ -8,44 +8,52 @@
 //   mousse::perfectFluid
 // Description
 //   Perfect gas equation of state.
-// SourceFiles
-//   perfect_fluid.cpp
+
 #include "auto_ptr.hpp"
 #include "specie.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class perfectFluid;
+
 template<class Specie>
 inline perfectFluid<Specie> operator+
 (
   const perfectFluid<Specie>&,
   const perfectFluid<Specie>&
 );
+
 template<class Specie>
 inline perfectFluid<Specie> operator-
 (
   const perfectFluid<Specie>&,
   const perfectFluid<Specie>&
 );
+
 template<class Specie>
 inline perfectFluid<Specie> operator*
 (
   const scalar,
   const perfectFluid<Specie>&
 );
+
 template<class Specie>
 inline perfectFluid<Specie> operator==
 (
   const perfectFluid<Specie>&,
   const perfectFluid<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const perfectFluid<Specie>&
 );
+
+
 template<class Specie>
 class perfectFluid
 :
@@ -135,7 +143,9 @@ public:
       const perfectFluid&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Specie>
@@ -150,6 +160,8 @@ inline mousse::perfectFluid<Specie>::perfectFluid
   R_{R},
   rho0_{rho0}
 {}
+
+
 // Constructors 
 template<class Specie>
 inline mousse::perfectFluid<Specie>::perfectFluid
@@ -162,18 +174,24 @@ inline mousse::perfectFluid<Specie>::perfectFluid
   R_{pf.R_},
   rho0_{pf.rho0_}
 {}
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::perfectFluid<Specie> >
 mousse::perfectFluid<Specie>::clone() const
 {
   return {new perfectFluid<Specie>{*this}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::perfectFluid<Specie> >
 mousse::perfectFluid<Specie>::New(Istream& is)
 {
   return {new perfectFluid<Specie>{is}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::perfectFluid<Specie> >
 mousse::perfectFluid<Specie>::New
@@ -183,37 +201,51 @@ mousse::perfectFluid<Specie>::New
 {
   return {new perfectFluid<Specie>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::R() const
 {
   return R_;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::rho(scalar p, scalar T) const
 {
   return rho0_ + p/(this->R()*T);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::s(scalar p, scalar /*T*/) const
 {
   return -RR*log(p/Pstd);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::psi(scalar /*p*/, scalar T) const
 {
   return 1.0/(this->R()*T);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::Z(scalar /*p*/, scalar /*T*/) const
 {
   return 1;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::perfectFluid<Specie>::cpMcv(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
+
+
 // Member Operators 
 template<class Specie>
 inline void mousse::perfectFluid<Specie>::operator+=
@@ -228,6 +260,8 @@ inline void mousse::perfectFluid<Specie>::operator+=
   R_ = 1.0/(molr1/R_ + molr2/pf.R_);
   rho0_ = molr1*rho0_ + molr2*pf.rho0_;
 }
+
+
 template<class Specie>
 inline void mousse::perfectFluid<Specie>::operator-=
 (
@@ -241,11 +275,15 @@ inline void mousse::perfectFluid<Specie>::operator-=
   R_ = 1.0/(molr1/R_ - molr2/pf.R_);
   rho0_ = molr1*rho0_ - molr2*pf.rho0_;
 }
+
+
 template<class Specie>
 inline void mousse::perfectFluid<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 inline mousse::perfectFluid<Specie> mousse::operator+
@@ -257,14 +295,16 @@ inline mousse::perfectFluid<Specie> mousse::operator+
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return perfectFluid<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   + static_cast<const Specie&>(pf2),
-    1.0/(molr1/pf1.R_ + molr2/pf2.R_),
-    molr1*pf1.rho0_ + molr2*pf2.rho0_
-  );
+  return
+    perfectFluid<Specie>
+    {
+      static_cast<const Specie&>(pf1) + static_cast<const Specie&>(pf2),
+      1.0/(molr1/pf1.R_ + molr2/pf2.R_),
+      molr1*pf1.rho0_ + molr2*pf2.rho0_
+    };
 }
+
+
 template<class Specie>
 inline mousse::perfectFluid<Specie> mousse::operator-
 (
@@ -275,14 +315,16 @@ inline mousse::perfectFluid<Specie> mousse::operator-
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return perfectFluid<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   - static_cast<const Specie&>(pf2),
-    1.0/(molr1/pf1.R_ - molr2/pf2.R_),
-    molr1*pf1.rho0_ - molr2*pf2.rho0_
-  );
+  return
+    perfectFluid<Specie>
+    {
+      static_cast<const Specie&>(pf1) - static_cast<const Specie&>(pf2),
+      1.0/(molr1/pf1.R_ - molr2/pf2.R_),
+      molr1*pf1.rho0_ - molr2*pf2.rho0_
+    };
 }
+
+
 template<class Specie>
 inline mousse::perfectFluid<Specie> mousse::operator*
 (
@@ -290,13 +332,16 @@ inline mousse::perfectFluid<Specie> mousse::operator*
   const perfectFluid<Specie>& pf
 )
 {
-  return perfectFluid<Specie>
-  (
-    s*static_cast<const Specie&>(pf),
-    pf.R_,
-    pf.rho0_
-  );
+  return
+    perfectFluid<Specie>
+    {
+      s*static_cast<const Specie&>(pf),
+      pf.R_,
+      pf.rho0_
+    };
 }
+
+
 template<class Specie>
 inline mousse::perfectFluid<Specie> mousse::operator==
 (
@@ -306,7 +351,7 @@ inline mousse::perfectFluid<Specie> mousse::operator==
 {
   return pf2 - pf1;
 }
-#ifdef NoRepository
-#   include "perfect_fluid.cpp"
-#endif
+
+#include "perfect_fluid.ipp"
+
 #endif

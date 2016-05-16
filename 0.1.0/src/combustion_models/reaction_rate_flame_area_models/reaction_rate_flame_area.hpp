@@ -8,17 +8,19 @@
 //   mousse::reactionRateFlameArea
 // Description
 //   Abstract class for reaction rate per flame area unit
-// SourceFiles
-//   reaction_rate_flame_area.cpp
-//   reaction_rate_flame_area_new.cpp
+
 #include "run_time_selection_tables.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"
 #include "vol_fields.hpp"
 #include "combustion_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
+
+
 class reactionRateFlameArea
 {
 protected:
@@ -82,14 +84,14 @@ public:
   // Member functions
     //- Access functions
       //- Return omega
-      const volScalarField& omega() const
-      {
-        return omega_;
-      }
+      const volScalarField& omega() const { return omega_; }
     //- Correct omega
     virtual void correct(const volScalarField& sigma) = 0;
     //- Update from dictionary
     virtual bool read(const dictionary& dictProperties);
 };
+
 }  // namespace mousse
+
 #endif
+

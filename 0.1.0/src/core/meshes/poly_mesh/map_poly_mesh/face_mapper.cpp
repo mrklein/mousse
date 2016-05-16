@@ -11,10 +11,10 @@
 // Private Member Functions 
 void mousse::faceMapper::calcAddressing() const
 {
-  if (directAddrPtr_
-      || interpolationAddrPtr_
-      || weightsPtr_
-      || insertedFaceLabelsPtr_) {
+  if (directAddrPtr_ != nullptr
+      || interpolationAddrPtr_ != nullptr
+      || weightsPtr_ != nullptr
+      || insertedFaceLabelsPtr_ != nullptr) {
     FATAL_ERROR_IN("void faceMapper::calcAddressing() const")
       << "Addressing already calculated."
       << abort(FatalError);
@@ -134,10 +134,10 @@ mousse::faceMapper::faceMapper(const mapPolyMesh& mpm)
   mpm_{mpm},
   insertedFaces_{true},
   direct_{false},
-  directAddrPtr_{NULL},
-  interpolationAddrPtr_{NULL},
-  weightsPtr_{NULL},
-  insertedFaceLabelsPtr_{NULL}
+  directAddrPtr_{nullptr},
+  interpolationAddrPtr_{nullptr},
+  weightsPtr_{nullptr},
+  insertedFaceLabelsPtr_{nullptr}
 {
   // Check for possibility of direct mapping
   direct_ = (mpm_.facesFromPointsMap().empty()
@@ -212,7 +212,7 @@ const mousse::labelUList& mousse::faceMapper::directAddressing() const
     // No inserted faces.  Re-use faceMap
     return mpm_.faceMap();
   } else {
-    if (!directAddrPtr_) {
+    if (directAddrPtr_ == nullptr) {
       calcAddressing();
     }
     return *directAddrPtr_;
@@ -230,7 +230,7 @@ const mousse::labelListList& mousse::faceMapper::addressing() const
     << "Requested interpolative addressing for a direct mapper."
     << abort(FatalError);
   }
-  if (!interpolationAddrPtr_) {
+  if (interpolationAddrPtr_ == nullptr) {
     calcAddressing();
   }
   return *interpolationAddrPtr_;
@@ -247,7 +247,7 @@ const mousse::scalarListList& mousse::faceMapper::weights() const
     << "Requested interpolative weights for a direct mapper."
     << abort(FatalError);
   }
-  if (!weightsPtr_) {
+  if (weightsPtr_ == nullptr) {
     calcAddressing();
   }
   return *weightsPtr_;
@@ -256,7 +256,7 @@ const mousse::scalarListList& mousse::faceMapper::weights() const
 
 const mousse::labelList& mousse::faceMapper::insertedObjectLabels() const
 {
-  if (!insertedFaceLabelsPtr_) {
+  if (insertedFaceLabelsPtr_ == nullptr) {
     if (!insertedObjects()) {
       // There are no inserted faces
       insertedFaceLabelsPtr_ = new labelList{0};
@@ -290,3 +290,4 @@ const mousse::labelList& mousse::faceMapper::oldPatchSizes() const
 {
   return mpm_.oldPatchSizes();
 }
+

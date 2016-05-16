@@ -9,11 +9,12 @@
 // Description
 //   Simple extension of Reaction to handle reversible reactions using
 //   equilibrium thermodynamics.
-// SourceFiles
-//   non_equilibrium_reversible_reaction.cpp
+
 #include "reaction.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template
 <
   template<class> class ReactionType,
@@ -60,26 +61,26 @@ public:
       const dictionary& dict
     );
     //- Construct and return a clone
-    virtual autoPtr<ReactionType<ReactionThermo> > clone() const
+    virtual autoPtr<ReactionType<ReactionThermo>> clone() const
     {
-      return autoPtr<ReactionType<ReactionThermo> >
-      (
+      return autoPtr<ReactionType<ReactionThermo>>
+      {
         new NonEquilibriumReversibleReaction
-          <ReactionType, ReactionThermo, ReactionRate>(*this)
-      );
+          <ReactionType, ReactionThermo, ReactionRate>{*this}
+      };
     }
     //- Construct and return a clone with new speciesTable
-    virtual autoPtr<ReactionType<ReactionThermo> > clone
+    virtual autoPtr<ReactionType<ReactionThermo>> clone
     (
       const speciesTable& species
     ) const
     {
-      return autoPtr<ReactionType<ReactionThermo> >
-      (
+      return autoPtr<ReactionType<ReactionThermo>>
+      {
         new NonEquilibriumReversibleReaction
           <ReactionType, ReactionThermo, ReactionRate>
-          (*this, species)
-      );
+          {*this, species}
+      };
     }
     //- Disallow default bitwise assignment
     void operator=
@@ -119,8 +120,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "non_equilibrium_reversible_reaction.cpp"
-#endif
+
+#include "non_equilibrium_reversible_reaction.ipp"
+
 #endif

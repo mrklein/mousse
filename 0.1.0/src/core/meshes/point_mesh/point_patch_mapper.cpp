@@ -12,10 +12,9 @@
 // Private Member Functions
 void mousse::pointPatchMapper::calcAddressing() const
 {
-  if (directAddrPtr_
-      || interpolationAddrPtr_
-      || weightsPtr_)
-  {
+  if (directAddrPtr_ != nullptr
+      || interpolationAddrPtr_ != nullptr
+      || weightsPtr_ != nullptr) {
     FATAL_ERROR_IN
     (
       "void pointPatchMapper::calcAddressing() const"
@@ -46,8 +45,8 @@ void mousse::pointPatchMapper::calcAddressing() const
     const labelList& ppm = mpm_.patchPointMap()[patch_.index()];
     FOR_ALL(ppm, i) {
       if (ppm[i] >= 0) {
-        addr[i] = labelList(1, ppm[i]);
-        w[i] = scalarList(1, 1.0);
+        addr[i] = labelList{1, ppm[i]};
+        w[i] = scalarList{1, 1.0};
       } else {
         // Inserted point.
         ///// Map from point0 (arbitrary choice)
@@ -89,9 +88,9 @@ mousse::pointPatchMapper::pointPatchMapper
     : 0
   },
   hasUnmapped_{false},
-  directAddrPtr_{NULL},
-  interpolationAddrPtr_{NULL},
-  weightsPtr_{NULL}
+  directAddrPtr_{nullptr},
+  interpolationAddrPtr_{nullptr},
+  weightsPtr_{nullptr}
 {}
 
 

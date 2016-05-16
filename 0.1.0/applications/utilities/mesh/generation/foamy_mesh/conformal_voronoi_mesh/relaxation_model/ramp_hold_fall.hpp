@@ -9,11 +9,12 @@
 // Description
 //   Piecewise linear function with a ramp from a start value to a plateaux
 //   value, holding at this, then a linear fall to an end value.
-// SourceFiles
-//   ramp_hold_fall.cpp
+
 #include "relaxation_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rampHoldFall
 :
   public relaxationModel
@@ -51,5 +52,8 @@ public:
     //- Return the current relaxation coefficient
     virtual scalar relaxation();
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "phase.hpp"
+
+
 // Constructors 
 mousse::phase::phase
 (
@@ -37,26 +39,28 @@ mousse::phase::phase
   },
   rho_{"rho", dimDensity, phaseDict_}
 {}
+
+
 // Member Functions 
 mousse::autoPtr<mousse::phase> mousse::phase::clone() const
 {
   NOT_IMPLEMENTED("phase::clone() const");
-  return autoPtr<phase>{NULL};
+  return autoPtr<phase>{nullptr};
 }
+
+
 void mousse::phase::correct()
 {
   nuModel_->correct();
 }
+
+
 bool mousse::phase::read(const dictionary& phaseDict)
 {
   phaseDict_ = phaseDict;
-  if (nuModel_->read(phaseDict_))
-  {
+  if (nuModel_->read(phaseDict_)) {
     phaseDict_.lookup("rho") >> rho_;
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }

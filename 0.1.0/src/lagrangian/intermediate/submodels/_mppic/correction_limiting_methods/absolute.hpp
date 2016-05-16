@@ -12,13 +12,13 @@
 //   coefficient of restitution \f$e\f$. The absolute velocity of the particle
 //   is used when calculating the magnitude of the limited correction.
 //   The direction is calculated using the relative velocity.
-// SourceFiles
-//   absolute.cpp
+
 #include "correction_limiting_method.hpp"
-namespace mousse
-{
-namespace CorrectionLimitingMethods
-{
+
+
+namespace mousse {
+namespace CorrectionLimitingMethods {
+
 class absolute
 :
   public CorrectionLimitingMethod
@@ -38,10 +38,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<CorrectionLimitingMethod> clone() const
     {
-      return autoPtr<CorrectionLimitingMethod>
-      (
-        new absolute(*this)
-      );
+      return
+        autoPtr<CorrectionLimitingMethod>
+        {
+          new absolute{*this}
+        };
     }
   //- Destructor
   virtual ~absolute();
@@ -54,6 +55,9 @@ public:
       const vector uMean
     ) const;
 };
+
 }  // namespace CorrectionLimitingMethods
 }  // namespace mousse
+
 #endif
+

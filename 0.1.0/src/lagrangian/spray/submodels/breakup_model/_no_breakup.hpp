@@ -9,11 +9,11 @@
 // Description
 //   Dummy breakup model for 'none'
 
-
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class NoBreakup
 :
@@ -28,12 +28,13 @@ public:
     //- Construct copy
     NoBreakup(const NoBreakup<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new NoBreakup<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new NoBreakup<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoBreakup();
@@ -66,9 +67,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_no_breakup.cpp"
-#endif
+#include "_no_breakup.ipp"
+
 #endif

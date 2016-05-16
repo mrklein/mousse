@@ -12,10 +12,10 @@
 
 void mousse::cellMapper::calcAddressing() const
 {
-  if (directAddrPtr_
-      || interpolationAddrPtr_
-      || weightsPtr_
-      || insertedCellLabelsPtr_) {
+  if (directAddrPtr_ != nullptr
+      || interpolationAddrPtr_ != nullptr
+      || weightsPtr_ != nullptr
+      || insertedCellLabelsPtr_ != nullptr) {
     FATAL_ERROR_IN("void cellMapper::calcAddressing() const")
       << "Addressing already calculated."
       << abort(FatalError);
@@ -190,10 +190,10 @@ mousse::cellMapper::cellMapper(const mapPolyMesh& mpm)
   mpm_{mpm},
   insertedCells_{true},
   direct_{false},
-  directAddrPtr_{NULL},
-  interpolationAddrPtr_{NULL},
-  weightsPtr_{NULL},
-  insertedCellLabelsPtr_{NULL}
+  directAddrPtr_{nullptr},
+  interpolationAddrPtr_{nullptr},
+  weightsPtr_{nullptr},
+  insertedCellLabelsPtr_{nullptr}
 {
   // Check for possibility of direct mapping
   if (mpm_.cellsFromPointsMap().empty()
@@ -270,7 +270,7 @@ const mousse::labelUList& mousse::cellMapper::directAddressing() const
     // No inserted cells.  Re-use cellMap
     return mpm_.cellMap();
   } else {
-    if (!directAddrPtr_) {
+    if (directAddrPtr_ == nullptr) {
       calcAddressing();
     }
     return *directAddrPtr_;
@@ -288,7 +288,7 @@ const mousse::labelListList& mousse::cellMapper::addressing() const
     << "Requested interpolative addressing for a direct mapper."
     << abort(FatalError);
   }
-  if (!interpolationAddrPtr_) {
+  if (interpolationAddrPtr_ == nullptr) {
     calcAddressing();
   }
   return *interpolationAddrPtr_;
@@ -305,7 +305,7 @@ const mousse::scalarListList& mousse::cellMapper::weights() const
     << "Requested interpolative weights for a direct mapper."
     << abort(FatalError);
   }
-  if (!weightsPtr_) {
+  if (weightsPtr_ == nullptr) {
     calcAddressing();
   }
   return *weightsPtr_;
@@ -314,7 +314,7 @@ const mousse::scalarListList& mousse::cellMapper::weights() const
 
 const mousse::labelList& mousse::cellMapper::insertedObjectLabels() const
 {
-  if (!insertedCellLabelsPtr_) {
+  if (insertedCellLabelsPtr_ == nullptr) {
     if (!insertedObjects()) {
       // There are no inserted cells
       insertedCellLabelsPtr_ = new labelList{0};
@@ -324,3 +324,4 @@ const mousse::labelList& mousse::cellMapper::insertedObjectLabels() const
   }
   return *insertedCellLabelsPtr_;
 }
+

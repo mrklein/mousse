@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
+
+
 // Constructors 
 mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
 (
@@ -17,6 +19,8 @@ mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
   pName_{"p"},
   psiName_{"thermo:psi"}
 {}
+
+
 mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
 (
   const fixedRhoFvPatchScalarField& ptf,
@@ -29,6 +33,8 @@ mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
   pName_{ptf.pName_},
   psiName_{ptf.psiName_}
 {}
+
+
 mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
 (
   const fvPatch& p,
@@ -40,6 +46,8 @@ mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
   pName_{dict.lookupOrDefault<word>("p", "p")},
   psiName_{dict.lookupOrDefault<word>("psi", "thermo:psi")}
 {}
+
+
 mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
 (
   const fixedRhoFvPatchScalarField& frpsf
@@ -49,6 +57,8 @@ mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
   pName_{frpsf.pName_},
   psiName_{frpsf.psiName_}
 {}
+
+
 mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
 (
   const fixedRhoFvPatchScalarField& frpsf,
@@ -59,11 +69,12 @@ mousse::fixedRhoFvPatchScalarField::fixedRhoFvPatchScalarField
   pName_{frpsf.pName_},
   psiName_{frpsf.psiName_}
 {}
+
+
 // Member Functions 
 void mousse::fixedRhoFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchField<scalar>& psip =
@@ -73,6 +84,8 @@ void mousse::fixedRhoFvPatchScalarField::updateCoeffs()
   operator==(psip*pp);
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::fixedRhoFvPatchScalarField::write(Ostream& os) const
 {
   fvPatchScalarField::write(os);
@@ -80,11 +93,15 @@ void mousse::fixedRhoFvPatchScalarField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "psi", "thermo:psi", psiName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   fixedRhoFvPatchScalarField
 );
+
 }
+

@@ -18,13 +18,10 @@ Info << "Calculating wall distance field" << endl;
 const volScalarField& y = wallDist::New(mesh).y();
 // Set the mean boundary-layer thickness
 dimensionedScalar ybl{"ybl", dimLength, 0};
-if (args.optionFound("ybl"))
-{
+if (args.optionFound("ybl")) {
   // If the boundary-layer thickness is provided use it
   ybl.value() = args.optionRead<scalar>("ybl");
-}
-else if (args.optionFound("Cbl"))
-{
+} else if (args.optionFound("Cbl")) {
   // Calculate boundary layer thickness as Cbl*mean distance to wall
   ybl.value() = gAverage(y)*args.optionRead<scalar>("Cbl");
 }
@@ -44,3 +41,4 @@ volScalarField mask
   {"zero", dimless, 0.0},
   zeroGradientFvPatchScalarField::typeName
 };
+

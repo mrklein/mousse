@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::indexedVertexEnum
-// Description
-// SourceFiles
-//   indexed_vertex_enum.cpp
+
 #include "named_enum.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class indexedVertexEnum
 {
 public:
@@ -43,10 +43,10 @@ public:
   friend Ostream& operator<<(mousse::Ostream&, const vertexType&);
   friend Istream& operator>>(mousse::Istream&, vertexType&);
 };
-template<>
-inline bool contiguous<indexedVertexEnum>()
-{
-  return true;
-}
+
+template<> inline bool contiguous<indexedVertexEnum>() { return true; }
+
 }  // namespace mousse
+
 #endif
+

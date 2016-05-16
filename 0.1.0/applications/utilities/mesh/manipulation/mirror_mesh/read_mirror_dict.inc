@@ -10,3 +10,4 @@
   };
   plane mirrorPlane{mirrorMeshDict};
   scalar planeTolerance{readScalar(mirrorMeshDict.lookup("planeTolerance"))};
+

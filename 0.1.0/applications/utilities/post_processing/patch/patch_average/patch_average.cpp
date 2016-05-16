@@ -4,38 +4,36 @@
 
 #include "fv_cfd.hpp"
 
+
 template<class FieldType>
 void printAverage
 (
   const fvMesh& mesh,
-  const IOobject& fieldHeader,
+  const IOobject& fH,
   const scalar area,
-  const label patchI,
+  const label pI,
   bool& done
 )
 {
-  if (!done && fieldHeader.headerClassName() == FieldType::typeName)
-  {
-    Info << "    Reading " << fieldHeader.headerClassName() << " "
-      << fieldHeader.name() << endl;
-    FieldType field{fieldHeader, mesh};
-    typename FieldType::value_type sumField =
-      pTraits<typename FieldType::value_type>::zero;
-    if (area > 0)
-    {
-      sumField = gSum
-      (
-        mesh.magSf().boundaryField()[patchI]*field.boundaryField()[patchI]
-      )/area;
-    }
-    Info << "    Average of " << fieldHeader.headerClassName()
-      << " over patch "
-      << mesh.boundary()[patchI].name()
-      << '[' << patchI << ']' << " = "
-      << sumField << endl;
-    done = true;
+  if (done || fH.headerClassName() != FieldType::typeName)
+    return;
+  Info << "    Reading " << fH.headerClassName() << " "
+    << fH.name() << endl;
+  FieldType f{fH, mesh};
+  typename FieldType::value_type sumField =
+    pTraits<typename FieldType::value_type>::zero;
+  if (area > 0) {
+    sumField =
+      gSum(mesh.magSf().boundaryField()[pI]*f.boundaryField()[pI])/area;
   }
+  Info << "    Average of " << fH.headerClassName()
+    << " over patch "
+    << mesh.boundary()[pI].name()
+    << '[' << pI << ']' << " = "
+    << sumField << endl;
+  done = true;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -49,8 +47,7 @@ int main(int argc, char *argv[])
   #include "create_named_mesh.inc"
   const word fieldName = args[1];
   const word patchName = args[2];
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject io
@@ -61,12 +58,10 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check field exists
-    if (io.headerOk())
-    {
+    if (io.headerOk()) {
       mesh.readUpdate();
       const label patchI = mesh.boundaryMesh().findPatchID(patchName);
-      if (patchI < 0)
-      {
+      if (patchI < 0) {
         FatalError
           << "Unable to find patch " << patchName << nl
           << exit(FatalError);
@@ -78,17 +73,14 @@ int main(int argc, char *argv[])
       printAverage<volSphericalTensorField>(mesh, io, area, patchI, done);
       printAverage<volSymmTensorField>(mesh, io, area, patchI, done);
       printAverage<volTensorField>(mesh, io, area, patchI, done);
-      if (!done)
-      {
+      if (!done) {
         FatalError
           << "Only possible to average volFields."
           << " Field " << fieldName << " is of type "
           << io.headerClassName()
           << nl << exit(FatalError);
       }
-    }
-    else
-    {
+    } else {
       Info << "    No field " << fieldName << endl;
     }
     Info << endl;
@@ -96,3 +88,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

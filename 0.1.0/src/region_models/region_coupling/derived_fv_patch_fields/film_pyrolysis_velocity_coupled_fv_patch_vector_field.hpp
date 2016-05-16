@@ -24,11 +24,12 @@
 //       value           uniform   (0 0 0); // initial velocity / [m/s]
 //     }
 //   \endverbatim
-// SourceFiles
-//   film_pyrolysis_velocity_coupled_fv_patch_vector_field.cpp
+
 #include "fixed_value_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class filmPyrolysisVelocityCoupledFvPatchVectorField
 :
   public fixedValueFvPatchVectorField
@@ -76,10 +77,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchVectorField> clone() const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new filmPyrolysisVelocityCoupledFvPatchVectorField(*this)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new filmPyrolysisVelocityCoupledFvPatchVectorField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     filmPyrolysisVelocityCoupledFvPatchVectorField
@@ -93,10 +95,11 @@ public:
       const DimensionedField<vector, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchVectorField>
-      (
-        new filmPyrolysisVelocityCoupledFvPatchVectorField(*this, iF)
-      );
+      return
+        tmp<fvPatchVectorField>
+        {
+          new filmPyrolysisVelocityCoupledFvPatchVectorField{*this, iF}
+        };
     }
   // Member functions
     // Access
@@ -125,5 +128,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

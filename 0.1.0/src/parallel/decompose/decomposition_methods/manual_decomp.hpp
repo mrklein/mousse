@@ -8,11 +8,12 @@
 //   mousse::manualDecomp
 // Description
 //   Decomposition given a cell-to-processor association in a file
-// SourceFiles
-//   manual_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class manualDecomp
 :
   public decompositionMethod
@@ -34,10 +35,7 @@ public:
   // Member Functions
     //- Manual decompose does not care about proc boundaries - is all
     //  up to the user.
-    virtual bool parallelAware() const
-    {
-      return true;
-    }
+    virtual bool parallelAware() const { return true; }
     //- Return for every coordinate the wanted processor number. Use the
     //  mesh connectivity (if needed)
     virtual labelList decompose
@@ -65,8 +63,11 @@ public:
         "decompose(const labelListList&, const pointField&"
         ", const scalarField&)"
       );
-      return labelList(0);
+      return labelList{0};
     }
 };
+
 }  // namespace mousse
+
 #endif
+

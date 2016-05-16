@@ -6,17 +6,19 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::nonUniformField
-// Description
-// SourceFiles
-//   non_uniform_field.cpp
+
 #include "tri_surface_fields.hpp"
 #include "primitive_patch_interpolation.hpp"
 #include "surface_cell_size_function.hpp"
 #include "cell_size_calculation_type.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfaceMesh;
 class searchableSurface;
+
+
 class nonUniformField
 :
   public surfaceCellSizeFunction
@@ -55,5 +57,8 @@ public:
         const label index
       ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

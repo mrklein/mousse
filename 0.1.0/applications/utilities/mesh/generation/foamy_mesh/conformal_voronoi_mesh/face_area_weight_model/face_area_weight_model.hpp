@@ -11,14 +11,15 @@
 //   controller based on an argument faceAreaFraction value, typically the ratio
 //   of the area of the face in question to the area of a square face with a side
 //   length of the local target cell size.
-// SourceFiles
-//   face_area_weight_model.cpp
+
 #include "point.hpp"
 #include "dictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class faceAreaWeightModel
 :
   public dictionary
@@ -69,5 +70,8 @@ public:
     //- Return the current faceAreaWeight coefficient
     virtual scalar faceAreaWeight(scalar faceAreaFraction) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -1,3 +1,6 @@
+#ifndef INCOMPRESSIBLE_TWO_PHASE_INTERACTING_MIXTURE_HPP_
+#define INCOMPRESSIBLE_TWO_PHASE_INTERACTING_MIXTURE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -7,17 +10,16 @@
 //   A two-phase incompressible transportModel for interacting phases
 //   requiring the direct evaluation of the mixture viscosity,
 //   e.g. activated sludge or slurry.
-// SourceFiles
-//   incompressible_two_phase_interacting_mixture.cpp
-#ifndef INCOMPRESSIBLE_TWO_PHASE_INTERACTING_MIXTURE_HPP_
-#define INCOMPRESSIBLE_TWO_PHASE_INTERACTING_MIXTURE_HPP_
+
 #include "compressible_transport_model.hpp"
 #include "incompressible/viscosity_model.hpp"
 #include "mixture_viscosity_model.hpp"
 #include "two_phase_mixture.hpp"
 #include "iodictionary.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class incompressibleTwoPhaseInteractingMixture
 :
   public IOdictionary,
@@ -51,46 +53,22 @@ public:
   {}
   // Member Functions
     //- Return const-access to the mixture viscosityModel
-    const mixtureViscosityModel& muModel() const
-    {
-      return muModel_();
-    }
+    const mixtureViscosityModel& muModel() const { return muModel_(); }
     //- Return const-access to the continuous-phase viscosityModel
-    const viscosityModel& nucModel() const
-    {
-      return nucModel_();
-    }
+    const viscosityModel& nucModel() const { return nucModel_(); }
     //- Return const-access to the dispersed-phase density
-    const dimensionedScalar& rhod() const
-    {
-      return rhod_;
-    }
+    const dimensionedScalar& rhod() const { return rhod_; }
     //- Return const-access to continuous-phase density
-    const dimensionedScalar& rhoc() const
-    {
-      return rhoc_;
-    };
+    const dimensionedScalar& rhoc() const { return rhoc_; };
     //- Return the diameter of the dispersed-phase particles
-    const dimensionedScalar& dd() const
-    {
-      return dd_;
-    }
+    const dimensionedScalar& dd() const { return dd_; }
     //- Optional maximum phase-fraction (e.g. packing limit)
     //  Defaults to 1
-    scalar alphaMax() const
-    {
-      return alphaMax_;
-    }
+    scalar alphaMax() const { return alphaMax_; }
     //- Return const-access to the mixture velocity
-    const volVectorField& U() const
-    {
-      return U_;
-    }
+    const volVectorField& U() const { return U_; }
     //- Return the dynamic mixture viscosity
-    tmp<volScalarField> mu() const
-    {
-      return mu_;
-    }
+    tmp<volScalarField> mu() const { return mu_; }
     //- Return the dynamic mixture viscosity for patch
     virtual tmp<scalarField> mu(const label patchi) const
     {
@@ -109,10 +87,7 @@ public:
         + alpha2_.boundaryField()[patchi]*rhoc_.value();
     }
     //- Return the mixture viscosity
-    virtual tmp<volScalarField> nu() const
-    {
-      return mu_/rho();
-    }
+    virtual tmp<volScalarField> nu() const { return mu_/rho(); }
     //- Return the mixture viscosity for patch
     virtual tmp<scalarField> nu(const label patchi) const
     {
@@ -126,5 +101,8 @@ public:
     //- Read base transportProperties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
+
 #endif
+

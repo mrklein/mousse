@@ -24,12 +24,13 @@
 //     nInternalSurface     9522    9510    9526    9489
 //         nReferred     7545    7497    7500    7587
 //   \endverbatim
-// SourceFiles
-//   print_table.cpp
+
 #include "hash_table.hpp"
 #include "ostream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class KeyType, class DataType>
 class PrintTable
 {
@@ -62,7 +63,9 @@ public:
       const bool printAverage = false
     ) const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class KeyType, class DataType>
@@ -74,7 +77,8 @@ void mousse::PrintTable<KeyType, DataType>::add
 {
   table_.set(K, D);
 }
-#ifdef NoRepository
-  #include "print_table.cpp"
-#endif
+
+
+#include "print_table.ipp"
+
 #endif

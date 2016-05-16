@@ -10,17 +10,16 @@
 //   Film contact angle force
 //   The effect of the contact angle force can be ignored over a specified
 //   distance from patches.
-// SourceFiles
-//   contact_angle_force.cpp
+
 #include "force.hpp"
 #include "distribution_model.hpp"
 #include "cached_random.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class contactAngleForce
 :
   public force
@@ -59,7 +58,10 @@ public:
       //- Correct
       virtual tmp<fvVectorMatrix> correct(volVectorField& U);
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

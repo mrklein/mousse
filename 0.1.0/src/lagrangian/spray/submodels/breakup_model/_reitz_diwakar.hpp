@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TREITZ_DIWAKAR_HPP_
+#define LAGRANGIAN_SPRAY_SUBMODELS_BREAKUP_MODEL_TREITZ_DIWAKAR_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -21,13 +24,11 @@
 //   SAE Tech. paper series, 870598 (1987)
 //   @endverbatim
 
-#ifndef reitz_diwakar_hpp_
-#define reitz_diwakar_hpp_
-
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class ReitzDiwakar
 :
@@ -48,12 +49,13 @@ public:
     //- Construct copy
     ReitzDiwakar(const ReitzDiwakar<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new ReitzDiwakar<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new ReitzDiwakar<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ReitzDiwakar();
@@ -84,8 +86,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_reitz_diwakar.cpp"
-#endif
+
+#include "_reitz_diwakar.ipp"
+
 #endif

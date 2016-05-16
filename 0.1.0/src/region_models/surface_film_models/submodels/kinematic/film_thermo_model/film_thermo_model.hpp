@@ -8,17 +8,15 @@
 //   mousse::filmThermoModel
 // Description
 //   Base class for film thermo models
-// SourceFiles
-//   film_thermo_model.cpp
-//   film_thermo_model_new.cpp
+
 #include "film_sub_model_base.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class filmThermoModel
 :
   public filmSubModelBase
@@ -97,7 +95,10 @@ public:
       //- Return thermal conductivity [W/m/K]
       virtual tmp<volScalarField> kappa() const = 0;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

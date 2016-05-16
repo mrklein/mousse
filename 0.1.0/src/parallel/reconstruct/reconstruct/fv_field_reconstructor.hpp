@@ -8,16 +8,16 @@
 //   mousse::fvFieldReconstructor
 // Description
 //   Finite volume reconstructor for volume and surface fields.
-// SourceFiles
-//   fv_field_reconstructor.cpp
-//   fv_field_reconstructor_reconstruct_fields.cpp
+
 #include "ptr_list.hpp"
 #include "fv_mesh.hpp"
 #include "ioobject_list.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "label_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvFieldReconstructor
 {
   // Private data
@@ -45,25 +45,13 @@ public:
         //- Construct given size
         fvPatchFieldReconstructor(const label size)
         :
-          size_(size)
+          size_{size}
         {}
       // Member functions
-        label size() const
-        {
-          return size_;
-        }
-        bool direct() const
-        {
-          return true;
-        }
-        bool hasUnmapped() const
-        {
-          return false;
-        }
-        const labelUList& directAddressing() const
-        {
-          return labelUList::null();
-        }
+        label size() const { return size_; }
+        bool direct() const { return true; }
+        bool hasUnmapped() const { return false; }
+        const labelUList& directAddressing() const { return labelUList::null(); }
     };
   // Constructors
     //- Construct from components
@@ -81,10 +69,7 @@ public:
     fvFieldReconstructor& operator=(const fvFieldReconstructor&) = delete;
   // Member Functions
     //- Return number of fields reconstructed
-    label nReconstructed() const
-    {
-      return nReconstructed_;
-    }
+    label nReconstructed() const { return nReconstructed_; }
     //- Reconstruct volume internal field
     template<class Type>
     tmp<DimensionedField<Type, volMesh> >
@@ -143,8 +128,10 @@ public:
       const HashSet<word>& selectedFields
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_field_reconstructor_reconstruct_fields.cpp"
+
+#include "fv_field_reconstructor_reconstruct_fields.ipp"
+
 #endif
-#endif
+

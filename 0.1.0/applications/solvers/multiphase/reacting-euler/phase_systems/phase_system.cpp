@@ -7,11 +7,19 @@
 #include "aspect_ratio_model.hpp"
 #include "surface_interpolate.hpp"
 #include "fvc_ddt.hpp"
+#include "blending_method.hpp"
+
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(phaseSystem, 0);
+
 }
+
 const mousse::word mousse::phaseSystem::propertiesName{"phaseProperties"};
+
+
 // Protected Member Functions 
 mousse::tmp<mousse::surfaceScalarField> mousse::phaseSystem::calcPhi
 (
@@ -26,29 +34,26 @@ mousse::tmp<mousse::surfaceScalarField> mousse::phaseSystem::calcPhi
       fvc::interpolate(phaseModels[0])*phaseModels[0].phi()
     }
   };
-  for (label phasei=1; phasei<phaseModels.size(); phasei++)
-  {
+  for (label phasei=1; phasei<phaseModels.size(); phasei++) {
     tmpPhi() +=
       fvc::interpolate(phaseModels[phasei])*phaseModels[phasei].phi();
   }
   return tmpPhi;
 }
+
+
 void mousse::phaseSystem::generatePairs
 (
   const dictTable& modelDicts
 )
 {
-  FOR_ALL_CONST_ITER(dictTable, modelDicts, iter)
-  {
+  FOR_ALL_CONST_ITER(dictTable, modelDicts, iter) {
     const phasePairKey& key = iter.key();
     // pair already exists
-    if (phasePairs_.found(key))
-    {
+    if (phasePairs_.found(key)) {
       // do nothing ...
-    }
-    // new ordered pair
-    else if (key.ordered())
-    {
+    } else if (key.ordered()) {
+      // new ordered pair
       phasePairs_.insert
       (
         key,
@@ -61,10 +66,8 @@ void mousse::phaseSystem::generatePairs
           }
         }
       );
-    }
-    // new unordered pair
-    else
-    {
+    } else {
+      // new unordered pair
       phasePairs_.insert
       (
         key,
@@ -80,6 +83,8 @@ void mousse::phaseSystem::generatePairs
     }
   }
 }
+
+
 // Constructors 
 mousse::phaseSystem::phaseSystem
 (
@@ -113,8 +118,7 @@ mousse::phaseSystem::phaseSystem
 {
   phi_.writeOpt() = IOobject::AUTO_WRITE;
   // Blending methods
-  FOR_ALL_CONST_ITER(dictionary, subDict("blending"), iter)
-  {
+  FOR_ALL_CONST_ITER(dictionary, subDict("blending"), iter) {
     blendingMethods_.insert
     (
       iter().dict().dictName(),
@@ -130,19 +134,24 @@ mousse::phaseSystem::phaseSystem
   generatePairsAndSubModels("aspectRatio", aspectRatioModels_);
   correctKinematics();
 }
+
+
 // Destructor 
 mousse::phaseSystem::~phaseSystem()
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::volScalarField> mousse::phaseSystem::rho() const
 {
   tmp<volScalarField> tmpRho{phaseModels_[0]*phaseModels_[0].rho()};
-  for (label phasei=1; phasei<phaseModels_.size(); phasei++)
-  {
+  for (label phasei=1; phasei<phaseModels_.size(); phasei++) {
     tmpRho() += phaseModels_[phasei]*phaseModels_[phasei].rho();
   }
   return tmpRho;
 }
+
+
 mousse::tmp<mousse::volVectorField> mousse::phaseSystem::U() const
 {
   tmp<volVectorField> tmpU{phaseModels_[0]*phaseModels_[0].U()};
@@ -152,91 +161,95 @@ mousse::tmp<mousse::volVectorField> mousse::phaseSystem::U() const
   }
   return tmpU;
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::phaseSystem::sigma(const phasePairKey& key) const
 {
-  if (surfaceTensionModels_.found(key))
-  {
+  if (surfaceTensionModels_.found(key)) {
     return surfaceTensionModels_[key]->sigma();
-  }
-  else
-  {
-    return tmp<volScalarField>
-    {
-      new volScalarField
+  } else {
+    return
+      tmp<volScalarField>
       {
+        new volScalarField
         {
-          surfaceTensionModel::typeName + ":sigma",
-          this->mesh_.time().timeName(),
+          {
+            surfaceTensionModel::typeName + ":sigma",
+            this->mesh_.time().timeName(),
+            this->mesh_,
+            IOobject::NO_READ,
+            IOobject::NO_WRITE,
+            false
+          },
           this->mesh_,
-          IOobject::NO_READ,
-          IOobject::NO_WRITE,
-          false
-        },
-        this->mesh_,
-        {"zero", surfaceTensionModel::dimSigma, 0}
-      }
-    };
+          {"zero", surfaceTensionModel::dimSigma, 0}
+        }
+      };
   }
 }
+
+
 void mousse::phaseSystem::solve()
 {}
+
+
 void mousse::phaseSystem::correct()
 {
-  FOR_ALL(phaseModels_, phasei)
-  {
+  FOR_ALL(phaseModels_, phasei) {
     phaseModels_[phasei].correct();
   }
 }
+
+
 void mousse::phaseSystem::correctKinematics()
 {
   bool updateDpdt = false;
-  FOR_ALL(phaseModels_, phasei)
-  {
+  FOR_ALL(phaseModels_, phasei) {
     phaseModels_[phasei].correctKinematics();
     updateDpdt = updateDpdt || phaseModels_[phasei].thermo().dpdt();
   }
   // Update the pressure time-derivative if required
-  if (updateDpdt)
-  {
+  if (updateDpdt) {
     dpdt_ = fvc::ddt(phaseModels_.begin()().thermo().p());
   }
 }
+
+
 void mousse::phaseSystem::correctThermo()
 {
-  FOR_ALL(phaseModels_, phasei)
-  {
+  FOR_ALL(phaseModels_, phasei) {
     phaseModels_[phasei].correctThermo();
   }
 }
+
+
 void mousse::phaseSystem::correctTurbulence()
 {
-  FOR_ALL(phaseModels_, phasei)
-  {
+  FOR_ALL(phaseModels_, phasei) {
     phaseModels_[phasei].correctTurbulence();
   }
 }
+
+
 void mousse::phaseSystem::correctEnergyTransport()
 {
-  FOR_ALL(phaseModels_, phasei)
-  {
+  FOR_ALL(phaseModels_, phasei) {
     phaseModels_[phasei].correctEnergyTransport();
   }
 }
+
+
 bool mousse::phaseSystem::read()
 {
-  if (regIOobject::read())
-  {
+  if (regIOobject::read()) {
     bool readOK = true;
-    FOR_ALL(phaseModels_, phasei)
-    {
+    FOR_ALL(phaseModels_, phasei) {
       readOK &= phaseModels_[phasei].read();
     }
     // models ...
     return readOK;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+

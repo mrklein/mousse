@@ -9,16 +9,15 @@
 // Description
 //   Convective heat transfer model based on a re-working of a Nusselt number
 //   correlation
-// SourceFiles
-//   mapped_convective_heat_transfer.cpp
+
 #include "heat_transfer_model.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class mappedConvectiveHeatTransfer
 :
   public heatTransferModel
@@ -57,7 +56,10 @@ public:
       //- Return the heat transfer coefficient [W/m2/K]
       virtual tmp<volScalarField> h() const;
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

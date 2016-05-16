@@ -1,16 +1,15 @@
   fvVectorMatrix UEqn
   {
     fvm::ddt(rho, U)
-    + fvm::div(rhoPhi, U)
-    + turbulence->divDevRhoReff(U)
+  + fvm::div(rhoPhi, U)
+  + turbulence->divDevRhoReff(U)
   };
   UEqn.relax();
-  if (pimple.momentumPredictor())
-  {
+  if (pimple.momentumPredictor()) {
     solve
     (
       UEqn
-      ==
+    ==
       fvc::reconstruct
       (
         (interface.surfaceTensionForce() - ghf*fvc::snGrad(rho)

@@ -7,8 +7,13 @@
 
 #include "read_fields.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<readFields> IOreadFields;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<readFields> IOreadFields;
+
 }
+
 #endif
+

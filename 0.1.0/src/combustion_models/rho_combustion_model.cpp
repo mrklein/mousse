@@ -3,15 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "rho_combustion_model.hpp"
-/* * * * * * * * * * * * * * * private static data * * * * * * * * * * * * * */
-namespace mousse
-{
-namespace combustionModels
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(rhoCombustionModel, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(rhoCombustionModel, dictionary);
+
+
+namespace mousse {
+namespace combustionModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(rhoCombustionModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(rhoCombustionModel, dictionary);
+
 }
 }
+
+
 // Constructors 
 mousse::combustionModels::rhoCombustionModel::rhoCombustionModel
 (
@@ -20,20 +23,21 @@ mousse::combustionModels::rhoCombustionModel::rhoCombustionModel
   const word& phaseName
 )
 :
-  combustionModel(modelType, mesh, phaseName)
+  combustionModel{modelType, mesh, phaseName}
 {}
+
+
 // Destructor 
 mousse::combustionModels::rhoCombustionModel::~rhoCombustionModel()
 {}
+
+
 // Member Functions 
 bool mousse::combustionModels::rhoCombustionModel::read()
 {
-  if (combustionModel::read())
-  {
+  if (combustionModel::read()) {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+

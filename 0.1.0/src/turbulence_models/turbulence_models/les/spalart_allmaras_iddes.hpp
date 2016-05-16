@@ -18,14 +18,14 @@
 //     capabilities.
 //     International Journal of Heat and Fluid Flow, 29(6), 1638-1649.
 //   \endverbatim
-// SourceFiles
-//   spalart_allmaras_iddes.cpp
+
 #include "spalart_allmaras_des.hpp"
 #include "iddes_delta.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class SpalartAllmarasIDDES
 :
@@ -87,9 +87,10 @@ public:
     //- Read LESProperties dictionary
     virtual bool read();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "spalart_allmaras_iddes.cpp"
-#endif
+
+#include "spalart_allmaras_iddes.ipp"
+
 #endif

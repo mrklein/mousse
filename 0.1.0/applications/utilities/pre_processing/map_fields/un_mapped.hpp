@@ -8,16 +8,18 @@
 #include "ioobject_list.hpp"
 #include "os_specific.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type>
 void UnMapped(const IOobjectList& objects)
 {
   IOobjectList fields = objects.lookupClass(Type::typeName);
-  FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter)
-  {
+  FOR_ALL_CONST_ITER(IOobjectList, fields, fieldIter) {
     mvBak(fieldIter()->objectPath(), "unmapped");
   }
 }
+
 }  // namespace mousse
+
 #endif

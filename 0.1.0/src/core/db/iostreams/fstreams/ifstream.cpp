@@ -17,7 +17,7 @@ DEFINE_TYPE_NAME_AND_DEBUG(IFstream, 0);
 
 mousse::IFstreamAllocator::IFstreamAllocator(const fileName& pathname)
 :
-  ifPtr_{NULL},
+  ifPtr_{nullptr},
   compression_{IOstream::UNCOMPRESSED}
 {
   if (pathname.empty()) {
@@ -34,7 +34,7 @@ mousse::IFstreamAllocator::IFstreamAllocator(const fileName& pathname)
           "decompressing " << pathname + ".gz" << endl;
     }
     delete ifPtr_;
-    ifPtr_ = new igzstream((pathname + ".gz").c_str());
+    ifPtr_ = new igzstream{(pathname + ".gz").c_str()};
     if (ifPtr_->good()) {
       compression_ = IOstream::COMPRESSED;
     }

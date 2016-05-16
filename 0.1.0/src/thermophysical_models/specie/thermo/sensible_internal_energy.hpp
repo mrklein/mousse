@@ -9,8 +9,9 @@
 // Description
 //   Thermodynamics mapping class to expose the sensible internal energy function
 //   as the standard internal energy function e(T).
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Thermo>
 class sensibleInternalEnergy
 {
@@ -82,5 +83,8 @@ public:
         return thermo.TEs(e, p, T0);
       }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -34,19 +34,21 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   read_fields.cpp
-//   io_read_fields.hpp
+
 #include "ofstream.hpp"
 #include "point_field_fwd.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
+
+
 class readFields
 {
 protected:
@@ -74,8 +76,8 @@ protected:
     void loadField
     (
       const word&,
-      PtrList<GeometricField<Type, fvPatchField, volMesh> >&,
-      PtrList<GeometricField<Type, fvsPatchField, surfaceMesh> >&
+      PtrList<GeometricField<Type, fvPatchField, volMesh>>&,
+      PtrList<GeometricField<Type, fvsPatchField, surfaceMesh>>&
     ) const;
 public:
   //- Runtime type information
@@ -119,8 +121,9 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "read_fields_templates.cpp"
-#endif
+
+#include "read_fields.ipp"
+
 #endif

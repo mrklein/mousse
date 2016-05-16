@@ -8,14 +8,15 @@
 //   mousse::ParticleStressModel
 // Description
 //   Base class for inter-particle stress models.
-// SourceFiles
-//   particle_stress_model.cpp
+
 #include "field.hpp"
 #include "field_field.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ParticleStressModel
 {
 protected:
@@ -54,26 +55,29 @@ public:
     //- Access max volume fraction
     scalar alphaPacked() const;
     //- Collision stress
-    virtual tmp<Field<scalar> > tau
+    virtual tmp<Field<scalar>> tau
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const = 0;
     //- Collision stress derivaive w.r.t. the volume fraction
-    virtual tmp<Field<scalar> > dTaudTheta
+    virtual tmp<Field<scalar>> dTaudTheta
     (
       const Field<scalar>& alpha,
       const Field<scalar>& rho,
       const Field<scalar>& uRms
     ) const = 0;
     //- Collision stress using FieldFields
-    tmp<FieldField<Field, scalar> > tau
+    tmp<FieldField<Field, scalar>> tau
     (
       const FieldField<Field, scalar>& alpha,
       const FieldField<Field, scalar>& rho,
       const FieldField<Field, scalar>& uRms
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -6,6 +6,7 @@
 #include "single_phase_transport_model.hpp"
 #include "turbulent_transport_model.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -14,8 +15,7 @@ int main(int argc, char *argv[])
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_mesh.inc"
 
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     #include "create_fields.inc"
@@ -26,35 +26,25 @@ int main(int argc, char *argv[])
     Info << "\nRetrieving field R from turbulence model" << endl;
     const volSymmTensorField R{RASModel->R()};
     // Check availability of tubulence fields
-    if (!IOobject{"k", runTime.timeName(), mesh}.headerOk())
-    {
+    if (!IOobject{"k", runTime.timeName(), mesh}.headerOk()) {
       Info << "\nWriting turbulence field k" << endl;
       k.write();
-    }
-    else
-    {
+    } else {
       Info << "\nTurbulence k field already exists" << endl;
     }
-    if (!IOobject{"epsilon", runTime.timeName(), mesh}.headerOk())
-    {
+    if (!IOobject{"epsilon", runTime.timeName(), mesh}.headerOk()) {
       Info << "\nWriting turbulence field epsilon" << endl;
       epsilon.write();
-    }
-    else
-    {
+    } else {
       Info << "\nTurbulence epsilon field already exists" << endl;
     }
-    if (!IOobject{"R", runTime.timeName(), mesh}.headerOk())
-    {
+    if (!IOobject{"R", runTime.timeName(), mesh}.headerOk()) {
       Info << "\nWriting turbulence field R" << endl;
       R.write();
-    }
-    else
-    {
+    } else {
       Info << "\nTurbulence R field already exists" << endl;
     }
-    if (!IOobject{"omega", runTime.timeName(), mesh}.headerOk())
-    {
+    if (!IOobject{"omega", runTime.timeName(), mesh}.headerOk()) {
       const scalar Cmu = 0.09;
       Info << "creating omega" << endl;
       volScalarField omega
@@ -69,12 +59,11 @@ int main(int argc, char *argv[])
       };
       Info << "\nWriting turbulence field omega" << endl;
       omega.write();
-    }
-    else
-    {
+    } else {
       Info << "\nTurbulence omega field already exists" << endl;
     }
   }
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

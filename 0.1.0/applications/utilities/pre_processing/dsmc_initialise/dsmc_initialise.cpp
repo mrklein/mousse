@@ -5,12 +5,12 @@
 #include "fv_cfd.hpp"
 #include "dsmc_cloud.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_mesh.inc"
-
   IOdictionary dsmcInitialiseDict
   {
     {
@@ -24,15 +24,13 @@ int main(int argc, char *argv[])
   Info << "Initialising dsmc for Time = " << runTime.timeName() << nl << endl;
   dsmcCloud dsmc{"dsmc", mesh, dsmcInitialiseDict};
   label totalMolecules = dsmc.size();
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     reduce(totalMolecules, sumOp<label>());
   }
   Info << nl << "Total number of molecules added: " << totalMolecules
     << nl << endl;
   IOstream::defaultPrecision(15);
-  if (!mesh.write())
-  {
+  if (!mesh.write()) {
     FATAL_ERROR_IN(args.executable())
       << "Failed writing dsmcCloud."
       << nl << exit(FatalError);
@@ -42,3 +40,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

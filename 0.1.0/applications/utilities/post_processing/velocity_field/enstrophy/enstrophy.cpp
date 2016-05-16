@@ -5,6 +5,7 @@
 #include "calc.hpp"
 #include "fvc.hpp"
 
+
 void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
 {
   bool writeResults = !args.optionFound("noWrite");
@@ -15,8 +16,7 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     mesh,
     IOobject::MUST_READ
   };
-  if (Uheader.headerOk())
-  {
+  if (Uheader.headerOk()) {
     Info << "    Reading U" << endl;
     volVectorField U{Uheader, mesh};
     Info << "    Calculating enstrophy" << endl;
@@ -31,14 +31,12 @@ void mousse::calc(const argList& args, const Time& runTime, const fvMesh& mesh)
     };
     Info << "enstrophy(U) max/min : " << max(enstrophy).value() << " "
       << min(enstrophy).value() << endl;
-    if (writeResults)
-    {
+    if (writeResults) {
       enstrophy.write();
     }
-  }
-  else
-  {
+  } else {
     Info << "    No U" << endl;
   }
   Info << "\nEnd\n" << endl;
 }
+

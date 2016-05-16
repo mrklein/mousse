@@ -6,8 +6,9 @@
 #include "ofstream.hpp"
 #include "write_funs.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Global Functions 
 void writePointSet
 (
@@ -21,12 +22,9 @@ void writePointSet
   pStream
     << "# vtk DataFile Version 2.0" << std::endl
     << set.name() << std::endl;
-  if (binary)
-  {
+  if (binary) {
     pStream << "BINARY" << std::endl;
-  }
-  else
-  {
+  } else {
     pStream << "ASCII" << std::endl;
   }
   pStream << "DATASET POLYDATA" << std::endl;
@@ -55,4 +53,6 @@ void writePointSet
   pStream << "pointID 1 " << pointLabels.size() << " int" << std::endl;
   writeFuns::write(pStream, binary, pointLabels);
 }
+
 }  // namespace mousse
+

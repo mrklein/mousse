@@ -18,7 +18,7 @@ DEFINE_TYPE_NAME_AND_DEBUG(lduMesh, 0);
 const mousse::objectRegistry& mousse::lduMesh::thisDb() const
 {
   NOT_IMPLEMENTED("lduMesh::thisDb() const");
-  const objectRegistry* orPtr_ = NULL;
+  const objectRegistry* orPtr_ = nullptr;
   return *orPtr_;
 }
 

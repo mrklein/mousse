@@ -4,27 +4,27 @@
 
 #include "surface_film_model.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(surfaceFilmModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(surfaceFilmModel, mesh);
+
+
 // Protected Member Functions 
 bool surfaceFilmModel::read()
 {
-  if (singleLayerRegion::read())
-  {
+  if (singleLayerRegion::read()) {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
+
+
 // Constructors 
 surfaceFilmModel::surfaceFilmModel
 (
@@ -34,48 +34,59 @@ surfaceFilmModel::surfaceFilmModel
   const word& regionType
 )
 :
-  singleLayerRegion(mesh, regionType, modelType),
-  g_(g)
+  singleLayerRegion{mesh, regionType, modelType},
+  g_{g}
 {
-  if (active_)
-  {
+  if (active_) {
     read();
   }
 }
+
+
 // Destructor 
 surfaceFilmModel::~surfaceFilmModel()
 {}
+
+
 // Member Functions 
 mousse::scalar surfaceFilmModel::CourantNumber() const
 {
   return ROOTVSMALL;
 }
-tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho() const
+
+
+tmp<DimensionedField<scalar, volMesh>> surfaceFilmModel::Srho() const
 {
   NOT_IMPLEMENTED
   (
-    "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho() const"
+    "tmp<DimensionedField<scalar, volMesh>> surfaceFilmModel::Srho() const"
   )
-  return tmp<DimensionedField<scalar, volMesh> >(NULL);
+  return tmp<DimensionedField<scalar, volMesh>>{NULL};
 }
-tmp<DimensionedField<scalar, volMesh> >
+
+
+tmp<DimensionedField<scalar, volMesh>>
 surfaceFilmModel::Srho(const label) const
 {
   NOT_IMPLEMENTED
   (
-    "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Srho"
+    "tmp<DimensionedField<scalar, volMesh>> surfaceFilmModel::Srho"
     "(const label) const"
   )
-  return tmp<DimensionedField<scalar, volMesh> >(NULL);
+  return tmp<DimensionedField<scalar, volMesh>>{NULL};
 }
-tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Sh() const
+
+
+tmp<DimensionedField<scalar, volMesh>> surfaceFilmModel::Sh() const
 {
   NOT_IMPLEMENTED
   (
-    "tmp<DimensionedField<scalar, volMesh> > surfaceFilmModel::Sh() const"
+    "tmp<DimensionedField<scalar, volMesh>> surfaceFilmModel::Sh() const"
   )
-  return tmp<DimensionedField<scalar, volMesh> >(NULL);
+  return tmp<DimensionedField<scalar, volMesh>>{NULL};
 }
+
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse

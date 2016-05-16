@@ -8,13 +8,14 @@
 //   mousse::LiftForce
 // Description
 //   Base class for particle lift force models
-// SourceFiles
-//   _lift_force.cpp
+
 #include "_particle_force.hpp"
 #include "vol_fields.hpp"
 #include "interpolation.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class LiftForce
 :
@@ -25,7 +26,7 @@ protected:
     //- Name of velocity field
     const word UName_;
     //- Curk of carrier phase velocity interpolator
-    autoPtr<interpolation<vector> > curlUcInterpPtr_;
+    autoPtr<interpolation<vector>> curlUcInterpPtr_;
   // Potected Member Functions
     //- Calculate the lift coefficient
     virtual scalar Cl
@@ -48,12 +49,13 @@ public:
     //- Construct copy
     LiftForce(const LiftForce& lf);
     //- Construct and return a clone
-    virtual autoPtr<ParticleForce<CloudType> > clone() const
+    virtual autoPtr<ParticleForce<CloudType>> clone() const
     {
-      return autoPtr<ParticleForce<CloudType> >
-      (
-        new LiftForce<CloudType>(*this)
-      );
+      return
+        autoPtr<ParticleForce<CloudType>>
+        {
+          new LiftForce<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~LiftForce();
@@ -74,14 +76,15 @@ public:
         const scalar muc
       ) const;
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::interpolation<mousse::vector>&
 mousse::LiftForce<CloudType>::curlUcInterp() const
 {
-  if (!curlUcInterpPtr_.valid())
-  {
+  if (!curlUcInterpPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::interpolation<mousse::vector>&"
@@ -92,7 +95,7 @@ mousse::LiftForce<CloudType>::curlUcInterp() const
   }
   return curlUcInterpPtr_();
 }
-#ifdef NoRepository
-  #include "_lift_force.cpp"
-#endif
+
+#include "_lift_force.ipp"
+
 #endif

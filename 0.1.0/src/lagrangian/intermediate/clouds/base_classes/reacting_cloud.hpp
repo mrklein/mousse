@@ -8,11 +8,12 @@
 //   mousse::reactingCloud
 // Description
 //   Virtual abstract base class for templated ReactingCloud
-// SourceFiles
-//   reacting_cloud.cpp
+
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class reactingCloud
 {
 public:
@@ -28,5 +29,8 @@ public:
   //- Destructor
   virtual ~reactingCloud();
 };
+
 }  // namespace mousse
+
 #endif
+

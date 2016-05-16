@@ -1,4 +1,4 @@
-Info<< "Reading field p\n" << endl;
+Info << "Reading field p\n" << endl;
 volScalarField p
 {
   {
@@ -10,7 +10,7 @@ volScalarField p
   },
   mesh
 };
-Info<< "Reading field Urel\n" << endl;
+Info << "Reading field Urel\n" << endl;
 volVectorField Urel
 {
   {
@@ -22,7 +22,7 @@ volVectorField Urel
   },
   mesh
 };
-Info<< "Reading/calculating face flux field phi\n" << endl;
+Info << "Reading/calculating face flux field phi\n" << endl;
 surfaceScalarField phi
 {
   {
@@ -38,8 +38,8 @@ label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, simple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
-Info<< "Creating SRF model\n" << endl;
-autoPtr<SRF::SRFModel> SRF(SRF::SRFModel::New(Urel));
+Info << "Creating SRF model\n" << endl;
+autoPtr<SRF::SRFModel> SRF{SRF::SRFModel::New(Urel)};
 // Construct the absolute velocity
 volVectorField U
 {
@@ -52,8 +52,8 @@ volVectorField U
   },
   Urel + SRF->U()
 };
-singlePhaseTransportModel laminarTransport(U, phi);
+singlePhaseTransportModel laminarTransport{U, phi};
 autoPtr<incompressible::turbulenceModel> turbulence
-(
+{
   incompressible::turbulenceModel::New(U, phi, laminarTransport)
-);
+};

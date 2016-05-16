@@ -12,12 +12,13 @@
 //   Take thickness field and number of layers and returns deltaCoeffs
 //   as 2.0/thickness/nLayers.
 //   To be used with 1D thermo baffle.
-// SourceFiles
-//   mapped_variable_thickness_wall_fv_patch.cpp
+
 #include "wall_fv_patch.hpp"
 #include "mapped_variable_thickness_wall_poly_patch.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class mappedVariableThicknessWallFvPatch
 :
   public wallFvPatch
@@ -40,5 +41,8 @@ public:
       wallFvPatch(patch, bm)
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

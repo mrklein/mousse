@@ -1,3 +1,6 @@
+#ifndef PLASTIC_HPP_
+#define PLASTIC_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,18 +8,18 @@
 //   mousse::mixtureViscosityModels::plastic
 // Description
 //   Viscosity correction model for a generic power-law plastic.
-// SourceFiles
-//   plastic.cpp
-#ifndef PLASTIC_HPP_
-#define PLASTIC_HPP_
+
 #include "mixture_viscosity_model.hpp"
 #include "dimensioned_scalar.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class incompressibleTwoPhaseInteractingMixture;
-namespace mixtureViscosityModels
-{
+
+namespace mixtureViscosityModels {
+
 class plastic
 :
   public mixtureViscosityModel
@@ -56,6 +59,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& viscosityProperties);
 };
+
 }  // namespace mixtureViscosityModels
 }  // namespace mousse
+
 #endif
+

@@ -24,7 +24,7 @@
   scalar alphaTemp{pimpleDict.lookupOrDefault("alphaTemp", 0.05)};
   Info << "Time scales min/max:" << endl;
   // Cache old reciprocal time scale field
-  volScalarField rDeltaT0("rDeltaT0", rDeltaT);
+  volScalarField rDeltaT0{"rDeltaT0", rDeltaT};
   // Flow time scale
   {
     rDeltaT.dimensionedInternalField() =
@@ -50,30 +50,30 @@
     };
     Info << "    Temperature = " << gMin(1/(rDeltaTT.field() + VSMALL)) << ", "
       << gMax(1/(rDeltaTT.field() + VSMALL)) << endl;
-    rDeltaT.dimensionedInternalField() = max
-    (
-      rDeltaT.dimensionedInternalField(),
-      rDeltaTT
-    );
+    rDeltaT.dimensionedInternalField() =
+      max
+      (
+        rDeltaT.dimensionedInternalField(),
+        rDeltaTT
+      );
   }
   // Update tho boundary values of the reciprocal time-step
   rDeltaT.correctBoundaryConditions();
   // Spatially smooth the time scale field
-  if (rDeltaTSmoothingCoeff < 1.0)
-  {
+  if (rDeltaTSmoothingCoeff < 1.0) {
     fvc::smooth(rDeltaT, rDeltaTSmoothingCoeff);
   }
   // Limit rate of change of time scale
   // - reduce as much as required
   // - only increase at a fraction of old time scale
   if (rDeltaTDampingCoeff < 1.0
-      && runTime.timeIndex() > runTime.startTimeIndex() + 1)
-  {
-    rDeltaT = max
-    (
-      rDeltaT,
-      (scalar(1.0) - rDeltaTDampingCoeff)*rDeltaT0
-    );
+      && runTime.timeIndex() > runTime.startTimeIndex() + 1) {
+    rDeltaT =
+      max
+      (
+        rDeltaT,
+        (scalar(1.0) - rDeltaTDampingCoeff)*rDeltaT0
+      );
   }
   Info << "    Overall     = " << gMin(1/rDeltaT.internalField())
     << ", " << gMax(1/rDeltaT.internalField()) << endl;

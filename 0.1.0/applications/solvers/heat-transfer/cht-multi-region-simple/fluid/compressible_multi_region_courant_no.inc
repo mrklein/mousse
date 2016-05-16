@@ -1,15 +1,15 @@
   scalar CoNum = -GREAT;
-  FOR_ALL(fluidRegions, regionI)
-  {
-    CoNum = max
-    (
-      compressibleCourantNo
+  FOR_ALL(fluidRegions, regionI) {
+    CoNum =
+      max
       (
-        fluidRegions[regionI],
-        runTime,
-        rhoFluid[regionI],
-        phiFluid[regionI]
-      ),
-      CoNum
-    );
+        compressibleCourantNo
+        (
+          fluidRegions[regionI],
+          runTime,
+          rhoFluid[regionI],
+          phiFluid[regionI]
+        ),
+        CoNum
+      );
   }

@@ -9,6 +9,8 @@
 #include "fv_io_option_list.hpp"
 #include "correct_phi.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
+
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -23,10 +25,8 @@ int main(int argc, char *argv[])
   #include "correct_phi.inc"
   #include "courant_no.inc"
   #include "set_initial_delta_t.inc"
-
   Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "courant_no.inc"
     #include "alpha_courant_no.inc"
@@ -36,16 +36,13 @@ int main(int argc, char *argv[])
     mixture.solve();
     rho = mixture.rho();
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -57,3 +54,4 @@ int main(int argc, char *argv[])
   Info<< "End\n" << endl;
   return 0;
 }
+

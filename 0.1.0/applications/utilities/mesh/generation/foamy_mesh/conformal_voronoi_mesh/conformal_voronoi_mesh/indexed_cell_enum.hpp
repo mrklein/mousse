@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::indexedCellEnum
-// Description
-// SourceFiles
-//   indexed_cell_enum.cpp
+
 #include "named_enum.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class indexedCellEnum
 {
 public:
@@ -26,10 +26,11 @@ public:
   };
   static const mousse::NamedEnum<cellTypes, 6> cellTypesNames_;
 };
-template<>
-inline bool contiguous<indexedCellEnum>()
-{
-  return true;
-}
+
+
+template<> inline bool contiguous<indexedCellEnum>() { return true; }
+
 }  // namespace mousse
+
 #endif
+

@@ -1,3 +1,6 @@
+#ifndef GULDER_HPP_
+#define GULDER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,15 +9,13 @@
 // Description
 //   Simple Gulder model for XiEq based on Gulders correlation
 //   with a linear correction function to give a plausible profile for XiEq.
-// SourceFiles
-//   gulder.cpp
-#ifndef GULDER_HPP_
-#define GULDER_HPP_
+
 #include "xi_eq_model.hpp"
-namespace mousse
-{
-namespace XiEqModels
-{
+
+
+namespace mousse {
+namespace XiEqModels {
+
 class Gulder
 :
   public XiEqModel
@@ -52,6 +53,9 @@ public:
     //- Update properties from given dictionary
     virtual bool read(const dictionary& XiEqProperties);
 };
+
 }  // namespace XiEqModels
 }  // namespace mousse
+
 #endif
+

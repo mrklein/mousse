@@ -6,19 +6,19 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::PairCollision
-// Description
-// SourceFiles
-//   _pair_collision.cpp
+
 #include "_collision_model.hpp"
 #include "_interaction_lists.hpp"
 #include "_wall_site_data.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class PairModel;
-template<class CloudType>
-class WallModel;
+template<class CloudType> class PairModel;
+template<class CloudType> class WallModel;
+
+
 template<class CloudType>
 class PairCollision
 :
@@ -35,9 +35,9 @@ class PairCollision
     static scalar flatWallDuplicateExclusion;
   // Private data
     //- PairModel to calculate the interaction between two parcels
-    autoPtr<PairModel<CloudType> > pairModel_;
+    autoPtr<PairModel<CloudType>> pairModel_;
     //- WallModel to calculate the interaction between the parcel and walls
-    autoPtr<WallModel<CloudType> > wallModel_;
+    autoPtr<WallModel<CloudType>> wallModel_;
     //- Interactions lists determining which cells are in
     //  interaction range of each other
     InteractionLists<typename CloudType::parcelType> il_;
@@ -77,9 +77,9 @@ class PairCollision
     (
       typename CloudType::parcelType& p,
       const List<point>& flatSitePoints,
-      const List<WallSiteData<vector> >& flatSiteData,
+      const List<WallSiteData<vector>>& flatSiteData,
       const List<point>& sharpSitePoints,
-      const List<WallSiteData<vector> >& sharpSiteData
+      const List<WallSiteData<vector>>& sharpSiteData
     ) const;
 public:
   //- Runtime type information
@@ -90,12 +90,13 @@ public:
     //- Construct copy
     PairCollision(const PairCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<CollisionModel<CloudType> > clone() const
+    virtual autoPtr<CollisionModel<CloudType>> clone() const
     {
-      return autoPtr<CollisionModel<CloudType> >
-      (
-        new PairCollision<CloudType>(*this)
-      );
+      return
+        autoPtr<CollisionModel<CloudType>>
+        {
+          new PairCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~PairCollision();
@@ -109,8 +110,9 @@ public:
     // Collision function
     virtual void collide();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_pair_collision.cpp"
-#endif
+
+#include "_pair_collision.ipp"
+
 #endif

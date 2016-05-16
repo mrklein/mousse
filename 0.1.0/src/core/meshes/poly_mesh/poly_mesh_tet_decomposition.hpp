@@ -76,7 +76,7 @@ public:
       const polyMesh& mesh,
       scalar tol = minTetQuality,
       const bool report = false,
-      labelHashSet* setPtr = NULL
+      labelHashSet* setPtr = nullptr
     );
     //- Return the tet decomposition of the given face, with
     //  respect to the given cell

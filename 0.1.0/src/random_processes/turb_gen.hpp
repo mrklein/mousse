@@ -9,14 +9,16 @@
 // Description
 //   Generate a turbulent velocity field conforming to a given
 //   energy spectrum and being divergence free.
-// SourceFiles
-//   turb_gen.cpp
-//   turb_gen_io.cpp
+
 #include "random.hpp"
 #include "primitive_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Kmesh;
+
+
 class turbGen
 {
   // Private data
@@ -32,5 +34,8 @@ public:
     //- Generate and return a velocity field
     vectorField U();
 };
+
 }  // namespace mousse
+
 #endif
+

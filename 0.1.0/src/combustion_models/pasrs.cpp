@@ -7,5 +7,6 @@
 #include "rho_chemistry_combustion.hpp"
 #include "pasr.hpp"
 
+
 MAKE_COMBUSTION_TYPES(PaSR, psiChemistryCombustion, psiCombustionModel);
 MAKE_COMBUSTION_TYPES(PaSR, rhoChemistryCombustion, rhoCombustionModel);

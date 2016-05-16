@@ -29,17 +29,15 @@
 //         (yPlusValueN    uPlusValueN)
 //       );
 //     }
-// SourceFiles
-//   general.cpp
 
 #include "tabulated_wall_function.hpp"
 #include "named_enum.hpp"
 #include "switch.hpp"
 
-namespace mousse
-{
-namespace tabulatedWallFunctions
-{
+
+namespace mousse {
+namespace tabulatedWallFunctions {
+
 class general
 :
   public tabulatedWallFunction
@@ -91,6 +89,9 @@ public:
       //- Write to Ostream
       virtual void writeData(Ostream& os) const;
 };
+
 }  // namespace tabulatedWallFunctions
 }  // namespace mousse
+
 #endif
+

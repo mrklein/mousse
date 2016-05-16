@@ -4,7 +4,11 @@
 
 #include "coal_cloud.hpp"
 #include "make_coal_parcel_surface_reaction_models.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_COAL_PARCEL_SURFACE_REACTION_MODELS(coalCloud);
+
 }
+

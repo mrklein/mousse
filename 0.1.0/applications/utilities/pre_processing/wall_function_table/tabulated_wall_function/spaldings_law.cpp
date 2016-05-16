@@ -5,9 +5,11 @@
 #include "spaldings_law.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
+
 // Static Data Members
 namespace mousse {
 namespace tabulatedWallFunctions {
+
 DEFINE_TYPE_NAME_AND_DEBUG(SpaldingsLaw, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
 (
@@ -15,12 +17,15 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   SpaldingsLaw,
   dictionary
 );
+
 }
 }
 
 const mousse::label mousse::tabulatedWallFunctions::SpaldingsLaw::maxIters_ = 1000;
+
 const mousse::scalar
   mousse::tabulatedWallFunctions::SpaldingsLaw::tolerance_ = 1e-4;
+
 
 // Private Member Functions 
 void mousse::tabulatedWallFunctions::SpaldingsLaw::invertFunction()
@@ -29,30 +34,23 @@ void mousse::tabulatedWallFunctions::SpaldingsLaw::invertFunction()
   scalar Re = 0.0;
   scalar uPlus = 1;
   // Populate the table
-  FOR_ALL(invertedTable_, i)
-  {
-    if (invertedTable_.log10())
-    {
+  FOR_ALL(invertedTable_, i) {
+    if (invertedTable_.log10()) {
       Re = pow(10, (i*invertedTable_.dx() + invertedTable_.x0()));
-    }
-    else
-    {
+    } else {
       Re = i*invertedTable_.dx() + invertedTable_.x0();
     }
     // Use latest available u+ estimate
-    if (i > 0)
-    {
+    if (i > 0) {
       uPlus = invertedTable_[i-1];
     }
     // Newton iterations to determine u+
     label iter = 0;
     scalar error = GREAT;
-    do
-    {
+    do {
       scalar kUPlus = min(kappa_*uPlus, 50);
       scalar A =
-        E_*sqr(uPlus)
-        + uPlus
+        E_*sqr(uPlus) + uPlus
         *(exp(kUPlus) - pow3(kUPlus)/6 - 0.5*sqr(kUPlus) - kUPlus - 1);
       scalar f = - Re + A/E_;
       scalar df =
@@ -68,8 +66,7 @@ void mousse::tabulatedWallFunctions::SpaldingsLaw::invertFunction()
       error = mag((uPlus - uPlusNew)/uPlusNew);
       uPlus = uPlusNew;
     } while (error > tolerance_ && ++iter < maxIters_);
-    if (iter == maxIters_)
-    {
+    if (iter == maxIters_) {
       WARNING_IN("SpaldingsLaw::invertFunction()")
         << "Newton iterations not converged:" << nl
         << "    iters = " << iter << ", error = " << error << endl;
@@ -78,6 +75,7 @@ void mousse::tabulatedWallFunctions::SpaldingsLaw::invertFunction()
     invertedTable_[i] = max(0, uPlus);
   }
 }
+
 
 // Constructors 
 mousse::tabulatedWallFunctions::SpaldingsLaw::SpaldingsLaw
@@ -91,14 +89,17 @@ mousse::tabulatedWallFunctions::SpaldingsLaw::SpaldingsLaw
   E_{readScalar(coeffDict_.lookup("E"))}
 {
   invertFunction();
-  if (debug)
-  {
+  if (debug) {
     writeData(Info);
   }
 }
+
+
 // Destructor 
 mousse::tabulatedWallFunctions::SpaldingsLaw::~SpaldingsLaw()
 {}
+
+
 // Member Functions 
 mousse::scalar mousse::tabulatedWallFunctions::SpaldingsLaw::yPlus
 (
@@ -107,9 +108,10 @@ mousse::scalar mousse::tabulatedWallFunctions::SpaldingsLaw::yPlus
 {
   scalar kUPlus = min(kappa_*uPlus, 50);
   return
-    uPlus
-   + 1/E_*(exp(kUPlus) - pow3(kUPlus)/6 - 0.5*sqr(kUPlus) - kUPlus - 1);
+    uPlus + 1/E_*(exp(kUPlus) - pow3(kUPlus)/6 - 0.5*sqr(kUPlus) - kUPlus - 1);
 }
+
+
 mousse::scalar mousse::tabulatedWallFunctions::SpaldingsLaw::Re
 (
   const scalar uPlus
@@ -117,21 +119,19 @@ mousse::scalar mousse::tabulatedWallFunctions::SpaldingsLaw::Re
 {
   return uPlus*yPlus(uPlus);
 }
+
+
 void mousse::tabulatedWallFunctions::SpaldingsLaw::writeData(Ostream& os) const
 {
-  if (invertedTable_.log10())
-  {
+  if (invertedTable_.log10()) {
     os << "log10(Re), y+, u+:" << endl;
-    FOR_ALL(invertedTable_, i)
-    {
+    FOR_ALL(invertedTable_, i) {
       scalar uPlus = invertedTable_[i];
       scalar Re = ::log10(this->Re(uPlus));
       scalar yPlus = this->yPlus(uPlus);
       os << Re << ", " << yPlus << ", " << uPlus << endl;
     }
-  }
-  else
-  {
+  } else {
     os << "Re, y+, u+:" << endl;
     FOR_ALL(invertedTable_, i)
     {
@@ -142,3 +142,4 @@ void mousse::tabulatedWallFunctions::SpaldingsLaw::writeData(Ostream& os) const
     }
   }
 }
+

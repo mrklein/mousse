@@ -9,18 +9,23 @@
 // Description
 //   An indexed form of CGAL::Triangulation_vertex_base_2<K> used to keep
 //   track of the vertices in the triangulation.
+
 #include "CGAL/Triangulation_2.h"
-namespace CGAL
-{
+
+
+namespace CGAL {
+
 // Forward declaration of friend functions and operators
 template<class Gt, class Vb>
 class indexedVertex;
+
 template<class Gt, class Vb>
 bool pointPair
 (
   const indexedVertex<Gt, Vb>& v0,
   const indexedVertex<Gt, Vb>& v1
 );
+
 template<class Gt, class Vb>
 bool boundaryTriangle
 (
@@ -28,6 +33,7 @@ bool boundaryTriangle
   const indexedVertex<Gt, Vb>& v1,
   const indexedVertex<Gt, Vb>& v2
 );
+
 template<class Gt, class Vb>
 bool outsideTriangle
 (
@@ -35,6 +41,8 @@ bool outsideTriangle
   const indexedVertex<Gt, Vb>& v1,
   const indexedVertex<Gt, Vb>& v2
 );
+
+
 template<class Gt, class Vb=CGAL::Triangulation_vertex_base_2<Gt> >
 class indexedVertex
 :
@@ -58,9 +66,9 @@ public:
     MIRROR_POINT        = -2,
     FAR_POINT           = -1
   };
-  typedef typename Vb::Vertex_handle      Vertex_handle;
-  typedef typename Vb::Face_handle        Face_handle;
-  typedef typename Vb::Point              Point;
+  typedef typename Vb::Vertex_handle Vertex_handle;
+  typedef typename Vb::Face_handle Face_handle;
+  typedef typename Vb::Point Point;
   template<typename TDS2>
   struct Rebind_TDS
   {
@@ -120,7 +128,9 @@ public:
       const indexedVertex<Gt, Vb>& v2
     );
 };
+
 }  // namespace CGAL
+
 
 // Constructors 
 template<class Gt, class Vb>
@@ -130,6 +140,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex()
   index_{INTERNAL_POINT},
   type_{INTERNAL_POINT}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p)
 :
@@ -137,6 +149,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p)
   index_{INTERNAL_POINT},
   type_{INTERNAL_POINT}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
 (
@@ -149,6 +163,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
   index_{index},
   type_{type}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p, Face_handle f)
 :
@@ -156,6 +172,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p, Face_handle f)
   index_{INTERNAL_POINT},
   type_{INTERNAL_POINT}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(Face_handle f)
 :
@@ -163,91 +181,107 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(Face_handle f)
   index_{INTERNAL_POINT},
   type_{INTERNAL_POINT}
 {}
+
+
 // Member Functions 
 template<class Gt, class Vb>
 inline int& CGAL::indexedVertex<Gt, Vb>::index()
 {
   return index_;
 }
+
+
 template<class Gt, class Vb>
 inline int CGAL::indexedVertex<Gt, Vb>::index() const
 {
   return index_;
 }
+
+
 template<class Gt, class Vb>
 inline int& CGAL::indexedVertex<Gt, Vb>::type()
 {
   return type_;
 }
+
+
 template<class Gt, class Vb>
 inline int CGAL::indexedVertex<Gt, Vb>::type() const
 {
   return type_;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::farPoint() const
 {
   return type_ == FAR_POINT;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalPoint() const
 {
   return type_ <= INTERNAL_POINT;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::nearBoundary() const
 {
   return type_ == NEAR_BOUNDARY_POINT;
 }
+
+
 template<class Gt, class Vb>
 inline void CGAL::indexedVertex<Gt, Vb>::setNearBoundary()
 {
   type_ = NEAR_BOUNDARY_POINT;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::mirrorPoint() const
 {
   return type_ == MIRROR_POINT;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::pairPoint() const
 {
   return type_ >= 0;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::ppMaster() const
 {
-  if (type_ > index_)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return (type_ > index_);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::ppSlave() const
 {
-  if (type_ >= 0 && type_ < index_)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return (type_ >= 0 && type_ < index_);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalOrBoundaryPoint() const
 {
   return internalPoint() || ppMaster();
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::nearOrOnBoundary() const
 {
   return pairPoint() || mirrorPoint() || nearBoundary();
 }
+
+
 // Friend Functions 
 template<class Gt, class Vb>
 bool CGAL::pointPair
@@ -258,6 +292,8 @@ bool CGAL::pointPair
 {
   return v0.index_ == v1.type_ || v1.index_ == v0.type_;
 }
+
+
 template<class Gt, class Vb>
 bool CGAL::boundaryTriangle
 (
@@ -270,6 +306,8 @@ bool CGAL::boundaryTriangle
     || (v1.pairPoint() && pointPair(v2, v0))
     || (v2.pairPoint() && pointPair(v0, v1));
 }
+
+
 template<class Gt, class Vb>
 bool CGAL::outsideTriangle
 (

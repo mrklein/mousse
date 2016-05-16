@@ -9,6 +9,6 @@ turbulent_transport_models/ras/shih_quadratic_ke.cpp
 turbulent_transport_models/ras/lien_cubic_ke.cpp
 
 bcs = turbulent_transport_models/ras/derived_fv_patch_fields
-turbulent_transport_models/derived_fv_patch_fields/wall_functions/alphat_wall_functions/alphat_jayatilleke_wall_function_fv_patch_scalar_field.cpp
+turbulent_transport_models/derived_fv_patch_fields/wall_functions/alphat_jayatilleke_wall_function_fv_patch_scalar_field.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_incompressible_turbulence_models

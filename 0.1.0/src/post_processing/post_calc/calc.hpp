@@ -8,8 +8,13 @@
 #include "arg_list.hpp"
 #include "time.hpp"
 #include "fv_mesh.hpp"
-namespace mousse
-{
-  void calc(const argList& args, const Time& runTime, const fvMesh& mesh);
+
+
+namespace mousse {
+
+void calc(const argList& args, const Time& runTime, const fvMesh& mesh);
+
 }
+
 #endif
+

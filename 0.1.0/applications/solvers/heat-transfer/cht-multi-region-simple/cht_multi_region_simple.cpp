@@ -13,6 +13,7 @@
 #include "coordinate_system.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -23,18 +24,15 @@ int main(int argc, char *argv[])
   #include "create_fluid_fields.inc"
   #include "create_solid_fields.inc"
   #include "init_continuity_errs.inc"
-  while (runTime.loop())
-  {
+  while (runTime.loop()) {
     Info << "Time = " << runTime.timeName() << nl << endl;
-    FOR_ALL(fluidRegions, i)
-    {
+    FOR_ALL(fluidRegions, i) {
       Info << "\nSolving for fluid region " << fluidRegions[i].name() << endl;
       #include "set_region_fluid_fields.inc"
       #include "read_fluid_multi_region_simple_controls.inc"
       #include "solve_fluid.inc"
     }
-    FOR_ALL(solidRegions, i)
-    {
+    FOR_ALL(solidRegions, i) {
       Info << "\nSolving for solid region " << solidRegions[i].name() << endl;
       #include "set_region_solid_fields.inc"
       #include "read_solid_multi_region_simple_controls.inc"
@@ -45,6 +43,7 @@ int main(int argc, char *argv[])
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

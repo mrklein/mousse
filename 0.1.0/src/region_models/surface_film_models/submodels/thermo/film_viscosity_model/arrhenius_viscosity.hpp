@@ -15,15 +15,14 @@
 //     k1 and k2 are Arrhenius coefficients
 //     T is the local temperature
 //     Tref is the reference temperature
-// SourceFiles
-//   arrhenius_viscosity.cpp
+
 #include "film_viscosity_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class ArrheniusViscosity
 :
   public filmViscosityModel
@@ -63,7 +62,10 @@ public:
       const volScalarField& T
     );
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

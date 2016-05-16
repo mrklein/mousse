@@ -21,20 +21,18 @@
     p_rgh.boundaryField(),
     (
       phiHbyA.boundaryField()
-     - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
-     *rho.boundaryField()
+      - MRF.relative(mesh.Sf().boundaryField() & U.boundaryField())
+      *rho.boundaryField()
     )/(mesh.magSf().boundaryField()*rhorAUf.boundaryField())
   );
-  while (simple.correctNonOrthogonal())
-  {
+  while (simple.correctNonOrthogonal()) {
     fvScalarMatrix p_rghEqn
     {
       fvm::laplacian(rhorAUf, p_rgh) == fvc::div(phiHbyA)
     };
     p_rghEqn.setReference(pRefCell, getRefCellValue(p_rgh, pRefCell));
     p_rghEqn.solve();
-    if (simple.finalNonOrthogonalIter())
-    {
+    if (simple.finalNonOrthogonalIter()) {
       // Calculate the conservative fluxes
       phi = phiHbyA - p_rghEqn.flux();
       // Explicitly relax pressure for momentum corrector
@@ -50,8 +48,7 @@
   p = p_rgh + rho*gh;
   // For closed-volume cases adjust the pressure level
   // to obey overall mass continuity
-  if (closedVolume)
-  {
+  if (closedVolume) {
     p += (initialMass - fvc::domainIntegrate(psi*p))/fvc::domainIntegrate(psi);
     p_rgh = p - rho*gh;
   }

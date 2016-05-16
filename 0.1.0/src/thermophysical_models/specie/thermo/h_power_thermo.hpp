@@ -12,44 +12,52 @@
 //   temperature:
 //     Cp(T) = c0*(T/Tref)^n0;
 //   which is particularly suitable for solids.
-// SourceFiles
-//   h_power_thermo.cpp
+
 #include "scalar.hpp"
 #include "specie.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class EquationOfState> class hPowerThermo;
+
 template<class EquationOfState>
 inline hPowerThermo<EquationOfState> operator+
 (
   const hPowerThermo<EquationOfState>&,
   const hPowerThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline hPowerThermo<EquationOfState> operator-
 (
   const hPowerThermo<EquationOfState>&,
   const hPowerThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline hPowerThermo<EquationOfState> operator*
 (
   const scalar,
   const hPowerThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 inline hPowerThermo<EquationOfState> operator==
 (
   const hPowerThermo<EquationOfState>&,
   const hPowerThermo<EquationOfState>&
 );
+
 template<class EquationOfState>
 Ostream& operator<<
 (
   Ostream&,
   const hPowerThermo<EquationOfState>&
 );
+
+
 template<class EquationOfState>
 class hPowerThermo
 :
@@ -140,7 +148,9 @@ public:
       const hPowerThermo&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class EquationOfState>
@@ -149,16 +159,18 @@ inline void mousse::hPowerThermo<EquationOfState>::checkT
   const scalar T
 ) const
 {
-  if (T < 0)
-  {
+  if (T < 0) {
     FATAL_ERROR_IN
     (
       "hPowerThermo<EquationOfState>::checkT(const scalar T) const"
-    )   << "attempt to evaluate hPowerThermo<EquationOfState>"
+    )
+    << "attempt to evaluate hPowerThermo<EquationOfState>"
        " for negative temperature " << T
-      << abort(FatalError);
+    << abort(FatalError);
   }
 }
+
+
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState>::hPowerThermo
 (
@@ -172,6 +184,8 @@ inline mousse::hPowerThermo<EquationOfState>::hPowerThermo
   Tref_{jt.Tref_},
   Hf_{jt.Hf_}
 {}
+
+
 // Constructors 
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState>::hPowerThermo
@@ -189,24 +203,32 @@ inline mousse::hPowerThermo<EquationOfState>::hPowerThermo
   Tref_{Tref},
   Hf_{Hf}
 {}
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::hPowerThermo<EquationOfState>>
 mousse::hPowerThermo<EquationOfState>::clone() const
 {
   return {new hPowerThermo<EquationOfState>{*this}};
 }
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::hPowerThermo<EquationOfState>>
 mousse::hPowerThermo<EquationOfState>::New(Istream& is)
 {
   return {new hPowerThermo<EquationOfState>{is}};
 }
+
+
 template<class EquationOfState>
 inline mousse::autoPtr<mousse::hPowerThermo<EquationOfState>>
 mousse::hPowerThermo<EquationOfState>::New(const dictionary& dict)
 {
   return {new hPowerThermo<EquationOfState>{dict}};
 }
+
+
 // Member Functions 
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::limit
@@ -216,6 +238,8 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::limit
 {
   return T;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::cp
 (
@@ -224,6 +248,8 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::cp
 {
   return c0_*pow(T/Tref_, n0_);
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::ha
 (
@@ -232,6 +258,8 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::ha
 {
   return hs(p, T) + hc();
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::hs
 (
@@ -241,11 +269,15 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::hs
   return
     c0_*(pow(T, n0_ + 1) - pow(Tstd, n0_ + 1))/(pow(Tref_, n0_)*(n0_ + 1));
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::hc() const
 {
   return Hf_;
 }
+
+
 template<class EquationOfState>
 inline mousse::scalar mousse::hPowerThermo<EquationOfState>::s
 (
@@ -256,6 +288,8 @@ inline mousse::scalar mousse::hPowerThermo<EquationOfState>::s
     c0_*(pow(T, n0_) - pow(Tstd, n0_))/(pow(Tref_, n0_)*n0_)
    + EquationOfState::s(p, T);
 }
+
+
 // Member Operators 
 template<class EquationOfState>
 inline void mousse::hPowerThermo<EquationOfState>::operator+=
@@ -272,6 +306,8 @@ inline void mousse::hPowerThermo<EquationOfState>::operator+=
   n0_ = molr1*n0_ + molr2*ct.n0_;
   Tref_ = molr1*Tref_ + molr2*ct.Tref_;
 }
+
+
 template<class EquationOfState>
 inline void mousse::hPowerThermo<EquationOfState>::operator-=
 (
@@ -287,6 +323,8 @@ inline void mousse::hPowerThermo<EquationOfState>::operator-=
   n0_ = (molr1*n0_ - molr2*ct.n0_);
   Tref_ = (molr1*Tref_ - molr2*ct.Tref_);
 }
+
+
 // Friend Operators 
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState> mousse::operator+
@@ -310,6 +348,8 @@ inline mousse::hPowerThermo<EquationOfState> mousse::operator+
           ct1.nMoles()/eofs.nMoles()*ct1.Hf_
             + ct2.nMoles()/eofs.nMoles()*ct2.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState> mousse::operator-
 (
@@ -332,6 +372,8 @@ inline mousse::hPowerThermo<EquationOfState> mousse::operator-
           ct1.nMoles()/eofs.nMoles()*ct1.Hf_
             - ct2.nMoles()/eofs.nMoles()*ct2.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState> mousse::operator*
 (
@@ -345,6 +387,8 @@ inline mousse::hPowerThermo<EquationOfState> mousse::operator*
           ct.Tref_,
           ct.Hf_};
 }
+
+
 template<class EquationOfState>
 inline mousse::hPowerThermo<EquationOfState> mousse::operator==
 (
@@ -354,7 +398,7 @@ inline mousse::hPowerThermo<EquationOfState> mousse::operator==
 {
   return ct2 - ct1;
 }
-#ifdef NoRepository
-#   include "h_power_thermo.cpp"
-#endif
+
+#include "h_power_thermo.ipp"
+
 #endif

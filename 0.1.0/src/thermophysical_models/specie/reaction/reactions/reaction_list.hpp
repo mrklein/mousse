@@ -8,20 +8,21 @@
 //   mousse::ReactionList
 // Description
 //   List of templated reactions
-// SourceFiles
-//   reaction_list.cpp
+
 #include "ptr_list.hpp"
 #include "sl_ptr_list.hpp"
 #include "species_table.hpp"
 #include "hash_ptr_table.hpp"
 #include "reaction.hpp"
 #include "file_name.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class ReactionList
 :
-  public SLPtrList<Reaction<ThermoType> >
+  public SLPtrList<Reaction<ThermoType>>
 {
   // Private data
     //- Reference to the table of species
@@ -64,8 +65,9 @@ public:
     //- Write
     void write(Ostream& os) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "reaction_list.cpp"
-#endif
+
+#include "reaction_list.ipp"
+
 #endif

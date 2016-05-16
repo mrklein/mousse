@@ -9,9 +9,12 @@
 // Description
 //   Dummy class for 'none' option - will raise an error if any functions are
 //   called that require return values.
+
 #include "_patch_interaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoInteraction
 :
@@ -26,12 +29,13 @@ public:
     //- Construct copy
     NoInteraction(const NoInteraction<CloudType>& pim);
     //- Construct and return a clone
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const
     {
-      return autoPtr<PatchInteractionModel<CloudType> >
-      (
-        new NoInteraction<CloudType>(*this)
-      );
+      return
+        autoPtr<PatchInteractionModel<CloudType>>
+        {
+          new NoInteraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoInteraction();
@@ -49,8 +53,9 @@ public:
       const tetIndices& tetIs
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_interaction.cpp"
-#endif
+
+#include "_no_interaction.ipp"
+
 #endif

@@ -22,27 +22,26 @@
     fvc::surfaceSum(mag(phi))().dimensionedInternalField()
     /((2*maxCo)*mesh.V()*rho.dimensionedInternalField())
   );
-  if (pimple.transonic())
-  {
+  if (pimple.transonic()) {
     surfaceScalarField phid
     {
       "phid",
       fvc::interpolate(psi)*(fvc::interpolate(U) & mesh.Sf())
     };
-    rDeltaT.dimensionedInternalField() = max
-    (
-      rDeltaT.dimensionedInternalField(),
-      fvc::surfaceSum(mag(phid))().dimensionedInternalField()
-      /((2*maxCo)*mesh.V()*psi.dimensionedInternalField())
-    );
+    rDeltaT.dimensionedInternalField() =
+      max
+      (
+        rDeltaT.dimensionedInternalField(),
+        fvc::surfaceSum(mag(phid))().dimensionedInternalField()
+        /((2*maxCo)*mesh.V()*psi.dimensionedInternalField())
+      );
   }
   // Update tho boundary values of the reciprocal time-step
   rDeltaT.correctBoundaryConditions();
   Info << "Flow time scale min/max = "
     << gMin(1/rDeltaT.internalField())
     << ", " << gMax(1/rDeltaT.internalField()) << endl;
-  if (rDeltaTSmoothingCoeff < 1.0)
-  {
+  if (rDeltaTSmoothingCoeff < 1.0) {
     fvc::smooth(rDeltaT, rDeltaTSmoothingCoeff);
   }
   Info << "Smoothed flow time scale min/max = "
@@ -52,8 +51,7 @@
   // - reduce as much as required
   // - only increase at a fraction of old time scale
   if (rDeltaTDampingCoeff < 1.0
-      && runTime.timeIndex() > runTime.startTimeIndex() + 1)
-  {
+      && runTime.timeIndex() > runTime.startTimeIndex() + 1) {
     rDeltaT =
       rDeltaT0*max(rDeltaT/rDeltaT0, scalar(1) - rDeltaTDampingCoeff);
     Info << "Damped flow time scale min/max = "
@@ -61,3 +59,4 @@
       << ", " << gMax(1/rDeltaT.internalField()) << endl;
   }
 }
+

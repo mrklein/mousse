@@ -11,7 +11,9 @@
 #include "transform_geometric_field.hpp"
 #include "ioobject_list.hpp"
 
+
 using namespace mousse;
+
 
 template<class GeometricField>
 void RotateFields
@@ -23,14 +25,14 @@ void RotateFields
 {
   // Search list of objects for volScalarFields
   IOobjectList fields{objects.lookupClass(GeometricField::typeName)};
-  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-  {
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
     Info << "    Rotating " << fieldIter()->name() << endl;
     GeometricField theta{*fieldIter(), mesh};
     transform(theta, dimensionedTensor(T), theta);
     theta.write();
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -64,10 +66,10 @@ int main(int argc, char *argv[])
     Info << "Writing points into directory " << points.path() << nl << endl;
     points.write();
   }
+
   instantList timeDirs = timeSelector::select0(runTime, args);
   #include "create_mesh.inc"
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     // Search for list of objects for this time
@@ -84,3 +86,4 @@ int main(int argc, char *argv[])
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

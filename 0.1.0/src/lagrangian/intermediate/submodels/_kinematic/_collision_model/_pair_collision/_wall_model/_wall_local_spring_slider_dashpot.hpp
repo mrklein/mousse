@@ -9,9 +9,12 @@
 // Description
 //   Forces between particles and walls, interacting with a spring,
 //   slider, damper model
+
 #include "_wall_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class WallLocalSpringSliderDashpot
 :
@@ -110,8 +113,9 @@ public:
       const List<WallSiteData<vector> >& sharpSiteData
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_wall_local_spring_slider_dashpot.cpp"
-#endif
+
+#include "_wall_local_spring_slider_dashpot.ipp"
+
 #endif

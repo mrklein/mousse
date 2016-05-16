@@ -8,7 +8,9 @@
 #include "poly_mesh_zip_up_cells.hpp"
 #include "bool_list.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -16,11 +18,11 @@ int main(int argc, char *argv[])
   #include "set_root_case.inc"
   #include "create_time.inc"
   #include "create_named_poly_mesh.inc"
-  if (polyMeshZipUpCells(mesh))
-  {
+  if (polyMeshZipUpCells(mesh)) {
     Info << "Writing zipped-up polyMesh to " << mesh.facesInstance() << endl;
     mesh.write();
   }
   Info << "End\n" << endl;
   return 0;
 }
+

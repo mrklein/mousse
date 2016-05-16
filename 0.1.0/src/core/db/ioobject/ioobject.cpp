@@ -33,10 +33,10 @@ bool mousse::IOobject::fileNameComponents
     (
       "IOobject::fileNameComponents"
       "("
-        "const fileName&, "
-        "fileName&, "
-        "fileName&, "
-        "word&"
+      "  const fileName&, "
+      "  fileName&, "
+      "  fileName&, "
+      "  word&"
       ")"
     )
     << " called with directory: " << path << endl;
@@ -70,10 +70,10 @@ bool mousse::IOobject::fileNameComponents
     (
       "IOobject::fileNameComponents"
       "("
-        "const fileName&, "
-        "fileName&, "
-        "fileName&, "
-        "word&"
+      "  const fileName&, "
+      "  fileName&, "
+      "  fileName&, "
+      "  word&"
       ")"
     )
     << "has invalid word for name: \"" << name
@@ -169,11 +169,11 @@ mousse::IOobject::IOobject
     (
       "IOobject::IOobject"
       "("
-        "const fileName&, "
-        "const objectRegistry&, "
-        "readOption, "
-        "writeOption, "
-        "bool"
+      "  const fileName&, "
+      "  const objectRegistry&, "
+      "  readOption, "
+      "  writeOption, "
+      "  bool"
       ")"
     )
     << " invalid path specification"
@@ -285,10 +285,11 @@ mousse::fileName mousse::IOobject::filePath() const
         }
       }
       if (!isDir(path)) {
-        word newInstancePath = time().findInstancePath
-        (
-          instant(instance())
-        );
+        word newInstancePath =
+          time().findInstancePath
+          (
+            instant(instance())
+          );
         if (newInstancePath.size()) {
           fileName fName
           {
@@ -319,10 +320,10 @@ mousse::Istream* mousse::IOobject::objectStream(const fileName& fName)
       return isPtr;
     } else {
       delete isPtr;
-      return NULL;
+      return nullptr;
     }
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 

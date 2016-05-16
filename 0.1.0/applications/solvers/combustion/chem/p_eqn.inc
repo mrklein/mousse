@@ -1,10 +1,8 @@
 {
   rho = thermo.rho();
-  if (constProp == "volume")
-  {
+  if (constProp == "volume") {
     scalar invW = 0.0;
-    FOR_ALL(Y, i)
-    {
+    FOR_ALL(Y, i) {
       invW += Y[i][0]/specieData[i].W();
     }
     Rspecific[0] = 1000.0*constant::physicoChemical::R.value()*invW;

@@ -8,14 +8,15 @@
 //   mousse::psiReactionThermo
 // Description
 //   mousse::psiReactionThermo
-// SourceFiles
-//   psi_reaction_thermo.cpp
+
 #include "psi_thermo.hpp"
 #include "basic_specie_mixture.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class psiReactionThermo
 :
   public psiThermo
@@ -54,5 +55,8 @@ public:
     //- Return the composition of the multi-component mixture
     virtual const basicSpecieMixture& composition() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

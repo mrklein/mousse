@@ -8,43 +8,51 @@
 //   mousse::adiabaticPerfectFluid
 // Description
 //   AdiabaticPerfect gas equation of state.
-// SourceFiles
-//   adiabatic_perfect_fluid.cpp
+
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class adiabaticPerfectFluid;
+
 template<class Specie>
 inline adiabaticPerfectFluid<Specie> operator+
 (
   const adiabaticPerfectFluid<Specie>&,
   const adiabaticPerfectFluid<Specie>&
 );
+
 template<class Specie>
 inline adiabaticPerfectFluid<Specie> operator-
 (
   const adiabaticPerfectFluid<Specie>&,
   const adiabaticPerfectFluid<Specie>&
 );
+
 template<class Specie>
 inline adiabaticPerfectFluid<Specie> operator*
 (
   const scalar,
   const adiabaticPerfectFluid<Specie>&
 );
+
 template<class Specie>
 inline adiabaticPerfectFluid<Specie> operator==
 (
   const adiabaticPerfectFluid<Specie>&,
   const adiabaticPerfectFluid<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const adiabaticPerfectFluid<Specie>&
 );
+
+
 template<class Specie>
 class adiabaticPerfectFluid
 :
@@ -145,7 +153,9 @@ public:
       const adiabaticPerfectFluid&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Specie>
@@ -164,6 +174,8 @@ inline mousse::adiabaticPerfectFluid<Specie>::adiabaticPerfectFluid
   gamma_{gamma},
   B_{B}
 {}
+
+
 // Constructors 
 template<class Specie>
 inline mousse::adiabaticPerfectFluid<Specie>::adiabaticPerfectFluid
@@ -178,18 +190,24 @@ inline mousse::adiabaticPerfectFluid<Specie>::adiabaticPerfectFluid
   gamma_{pf.gamma_},
   B_{pf.B_}
 {}
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::adiabaticPerfectFluid<Specie> >
 mousse::adiabaticPerfectFluid<Specie>::clone() const
 {
-  return {new adiabaticPerfectFluid<Specie>(*this)};
+  return {new adiabaticPerfectFluid<Specie>{*this}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::adiabaticPerfectFluid<Specie> >
 mousse::adiabaticPerfectFluid<Specie>::New(Istream& is)
 {
-  return {new adiabaticPerfectFluid<Specie>(is)};
+  return {new adiabaticPerfectFluid<Specie>{is}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::adiabaticPerfectFluid<Specie> >
 mousse::adiabaticPerfectFluid<Specie>::New
@@ -197,8 +215,10 @@ mousse::adiabaticPerfectFluid<Specie>::New
   const dictionary& dict
 )
 {
-  return {new adiabaticPerfectFluid<Specie>(dict)};
+  return {new adiabaticPerfectFluid<Specie>{dict}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::rho
@@ -209,6 +229,8 @@ inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::rho
 {
   return rho0_*pow((p + B_)/(p0_ + B_), 1.0/gamma_);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::s
 (
@@ -217,10 +239,11 @@ inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::s
 ) const
 {
   scalar n = 1 - 1.0/gamma_;
-  return
-   -pow(p0_ + B_, 1.0/gamma_)*(pow((p + B_), n) - pow((Pstd + B_), n))
-   /(rho0_*T*n);
+  const scalar tmp = pow(p0_ + B_, 1.0/gamma_);
+  return -tmp*(pow((p + B_), n) - pow((Pstd + B_), n))/(rho0_*T*n);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::psi
 (
@@ -229,14 +252,17 @@ inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::psi
 ) const
 {
   return
-    (rho0_/(gamma_*(p0_ + B_)))
-   *pow((p + B_)/(p0_ + B_), 1.0/gamma_ - 1.0);
+    (rho0_/(gamma_*(p0_ + B_)))*pow((p + B_)/(p0_ + B_), 1.0/gamma_ - 1.0);
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::Z(scalar, scalar) const
 {
   return 1;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::cpMcv
 (
@@ -246,6 +272,8 @@ inline mousse::scalar mousse::adiabaticPerfectFluid<Specie>::cpMcv
 {
   return 0;
 }
+
+
 // Member Operators 
 template<class Specie>
 inline void mousse::adiabaticPerfectFluid<Specie>::operator+=
@@ -262,6 +290,8 @@ inline void mousse::adiabaticPerfectFluid<Specie>::operator+=
   gamma_ = molr1*gamma_ + molr2*pf.gamma_;
   B_ = molr1*B_ + molr2*pf.B_;
 }
+
+
 template<class Specie>
 inline void mousse::adiabaticPerfectFluid<Specie>::operator-=
 (
@@ -277,11 +307,15 @@ inline void mousse::adiabaticPerfectFluid<Specie>::operator-=
   gamma_ = molr1*gamma_ - molr2*pf.gamma_;
   B_ = molr1*B_ - molr2*pf.B_;
 }
+
+
 template<class Specie>
 inline void mousse::adiabaticPerfectFluid<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 inline mousse::adiabaticPerfectFluid<Specie> mousse::operator+
@@ -293,16 +327,18 @@ inline mousse::adiabaticPerfectFluid<Specie> mousse::operator+
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return rhoConst<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   + static_cast<const Specie&>(pf2),
-    molr1*pf1.p0_ + molr2*pf2.p0_,
-    molr1*pf1.rho0_ + molr2*pf2.rho0_,
-    molr1*pf1.gamma_ + molr2*pf2.gamma_,
-    molr1*pf1.B_ + molr2*pf2.B_
-  );
+  return
+    rhoConst<Specie>
+    {
+      static_cast<const Specie&>(pf1) + static_cast<const Specie&>(pf2),
+      molr1*pf1.p0_ + molr2*pf2.p0_,
+      molr1*pf1.rho0_ + molr2*pf2.rho0_,
+      molr1*pf1.gamma_ + molr2*pf2.gamma_,
+      molr1*pf1.B_ + molr2*pf2.B_
+    };
 }
+
+
 template<class Specie>
 inline mousse::adiabaticPerfectFluid<Specie> mousse::operator-
 (
@@ -313,16 +349,18 @@ inline mousse::adiabaticPerfectFluid<Specie> mousse::operator-
   scalar nMoles = pf1.nMoles() + pf2.nMoles();
   scalar molr1 = pf1.nMoles()/nMoles;
   scalar molr2 = pf2.nMoles()/nMoles;
-  return rhoConst<Specie>
-  (
-    static_cast<const Specie&>(pf1)
-   - static_cast<const Specie&>(pf2),
-    molr1*pf1.p0_ - molr2*pf2.p0_,
-    molr1*pf1.rho0_ - molr2*pf2.rho0_,
-    molr1*pf1.gamma_ - molr2*pf2.gamma_,
-    molr1*pf1.B_ - molr2*pf2.B_
-  );
+  return
+    rhoConst<Specie>
+    {
+      static_cast<const Specie&>(pf1) - static_cast<const Specie&>(pf2),
+      molr1*pf1.p0_ - molr2*pf2.p0_,
+      molr1*pf1.rho0_ - molr2*pf2.rho0_,
+      molr1*pf1.gamma_ - molr2*pf2.gamma_,
+      molr1*pf1.B_ - molr2*pf2.B_
+    };
 }
+
+
 template<class Specie>
 inline mousse::adiabaticPerfectFluid<Specie> mousse::operator*
 (
@@ -330,15 +368,18 @@ inline mousse::adiabaticPerfectFluid<Specie> mousse::operator*
   const adiabaticPerfectFluid<Specie>& pf
 )
 {
-  return adiabaticPerfectFluid<Specie>
-  (
-    s*static_cast<const Specie&>(pf),
-    pf.p0_,
-    pf.rho0_,
-    pf.gamma_,
-    pf.B_
-  );
+  return
+    adiabaticPerfectFluid<Specie>
+    {
+      s*static_cast<const Specie&>(pf),
+      pf.p0_,
+      pf.rho0_,
+      pf.gamma_,
+      pf.B_
+    };
 }
+
+
 template<class Specie>
 inline mousse::adiabaticPerfectFluid<Specie> mousse::operator==
 (
@@ -348,7 +389,7 @@ inline mousse::adiabaticPerfectFluid<Specie> mousse::operator==
 {
   return pf2 - pf1;
 }
-#ifdef NoRepository
-#   include "adiabatic_perfect_fluid.cpp"
-#endif
+
+#include "adiabatic_perfect_fluid.ipp"
+
 #endif

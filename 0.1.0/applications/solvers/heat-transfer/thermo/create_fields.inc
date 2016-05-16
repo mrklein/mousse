@@ -1,5 +1,5 @@
-  Info<< "Reading thermophysical properties\n" << endl;
-  autoPtr<rhoThermo> pThermo(rhoThermo::New(mesh));
+  Info << "Reading thermophysical properties\n" << endl;
+  autoPtr<rhoThermo> pThermo{rhoThermo::New(mesh)};
   rhoThermo& thermo = pThermo();
   thermo.validate(args.executable(), "h", "e");
   volScalarField rho
@@ -14,7 +14,7 @@
     thermo.rho()
   };
   volScalarField& p = thermo.p();
-  Info<< "Reading field U\n" << endl;
+  Info << "Reading field U\n" << endl;
   volVectorField U
   {
     {
@@ -28,7 +28,7 @@
   };
   #include "compressible_create_phi.inc"
   #include "set_alpha_eff.inc"
-  Info<< "Creating field dpdt\n" << endl;
+  Info << "Creating field dpdt\n" << endl;
   volScalarField dpdt
   {
     {
@@ -39,5 +39,5 @@
     mesh,
     {"dpdt", p.dimensions()/dimTime, 0}
   };
-  Info<< "Creating field kinetic energy K\n" << endl;
+  Info << "Creating field kinetic energy K\n" << endl;
   volScalarField K{"K", 0.5*magSqr(U)};

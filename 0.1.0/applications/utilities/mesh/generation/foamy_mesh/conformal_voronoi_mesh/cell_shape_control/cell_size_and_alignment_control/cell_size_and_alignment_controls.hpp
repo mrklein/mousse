@@ -6,13 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cellSizeAndAlignmentControls
-// Description
-// SourceFiles
-//   cell_size_and_alignment_controls.cpp
+
 #include "dictionary.hpp"
 #include "cell_size_and_alignment_control.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellSizeAndAlignmentControls
 {
   // Private data
@@ -48,10 +48,7 @@ public:
   // Member Functions
     // Access
       inline const PtrList<cellSizeAndAlignmentControl>&
-      controlFunctions() const
-      {
-        return controlFunctions_;
-      }
+      controlFunctions() const { return controlFunctions_; }
       inline const conformationSurfaces& geometryToConformTo() const
       {
         return geometryToConformTo_;
@@ -60,5 +57,8 @@ public:
       scalar cellSize(const point& pt) const;
       scalar cellSize(const point& pt, label& maxPriority) const;
 };
+
 }  // namespace mousse
+
 #endif
+

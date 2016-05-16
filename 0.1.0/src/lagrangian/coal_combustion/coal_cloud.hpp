@@ -8,29 +8,35 @@
 //   mousse::coalCloud
 // Description
 //   Cloud class to introduce coal parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"
 #include "_reacting_cloud.hpp"
 #include "_reacting_multiphase_cloud.hpp"
 #include "coal_parcel.hpp"
-namespace mousse
-{
-  typedef ReactingMultiphaseCloud
+
+
+namespace mousse {
+
+typedef ReactingMultiphaseCloud
+<
+  ReactingCloud
   <
-    ReactingCloud
+    ThermoCloud
     <
-      ThermoCloud
+      KinematicCloud
       <
-        KinematicCloud
+        Cloud
         <
-          Cloud
-          <
-            coalParcel
-          >
+          coalParcel
         >
       >
     >
-  > coalCloud;
+  >
+> coalCloud;
+
 }
+
 #endif
+

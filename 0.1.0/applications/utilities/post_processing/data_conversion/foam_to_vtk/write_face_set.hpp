@@ -4,11 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   write_face_set.cpp
+
 #include "vtk_mesh.hpp"
 #include "face_set.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Write lagrangian fields.
 void writeFaceSet
 (
@@ -17,5 +19,8 @@ void writeFaceSet
   const faceSet& set,
   const fileName& fileName
 );
+
 }  // namespace mousse
+
 #endif
+

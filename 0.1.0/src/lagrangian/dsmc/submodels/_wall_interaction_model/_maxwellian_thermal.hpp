@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TMAXWELLIAN_THERMAL_HPP_
+#define LAGRANGIAN_DSMC_SUBMODELS_TWALL_INTERACTION_MODEL_TMAXWELLIAN_THERMAL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -8,13 +11,11 @@
 //   drawn from a Maxwellian distribution corresponding to a specified
 //   temperature
 
-#ifndef maxwellian_thermal_hpp_
-#define maxwellian_thermal_hpp_
-
 #include "_wall_interaction_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class MaxwellianThermal
 :
@@ -40,9 +41,9 @@ public:
       const wallPolyPatch& wpp
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_maxwellian_thermal.cpp"
-#endif
+#include "_maxwellian_thermal.ipp"
+
 #endif

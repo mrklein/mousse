@@ -8,29 +8,35 @@
 //   mousse::basicSprayCloud
 // Description
 //   Cloud class to introduce reacting spray parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_thermo_cloud.hpp"
 #include "_reacting_cloud.hpp"
 #include "_spray_cloud.hpp"
 #include "basic_spray_parcel.hpp"
-namespace mousse
-{
-  typedef SprayCloud
+
+
+namespace mousse {
+
+typedef SprayCloud
+<
+  ReactingCloud
   <
-    ReactingCloud
+    ThermoCloud
     <
-      ThermoCloud
+      KinematicCloud
       <
-        KinematicCloud
+        Cloud
         <
-          Cloud
-          <
-            basicSprayParcel
-          >
+          basicSprayParcel
         >
       >
     >
-  > basicSprayCloud;
+  >
+> basicSprayCloud;
+
 }
+
 #endif
+

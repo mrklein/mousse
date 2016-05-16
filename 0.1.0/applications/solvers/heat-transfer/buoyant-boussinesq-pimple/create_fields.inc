@@ -1,5 +1,5 @@
-Info<< "Reading thermophysical properties\n" << endl;
-Info<< "Reading field T\n" << endl;
+Info << "Reading thermophysical properties\n" << endl;
+Info << "Reading field T\n" << endl;
 volScalarField T
 {
   {
@@ -11,7 +11,7 @@ volScalarField T
   },
   mesh
 };
-Info<< "Reading field p_rgh\n" << endl;
+Info << "Reading field p_rgh\n" << endl;
 volScalarField p_rgh
 {
   {
@@ -23,7 +23,7 @@ volScalarField p_rgh
   },
   mesh
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -37,7 +37,7 @@ volVectorField U
 };
 #include "create_phi.inc"
 #include "read_transport_properties.inc"
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 autoPtr<incompressible::turbulenceModel> turbulence
 {
   incompressible::turbulenceModel::New(U, phi, laminarTransport)
@@ -53,7 +53,7 @@ volScalarField rhok
   1.0 - beta*(T - TRef)
 };
 // kinematic turbulent thermal thermal conductivity m2/s
-Info<< "Reading field alphat\n" << endl;
+Info << "Reading field alphat\n" << endl;
 volScalarField alphat
 {
   {
@@ -89,13 +89,14 @@ setRefCell
   pRefCell,
   pRefValue
 );
-if (p_rgh.needReference())
-{
-  p += dimensionedScalar
-  (
-    "p",
-    p.dimensions(),
-    pRefValue - getRefCellValue(p, pRefCell)
-  );
+if (p_rgh.needReference()) {
+  p +=
+    dimensionedScalar
+    {
+      "p",
+      p.dimensions(),
+      pRefValue - getRefCellValue(p, pRefCell)
+    };
 }
 mesh.setFluxRequired(p_rgh.name());
+

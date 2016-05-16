@@ -3,12 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "xi_g_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(XiGModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(XiGModel, dictionary);
+
 }
+
+
 // Constructors 
 mousse::XiGModel::XiGModel
 (
@@ -29,12 +34,17 @@ mousse::XiGModel::XiGModel
   turbulence_{turbulence},
   Su_{Su}
 {}
+
+
 // Destructor 
 mousse::XiGModel::~XiGModel()
 {}
+
+
 // Member Functions 
 bool mousse::XiGModel::read(const dictionary& XiGProperties)
 {
   XiGModelCoeffs_ = XiGProperties.subDict(type() + "Coeffs");
   return true;
 }
+

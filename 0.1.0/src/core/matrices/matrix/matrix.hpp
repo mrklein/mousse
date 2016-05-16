@@ -145,21 +145,25 @@ public:
 template<class Form, class Type> const Type& max(const Matrix<Form, Type>&);
 template<class Form, class Type> const Type& min(const Matrix<Form, Type>&);
 template<class Form, class Type> Form operator-(const Matrix<Form, Type>&);
+
 template<class Form, class Type> Form operator+
 (
   const Matrix<Form, Type>&,
   const Matrix<Form, Type>&
 );
+
 template<class Form, class Type> Form operator-
 (
   const Matrix<Form, Type>&,
   const Matrix<Form, Type>&
 );
+
 template<class Form, class Type> Form operator*
 (
   const scalar,
   const Matrix<Form, Type>&
 );
+
 template<class Form, class Type> Form operator*
 (
   const Matrix<Form, Type>&,
@@ -173,7 +177,7 @@ inline mousse::Matrix<Form, Type>::Matrix()
 :
   n_{0},
   m_{0},
-  v_{NULL}
+  v_{nullptr}
 {}
 
 
@@ -254,6 +258,8 @@ inline Type* mousse::Matrix<Form, Type>::operator[](const label i)
 #endif
   return v_[i];
 }
+
+
 template<class Form, class Type>
 inline const Type* mousse::Matrix<Form, Type>::operator[](const label i) const
 {

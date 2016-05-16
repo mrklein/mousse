@@ -1,6 +1,6 @@
 potential.cpp
 
-pair_potential = pair_potential
+pair_potential = pair
 
 $(pair_potential)/pair_potential_list.cpp
 $(pair_potential)/pair_potential.cpp
@@ -24,7 +24,7 @@ $(energy_scaling_function)/no_scaling.cpp
 $(energy_scaling_function)/sigmoid.cpp
 $(energy_scaling_function)/double_sigmoid.cpp
 
-tether_potential = tether_potential
+tether_potential = tether
 
 $(tether_potential)/tether_potential_list.cpp
 $(tether_potential)/tether_potential.cpp

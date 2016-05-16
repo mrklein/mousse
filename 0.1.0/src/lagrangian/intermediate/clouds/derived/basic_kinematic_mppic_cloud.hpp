@@ -8,21 +8,27 @@
 //   mousse::basicKinematicMPPICCloud
 // Description
 //   Cloud class to introduce kinematic MPPIC parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "_mppic_cloud.hpp"
 #include "basic_kinematic_mppic_parcel.hpp"
-namespace mousse
-{
-  typedef MPPICCloud
+
+
+namespace mousse {
+
+typedef MPPICCloud
+<
+  KinematicCloud
   <
-    KinematicCloud
+    Cloud
     <
-      Cloud
-      <
-        basicKinematicMPPICParcel
-      >
+      basicKinematicMPPICParcel
     >
-  > basicKinematicMPPICCloud;
+  >
+> basicKinematicMPPICCloud;
+
 }
+
 #endif
+

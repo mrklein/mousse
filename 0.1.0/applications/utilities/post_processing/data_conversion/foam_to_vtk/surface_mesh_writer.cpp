@@ -4,6 +4,8 @@
 
 #include "surface_mesh_writer.hpp"
 #include "write_funs.hpp"
+
+
 // Constructors 
 mousse::surfaceMeshWriter::surfaceMeshWriter
 (
@@ -23,21 +25,20 @@ mousse::surfaceMeshWriter::surfaceMeshWriter
   os_ << "DATASET POLYDATA" << std::endl;
   // Write topology
   label nFaceVerts = 0;
-  FOR_ALL(pp, faceI)
-  {
+  FOR_ALL(pp, faceI) {
     nFaceVerts += pp[faceI].size() + 1;
   }
   os_ << "POINTS " << pp.nPoints() << " float" << std::endl;
-  DynamicList<floatScalar> ptField(3*pp.nPoints());
+  DynamicList<floatScalar> ptField{3*pp.nPoints()};
   writeFuns::insert(pp.localPoints(), ptField);
   writeFuns::write(os_, binary, ptField);
   os_ << "POLYGONS " << pp.size() << ' ' << nFaceVerts << std::endl;
   DynamicList<label> vertLabels{nFaceVerts};
-  FOR_ALL(pp, faceI)
-  {
+  FOR_ALL(pp, faceI) {
     const face& f = pp.localFaces()[faceI];
     vertLabels.append(f.size());
     writeFuns::insert(f, vertLabels);
   }
   writeFuns::write(os_, binary_, vertLabels);
 }
+

@@ -3,20 +3,30 @@
 // Copyright (C) 2016 mousse project
 
 #include "calc_type.hpp"
+
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(calcType, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(calcType, dictionary);
+
+
 // Constructors 
 mousse::calcType::calcType()
 {}
+
+
 // Destructor 
 mousse::calcType::~calcType()
 {}
+
+
 // Protected Member Functions 
 void mousse::calcType::init()
 {
   // Do nothing
 }
+
+
 void mousse::calcType::preCalc
 (
   const argList& /*args*/,
@@ -26,6 +36,8 @@ void mousse::calcType::preCalc
 {
   // Do nothing
 }
+
+
 void mousse::calcType::calc
 (
   const argList& /*args*/,
@@ -35,6 +47,8 @@ void mousse::calcType::calc
 {
   // Do nothing
 }
+
+
 void mousse::calcType::postCalc
 (
   const argList& /*args*/,
@@ -44,19 +58,20 @@ void mousse::calcType::postCalc
 {
   // Do nothing
 }
+
+
 // Member Functions 
 void mousse::calcType::tryInit()
 {
   FatalIOError.throwExceptions();
-  try
-  {
+  try {
     init();
-  }
-  catch(IOerror& err)
-  {
-    Warning<< err << endl;
+  } catch(IOerror& err) {
+    Warning << err << endl;
   }
 }
+
+
 void mousse::calcType::tryPreCalc
 (
   const argList& args,
@@ -65,15 +80,14 @@ void mousse::calcType::tryPreCalc
 )
 {
   FatalIOError.throwExceptions();
-  try
-  {
+  try {
     preCalc(args, runTime, mesh);
-  }
-  catch(IOerror& err)
-  {
-    Warning<< err << endl;
+  } catch(IOerror& err) {
+    Warning << err << endl;
   }
 }
+
+
 void mousse::calcType::tryCalc
 (
   const argList& args,
@@ -82,15 +96,14 @@ void mousse::calcType::tryCalc
 )
 {
   FatalIOError.throwExceptions();
-  try
-  {
+  try {
     calc(args, runTime, mesh);
-  }
-  catch(IOerror& err)
-  {
-    Warning<< err << endl;
+  } catch(IOerror& err) {
+    Warning << err << endl;
   }
 }
+
+
 void mousse::calcType::tryPostCalc
 (
   const argList& args,
@@ -99,12 +112,10 @@ void mousse::calcType::tryPostCalc
 )
 {
   FatalIOError.throwExceptions();
-  try
-  {
+  try {
     postCalc(args, runTime, mesh);
-  }
-  catch(IOerror& err)
-  {
-    Warning<< err << endl;
+  } catch(IOerror& err) {
+    Warning << err << endl;
   }
 }
+

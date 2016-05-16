@@ -4,10 +4,11 @@
 
 #include "no_scaling.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace energyScalingFunctions
-{
+
+
+namespace mousse {
+namespace energyScalingFunctions {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(noScaling, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -16,6 +17,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   noScaling,
   dictionary
 );
+
+
 // Constructors 
 noScaling::noScaling
 (
@@ -24,15 +27,21 @@ noScaling::noScaling
   const pairPotential& pairPot
 )
 :
-  energyScalingFunction(name, energyScalingFunctionProperties, pairPot)
+  energyScalingFunction{name, energyScalingFunctionProperties, pairPot}
 {}
+
+
 // Member Functions 
 void noScaling::scaleEnergy(scalar& /*e*/, const scalar /*r*/) const
 {}
+
+
 bool noScaling::read(const dictionary& energyScalingFunctionProperties)
 {
   energyScalingFunction::read(energyScalingFunctionProperties);
   return true;
 }
+
 }  // namespace energyScalingFunctions
 }  // namespace mousse
+

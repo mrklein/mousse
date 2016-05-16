@@ -25,11 +25,10 @@
   const scalar xMin = p->minValue();
   const scalar xMax = p->maxValue();
   autoPtr<OFstream> filePtr{NULL};
-  if (writeData)
-  {
+  if (writeData) {
     fileName fName = pdfPath/(p->type() + ".data");
     Info << "Writing " << p->type() << " data samples to file:" << nl
       << fName << nl << endl;
-    filePtr.reset(new OFstream(fName));
+    filePtr.reset(new OFstream{fName});
   }
   scalarField samples{nIntervals, 0};

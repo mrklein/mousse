@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::energyScalingFunctions::shiftedForce
-// Description
-// SourceFiles
-//   shifted_force.cpp
+
 #include "energy_scaling_function.hpp"
-namespace mousse
-{
-namespace energyScalingFunctions
-{
+
+
+namespace mousse {
+namespace energyScalingFunctions {
+
 class shiftedForce
 :
   public energyScalingFunction
@@ -41,6 +40,9 @@ public:
     //- Read dictionary
     bool read(const dictionary& energyScalingFunctionProperties);
 };
+
 }  // namespace energyScalingFunctions
 }  // namespace mousse
+
 #endif
+

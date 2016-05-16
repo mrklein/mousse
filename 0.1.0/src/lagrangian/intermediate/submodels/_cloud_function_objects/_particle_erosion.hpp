@@ -8,12 +8,13 @@
 //   mousse::ParticleErosion
 // Description
 //   Creates particle erosion field, Q
-// SourceFiles
-//   _particle_erosion.cpp
+
 #include "_cloud_function_object.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleErosion
 :
@@ -53,12 +54,13 @@ public:
     //- Construct copy
     ParticleErosion(const ParticleErosion<CloudType>& pe);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new ParticleErosion<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new ParticleErosion<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParticleErosion();
@@ -76,8 +78,9 @@ public:
         bool& keepParticle
       );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_particle_erosion.cpp"
-#endif
+
+#include "_particle_erosion.ipp"
+
 #endif

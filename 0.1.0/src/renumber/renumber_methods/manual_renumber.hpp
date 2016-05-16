@@ -8,11 +8,12 @@
 //   mousse::manualRenumber
 // Description
 //   Renumber given a ordered-to-original cell association in a file
-// SourceFiles
-//   manual_renumber.cpp
+
 #include "renumber_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class manualRenumber
 :
   public renumberMethod
@@ -63,8 +64,11 @@ public:
         "manualRenumber::renumber"
         "(const labelListList&, const pointField&)"
       );
-      return labelList(0);
+      return labelList{0};
     }
 };
+
 }  // namespace mousse
+
 #endif
+

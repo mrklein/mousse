@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TREACTING_MULTIPHASE_PARCEL_HPP_
+#define LAGRANGIAN_INTERMEDIATE_PARCELS_TEMPLATES_TREACTING_MULTIPHASE_PARCEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,24 +9,25 @@
 // Description
 //   Multiphase variant of the reacting parcel class with one/two-way coupling
 //   with the continuous phase.
-// SourceFiles
-//   _reacting_multiphase_parcel.cpp
-//   _reacting_multiphase_parcel_io.cpp
-#ifndef reacting_multiphase_parcel_hpp_
-#define reacting_multiphase_parcel_hpp_
+
 #include "particle.hpp"
 #include "slg_thermo.hpp"
 #include "demand_driven_entry.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ParcelType>
 class ReactingMultiphaseParcel;
+
 template<class ParcelType>
 Ostream& operator<<
 (
   Ostream&,
   const ReactingMultiphaseParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class ReactingMultiphaseParcel
 :
@@ -177,12 +181,12 @@ public:
     //- Runtime type information
     TYPE_NAME("ReactingMultiphaseParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       " nGas(Y1..YN)"
-     + " nLiquid(Y1..YN)"
-     + " nSolid(Y1..YN)"
+      + " nLiquid(Y1..YN)"
+      + " nSolid(Y1..YN)"
     );
   // Constructors
     //- Construct from owner, position, and cloud owner
@@ -235,12 +239,12 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new ReactingMultiphaseParcel(*this));
+      return autoPtr<particle>{new ReactingMultiphaseParcel{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
-      return autoPtr<particle>(new ReactingMultiphaseParcel(*this, mesh));
+      return autoPtr<particle>{new ReactingMultiphaseParcel{*this, mesh}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -250,17 +254,17 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<ReactingMultiphaseParcel<ParcelType> > operator()
+      autoPtr<ReactingMultiphaseParcel<ParcelType>> operator()
       (
         Istream& is
       ) const
       {
-        return autoPtr<ReactingMultiphaseParcel<ParcelType> >
-        (
-          new ReactingMultiphaseParcel<ParcelType>(mesh_, is, true)
-        );
+        return autoPtr<ReactingMultiphaseParcel<ParcelType>>
+        {
+          new ReactingMultiphaseParcel<ParcelType>{mesh_, is, true}
+        };
       }
     };
   // Member Functions
@@ -335,7 +339,9 @@ public:
       const ReactingMultiphaseParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -347,6 +353,8 @@ constantProperties()
   LDevol_{this->dict_, 0.0},
   hRetentionCoeff_{this->dict_, 0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingMultiphaseParcel<ParcelType>::constantProperties::
 constantProperties
@@ -359,6 +367,8 @@ constantProperties
   LDevol_{cp.LDevol_},
   hRetentionCoeff_{cp.hRetentionCoeff_}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingMultiphaseParcel<ParcelType>::constantProperties::
 constantProperties
@@ -371,6 +381,8 @@ constantProperties
   LDevol_{this->dict_, "LDevol"},
   hRetentionCoeff_{this->dict_, "hRetentionCoeff"}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingMultiphaseParcel<ParcelType>::ReactingMultiphaseParcel
 (
@@ -387,6 +399,8 @@ inline mousse::ReactingMultiphaseParcel<ParcelType>::ReactingMultiphaseParcel
   YSolid_{0},
   canCombust_{0}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingMultiphaseParcel<ParcelType>::ReactingMultiphaseParcel
 (
@@ -433,6 +447,8 @@ inline mousse::ReactingMultiphaseParcel<ParcelType>::ReactingMultiphaseParcel
   YSolid_{YSolid0},
   canCombust_{0}
 {}
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -440,20 +456,23 @@ mousse::ReactingMultiphaseParcel<ParcelType>::constantProperties::TDevol() const
 {
   return TDevol_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ReactingMultiphaseParcel<ParcelType>::constantProperties::LDevol() const
 {
   return LDevol_.value();
 }
+
+
 template<class ParcelType>
 inline mousse::scalar
 mousse::ReactingMultiphaseParcel<ParcelType>::constantProperties::
 hRetentionCoeff() const
 {
   scalar value = hRetentionCoeff_.value();
-  if ((value < 0) || (value > 1))
-  {
+  if ((value < 0) || (value > 1)) {
     FATAL_ERROR_IN
     (
       "ReactingMultiphaseParcel<ParcelType>::constantProperties::"
@@ -464,6 +483,8 @@ hRetentionCoeff() const
   }
   return value;
 }
+
+
 // ThermoParcel Member Functions
 template<class ParcelType>
 inline const mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::
@@ -471,45 +492,59 @@ YGas() const
 {
   return YGas_;
 }
+
+
 template<class ParcelType>
 inline const mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::
 YLiquid() const
 {
   return YLiquid_;
 }
+
+
 template<class ParcelType>
 inline const mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::
 YSolid() const
 {
   return YSolid_;
 }
+
+
 template<class ParcelType>
 inline mousse::label
 mousse::ReactingMultiphaseParcel<ParcelType>::canCombust() const
 {
   return canCombust_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::YGas()
 {
   return YGas_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::YLiquid()
 {
   return YLiquid_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalarField& mousse::ReactingMultiphaseParcel<ParcelType>::YSolid()
 {
   return YSolid_;
 }
+
+
 template<class ParcelType>
 inline mousse::label& mousse::ReactingMultiphaseParcel<ParcelType>::canCombust()
 {
   return canCombust_;
 }
-#ifdef NoRepository
-  #include "_reacting_multiphase_parcel.cpp"
-#endif
+
+#include "_reacting_multiphase_parcel.ipp"
+
 #endif

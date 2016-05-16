@@ -9,9 +9,11 @@
 // Description
 //   An indexed form of CGAL::Triangulation_vertex_base_3<K> used to keep
 //   track of the Delaunay vertices in the tessellation.
-// SourceFiles
-//   indexed_vertex.cpp
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 #include "CGAL/Triangulation_3.h"
+#pragma clang diagnostic pop
 #include "cgal_triangulation_3d_kernel.hpp"
 #include "tensor.hpp"
 #include "triad.hpp"
@@ -19,18 +21,23 @@
 #include "point.hpp"
 #include "indexed_vertex_enum.hpp"
 #include "pstream.hpp"
-namespace CGAL
-{
+
+
+namespace CGAL {
+
 template<class Gt, class Vb> class indexedVertex;
+
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 class Ostream;
 class Istream;
 template<class Gt, class Vb> Ostream& operator<<
 (
   Ostream&,
-  const mousse::InfoProxy<CGAL::indexedVertex<Gt, Vb> >&
+  const mousse::InfoProxy<CGAL::indexedVertex<Gt, Vb>>&
 );
 template<class Gt, class Vb> Ostream& operator<<
 (
@@ -52,10 +59,13 @@ inline Ostream& operator<<
   Ostream& os,
   const CGAL::Point_3<baseK>& p
 );
+
 }  // namespace mousse
-namespace CGAL
-{
-template<class Gt, class Vb = CGAL::Triangulation_vertex_base_3<Gt> >
+
+
+namespace CGAL {
+
+template<class Gt, class Vb = CGAL::Triangulation_vertex_base_3<Gt>>
 class indexedVertex
 :
   public mousse::indexedVertexEnum,
@@ -77,10 +87,10 @@ class indexedVertex
     //- Specify whether the vertex is fixed or movable.
     bool vertexFixed_;
 public:
-  typedef typename Vb::Triangulation_data_structure   Tds;
-  typedef typename Vb::Point                          Point;
-  typedef typename Tds::Vertex_handle                 Vertex_handle;
-  typedef typename Tds::Cell_handle                   Cell_handle;
+  typedef typename Vb::Triangulation_data_structure Tds;
+  typedef typename Vb::Point Point;
+  typedef typename Tds::Vertex_handle Vertex_handle;
+  typedef typename Tds::Cell_handle Cell_handle;
   template<typename TDS2>
   struct Rebind_TDS
   {
@@ -188,14 +198,14 @@ public:
   // Info
     //- Return info proxy.
     //  Used to print indexedVertex information to a stream
-    mousse::InfoProxy<indexedVertex<Gt, Vb> > info() const
+    mousse::InfoProxy<indexedVertex<Gt, Vb>> info() const
     {
       return *this;
     }
     friend mousse::Ostream& mousse::operator<< <Gt, Vb>
     (
       mousse::Ostream&,
-      const mousse::InfoProxy<indexedVertex<Gt, Vb> >&
+      const mousse::InfoProxy<indexedVertex<Gt, Vb>>&
     );
     friend mousse::Ostream& mousse::operator<< <Gt, Vb>
     (
@@ -208,14 +218,17 @@ public:
       indexedVertex<Gt, Vb>&
     );
 };
+
 }  // namespace CGAL
+
+
 // Global Functions 
 #ifdef CGAL_INEXACT
-namespace mousse
-{
-  // For inexact representations where the storage type is a double, the data
-  // is contiguous. This may not be true for exact number types.
-  template<>
+namespace mousse {
+
+// For inexact representations where the storage type is a double, the data
+// is contiguous. This may not be true for exact number types.
+template<>
   inline bool contiguous
   <
     CGAL::indexedVertex
@@ -227,13 +240,17 @@ namespace mousse
   {
     return true;
   }
-  template<>
+
+template<>
   inline bool contiguous<CGAL::Triangulation_vertex_base_3<K>::Point>()
   {
     return true;
   }
+
 }  // namespace mousse
+
 #endif
+
 
 // Constructors 
 template<class Gt, class Vb>
@@ -247,6 +264,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex()
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p)
 :
@@ -258,6 +277,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p)
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
 (
@@ -273,6 +294,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
 (
@@ -288,6 +311,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
 (
@@ -305,6 +330,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
 (
@@ -322,6 +349,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p, Cell_handle f)
 :
@@ -333,6 +362,8 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(const Point& p, Cell_handle f)
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 template<class Gt, class Vb>
 inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(Cell_handle f)
 :
@@ -344,59 +375,81 @@ inline CGAL::indexedVertex<Gt, Vb>::indexedVertex(Cell_handle f)
   targetCellSize_{0.0},
   vertexFixed_{false}
 {}
+
+
 // Member Functions 
 template<class Gt, class Vb>
 inline mousse::label& CGAL::indexedVertex<Gt, Vb>::index()
 {
   return index_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::label CGAL::indexedVertex<Gt, Vb>::index() const
 {
   return index_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::indexedVertexEnum::vertexType&
 CGAL::indexedVertex<Gt, Vb>::type()
 {
   return type_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::indexedVertexEnum::vertexType
 CGAL::indexedVertex<Gt, Vb>::type() const
 {
   return type_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::tensor& CGAL::indexedVertex<Gt, Vb>::alignment()
 {
   return alignment_;
 }
+
+
 template<class Gt, class Vb>
 inline const mousse::tensor& CGAL::indexedVertex<Gt, Vb>::alignment() const
 {
   return alignment_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::scalar& CGAL::indexedVertex<Gt, Vb>::targetCellSize()
 {
   return targetCellSize_;
 }
+
+
 template<class Gt, class Vb>
 inline mousse::scalar CGAL::indexedVertex<Gt, Vb>::targetCellSize() const
 {
   return targetCellSize_;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::farPoint() const
 {
   return type_ == vtFar;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalPoint() const
 {
   return type_ == vtInternal || type_ == vtInternalNearBoundary;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::referred() const
 {
@@ -407,113 +460,154 @@ inline bool CGAL::indexedVertex<Gt, Vb>::referred() const
   // from, so it cannot be on this processor.
   return processor_ != mousse::Pstream::myProcNo();
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::real() const
 {
   return (internalPoint() || boundaryPoint()) && !referred();
 }
+
+
 template<class Gt, class Vb>
 inline int CGAL::indexedVertex<Gt, Vb>::procIndex() const
 {
   return processor_;
 }
+
+
 template<class Gt, class Vb>
 inline int& CGAL::indexedVertex<Gt, Vb>::procIndex()
 {
   return processor_;
 }
+
+
 template<class Gt, class Vb>
 inline void CGAL::indexedVertex<Gt, Vb>::setInternal()
 {
   type_ = vtInternal;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::nearBoundary() const
 {
   return type_ == vtInternalNearBoundary;
 }
+
+
 template<class Gt, class Vb>
 inline void CGAL::indexedVertex<Gt, Vb>::setNearBoundary()
 {
   type_ = vtInternalNearBoundary;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::boundaryPoint() const
 {
   return type_ >= vtInternalSurface && !farPoint();
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalOrBoundaryPoint() const
 {
   return internalPoint() || internalBoundaryPoint();
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::nearOrOnBoundary() const
 {
   return boundaryPoint() || nearBoundary();
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalBoundaryPoint() const
 {
   return type_ >= vtInternalSurface && type_ <= vtInternalFeaturePoint;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalBaffleSurfacePoint() const
 {
   return (type_ == vtInternalSurfaceBaffle);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::internalBaffleEdgePoint() const
 {
   return (type_ == vtInternalFeatureEdgeBaffle);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::externalBoundaryPoint() const
 {
   return type_ >= vtExternalSurface && type_ <= vtExternalFeaturePoint;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::externalBaffleSurfacePoint() const
 {
   return (type_ == vtExternalSurfaceBaffle);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::externalBaffleEdgePoint() const
 {
   return (type_ == vtExternalFeatureEdgeBaffle);
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::constrained() const
 {
   return type_ == vtConstrained;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::featurePoint() const
 {
   return type_ == vtInternalFeaturePoint || type_ == vtExternalFeaturePoint;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::featureEdgePoint() const
 {
   return type_ == vtInternalFeatureEdge || type_ == vtExternalFeatureEdge;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::surfacePoint() const
 {
   return type_ == vtInternalSurface || type_ == vtExternalSurface;
 }
+
+
 template<class Gt, class Vb>
 inline bool CGAL::indexedVertex<Gt, Vb>::fixed() const
 {
   return vertexFixed_;
 }
+
+
 template<class Gt, class Vb>
 inline bool& CGAL::indexedVertex<Gt, Vb>::fixed()
 {
   return vertexFixed_;
 }
 
-#ifdef NoRepository
-  #include "indexed_vertex.cpp"
-#endif
+#include "indexed_vertex.ipp"
+
 #endif

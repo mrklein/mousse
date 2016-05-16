@@ -8,16 +8,15 @@
 //   mousse::noRadiation
 // Description
 //   Dummy radiation model for 'none' option
-// SourceFiles
-//   no_radiation.cpp
+
 #include "film_radiation_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 class noRadiation
 :
   public filmRadiationModel
@@ -45,7 +44,10 @@ public:
       //- Return the radiation sensible enthalpy source
       virtual tmp<volScalarField> Shs();
 };
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

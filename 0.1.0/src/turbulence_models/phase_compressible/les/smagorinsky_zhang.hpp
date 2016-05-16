@@ -26,14 +26,14 @@
 //       Cmub            0.6;
 //     }
 //   \endverbatim
-// SourceFiles
-//   smagorinsky_zhang.cpp
+
 #include "les_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class SmagorinskyZhang
 :
@@ -86,9 +86,10 @@ public:
     //- Read model coefficients if they have changed
     virtual bool read();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "smagorinsky_zhang.cpp"
-#endif
+
+#include "smagorinsky_zhang.ipp"
+
 #endif

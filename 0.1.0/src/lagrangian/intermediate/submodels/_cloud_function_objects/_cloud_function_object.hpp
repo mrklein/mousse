@@ -8,17 +8,19 @@
 //   mousse::CloudFunctionObject
 // Description
 //   Templated cloud function object base class
-// SourceFiles
-//   _cloud_function_object.cpp
-//   _cloud_function_object_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class polyPatch;
 class tetIndices;
+
+
 template<class CloudType>
 class CloudFunctionObject
 :
@@ -62,17 +64,18 @@ public:
     //- Construct copy
     CloudFunctionObject(const CloudFunctionObject<CloudType>& ppm);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new CloudFunctionObject<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new CloudFunctionObject<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~CloudFunctionObject();
   //- Selector
-  static autoPtr<CloudFunctionObject<CloudType> > New
+  static autoPtr<CloudFunctionObject<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner,
@@ -116,7 +119,9 @@ public:
       //- Return the output time path
       fileName outputTimeDir() const;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_CLOUD_FUNCTION_OBJECT(CloudType)                                 \
                                                                               \
@@ -126,14 +131,14 @@ public:
     mousse::CloudFunctionObject<kinematicCloudType>,                          \
     0                                                                         \
   );                                                                          \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      CloudFunctionObject<kinematicCloudType>,                                \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    CloudFunctionObject<kinematicCloudType>,                                  \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_CLOUD_FUNCTION_OBJECT_TYPE(SS, CloudType)                        \
                                                                               \
@@ -141,10 +146,9 @@ public:
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::CloudFunctionObject<kinematicCloudType>::                           \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_cloud_function_object.cpp"
-#endif
+#include "_cloud_function_object.ipp"
+
 #endif

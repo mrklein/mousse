@@ -4,20 +4,24 @@
 
 #include "linear.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  namespace compressibilityModels
-  {
-    DEFINE_TYPE_NAME_AND_DEBUG(linear, 0);
-    ADD_TO_RUN_TIME_SELECTION_TABLE
-    (
-      barotropicCompressibilityModel,
-      linear,
-      dictionary
-    );
-  }
+namespace mousse {
+namespace compressibilityModels {
+
+DEFINE_TYPE_NAME_AND_DEBUG(linear, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE
+(
+  barotropicCompressibilityModel,
+  linear,
+  dictionary
+);
+
 }
+}
+
+
 // Constructors 
 mousse::compressibilityModels::linear::linear
 (
@@ -26,28 +30,22 @@ mousse::compressibilityModels::linear::linear
   const word& psiName
 )
 :
-  barotropicCompressibilityModel(compressibilityProperties, gamma, psiName),
-  psiv_
-  (
-    "psiv",
-    dimCompressibility,
-    compressibilityProperties_.lookup("psiv")
-  ),
-  psil_
-  (
-    "psil",
-    dimCompressibility,
-    compressibilityProperties_.lookup("psil")
-  )
+  barotropicCompressibilityModel{compressibilityProperties, gamma, psiName},
+  psiv_{"psiv", dimCompressibility, compressibilityProperties_.lookup("psiv")},
+  psil_{"psil", dimCompressibility, compressibilityProperties_.lookup("psil")}
 {
   correct();
   psi_.oldTime();
 }
+
+
 // Member Functions 
 void mousse::compressibilityModels::linear::correct()
 {
-  psi_ = gamma_*psiv_ + (scalar(1) - gamma_)*psil_;
+  psi_ = gamma_*psiv_ + (scalar{1} - gamma_)*psil_;
 }
+
+
 bool mousse::compressibilityModels::linear::read
 (
   const dictionary& compressibilityProperties
@@ -58,3 +56,4 @@ bool mousse::compressibilityModels::linear::read
   compressibilityProperties_.lookup("psil") >> psil_;
   return true;
 }
+

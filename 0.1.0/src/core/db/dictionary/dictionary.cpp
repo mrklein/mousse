@@ -282,7 +282,7 @@ const mousse::entry* mousse::dictionary::lookupEntryPtr
     if (recursive && &parent_ != &dictionary::null) {
       return parent_.lookupEntryPtr(keyword, recursive, patternMatch);
     } else {
-      return NULL;
+      return nullptr;
     }
   }
   return iter();
@@ -314,7 +314,7 @@ mousse::entry* mousse::dictionary::lookupEntryPtr
         patternMatch
       );
     } else {
-      return NULL;
+      return nullptr;
     }
   }
   return iter();
@@ -329,7 +329,7 @@ const mousse::entry& mousse::dictionary::lookupEntry
 ) const
 {
   const entry* entryPtr = lookupEntryPtr(keyword, recursive, patternMatch);
-  if (entryPtr == NULL) {
+  if (entryPtr == nullptr) {
     FATAL_IO_ERROR_IN
     (
       "dictionary::lookupEntry(const word&, bool, bool) const",
@@ -440,7 +440,7 @@ const mousse::entry* mousse::dictionary::lookupScopedEntryPtr
             patternMatch
           );
         } else {
-          return NULL;
+          return nullptr;
         }
       }
     }
@@ -454,7 +454,7 @@ bool mousse::dictionary::substituteScopedKeyword(const word& keyword)
   // lookup the variable name in the given dictionary
   const entry* ePtr = lookupScopedEntryPtr(varName, true, true);
   // if defined insert its entries into this dictionary
-  if (ePtr != NULL) {
+  if (ePtr != nullptr) {
     const dictionary& addDict = ePtr->dict();
     FOR_ALL_CONST_ITER(IDLList<entry>, addDict, iter) {
       add(iter());
@@ -483,7 +483,7 @@ const mousse::dictionary* mousse::dictionary::subDictPtr(const word& keyword) co
   if (entryPtr) {
     return &entryPtr->dict();
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -491,7 +491,7 @@ const mousse::dictionary* mousse::dictionary::subDictPtr(const word& keyword) co
 const mousse::dictionary& mousse::dictionary::subDict(const word& keyword) const
 {
   const entry* entryPtr = lookupEntryPtr(keyword, false, true);
-  if (entryPtr == NULL) {
+  if (entryPtr == nullptr) {
     FATAL_IO_ERROR_IN
     (
       "dictionary::subDict(const word& keyword) const",
@@ -508,7 +508,7 @@ const mousse::dictionary& mousse::dictionary::subDict(const word& keyword) const
 mousse::dictionary& mousse::dictionary::subDict(const word& keyword)
 {
   entry* entryPtr = lookupEntryPtr(keyword, false, true);
-  if (entryPtr == NULL) {
+  if (entryPtr == nullptr) {
     FATAL_IO_ERROR_IN
     (
       "dictionary::subDict(const word& keyword)",
@@ -529,7 +529,7 @@ mousse::dictionary mousse::dictionary::subOrEmptyDict
 ) const
 {
   const entry* entryPtr = lookupEntryPtr(keyword, false, true);
-  if (entryPtr == NULL) {
+  if (entryPtr == nullptr) {
     if (mustRead) {
       FATAL_IO_ERROR_IN
       (
@@ -551,7 +551,7 @@ mousse::dictionary mousse::dictionary::subOrEmptyDict
 
 mousse::wordList mousse::dictionary::toc() const
 {
-  wordList keys(size());
+  wordList keys{size()};
   label nKeys = 0;
   FOR_ALL_CONST_ITER(IDLList<entry>, *this, iter) {
     keys[nKeys++] = iter().keyword();
@@ -562,7 +562,7 @@ mousse::wordList mousse::dictionary::toc() const
 
 mousse::List<mousse::keyType> mousse::dictionary::keys(bool patterns) const
 {
-  List<keyType> keys(size());
+  List<keyType> keys{size()};
   label nKeys = 0;
   FOR_ALL_CONST_ITER(IDLList<entry>, *this, iter) {
     if (iter().keyword().isPattern() ? patterns : !patterns) {
@@ -576,10 +576,11 @@ mousse::List<mousse::keyType> mousse::dictionary::keys(bool patterns) const
 
 bool mousse::dictionary::add(entry* entryPtr, bool mergeEntry)
 {
-  HashTable<entry*>::iterator iter = hashedEntries_.find
-  (
-    entryPtr->keyword()
-  );
+  HashTable<entry*>::iterator iter =
+    hashedEntries_.find
+    (
+      entryPtr->keyword()
+    );
   if (mergeEntry && iter != hashedEntries_.end()) {
     // merge dictionary with dictionary
     if (iter()->isDict() && entryPtr->isDict()) {
@@ -597,7 +598,7 @@ bool mousse::dictionary::add(entry* entryPtr, bool mergeEntry)
           patternEntries_.insert(entryPtr);
           patternRegexps_.insert
           (
-            autoPtr<regExp>(new regExp(entryPtr->keyword()))
+            autoPtr<regExp>{new regExp{entryPtr->keyword()}}
           );
         }
         return true;
@@ -618,7 +619,7 @@ bool mousse::dictionary::add(entry* entryPtr, bool mergeEntry)
       patternEntries_.insert(entryPtr);
       patternRegexps_.insert
       (
-        autoPtr<regExp>(new regExp(entryPtr->keyword()))
+        autoPtr<regExp>{new regExp{entryPtr->keyword()}}
       );
     }
     return true;
@@ -789,7 +790,7 @@ bool mousse::dictionary::changeKeyword
     patternEntries_.insert(iter());
     patternRegexps_.insert
     (
-      autoPtr<regExp>(new regExp{newKeyword})
+      autoPtr<regExp>{new regExp{newKeyword}}
     );
   }
   return true;

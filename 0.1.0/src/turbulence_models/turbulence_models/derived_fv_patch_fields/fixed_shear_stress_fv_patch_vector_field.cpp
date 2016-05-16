@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "turbulence_model.hpp"
+
+
 // Constructors 
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
@@ -18,6 +20,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   fixedValueFvPatchVectorField{p, iF},
   tau0_{vector::zero}
 {}
+
+
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
   const fvPatch& p,
@@ -30,6 +34,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 {
   fvPatchField<vector>::operator=(patchInternalField());
 }
+
+
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
   const fixedShearStressFvPatchVectorField& ptf,
@@ -41,6 +47,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   fixedValueFvPatchVectorField{ptf, p, iF, mapper},
   tau0_{ptf.tau0_}
 {}
+
+
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
   const fixedShearStressFvPatchVectorField& ptf
@@ -49,6 +57,8 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   fixedValueFvPatchVectorField{ptf},
   tau0_{ptf.tau0_}
 {}
+
+
 mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
 (
   const fixedShearStressFvPatchVectorField& ptf,
@@ -58,39 +68,47 @@ mousse::fixedShearStressFvPatchVectorField::fixedShearStressFvPatchVectorField
   fixedValueFvPatchVectorField{ptf, iF},
   tau0_{ptf.tau0_}
 {}
+
+
 // Member Functions 
 void mousse::fixedShearStressFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const turbulenceModel& turbModel = db().lookupObject<turbulenceModel>
-  (
-    IOobject::groupName
+  const turbulenceModel& turbModel =
+    db().lookupObject<turbulenceModel>
     (
-      turbulenceModel::propertiesName,
-      dimensionedInternalField().group()
-    )
-  );
-  scalarField nuEff(turbModel.nuEff()()[patch().index()]);
-  const vectorField Uc(patchInternalField());
+      IOobject::groupName
+      (
+        turbulenceModel::propertiesName,
+        dimensionedInternalField().group()
+      )
+    );
+  scalarField nuEff{turbModel.nuEff(patch().index())};
+  const vectorField Uc{patchInternalField()};
   vector tauHat = tau0_/(mag(tau0_) + ROOTVSMALL);
   const scalarField& ry = patch().deltaCoeffs();
   operator==(tauHat*(tauHat & (tau0_*(1.0/(ry*nuEff)) + Uc)));
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::fixedShearStressFvPatchVectorField::write(Ostream& os) const
 {
   fixedValueFvPatchVectorField::write(os);
   os.writeKeyword("tau") << tau0_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   fixedShearStressFvPatchVectorField
 );
+
 }
+

@@ -7,44 +7,52 @@
 // Class
 //   mousse::rhoConst
 // Description
-//   RhoConst (rho = const) of state.
-// SourceFiles
-//   rho_const.cpp
+//   RhoConst (rho = const) equation of state.
+
 #include "auto_ptr.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Specie> class rhoConst;
+
 template<class Specie>
 inline rhoConst<Specie> operator+
 (
   const rhoConst<Specie>&,
   const rhoConst<Specie>&
 );
+
 template<class Specie>
 inline rhoConst<Specie> operator-
 (
   const rhoConst<Specie>&,
   const rhoConst<Specie>&
 );
+
 template<class Specie>
 inline rhoConst<Specie> operator*
 (
   const scalar,
   const rhoConst<Specie>&
 );
+
 template<class Specie>
 inline rhoConst<Specie> operator==
 (
   const rhoConst<Specie>&,
   const rhoConst<Specie>&
 );
+
 template<class Specie>
 Ostream& operator<<
 (
   Ostream&,
   const rhoConst<Specie>&
 );
+
+
 template<class Specie>
 class rhoConst
 :
@@ -123,7 +131,9 @@ public:
       const rhoConst&
     );
 };
+
 }  // namespace mousse
+
 
 // Private Member Functions 
 template<class Specie>
@@ -136,6 +146,8 @@ inline mousse::rhoConst<Specie>::rhoConst
   Specie{sp},
   rho_{rho}
 {}
+
+
 // Constructors 
 template<class Specie>
 inline mousse::rhoConst<Specie>::rhoConst
@@ -147,44 +159,60 @@ inline mousse::rhoConst<Specie>::rhoConst
   Specie{name, ico},
   rho_{ico.rho_}
 {}
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::rhoConst<Specie> >
 mousse::rhoConst<Specie>::clone() const
 {
   return {new rhoConst<Specie>{*this}};
 }
+
+
 template<class Specie>
 inline mousse::autoPtr<mousse::rhoConst<Specie> >
 mousse::rhoConst<Specie>::New(Istream& is)
 {
   return {new rhoConst<Specie>{is}};
 }
+
+
 // Member Functions 
 template<class Specie>
 inline mousse::scalar mousse::rhoConst<Specie>::rho(scalar /*p*/, scalar /*T*/) const
 {
   return rho_;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::rhoConst<Specie>::s(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::rhoConst<Specie>::psi(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::rhoConst<Specie>::Z(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
+
+
 template<class Specie>
 inline mousse::scalar mousse::rhoConst<Specie>::cpMcv(scalar /*p*/, scalar /*T*/) const
 {
   return 0;
 }
+
+
 // Member Operators 
 template<class Specie>
 inline void mousse::rhoConst<Specie>::operator+=(const rhoConst<Specie>& ico)
@@ -195,6 +223,8 @@ inline void mousse::rhoConst<Specie>::operator+=(const rhoConst<Specie>& ico)
   scalar molr2 = ico.nMoles()/this->nMoles();
   rho_ = molr1*rho_ + molr2*ico.rho_;
 }
+
+
 template<class Specie>
 inline void mousse::rhoConst<Specie>::operator-=(const rhoConst<Specie>& ico)
 {
@@ -204,11 +234,15 @@ inline void mousse::rhoConst<Specie>::operator-=(const rhoConst<Specie>& ico)
   scalar molr2 = ico.nMoles()/this->nMoles();
   rho_ = molr1*rho_ - molr2*ico.rho_;
 }
+
+
 template<class Specie>
 inline void mousse::rhoConst<Specie>::operator*=(const scalar s)
 {
   Specie::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Specie>
 inline mousse::rhoConst<Specie> mousse::operator+
@@ -223,6 +257,8 @@ inline mousse::rhoConst<Specie> mousse::operator+
   return {static_cast<const Specie&>(ico1) + static_cast<const Specie&>(ico2),
           molr1*ico1.rho_ + molr2*ico2.rho_};
 }
+
+
 template<class Specie>
 inline mousse::rhoConst<Specie> mousse::operator-
 (
@@ -236,6 +272,8 @@ inline mousse::rhoConst<Specie> mousse::operator-
   return {static_cast<const Specie&>(ico1) - static_cast<const Specie&>(ico2),
           molr1*ico1.rho_ - molr2*ico2.rho_};
 }
+
+
 template<class Specie>
 inline mousse::rhoConst<Specie> mousse::operator*
 (
@@ -245,6 +283,8 @@ inline mousse::rhoConst<Specie> mousse::operator*
 {
   return {s*static_cast<const Specie&>(ico), ico.rho_};
 }
+
+
 template<class Specie>
 inline mousse::rhoConst<Specie> mousse::operator==
 (
@@ -254,7 +294,7 @@ inline mousse::rhoConst<Specie> mousse::operator==
 {
   return ico2 - ico1;
 }
-#ifdef NoRepository
-#   include "rho_const.cpp"
-#endif
+
+#include "rho_const.ipp"
+
 #endif

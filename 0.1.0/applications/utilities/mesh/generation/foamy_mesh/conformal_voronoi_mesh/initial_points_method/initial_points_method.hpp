@@ -8,8 +8,7 @@
 //   mousse::initialPointsMethod
 // Description
 //   Abstract base class for generating initial points for a conformalVoronoiMesh
-// SourceFiles
-//   initial_points_method.cpp
+
 #include "point.hpp"
 #include "conformal_voronoi_mesh.hpp"
 #include "background_mesh_decomposition.hpp"
@@ -18,8 +17,10 @@
 #include "switch.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class initialPointsMethod
 :
   public dictionary
@@ -95,14 +96,8 @@ public:
   virtual ~initialPointsMethod();
   // Member Functions
     // Access
-      const Time& time() const
-      {
-        return runTime_;
-      }
-      Random& rndGen() const
-      {
-        return rndGen_;
-      }
+      const Time& time() const { return runTime_; }
+      Random& rndGen() const { return rndGen_; }
       const conformationSurfaces& geometryToConformTo() const
       {
         return geometryToConformTo_;
@@ -116,17 +111,14 @@ public:
         return decomposition_;
       }
       //- Const access to the details dictionary
-      const dictionary& detailsDict() const
-      {
-        return detailsDict_;
-      }
-      Switch fixInitialPoints() const
-      {
-        return fixInitialPoints_;
-      }
+      const dictionary& detailsDict() const { return detailsDict_; }
+      Switch fixInitialPoints() const { return fixInitialPoints_; }
     // Queries
       //- Return the initial points for the conformalVoronoiMesh
       virtual List<Vb::Point> initialPoints() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

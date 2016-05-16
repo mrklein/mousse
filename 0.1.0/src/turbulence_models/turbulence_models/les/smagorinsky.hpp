@@ -37,14 +37,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::LESModels::kEqn
-// SourceFiles
-//   smagorinsky.cpp
+
 #include "les_model.hpp"
 #include "les_eddy_viscosity.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class Smagorinsky
 :
@@ -97,9 +97,11 @@ public:
     //- Correct Eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "smagorinsky.cpp"
+
+#include "smagorinsky.ipp"
+
 #endif
-#endif
+

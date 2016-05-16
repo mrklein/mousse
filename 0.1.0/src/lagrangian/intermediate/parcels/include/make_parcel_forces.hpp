@@ -5,7 +5,6 @@
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_sphere_drag_force.hpp"
 #include "_non_sphere_drag_force.hpp"
 #include "_wen_yu_drag_force.hpp"
@@ -19,6 +18,7 @@
 #include "_pressure_gradient_force.hpp"
 #include "_srf_force.hpp"
 #include "_virtual_mass_force.hpp"
+
 
 #define MAKE_PARCEL_FORCES(CloudType)                                         \
                                                                               \
@@ -38,3 +38,4 @@
   MAKE_PARTICLE_FORCE_MODEL_TYPE(VirtualMassForce, CloudType);
 
 #endif
+

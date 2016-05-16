@@ -5,29 +5,32 @@
 #include "error.hpp"
 #include "thermophysical_function.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(thermophysicalFunction, 0);
-  DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, Istream);
-  DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, dictionary);
+
+
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(thermophysicalFunction, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, Istream);
+DEFINE_RUN_TIME_SELECTION_TABLE(thermophysicalFunction, dictionary);
+
 }
+
+
 // Constructors 
 mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::New
 (
   Istream& is
 )
 {
-  if (debug)
-  {
-    Info<< "thermophysicalFunction::New(Istream&) : "
+  if (debug) {
+    Info << "thermophysicalFunction::New(Istream&) : "
       << "constructing thermophysicalFunction"
       << endl;
   }
-  const word thermophysicalFunctionType(is);
+  const word thermophysicalFunctionType{is};
   IstreamConstructorTable::iterator cstrIter =
     IstreamConstructorTablePtr_->find(thermophysicalFunctionType);
-  if (cstrIter == IstreamConstructorTablePtr_->end())
-  {
+  if (cstrIter == IstreamConstructorTablePtr_->end()) {
     FATAL_ERROR_IN("thermophysicalFunction::New(Istream&)")
       << "Unknown thermophysicalFunction type "
       << thermophysicalFunctionType
@@ -36,24 +39,24 @@ mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::
       << IstreamConstructorTablePtr_->sortedToc()
       << abort(FatalError);
   }
-  return autoPtr<thermophysicalFunction>(cstrIter()(is));
+  return autoPtr<thermophysicalFunction>{cstrIter()(is)};
 }
+
+
 mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::New
 (
   const dictionary& dict
 )
 {
-  if (debug)
-  {
-    Info<< "thermophysicalFunction::New(const dictionary&) : "
+  if (debug) {
+    Info << "thermophysicalFunction::New(const dictionary&) : "
       << "constructing thermophysicalFunction"
       << endl;
   }
-  const word thermophysicalFunctionType(dict.lookup("functionType"));
+  const word thermophysicalFunctionType{dict.lookup("functionType")};
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(thermophysicalFunctionType);
-  if (cstrIter == IstreamConstructorTablePtr_->end())
-  {
+  if (cstrIter == IstreamConstructorTablePtr_->end()) {
     FATAL_ERROR_IN("thermophysicalFunction::New(const dictionary&)")
       << "Unknown thermophysicalFunction type "
       << thermophysicalFunctionType
@@ -62,5 +65,6 @@ mousse::autoPtr<mousse::thermophysicalFunction> mousse::thermophysicalFunction::
       << dictionaryConstructorTablePtr_->sortedToc()
       << abort(FatalError);
   }
-  return autoPtr<thermophysicalFunction>(cstrIter()(dict));
+  return autoPtr<thermophysicalFunction>{cstrIter()(dict)};
 }
+

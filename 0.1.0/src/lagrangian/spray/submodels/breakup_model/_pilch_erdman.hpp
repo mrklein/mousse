@@ -29,11 +29,11 @@
 //     compressible flow   : B1 = 0.75*1.0; B2 = 3*0.116
 //     incompressible flow : B1 = 0.75*0.5; B2 = 3*0.0758
 
-
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class PilchErdman
 :
@@ -52,12 +52,13 @@ public:
     //- Construct copy
     PilchErdman(const PilchErdman<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new PilchErdman<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new PilchErdman<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~PilchErdman();
@@ -88,8 +89,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_pilch_erdman.cpp"
-#endif
+
+#include "_pilch_erdman.ipp"
+
 #endif

@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
+
+
 // Constructors 
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
@@ -19,6 +21,8 @@ filmHeightInletVelocityFvPatchVectorField
   rhoName_{"rho"},
   deltafName_{"deltaf"}
 {}
+
+
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
 (
@@ -33,6 +37,8 @@ filmHeightInletVelocityFvPatchVectorField
   rhoName_{ptf.rhoName_},
   deltafName_{ptf.deltafName_}
 {}
+
+
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
 (
@@ -46,8 +52,10 @@ filmHeightInletVelocityFvPatchVectorField
   rhoName_{dict.lookupOrDefault<word>("rho", "rho")},
   deltafName_{dict.lookupOrDefault<word>("deltaf", "deltaf")}
 {
-  fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
+  fvPatchVectorField::operator=(vectorField{"value", dict, p.size()});
 }
+
+
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
 (
@@ -59,6 +67,8 @@ filmHeightInletVelocityFvPatchVectorField
   rhoName_{fhivpvf.rhoName_},
   deltafName_{fhivpvf.deltafName_}
 {}
+
+
 mousse::filmHeightInletVelocityFvPatchVectorField::
 filmHeightInletVelocityFvPatchVectorField
 (
@@ -71,11 +81,12 @@ filmHeightInletVelocityFvPatchVectorField
   rhoName_{fhivpvf.rhoName_},
   deltafName_{fhivpvf.deltafName_}
 {}
+
+
 // Member Functions 
 void mousse::filmHeightInletVelocityFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvsPatchField<scalar>& phip =
@@ -84,11 +95,13 @@ void mousse::filmHeightInletVelocityFvPatchVectorField::updateCoeffs()
     patch().lookupPatchField<volScalarField, scalar>(rhoName_);
   const fvPatchField<scalar>& deltafp =
     patch().lookupPatchField<volScalarField, scalar>(deltafName_);
-  vectorField n(patch().nf());
+  vectorField n{patch().nf()};
   const scalarField& magSf = patch().magSf();
   operator==(n*phip/(rhop*magSf*deltafp + ROOTVSMALL));
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::filmHeightInletVelocityFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -97,6 +110,8 @@ void mousse::filmHeightInletVelocityFvPatchVectorField::write(Ostream& os) const
   writeEntryIfDifferent<word>(os, "deltaf", "deltaf", deltafName_);
   writeEntry("value", os);
 }
+
+
 // Member Operators 
 void mousse::filmHeightInletVelocityFvPatchVectorField::operator=
 (
@@ -105,11 +120,15 @@ void mousse::filmHeightInletVelocityFvPatchVectorField::operator=
 {
   fvPatchField<vector>::operator=(patch().nf()*(patch().nf() & pvf));
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   filmHeightInletVelocityFvPatchVectorField
 );
+
 }
+

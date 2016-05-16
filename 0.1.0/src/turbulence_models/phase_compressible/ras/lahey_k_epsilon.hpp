@@ -31,13 +31,13 @@
 //       alphaInversion  0.3;
 //     }
 //   \endverbatim
-// SourceFiles
-//   lahey_k_epsilon.cpp
+
 #include "k_epsilon.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class LaheyKEpsilon
 :
@@ -99,9 +99,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "lahey_k_epsilon.cpp"
-#endif
+
+#include "lahey_k_epsilon.ipp"
+
 #endif

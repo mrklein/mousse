@@ -4,15 +4,19 @@
 
 #include "add_subtract.hpp"
 #include "add_to_run_time_selection_table.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-namespace calcTypes
-{
+namespace mousse {
+namespace calcTypes {
+
 DEFINE_TYPE_NAME_AND_DEBUG(addSubtract, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(calcType, addSubtract, dictionary);
+
 }
 }
+
+
 // Private Member Functions 
 void mousse::calcTypes::addSubtract::writeAddSubtractFields
 (
@@ -29,45 +33,43 @@ void mousse::calcTypes::addSubtract::writeAddSubtractFields
     mesh,
     IOobject::MUST_READ
   };
-  if (addSubtractFieldHeader.headerOk())
-  {
+  if (addSubtractFieldHeader.headerOk()) {
     writeAddSubtractField<scalar>
-    (
-      baseFieldHeader,
-      addSubtractFieldHeader,
-      mesh,
-      processed
-    );
+      (
+        baseFieldHeader,
+        addSubtractFieldHeader,
+        mesh,
+        processed
+      );
     writeAddSubtractField<vector>
-    (
-      baseFieldHeader,
-      addSubtractFieldHeader,
-      mesh,
-      processed
-    );
+      (
+        baseFieldHeader,
+        addSubtractFieldHeader,
+        mesh,
+        processed
+      );
     writeAddSubtractField<sphericalTensor>
-    (
-      baseFieldHeader,
-      addSubtractFieldHeader,
-      mesh,
-      processed
-    );
+      (
+        baseFieldHeader,
+        addSubtractFieldHeader,
+        mesh,
+        processed
+      );
     writeAddSubtractField<symmTensor>
-    (
-      baseFieldHeader,
-      addSubtractFieldHeader,
-      mesh,
-      processed
-    );
+      (
+        baseFieldHeader,
+        addSubtractFieldHeader,
+        mesh,
+        processed
+      );
     writeAddSubtractField<tensor>
-    (
-      baseFieldHeader,
-      addSubtractFieldHeader,
-      mesh,
-      processed
-    );
-    if (!processed)
-    {
+      (
+        baseFieldHeader,
+        addSubtractFieldHeader,
+        mesh,
+        processed
+      );
+    if (!processed) {
       FatalError
         << "Unable to process " << baseFieldName_
         << " + " << addSubtractFieldName_ << nl
@@ -76,14 +78,14 @@ void mousse::calcTypes::addSubtract::writeAddSubtractFields
         << addSubtractFieldHeader.headerClassName() << nl << nl
         << exit(FatalError);
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("calcTypes::addSubtract::writeAddSubtractFields()")
       << "Unable to read addSubtract field: " << addSubtractFieldName_
       << nl << exit(FatalError);
   }
 }
+
+
 void mousse::calcTypes::addSubtract::writeAddSubtractValues
 (
   const Time& /*runTime*/,
@@ -93,42 +95,41 @@ void mousse::calcTypes::addSubtract::writeAddSubtractValues
 {
   bool processed = false;
   writeAddSubtractValue<scalar>
-  (
-    baseFieldHeader,
-    addSubtractValueStr_,
-    mesh,
-    processed
-  );
+    (
+      baseFieldHeader,
+      addSubtractValueStr_,
+      mesh,
+      processed
+    );
   writeAddSubtractValue<vector>
-  (
-    baseFieldHeader,
-    addSubtractValueStr_,
-    mesh,
-    processed
-  );
+    (
+      baseFieldHeader,
+      addSubtractValueStr_,
+      mesh,
+      processed
+    );
   writeAddSubtractValue<sphericalTensor>
-  (
-    baseFieldHeader,
-    addSubtractValueStr_,
-    mesh,
-    processed
-  );
+    (
+      baseFieldHeader,
+      addSubtractValueStr_,
+      mesh,
+      processed
+    );
   writeAddSubtractValue<symmTensor>
-  (
-    baseFieldHeader,
-    addSubtractValueStr_,
-    mesh,
-    processed
-  );
+    (
+      baseFieldHeader,
+      addSubtractValueStr_,
+      mesh,
+      processed
+    );
   writeAddSubtractValue<tensor>
-  (
-    baseFieldHeader,
-    addSubtractValueStr_,
-    mesh,
-    processed
-  );
-  if (!processed)
-  {
+    (
+      baseFieldHeader,
+      addSubtractValueStr_,
+      mesh,
+      processed
+    );
+  if (!processed) {
     FATAL_ERROR_IN("calcTypes::addSubtract::writeAddSubtractValue()")
       << "Unable to process " << baseFieldName_
       << " + " << addSubtractValueStr_ << nl
@@ -137,20 +138,26 @@ void mousse::calcTypes::addSubtract::writeAddSubtractValues
       << exit(FatalError);
   }
 }
+
+
 // Constructors 
 mousse::calcTypes::addSubtract::addSubtract()
 :
-  calcType(),
-  baseFieldName_(""),
-  calcType_(FIELD),
-  addSubtractFieldName_(""),
-  addSubtractValueStr_(""),
-  resultName_(""),
-  calcMode_(ADD)
+  calcType{},
+  baseFieldName_{""},
+  calcType_{FIELD},
+  addSubtractFieldName_{""},
+  addSubtractValueStr_{""},
+  resultName_{""},
+  calcMode_{ADD}
 {}
+
+
 // Destructor 
 mousse::calcTypes::addSubtract::~addSubtract()
 {}
+
+
 // Member Functions 
 void mousse::calcTypes::addSubtract::init()
 {
@@ -161,6 +168,8 @@ void mousse::calcTypes::addSubtract::init()
   argList::validOptions.insert("value", "valueString");
   argList::validOptions.insert("resultName", "fieldName");
 }
+
+
 void mousse::calcTypes::addSubtract::preCalc
 (
   const argList& args,
@@ -170,37 +179,29 @@ void mousse::calcTypes::addSubtract::preCalc
 {
   baseFieldName_ = args[2];
   const word calcModeName = args[3];
-  if (calcModeName == "add")
-  {
+  if (calcModeName == "add") {
     calcMode_ = ADD;
-  }
-  else if (calcModeName == "subtract")
-  {
+  } else if (calcModeName == "subtract") {
     calcMode_ = SUBTRACT;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("calcTypes::addSubtract::preCalc")
       << "Invalid calcMode: " << calcModeName << nl
       << "    Valid calcModes are add and subtract" << nl
       << exit(FatalError);
   }
-  if (args.optionReadIfPresent("field", addSubtractFieldName_))
-  {
+  if (args.optionReadIfPresent("field", addSubtractFieldName_)) {
     calcType_ = FIELD;
-  }
-  else if (args.optionReadIfPresent("value", addSubtractValueStr_))
-  {
+  } else if (args.optionReadIfPresent("value", addSubtractValueStr_)) {
     calcType_ = VALUE;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("calcTypes::addSubtract::preCalc")
       << "addSubtract requires either -field or -value option"
       << nl << exit(FatalError);
   }
   args.optionReadIfPresent("resultName", resultName_);
 }
+
+
 void mousse::calcTypes::addSubtract::calc
 (
   const argList& /*args*/,
@@ -209,38 +210,35 @@ void mousse::calcTypes::addSubtract::calc
 )
 {
   IOobject baseFieldHeader
-  (
+  {
     baseFieldName_,
     runTime.timeName(),
     mesh,
     IOobject::MUST_READ
-  );
-  if (baseFieldHeader.headerOk())
-  {
-    switch (calcType_)
-    {
+  };
+  if (baseFieldHeader.headerOk()) {
+    switch (calcType_) {
       case FIELD:
-      {
-        writeAddSubtractFields(runTime, mesh, baseFieldHeader);
-        break;
-      }
+        {
+          writeAddSubtractFields(runTime, mesh, baseFieldHeader);
+          break;
+        }
       case VALUE:
-      {
-        writeAddSubtractValues(runTime, mesh, baseFieldHeader);
-        break;
-      }
+        {
+          writeAddSubtractValues(runTime, mesh, baseFieldHeader);
+          break;
+        }
       default:
-      {
-        FATAL_ERROR_IN("calcTypes::addSubtract::calc")
-          << "unknown calcType " << calcType_ << nl
-          << abort(FatalError);
-      }
+        {
+          FATAL_ERROR_IN("calcTypes::addSubtract::calc")
+            << "unknown calcType " << calcType_ << nl
+            << abort(FatalError);
+        }
     }
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN("calcTypes::addSubtract::calc")
       << "Unable to read base field: " << baseFieldName_
       << nl << exit(FatalError);
   }
 }
+

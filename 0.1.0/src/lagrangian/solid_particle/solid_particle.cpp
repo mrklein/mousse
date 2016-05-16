@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "solid_particle_cloud.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<solidParticle>, 0);
+namespace mousse {
+
+DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(Cloud<solidParticle>, 0);
+
 }
+
+
 // Member Functions 
 bool mousse::solidParticle::move
 (
@@ -20,11 +25,10 @@ bool mousse::solidParticle::move
   const polyBoundaryMesh& pbMesh = mesh_.boundaryMesh();
   scalar tEnd = (1.0 - stepFraction())*trackTime;
   scalar dtMax = tEnd;
-  while (td.keepParticle && !td.switchProcessor && tEnd > SMALL)
-  {
-    if (debug)
-    {
-      Info<< "Time = " << mesh_.time().timeName()
+  while (td.keepParticle && !td.switchProcessor && tEnd > SMALL) {
+    if (debug) {
+      Info
+        << "Time = " << mesh_.time().timeName()
         << " trackTime = " << trackTime
         << " tEnd = " << tEnd
         << " steptFraction() = " << stepFraction() << endl;
@@ -45,22 +49,21 @@ bool mousse::solidParticle::move
     scalar magUr = mag(Uc - U_);
     scalar ReFunc = 1.0;
     scalar Re = magUr*d_/nuc;
-    if (Re > 0.01)
-    {
+    if (Re > 0.01) {
       ReFunc += 0.15*pow(Re, 0.687);
     }
     scalar Dc = (24.0*nuc/d_)*ReFunc*(3.0/4.0)*(rhoc/(d_*rhop));
     U_ = (U_ + dt*(Dc*Uc + (1.0 - rhoc/rhop)*td.g()))/(1.0 + dt*Dc);
-    if (onBoundary() && td.keepParticle)
-    {
-      if (isA<processorPolyPatch>(pbMesh[patch(face())]))
-      {
+    if (onBoundary() && td.keepParticle) {
+      if (isA<processorPolyPatch>(pbMesh[patch(face())])) {
         td.switchProcessor = true;
       }
     }
   }
   return td.keepParticle;
 }
+
+
 bool mousse::solidParticle::hitPatch
 (
   const polyPatch&,
@@ -72,6 +75,8 @@ bool mousse::solidParticle::hitPatch
 {
   return false;
 }
+
+
 void mousse::solidParticle::hitProcessorPatch
 (
   const processorPolyPatch&,
@@ -80,6 +85,8 @@ void mousse::solidParticle::hitProcessorPatch
 {
   td.switchProcessor = true;
 }
+
+
 void mousse::solidParticle::hitWallPatch
 (
   const wallPolyPatch&,
@@ -91,12 +98,13 @@ void mousse::solidParticle::hitWallPatch
   nw /= mag(nw);
   scalar Un = U_ & nw;
   vector Ut = U_ - Un*nw;
-  if (Un > 0)
-  {
+  if (Un > 0) {
     U_ -= (1.0 + td.cloud().e())*Un*nw;
   }
   U_ -= td.cloud().mu()*Ut;
 }
+
+
 void mousse::solidParticle::hitPatch
 (
   const polyPatch&,
@@ -105,16 +113,23 @@ void mousse::solidParticle::hitPatch
 {
   td.keepParticle = false;
 }
+
+
 void mousse::solidParticle::transformProperties (const tensor& T)
 {
   particle::transformProperties(T);
   U_ = transform(T, U_);
 }
+
+
 void mousse::solidParticle::transformProperties(const vector& separation)
 {
   particle::transformProperties(separation);
 }
+
+
 mousse::scalar mousse::solidParticle::wallImpactDistance(const vector&) const
 {
   return 0.5*d_;
 }
+

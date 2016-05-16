@@ -429,7 +429,7 @@ inline void mousse::PtrList<T>::append
 template<class T>
 inline bool mousse::PtrList<T>::set(const label i) const
 {
-  return ptrs_[i] != NULL;
+  return ptrs_[i] != nullptr;
 }
 
 

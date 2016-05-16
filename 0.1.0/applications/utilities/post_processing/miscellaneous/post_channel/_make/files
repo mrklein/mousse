@@ -1,4 +1,0 @@
-post_channel.cpp
-channel_index.cpp
-
-EXE =  $(MOUSSE_APPBIN)/mousse-post-channel

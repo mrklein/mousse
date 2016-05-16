@@ -1,4 +1,4 @@
-Info<< "Reading field p\n" << endl;
+Info << "Reading field p\n" << endl;
 volScalarField p
 {
   {
@@ -10,7 +10,7 @@ volScalarField p
   },
   mesh
 };
-Info<< "Reading field Urel\n" << endl;
+Info << "Reading field Urel\n" << endl;
 volVectorField Urel
 {
   {
@@ -22,7 +22,7 @@ volVectorField Urel
   },
   mesh
 };
-Info<< "Reading/calculating face flux field phi\n" << endl;
+Info << "Reading/calculating face flux field phi\n" << endl;
 surfaceScalarField phi
 {
   {
@@ -38,7 +38,7 @@ label pRefCell = 0;
 scalar pRefValue = 0.0;
 setRefCell(p, pimple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
-Info<< "Creating SRF model\n" << endl;
+Info << "Creating SRF model\n" << endl;
 autoPtr<SRF::SRFModel> SRF{SRF::SRFModel::New(Urel)};
 // Create the absolute velocity
 volVectorField U

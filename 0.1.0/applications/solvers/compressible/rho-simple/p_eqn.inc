@@ -4,35 +4,29 @@
   HbyA = rAU*UEqn().H();
   UEqn.clear();
   bool closedVolume = false;
-  if (simple.transonic())
-  {
+  if (simple.transonic()) {
     surfaceScalarField phid
     {
       "phid",
       fvc::interpolate(psi)*(fvc::interpolate(HbyA) & mesh.Sf())
     };
     MRF.makeRelative(fvc::interpolate(psi), phid);
-    while (simple.correctNonOrthogonal())
-    {
-      fvScalarMatrix pEqn
-      {
+    while (simple.correctNonOrthogonal()) {
+      fvScalarMatrix pEqn {
         fvm::div(phid, p)
-        - fvm::laplacian(rho*rAU, p)
-        ==
+      - fvm::laplacian(rho*rAU, p)
+      ==
         fvOptions(psi, p, rho.name())
       };
       // Relax the pressure equation to ensure diagonal-dominance
       pEqn.relax();
       pEqn.setReference(pRefCell, pRefValue);
       pEqn.solve();
-      if (simple.finalNonOrthogonalIter())
-      {
+      if (simple.finalNonOrthogonalIter()) {
         phi == pEqn.flux();
       }
     }
-  }
-  else
-  {
+  } else {
     surfaceScalarField phiHbyA
     {
       "phiHbyA",
@@ -40,19 +34,16 @@
     };
     MRF.makeRelative(fvc::interpolate(rho), phiHbyA);
     closedVolume = adjustPhi(phiHbyA, U, p);
-    while (simple.correctNonOrthogonal())
-    {
-      fvScalarMatrix pEqn
-      {
+    while (simple.correctNonOrthogonal()) {
+      fvScalarMatrix pEqn {
         fvc::div(phiHbyA)
-        - fvm::laplacian(rho*rAU, p)
-        ==
+      - fvm::laplacian(rho*rAU, p)
+      ==
         fvOptions(psi, p, rho.name())
       };
       pEqn.setReference(pRefCell, pRefValue);
       pEqn.solve();
-      if (simple.finalNonOrthogonalIter())
-      {
+      if (simple.finalNonOrthogonalIter()) {
         phi = phiHbyA + pEqn.flux();
       }
     }
@@ -65,18 +56,17 @@
   fvOptions.correct(U);
   // For closed-volume cases adjust the pressure and density levels
   // to obey overall mass continuity
-  if (closedVolume)
-  {
+  if (closedVolume) {
     p += (initialMass - fvc::domainIntegrate(psi*p))/fvc::domainIntegrate(psi);
   }
   rho = thermo.rho();
   rho = max(rho, rhoMin);
   rho = min(rho, rhoMax);
-  if (!simple.transonic())
-  {
+  if (!simple.transonic()) {
     rho.relax();
   }
   Info << "rho max/min : "
     << max(rho).value() << " "
     << min(rho).value() << endl;
 }
+

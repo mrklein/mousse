@@ -8,8 +8,7 @@
 //   mousse::cellSizeFunction
 // Description
 //   Abstract base class for specifying target cell sizes
-// SourceFiles
-//   cell_size_function.cpp
+
 #include "point.hpp"
 #include "conformal_voronoi_mesh.hpp"
 #include "searchable_surface.hpp"
@@ -17,8 +16,10 @@
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "surface_cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellSizeFunction
 :
   public dictionary
@@ -96,10 +97,7 @@ public:
   virtual ~cellSizeFunction();
   // Member Functions
     //- Const access to the details dictionary
-    inline const dictionary& coeffsDict() const
-    {
-      return coeffsDict_;
-    }
+    inline const dictionary& coeffsDict() const { return coeffsDict_; }
     virtual bool sizeLocations
     (
       const pointIndexHit& hitPt,
@@ -126,10 +124,10 @@ public:
         << endl;
       return false;
     }
-    label priority() const
-    {
-      return priority_;
-    }
+    label priority() const { return priority_; }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,15 +8,15 @@
 //   mousse::psiThermoCombustion
 // Description
 //   Compressibility-based thermo model wrapper for combustion models
-// SourceFiles
-//   psi_thermo_combustion.cpp
+
 #include "auto_ptr.hpp"
 #include "psi_combustion_model.hpp"
 #include "psi_reaction_thermo.hpp"
-namespace mousse
-{
-namespace combustionModels
-{
+
+
+namespace mousse {
+namespace combustionModels {
+
 class psiThermoCombustion
 :
   public psiCombustionModel
@@ -48,6 +48,9 @@ public:
     //- Return const access to the density field
     virtual tmp<volScalarField> rho() const;
 };
+
 }  // namespace combustionModels
 }  // namespace mousse
+
 #endif
+

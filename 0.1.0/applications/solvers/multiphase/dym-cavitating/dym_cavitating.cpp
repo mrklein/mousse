@@ -10,6 +10,7 @@
 #include "correct_phi.hpp"
 #include "pimple_control.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -23,10 +24,8 @@ int main(int argc, char *argv[])
   #include "create_pcorr_types.inc"
   #include "courant_no.inc"
   #include "set_initial_delta_t.inc"
-
   Info << "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "read_controls.inc"
 
     {
@@ -36,8 +35,7 @@ int main(int argc, char *argv[])
       Info << "Time = " << runTime.timeName() << nl << endl;
       // Do any mesh changes
       mesh.update();
-      if (mesh.changing() && correctPhi)
-      {
+      if (mesh.changing() && correctPhi) {
         // Calculate absolute flux from the mapped surface velocity
         phi = mesh.Sf() & Uf;
         #include "correct_phi.inc"
@@ -46,18 +44,15 @@ int main(int argc, char *argv[])
       }
     }
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "rho_eqn.inc"
       #include "alphav_psi.inc"
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -69,3 +64,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

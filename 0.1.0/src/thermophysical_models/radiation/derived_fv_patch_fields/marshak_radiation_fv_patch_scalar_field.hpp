@@ -1,3 +1,6 @@
+#ifndef THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_MARSHAK_RADIATION_FV_PATCH_FIELD_HPP_
+#define THERMOPHYSICAL_MODELS_RADIATION_DERIVED_FV_PATCH_FIELDS_MARSHAK_RADIATION_FV_PATCH_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -27,14 +30,13 @@
 // SeeAlso
 //   mousse::radiationCoupledBase
 //   mousse::mixedFvPatchField
-// SourceFiles
-//   marshak_radiation_fv_patch_scalar_field.cpp
-#ifndef MarshakRadiationMixedFvPatchField_H
-#define MarshakRadiationMixedFvPatchField_H
+
 #include "mixed_fv_patch_fields.hpp"
 #include "radiation_coupled_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class MarshakRadiationFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -78,9 +80,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new MarshakRadiationFvPatchScalarField(*this)
-      );
+      {
+        new MarshakRadiationFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     MarshakRadiationFvPatchScalarField
@@ -95,23 +97,16 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new MarshakRadiationFvPatchScalarField(*this, iF)
-      );
+      {
+        new MarshakRadiationFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access
       //- Return the temperature field name
-      const word& TName() const
-      {
-        return TName_;
-      }
-      //- Return reference to the temperature field name to allow
-      //  adjustment
-      word& TName()
-      {
-        return TName_;
-      }
+      const word& TName() const { return TName_; }
+      //- Return reference to the temperature field name to allow adjustment
+      word& TName() { return TName_; }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       virtual void autoMap
@@ -131,5 +126,8 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

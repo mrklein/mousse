@@ -16,11 +16,12 @@
 //   freezeFraction 0.9;
 //   // Maximum number of iterations
 //   maxIter 1000;
-// SourceFiles
-//   spring_renumber.cpp
+
 #include "renumber_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class springRenumber
 :
   public renumberMethod
@@ -69,5 +70,8 @@ public:
       const pointField& cc
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

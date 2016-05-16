@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::fileControl
-// Description
-// SourceFiles
-//   file_control.cpp
+
 #include "cell_size_and_alignment_control.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fileControl
 :
   public cellSizeAndAlignmentControl
@@ -42,20 +42,7 @@ public:
   //- Destructor
   ~fileControl();
   // Member Functions
-    // Access
     // Query
-//            //- Return the cell size at the given location
-//            virtual scalar cellSize(const point& pt) const;
-//
-//            //- Return the cell alignment at the given location
-//            virtual tensor cellAlignment(const point& pt) const;
-//
-//            virtual void cellSizeAndAlignment
-//            (
-//                const point& pt,
-//                scalar& size,
-//                tensor& alignment
-//            ) const;
       virtual label maxPriority() const
       {
         return maxPriority_;
@@ -73,5 +60,8 @@ public:
         triadField& alignments
       ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

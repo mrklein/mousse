@@ -8,8 +8,10 @@
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
 #include "turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 turbulentMixingLengthDissipationRateInletFvPatchScalarField::
 turbulentMixingLengthDissipationRateInletFvPatchScalarField
@@ -26,6 +28,8 @@ turbulentMixingLengthDissipationRateInletFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 turbulentMixingLengthDissipationRateInletFvPatchScalarField::
 turbulentMixingLengthDissipationRateInletFvPatchScalarField
 (
@@ -39,6 +43,8 @@ turbulentMixingLengthDissipationRateInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 turbulentMixingLengthDissipationRateInletFvPatchScalarField::
 turbulentMixingLengthDissipationRateInletFvPatchScalarField
 (
@@ -52,11 +58,13 @@ turbulentMixingLengthDissipationRateInletFvPatchScalarField
   kName_{dict.lookupOrDefault<word>("k", "k")}
 {
   this->phiName_ = dict.lookupOrDefault<word>("phi", "phi");
-  fvPatchScalarField::operator=(scalarField("value", dict, p.size()));
+  fvPatchScalarField::operator=(scalarField{"value", dict, p.size()});
   this->refValue() = 0.0;
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 turbulentMixingLengthDissipationRateInletFvPatchScalarField::
 turbulentMixingLengthDissipationRateInletFvPatchScalarField
 (
@@ -67,6 +75,8 @@ turbulentMixingLengthDissipationRateInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 turbulentMixingLengthDissipationRateInletFvPatchScalarField::
 turbulentMixingLengthDissipationRateInletFvPatchScalarField
 (
@@ -78,6 +88,8 @@ turbulentMixingLengthDissipationRateInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 // Member Functions 
 void turbulentMixingLengthDissipationRateInletFvPatchScalarField::updateCoeffs()
 {
@@ -105,6 +117,8 @@ void turbulentMixingLengthDissipationRateInletFvPatchScalarField::updateCoeffs()
   this->valueFraction() = 1.0 - pos(phip);
   inletOutletFvPatchScalarField::updateCoeffs();
 }
+
+
 void turbulentMixingLengthDissipationRateInletFvPatchScalarField::write
 (
   Ostream& os
@@ -117,9 +131,12 @@ void turbulentMixingLengthDissipationRateInletFvPatchScalarField::write
   os.writeKeyword("k") << kName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentMixingLengthDissipationRateInletFvPatchScalarField
 );
+
 }  // namespace mousse
+

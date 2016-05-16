@@ -1,3 +1,6 @@
+#ifndef LAGRANGIAN_INTERMEDIATE_SUBMODELS_ADD_ONS_RADIATION_SCATTER_CLOUD_SCATTER_HPP_
+#define LAGRANGIAN_INTERMEDIATE_SUBMODELS_ADD_ONS_RADIATION_SCATTER_CLOUD_SCATTER_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,15 +8,13 @@
 //   mousse::radiation::cloudScatter
 // Description
 //   Cloud radiation scatter model
-// SourceFiles
-//   scatter_model.cpp
-#ifndef radiationCloudScatter_H
-#define radiationCloudScatter_H
+
 #include "scatter_model.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class cloudScatter
 :
   public scatterModel
@@ -40,6 +41,9 @@ public:
       //- Return scatter coefficient
       tmp<volScalarField> sigmaEff() const;
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

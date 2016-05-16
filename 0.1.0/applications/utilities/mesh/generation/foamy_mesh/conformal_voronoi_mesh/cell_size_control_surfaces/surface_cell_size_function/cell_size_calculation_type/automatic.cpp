@@ -8,49 +8,51 @@
 #include "vtk_surface_writer.hpp"
 #include "primitive_patch_interpolation.hpp"
 #include "time.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(automatic, 0);
-  ADD_TO_RUN_TIME_SELECTION_TABLE(cellSizeCalculationType, automatic, dictionary);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(automatic, 0);
+ADD_TO_RUN_TIME_SELECTION_TABLE(cellSizeCalculationType, automatic, dictionary);
+
 }
+
+
 // Private Member Functions 
 void mousse::automatic::smoothField(triSurfaceScalarField& surf)
 {
   label nSmoothingIterations = 10;
-  for (label iter = 0; iter < nSmoothingIterations; ++iter)
-  {
+  for (label iter = 0; iter < nSmoothingIterations; ++iter) {
     const pointField& faceCentres = surface_.faceCentres();
-    FOR_ALL(surf, sI)
-    {
+    FOR_ALL(surf, sI) {
       const labelList& faceFaces = surface_.faceFaces()[sI];
       const point& fC = faceCentres[sI];
       const scalar value = surf[sI];
       scalar newValue = 0;
       scalar totalDist = 0;
       label nFaces = 0;
-      FOR_ALL(faceFaces, fI)
-      {
+      FOR_ALL(faceFaces, fI) {
         const label faceLabel = faceFaces[fI];
         const point& faceCentre = faceCentres[faceLabel];
         const scalar faceValue = surf[faceLabel];
         const scalar distance = mag(faceCentre - fC);
         newValue += faceValue/(distance + SMALL);
         totalDist += 1.0/(distance + SMALL);
-        if (value < faceValue)
-        {
+        if (value < faceValue) {
           nFaces++;
         }
       }
       // Do not smooth out the peak values
-      if (nFaces == faceFaces.size())
-      {
+      if (nFaces == faceFaces.size()) {
         continue;
       }
       surf[sI] = newValue/totalDist;
     }
   }
 }
+
+
 // Constructors 
 mousse::automatic::automatic
 (
@@ -60,83 +62,79 @@ mousse::automatic::automatic
 )
 :
   cellSizeCalculationType
-  (
+  {
     typeName,
     cellSizeCalcTypeDict,
     surface,
     defaultCellSize
-  ),
-  coeffsDict_(cellSizeCalcTypeDict.subDict(typeName + "Coeffs")),
-  surfaceName_(surface.searchableSurface::name()),
-  readCurvature_(Switch(coeffsDict_.lookup("curvature"))),
-  curvatureFile_(coeffsDict_.lookup("curvatureFile")),
-  readFeatureProximity_(Switch(coeffsDict_.lookup("featureProximity"))),
-  featureProximityFile_(coeffsDict_.lookup("featureProximityFile")),
-  readInternalCloseness_(Switch(coeffsDict_.lookup("internalCloseness"))),
-  internalClosenessFile_(coeffsDict_.lookup("internalClosenessFile")),
+  },
+  coeffsDict_{cellSizeCalcTypeDict.subDict(typeName + "Coeffs")},
+  surfaceName_{surface.searchableSurface::name()},
+  readCurvature_{Switch(coeffsDict_.lookup("curvature"))},
+  curvatureFile_{coeffsDict_.lookup("curvatureFile")},
+  readFeatureProximity_{Switch{coeffsDict_.lookup("featureProximity")}},
+  featureProximityFile_{coeffsDict_.lookup("featureProximityFile")},
+  readInternalCloseness_{Switch{coeffsDict_.lookup("internalCloseness")}},
+  internalClosenessFile_{coeffsDict_.lookup("internalClosenessFile")},
   curvatureCellSizeCoeff_
-  (
+  {
     readScalar(coeffsDict_.lookup("curvatureCellSizeCoeff"))
-  ),
+  },
   maximumCellSize_
-  (
+  {
     readScalar(coeffsDict_.lookup("maximumCellSizeCoeff"))*defaultCellSize
-  )
+  }
 {}
+
+
 // Member Functions 
 mousse::tmp<mousse::triSurfacePointScalarField> mousse::automatic::load()
 {
-  Info<< indent
+  Info << indent
     << "Calculating cell size on surface: " << surfaceName_ << endl;
   tmp<triSurfacePointScalarField> tPointCellSize
-  (
+  {
     new triSurfacePointScalarField
-    (
+    {
       IOobject
-      (
+      {
         surfaceName_ + ".cellSize",
         surface_.searchableSurface::time().constant(),
         "triSurface",
         surface_.searchableSurface::time(),
         IOobject::NO_READ,
         IOobject::NO_WRITE
-      ),
+      },
       surface_,
       dimLength,
-      scalarField(surface_.nPoints(), maximumCellSize_)
-    )
-  );
+      scalarField{surface_.nPoints(), maximumCellSize_}
+    }
+  };
   triSurfacePointScalarField& pointCellSize = tPointCellSize();
-  if (readCurvature_)
-  {
-    Info<< indent
+  if (readCurvature_) {
+    Info << indent
       << "Reading curvature         : " << curvatureFile_ << endl;
     triSurfacePointScalarField curvature
-    (
+    {
       IOobject
-      (
+      {
         curvatureFile_,
         surface_.searchableSurface::time().constant(),
         "triSurface",
         surface_.searchableSurface::time(),
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      ),
+      },
       surface_,
       dimLength,
       true
-    );
-    FOR_ALL(pointCellSize, pI)
-    {
+    };
+    FOR_ALL(pointCellSize, pI) {
       pointCellSize[pI] =
         min
         (
-          1.0
-         /max
-          (
-            (1.0/curvatureCellSizeCoeff_)*mag(curvature[pI]),
-            1.0/maximumCellSize_
-          ),
+          1.0/max((1.0/curvatureCellSizeCoeff_)*mag(curvature[pI]),
+                  1.0/maximumCellSize_),
           pointCellSize[pI]
         );
     }
@@ -144,33 +142,31 @@ mousse::tmp<mousse::triSurfacePointScalarField> mousse::automatic::load()
   PrimitivePatchInterpolation
   <
     PrimitivePatch<labelledTri, ::mousse::List, pointField, point>
-  > patchInterpolate(surface_);
+  > patchInterpolate{surface_};
   const Map<label>& meshPointMap = surface_.meshPointMap();
-  if (readInternalCloseness_)
-  {
-    Info<< indent
+  if (readInternalCloseness_) {
+    Info << indent
       << "Reading internal closeness: " << internalClosenessFile_ << endl;
     triSurfaceScalarField internalCloseness
-    (
+    {
       IOobject
-      (
+      {
         internalClosenessFile_,
         surface_.searchableSurface::time().constant(),
         "triSurface",
         surface_.searchableSurface::time(),
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      ),
+      },
       surface_,
       dimLength,
       true
-    );
+    };
     scalarField internalClosenessPointField
-    (
-      patchInterpolate.faceToPointInterpolate(internalCloseness)
-    );
-    FOR_ALL(pointCellSize, pI)
     {
+      patchInterpolate.faceToPointInterpolate(internalCloseness)
+    };
+    FOR_ALL(pointCellSize, pI) {
       pointCellSize[pI] =
         min
         (
@@ -179,31 +175,29 @@ mousse::tmp<mousse::triSurfacePointScalarField> mousse::automatic::load()
         );
     }
   }
-  if (readFeatureProximity_)
-  {
-    Info<< indent
+  if (readFeatureProximity_) {
+    Info << indent
       << "Reading feature proximity : " << featureProximityFile_ << endl;
     triSurfaceScalarField featureProximity
-    (
+    {
       IOobject
-      (
+      {
         featureProximityFile_,
         surface_.searchableSurface::time().constant(),
         "triSurface",
         surface_.searchableSurface::time(),
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      ),
+      },
       surface_,
       dimLength,
       true
-    );
+    };
     scalarField featureProximityPointField
-    (
-      patchInterpolate.faceToPointInterpolate(featureProximity)
-    );
-    FOR_ALL(pointCellSize, pI)
     {
+      patchInterpolate.faceToPointInterpolate(featureProximity)
+    };
+    FOR_ALL(pointCellSize, pI) {
       pointCellSize[pI] =
         min
         (
@@ -214,24 +208,23 @@ mousse::tmp<mousse::triSurfacePointScalarField> mousse::automatic::load()
   }
   //smoothField(surfaceCellSize);
   pointCellSize.write();
-  if (debug)
-  {
-    faceList faces(surface_.size());
-    FOR_ALL(surface_, fI)
-    {
+  if (debug) {
+    faceList faces{surface_.size()};
+    FOR_ALL(surface_, fI) {
       faces[fI] = surface_.triSurface::operator[](fI).triFaceFace();
     }
     vtkSurfaceWriter().write
-    (
-      surface_.searchableSurface::time().constant()/"triSurface",
-      surfaceName_.lessExt().name(),
-      surface_.points(),
-      faces,
-      "cellSize",
-      pointCellSize,
-      true,
-      true
-    );
+      (
+        surface_.searchableSurface::time().constant()/"triSurface",
+        surfaceName_.lessExt().name(),
+        surface_.points(),
+        faces,
+        "cellSize",
+        pointCellSize,
+        true,
+        true
+      );
   }
   return tPointCellSize;
 }
+

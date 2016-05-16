@@ -5,12 +5,12 @@
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_local_interaction.hpp"
 #include "_no_interaction.hpp"
 #include "_rebound.hpp"
 #include "_standard_wall_interaction.hpp"
 #include "_multi_interaction.hpp"
+
 
 #define MAKE_PARCEL_PATCH_INTERACTION_MODELS(CloudType)                       \
                                                                               \
@@ -23,3 +23,4 @@
   MAKE_PATCH_INTERACTION_MODEL_TYPE(MultiInteraction, CloudType);
 
 #endif
+

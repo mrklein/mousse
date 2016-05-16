@@ -6,12 +6,10 @@ volScalarField rAU{1.0/UEqn().A()};
 surfaceScalarField rhorAUf{"rhorAUf", fvc::interpolate(rho*rAU)};
 volVectorField HbyA{"HbyA", U};
 HbyA = rAU*UEqn().H();
-if (pimple.nCorrPISO() <= 1)
-{
+if (pimple.nCorrPISO() <= 1) {
   UEqn.clear();
 }
-if (pimple.transonic())
-{
+if (pimple.transonic()) {
   surfaceScalarField phid
   {
     "phid",
@@ -26,21 +24,18 @@ if (pimple.transonic())
     fvScalarMatrix pEqn
     {
       fvm::ddt(psi, p)
-      + fvm::div(phid, p)
-      - fvm::laplacian(rhorAUf, p)
-      ==
+    + fvm::div(phid, p)
+    - fvm::laplacian(rhorAUf, p)
+    ==
       parcels.Srho()
-      + fvOptions(psi, p, rho.name())
+    + fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi == pEqn.flux();
     }
   }
-}
-else
-{
+} else {
   surfaceScalarField phiHbyA
   {
     "phiHbyA",
@@ -49,20 +44,18 @@ else
   };
   fvc::makeRelative(phiHbyA, rho, U);
   MRF.makeRelative(fvc::interpolate(rho), phiHbyA);
-  while (pimple.correctNonOrthogonal())
-  {
+  while (pimple.correctNonOrthogonal()) {
     fvScalarMatrix pEqn
     {
       fvm::ddt(psi, p)
-      + fvc::div(phiHbyA)
-      - fvm::laplacian(rhorAUf, p)
-      ==
+    + fvc::div(phiHbyA)
+    - fvm::laplacian(rhorAUf, p)
+    ==
       parcels.Srho()
-      + fvOptions(psi, p, rho.name())
+    + fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }
@@ -88,11 +81,9 @@ K = 0.5*magSqr(U);
   rhoUf += n*(fvc::absolute(phi, rho, U)/mesh.magSf() - (n & rhoUf));
 }
 
-if (thermo.dpdt())
-{
+if (thermo.dpdt()) {
   dpdt = fvc::ddt(p);
-  if (mesh.moving())
-  {
+  if (mesh.moving()) {
     dpdt -= fvc::div(fvc::meshPhi(rho, U), p);
   }
 }

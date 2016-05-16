@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::rayShooting
-// Description
-// SourceFiles
-//   ray_shooting.cpp
+
 #include "initial_points_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rayShooting
 :
   public initialPointsMethod
@@ -50,5 +50,8 @@ public:
     //- Return the initial points for the conformalVoronoiMesh
     virtual List<Vb::Point> initialPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

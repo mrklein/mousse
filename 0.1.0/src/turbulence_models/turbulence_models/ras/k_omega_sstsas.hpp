@@ -48,14 +48,14 @@
 //       {}
 //     }
 //   \endverbatim
-// SourceFiles
-//   k_omega_sstsas.cpp
+
 #include "k_omega_sst.hpp"
 #include "les_delta.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class kOmegaSSTSAS
 :
@@ -114,9 +114,10 @@ public:
       return delta_();
     }
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "k_omega_sstsas.cpp"
-#endif
+
+#include "k_omega_sstsas.ipp"
+
 #endif

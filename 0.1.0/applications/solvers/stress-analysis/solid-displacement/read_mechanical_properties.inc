@@ -1,4 +1,4 @@
-  Info<< "Reading mechanical properties\n" << endl;
+  Info << "Reading mechanical properties\n" << endl;
   IOdictionary mechanicalProperties
   {
     {
@@ -8,8 +8,8 @@
       IOobject::MUST_READ_IF_MODIFIED
     }
   };
-  const dictionary& rhoDict(mechanicalProperties.subDict("rho"));
-  word rhoType(rhoDict.lookup("type"));
+  const dictionary& rhoDict = mechanicalProperties.subDict("rho");
+  word rhoType{rhoDict.lookup("type")};
   autoPtr<volScalarField> rhoPtr;
   IOobject rhoIO
   {
@@ -17,8 +17,7 @@
     runTime.timeName(0),
     mesh
   };
-  if (rhoType == "uniform")
-  {
+  if (rhoType == "uniform") {
     scalar rhoValue{readScalar(rhoDict.lookup("value"))};
     rhoPtr.reset
     (
@@ -30,21 +29,13 @@
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (rhoType == "field")
-  {
+  } else if (rhoType == "field") {
     rhoIO.readOpt() = IOobject::MUST_READ;
     rhoPtr.reset
     (
-      new volScalarField
-      {
-        rhoIO,
-        mesh
-      }
+      new volScalarField{rhoIO, mesh}
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "readMechanicalProperties.H"
@@ -62,8 +53,7 @@
     runTime.timeName(0),
     mesh
   };
-  if (EType == "uniform")
-  {
+  if (EType == "uniform") {
     scalar rhoEValue{readScalar(EDict.lookup("value"))};
     EPtr.reset
     (
@@ -75,21 +65,13 @@
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (EType == "field")
-  {
+  } else if (EType == "field") {
     EHeader.readOpt() = IOobject::MUST_READ;
     EPtr.reset
     (
-      new volScalarField
-      {
-        EHeader,
-        mesh
-      }
+      new volScalarField{EHeader, mesh}
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "readMechanicalProperties.H"
@@ -107,8 +89,7 @@
   };
   const dictionary& nuDict = mechanicalProperties.subDict("nu");
   word nuType{nuDict.lookup("type")};
-  if (nuType == "uniform")
-  {
+  if (nuType == "uniform") {
     scalar nuValue{readScalar(nuDict.lookup("value"))};
     nuPtr.reset
     (
@@ -120,21 +101,13 @@
         zeroGradientFvPatchField<scalar>::typeName
       }
     );
-  }
-  else if (nuType == "field")
-  {
+  } else if (nuType == "field") {
     nuIO.readOpt() = IOobject::MUST_READ;
     nuPtr.reset
     (
-      new volScalarField
-      {
-        nuIO,
-        mesh
-      }
+      new volScalarField{nuIO, mesh}
     );
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "readMechanicalProperties.H"
@@ -143,20 +116,17 @@
     << abort(FatalError);
   }
   volScalarField& nu = nuPtr();
-  Info<< "Normalising E : E/rho\n" << endl;
+  Info << "Normalising E : E/rho\n" << endl;
   volScalarField E{rhoE/rho};
-  Info<< "Calculating Lame's coefficients\n" << endl;
+  Info << "Calculating Lame's coefficients\n" << endl;
   volScalarField mu{E/(2.0*(1.0 + nu))};
   volScalarField lambda{nu*E/((1.0 + nu)*(1.0 - 2.0*nu))};
   volScalarField threeK{E/(1.0 - 2.0*nu)};
   Switch planeStress{mechanicalProperties.lookup("planeStress")};
-  if (planeStress)
-  {
-    Info<< "Plane Stress\n" << endl;
+  if (planeStress) {
+    Info << "Plane Stress\n" << endl;
     lambda = nu*E/((1.0 + nu)*(1.0 - nu));
     threeK = E/(1.0 - nu);
-  }
-  else
-  {
-    Info<< "Plane Strain\n" << endl;
+  } else {
+    Info << "Plane Strain\n" << endl;
   }

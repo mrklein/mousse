@@ -6,14 +6,14 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::cellAspectRatioControl
-// Description
-// SourceFiles
-//   cell_aspect_ratio_control.cpp
+
 #include "dictionary.hpp"
 #include "vector.hpp"
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class cellAspectRatioControl
 {
   // Private data
@@ -46,5 +46,8 @@ public:
         vector& delta
       ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

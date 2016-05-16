@@ -8,9 +8,12 @@
 //   mousse::NoHeatTransfer
 // Description
 //   Dummy heat transfer model for 'none'
+
 #include "_heat_transfer_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoHeatTransfer
 :
@@ -25,12 +28,13 @@ public:
     //- Construct copy
     NoHeatTransfer(const NoHeatTransfer<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<HeatTransferModel<CloudType> > clone() const
+    virtual autoPtr<HeatTransferModel<CloudType>> clone() const
     {
-      return autoPtr<HeatTransferModel<CloudType> >
-      (
-        new NoHeatTransfer<CloudType>(*this)
-      );
+      return
+        autoPtr<HeatTransferModel<CloudType>>
+        {
+          new NoHeatTransfer<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoHeatTransfer();
@@ -42,8 +46,9 @@ public:
     //- Prandtl number
     virtual scalar Pr() const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_heat_transfer.cpp"
-#endif
+
+#include "_no_heat_transfer.ipp"
+
 #endif

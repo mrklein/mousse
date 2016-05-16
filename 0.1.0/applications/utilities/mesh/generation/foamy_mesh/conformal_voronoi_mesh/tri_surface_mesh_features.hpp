@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::triSurfaceMeshFeatures
-// Description
-// SourceFiles
-//   tri_surface_mesh_features.cpp
+
 #include "searchable_surface_features.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class triSurfaceMeshFeatures
 :
   public searchableSurfaceFeatures
@@ -39,12 +39,12 @@ public:
   virtual ~triSurfaceMeshFeatures();
   // Member Functions
     //- Return true for a triSurfaceMesh having features
-    virtual bool hasFeatures() const
-    {
-      return true;
-    }
+    virtual bool hasFeatures() const { return true; }
     //- Return an extendedFeatureEdgeMesh containing the features
     virtual autoPtr<extendedFeatureEdgeMesh> features() const;
 };
+
 }  // namespace mousse
+
 #endif
+

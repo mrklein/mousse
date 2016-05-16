@@ -16,14 +16,14 @@
 //     A Lagrangian dynamic subgrid-scale model of turbulence.
 //     Journal of Fluid Mechanics, 319, 353-385.
 //   \endverbatim
-// SourceFiles
-//   dynamic_lagrangian.cpp
+
 #include "les_eddy_viscosity.hpp"
 #include "simple_filter.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class dynamicLagrangian
 :
@@ -75,9 +75,8 @@ public:
     tmp<volScalarField> k(const tmp<volTensorField>& gradU) const
     {
       return
-        pow(2.0*flm_/fmm_, 2.0/3.0)
-       * pow(this->Ce_, -2.0/3.0)
-       * sqr(this->delta())*magSqr(dev(symm(gradU)));
+        pow(2.0*flm_/fmm_, 2.0/3.0)*pow(this->Ce_, -2.0/3.0)
+        *sqr(this->delta())*magSqr(dev(symm(gradU)));
     }
     //- Return SGS kinetic energy
     virtual tmp<volScalarField> k() const
@@ -87,17 +86,19 @@ public:
     //- Return the effective diffusivity for k
     tmp<volScalarField> DkEff() const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField("DkEff", this->nut_ + this->nu())
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField{"DkEff", this->nut_ + this->nu()}
+        };
     }
     //- Correct Eddy-Viscosity and related properties
     virtual void correct();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "dynamic_lagrangian.cpp"
-#endif
+
+#include "dynamic_lagrangian.ipp"
+
 #endif

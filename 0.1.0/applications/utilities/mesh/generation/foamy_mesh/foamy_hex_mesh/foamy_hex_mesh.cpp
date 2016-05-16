@@ -8,7 +8,11 @@
 #include "searchable_surfaces.hpp"
 #include "conformal_voronoi_mesh.hpp"
 #include "vtk_set_writer.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   mousse::argList::addBoolOption
@@ -36,8 +40,7 @@ int main(int argc, char *argv[])
       IOobject::NO_WRITE
     }
   };
-  if (checkGeometry)
-  {
+  if (checkGeometry) {
     const searchableSurfaces allGeometry
     {
       {
@@ -67,28 +70,25 @@ int main(int argc, char *argv[])
     return 0;
   }
   conformalVoronoiMesh::debug = true;
-  Info<< "Create mesh for time = " << runTime.timeName() << nl << endl;
+  Info << "Create mesh for time = " << runTime.timeName() << nl << endl;
   conformalVoronoiMesh mesh{runTime, foamyHexMeshDict};
-  if (conformationOnly)
-  {
+  if (conformationOnly) {
     mesh.initialiseForConformation();
     runTime++;
     mesh.writeMesh(runTime.timeName());
-  }
-  else
-  {
+  } else {
     mesh.initialiseForMotion();
-    while (runTime.run())
-    {
+    while (runTime.run()) {
       runTime++;
-      Info<< nl << "Time = " << runTime.timeName() << endl;
+      Info << nl << "Time = " << runTime.timeName() << endl;
       mesh.move();
-      Info<< nl
+      Info << nl
         << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
         << "  ClockTime = " << runTime.elapsedClockTime() << " s"
         << nl << endl;
     }
   }
-  Info<< nl << "End" << nl << endl;
+  Info << nl << "End" << nl << endl;
   return 0;
 }
+

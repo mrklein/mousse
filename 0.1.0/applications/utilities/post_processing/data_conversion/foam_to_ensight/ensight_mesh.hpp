@@ -6,9 +6,7 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::ensightMesh
-// Description
-// SourceFiles
-//   ensight_mesh.cpp
+
 #include "cell_sets.hpp"
 #include "face_sets.hpp"
 #include "hash_table.hpp"
@@ -19,12 +17,16 @@
 #include "cell_shape_list.hpp"
 #include "cell_list.hpp"
 #include <fstream>
-namespace mousse
-{
+
+
+namespace mousse {
+
 class fvMesh;
 class argList;
 class globalIndex;
 class ensightStream;
+
+
 class ensightMesh
 {
 public:
@@ -36,9 +38,9 @@ public:
       label nPolys;
       nFacePrimitives()
       :
-        nTris(0),
-        nQuads(0),
-        nPolys(0)
+        nTris{0},
+        nQuads{0},
+        nPolys{0}
       {}
     };
 private:
@@ -76,10 +78,6 @@ private:
       //- Local points that are unique
       labelList uniquePointMap_;
   // Private Member Functions
-    //- Disallow default bitwise copy construct
-    ensightMesh(const ensightMesh&);
-    //- Disallow default bitwise assignment
-    void operator=(const ensightMesh&);
     void writePoints
     (
       const scalarField& pointsComponent,
@@ -187,30 +185,22 @@ public:
       const wordReList& faceZonePatterns,
       const bool binary
     );
+    //- Disallow default bitwise copy construct
+    ensightMesh(const ensightMesh&) = delete;
+    //- Disallow default bitwise assignment
+    void operator=(const ensightMesh&) = delete;
   //- Destructor
   ~ensightMesh();
   // Member Functions
     // Access
-      const fvMesh& mesh() const
-      {
-        return mesh_;
-      }
-      const cellSets& meshCellSets() const
-      {
-        return meshCellSets_;
-      }
+      const fvMesh& mesh() const { return mesh_; }
+      const cellSets& meshCellSets() const { return meshCellSets_; }
       const List<faceSets>& boundaryFaceSets() const
       {
         return boundaryFaceSets_;
       }
-      const wordList& allPatchNames() const
-      {
-        return allPatchNames_;
-      }
-      const wordHashSet& patchNames() const
-      {
-        return patchNames_;
-      }
+      const wordList& allPatchNames() const { return allPatchNames_; }
+      const wordHashSet& patchNames() const { return patchNames_; }
       const HashTable<nFacePrimitives>& nPatchPrims() const
       {
         return nPatchPrims_;
@@ -219,35 +209,20 @@ public:
       {
         return faceZoneFaceSets_;
       }
-      const wordHashSet& faceZoneNames() const
-      {
-        return faceZoneNames_;
-      }
+      const wordHashSet& faceZoneNames() const { return faceZoneNames_; }
       const HashTable<nFacePrimitives>& nFaceZonePrims() const
       {
         return nFaceZonePrims_;
       }
       //- The ensight part id for the first patch
-      label patchPartOffset() const
-      {
-        return patchPartOffset_;
-      }
+      label patchPartOffset() const { return patchPartOffset_; }
     // Parallel point merging
       //- Global numbering for merged points
-      const globalIndex& globalPoints() const
-      {
-        return globalPointsPtr_();
-      }
+      const globalIndex& globalPoints() const { return globalPointsPtr_(); }
       //- From mesh point to global merged point
-      const labelList& pointToGlobal() const
-      {
-        return pointToGlobal_;
-      }
+      const labelList& pointToGlobal() const { return pointToGlobal_; }
       //- Local points that are unique
-      const labelList& uniquePointMap() const
-      {
-        return uniquePointMap_;
-      }
+      const labelList& uniquePointMap() const { return uniquePointMap_; }
   // Other
     //- Update for new mesh
     void correct();
@@ -266,5 +241,8 @@ public:
       Ostream& ensightCaseFile
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

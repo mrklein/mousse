@@ -6,14 +6,13 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::extrudedMesh
-// Description
-// SourceFiles
-//   extruded_mesh.cpp
-//   extruded_mesh_templates.cpp
+
 #include "poly_mesh.hpp"
 #include "extrude_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class extrudedMesh
 :
   public polyMesh
@@ -59,8 +58,9 @@ public:
       const extrudeModel&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "extruded_mesh_templates.cpp"
-#endif
+
+#include "extruded_mesh.ipp"
+
 #endif

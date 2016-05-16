@@ -6,20 +6,24 @@
 #include "bound.hpp"
 #include "wall_dist.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(kkLOmega, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(RASModel, kkLOmega, dictionary);
+
+
 // Private Member Functions 
 tmp<volScalarField> kkLOmega::fv(const volScalarField& Ret) const
 {
   return(1.0 - exp(-sqrt(Ret)/Av_));
 }
+
+
 tmp<volScalarField> kkLOmega::fINT() const
 {
   return
@@ -31,18 +35,26 @@ tmp<volScalarField> kkLOmega::fINT() const
     )
   );
 }
+
+
 tmp<volScalarField> kkLOmega::fSS(const volScalarField& Omega) const
 {
   return(exp(-sqr(Css_*nu()*Omega/(kt_ + kMin_))));
 }
+
+
 tmp<volScalarField> kkLOmega::Cmu(const volScalarField& S) const
 {
   return(1.0/(A0_ + As_*(S/(omega_ + omegaMin_))));
 }
+
+
 tmp<volScalarField> kkLOmega::BetaTS(const volScalarField& ReOmega) const
 {
   return(scalar(1) - exp(-sqr(max(ReOmega - CtsCrit_, scalar(0)))/Ats_));
 }
+
+
 tmp<volScalarField> kkLOmega::fTaul
 (
   const volScalarField& lambdaEff,
@@ -53,15 +65,15 @@ tmp<volScalarField> kkLOmega::fTaul
   return
   (
     scalar(1)
-   - exp
+    - exp
     (
       -CtauL_*ktL
-     /
+      /
       (
         sqr
         (
           lambdaEff*Omega
-         + dimensionedScalar
+          + dimensionedScalar
           (
             "ROOTVSMALL",
             dimLength*inv(dimTime),
@@ -72,6 +84,8 @@ tmp<volScalarField> kkLOmega::fTaul
     )
   );
 }
+
+
 tmp<volScalarField> kkLOmega::alphaT
 (
   const volScalarField& lambdaEff,
@@ -79,8 +93,10 @@ tmp<volScalarField> kkLOmega::alphaT
   const volScalarField& ktS
 ) const
 {
-  return(fv*CmuStd_*sqrt(ktS)*lambdaEff);
+  return fv*CmuStd_*sqrt(ktS)*lambdaEff;
 }
+
+
 tmp<volScalarField> kkLOmega::fOmega
 (
   const volScalarField& lambdaEff,
@@ -90,15 +106,15 @@ tmp<volScalarField> kkLOmega::fOmega
   return
   (
     scalar(1)
-   - exp
+    - exp
     (
-     -0.41
-     *pow4
+      -0.41
+      *pow4
       (
         lambdaEff
-       / (
+        /(
           lambdaT
-         + dimensionedScalar
+          + dimensionedScalar
           (
             "ROTVSMALL",
             lambdaT.dimensions(),
@@ -109,6 +125,8 @@ tmp<volScalarField> kkLOmega::fOmega
     )
   );
 }
+
+
 tmp<volScalarField> kkLOmega::phiBP(const volScalarField& Omega) const
 {
   return
@@ -118,22 +136,24 @@ tmp<volScalarField> kkLOmega::phiBP(const volScalarField& Omega) const
       max
       (
         kt_/nu()
-      / (
+        /(
           Omega
-         + dimensionedScalar
+          + dimensionedScalar
           (
             "ROTVSMALL",
             Omega.dimensions(),
             ROOTVSMALL
           )
         )
-       - CbpCrit_,
+        - CbpCrit_,
         scalar(0)
       ),
       scalar(50.0)
     )
   );
 }
+
+
 tmp<volScalarField> kkLOmega::phiNAT
 (
   const volScalarField& ReOmega,
@@ -145,18 +165,22 @@ tmp<volScalarField> kkLOmega::phiNAT
     max
     (
       ReOmega
-     - CnatCrit_
-     / (
+      - CnatCrit_
+      /(
         fNatCrit + dimensionedScalar("ROTVSMALL", dimless, ROOTVSMALL)
       ),
       scalar(0)
     )
   );
 }
+
+
 tmp<volScalarField> kkLOmega::D(const volScalarField& k) const
 {
   return nu()*magSqr(fvc::grad(sqrt(k)));
 }
+
+
 // Protected Member Functions 
 void kkLOmega::correctNut()
 {
@@ -164,6 +188,8 @@ void kkLOmega::correctNut()
   // evaluating nut.  Better calculate nut at the end of correct()
   NOT_IMPLEMENTED("kkLOmega::correctNut()");
 }
+
+
 // Constructors 
 kkLOmega::kkLOmega
 (
@@ -178,7 +204,7 @@ kkLOmega::kkLOmega
 )
 :
   eddyViscosity<incompressible::RASModel>
-  (
+  {
     type,
     alpha,
     rho,
@@ -187,314 +213,314 @@ kkLOmega::kkLOmega
     phi,
     transport,
     propertiesName
-  ),
+  },
   A0_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "A0",
       coeffDict_,
       4.04
     )
-  ),
+  },
   As_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "As",
       coeffDict_,
       2.12
     )
-  ),
+  },
   Av_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Av",
       coeffDict_,
       6.75
     )
-  ),
+  },
   Abp_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Abp",
       coeffDict_,
       0.6
     )
-  ),
+  },
   Anat_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Anat",
       coeffDict_,
       200
     )
-  ),
+  },
   Ats_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Ats",
       coeffDict_,
       200
     )
-  ),
+  },
   CbpCrit_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CbpCrit",
       coeffDict_,
       1.2
     )
-  ),
+  },
   Cnc_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cnc",
       coeffDict_,
       0.1
     )
-  ),
+  },
   CnatCrit_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CnatCrit",
       coeffDict_,
       1250
     )
-  ),
+  },
   Cint_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cint",
       coeffDict_,
       0.75
     )
-  ),
+  },
   CtsCrit_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CtsCrit",
       coeffDict_,
       1000
     )
-  ),
+  },
   CrNat_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CrNat",
       coeffDict_,
       0.02
     )
-  ),
+  },
   C11_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "C11",
       coeffDict_,
       3.4e-6
     )
-  ),
+  },
   C12_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "C12",
       coeffDict_,
       1.0e-10
     )
-  ),
+  },
   CR_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CR",
       coeffDict_,
       0.12
     )
-  ),
+  },
   CalphaTheta_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CalphaTheta",
       coeffDict_,
       0.035
     )
-  ),
+  },
   Css_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Css",
       coeffDict_,
       1.5
     )
-  ),
+  },
   CtauL_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CtauL",
       coeffDict_,
       4360
     )
-  ),
+  },
   Cw1_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cw1",
       coeffDict_,
       0.44
     )
-  ),
+  },
   Cw2_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cw2",
       coeffDict_,
       0.92
     )
-  ),
+  },
   Cw3_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Cw3",
       coeffDict_,
       0.3
     )
-  ),
+  },
   CwR_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CwR",
       coeffDict_,
       1.5
     )
-  ),
+  },
   Clambda_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Clambda",
       coeffDict_,
       2.495
     )
-  ),
+  },
   CmuStd_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "CmuStd",
       coeffDict_,
       0.09
     )
-  ),
+  },
   Prtheta_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Prtheta",
       coeffDict_,
       0.85
     )
-  ),
+  },
   Sigmak_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Sigmak",
       coeffDict_,
       1
     )
-  ),
+  },
   Sigmaw_
-  (
+  {
     dimensioned<scalar>::lookupOrAddToDict
     (
       "Sigmaw",
       coeffDict_,
       1.17
     )
-  ),
+  },
   kt_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("kt", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   kl_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("kl", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   omega_
-  (
+  {
     IOobject
-    (
+    {
       IOobject::groupName("omega", U.group()),
       runTime_.timeName(),
       mesh_,
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
-    ),
+    },
     mesh_
-  ),
+  },
   epsilon_
-  (
+  {
     IOobject
-    (
+    {
       "epsilon",
       runTime_.timeName(),
       mesh_
-    ),
+    },
     kt_*omega_ + D(kl_) + D(kt_)
-  ),
-  y_(wallDist::New(mesh_).y())
+  },
+  y_{wallDist::New(mesh_).y()}
 {
   bound(kt_, kMin_);
   bound(kl_, kMin_);
   bound(omega_, omegaMin_);
   bound(epsilon_, epsilonMin_);
-  if (type == typeName)
-  {
+  if (type == typeName) {
     // Evaluating nut_ is complex so start from the field read from file
     nut_.correctBoundaryConditions();
     printCoeffs(type);
   }
 }
+
+
 // Member Functions 
 bool kkLOmega::read()
 {
-  if (eddyViscosity<incompressible::RASModel>::read())
-  {
+  if (eddyViscosity<incompressible::RASModel>::read()) {
     A0_.readIfPresent(coeffDict());
     As_.readIfPresent(coeffDict());
     Av_.readIfPresent(coeffDict());
@@ -524,123 +550,118 @@ bool kkLOmega::read()
     Sigmak_.readIfPresent(coeffDict());
     Sigmaw_.readIfPresent(coeffDict());
     return true;
-  }
-  else
-  {
+  } else {
     return false;
   }
 }
+
+
 void kkLOmega::correct()
 {
   eddyViscosity<incompressible::RASModel>::correct();
-  if (!turbulence_)
-  {
+  if (!turbulence_) {
     return;
   }
-  const volScalarField lambdaT(sqrt(kt_)/(omega_ + omegaMin_));
-  const volScalarField lambdaEff(min(Clambda_*y_, lambdaT));
+  const volScalarField lambdaT{sqrt(kt_)/(omega_ + omegaMin_)};
+  const volScalarField lambdaEff{min(Clambda_*y_, lambdaT)};
   const volScalarField fw
-  (
+  {
     pow
     (
-      lambdaEff
-     /(lambdaT + dimensionedScalar("SMALL", dimLength, ROOTVSMALL)),
+      lambdaEff/(lambdaT + dimensionedScalar("SMALL", dimLength, ROOTVSMALL)),
       2.0/3.0
     )
-  );
-  tmp<volTensorField> tgradU(fvc::grad(U_));
+  };
+  tmp<volTensorField> tgradU{fvc::grad(U_)};
   const volTensorField& gradU = tgradU();
-  const volScalarField Omega(sqrt(2.0)*mag(skew(gradU)));
-  const volScalarField S2(2.0*magSqr(dev(symm(gradU))));
-  const volScalarField ktS(fSS(Omega)*fw*kt_);
+  const volScalarField Omega{sqrt(2.0)*mag(skew(gradU))};
+  const volScalarField S2{2.0*magSqr(dev(symm(gradU)))};
+  const volScalarField ktS{fSS(Omega)*fw*kt_};
   const volScalarField nuts
-  (
-    fv(sqr(fw)*kt_/nu()/(omega_ + omegaMin_))
-   *fINT()
-   *Cmu(sqrt(S2))*sqrt(ktS)*lambdaEff
-  );
-  const volScalarField Pkt(nuts*S2);
-  const volScalarField ktL(kt_ - ktS);
-  const volScalarField ReOmega(sqr(y_)*Omega/nu());
+  {
+    fv(sqr(fw)*kt_/nu()/(omega_ + omegaMin_))*fINT()
+    *Cmu(sqrt(S2))*sqrt(ktS)*lambdaEff
+  };
+  const volScalarField Pkt{nuts*S2};
+  const volScalarField ktL{kt_ - ktS};
+  const volScalarField ReOmega{sqr(y_)*Omega/nu()};
   const volScalarField nutl
-  (
+  {
     min
     (
       C11_*fTaul(lambdaEff, ktL, Omega)*Omega*sqr(lambdaEff)
-     *sqrt(ktL)*lambdaEff/nu()
-     + C12_*BetaTS(ReOmega)*ReOmega*sqr(y_)*Omega
-    ,
+      *sqrt(ktL)*lambdaEff/nu()
+      + C12_*BetaTS(ReOmega)*ReOmega*sqr(y_)*Omega,
       0.5*(kl_ + ktL)/(sqrt(S2) + omegaMin_)
     )
-  );
-  const volScalarField Pkl(nutl*S2);
+  };
+  const volScalarField Pkl{nutl*S2};
   const volScalarField alphaTEff
-  (
+  {
     alphaT(lambdaEff, fv(sqr(fw)*kt_/nu()/(omega_ + omegaMin_)), ktS)
-  );
+  };
   // By pass source term divided by kl_
-  const dimensionedScalar fwMin("SMALL", dimless, ROOTVSMALL);
+  const dimensionedScalar fwMin{"SMALL", dimless, ROOTVSMALL};
   const volScalarField Rbp
-  (
-    CR_*(1.0 - exp(-phiBP(Omega)()/Abp_))*omega_
-   /(fw + fwMin)
-  );
-  const volScalarField fNatCrit(1.0 - exp(-Cnc_*sqrt(kl_)*y_/nu()));
+  {
+    CR_*(1.0 - exp(-phiBP(Omega)()/Abp_))*omega_/(fw + fwMin)
+  };
+  const volScalarField fNatCrit{1.0 - exp(-Cnc_*sqrt(kl_)*y_/nu())};
   // Natural source term divided by kl_
   const volScalarField Rnat
-  (
+  {
     CrNat_*(1.0 - exp(-phiNAT(ReOmega, fNatCrit)/Anat_))*Omega
-  );
+  };
   omega_.boundaryField().updateCoeffs();
   // Turbulence specific dissipation rate equation
   tmp<fvScalarMatrix> omegaEqn
-  (
+  {
     fvm::ddt(omega_)
-   + fvm::div(phi_, omega_)
-   - fvm::laplacian(DomegaEff(alphaTEff), omega_)
-  ==
+    + fvm::div(phi_, omega_)
+    - fvm::laplacian(DomegaEff(alphaTEff), omega_)
+    ==
     Cw1_*Pkt*omega_/(kt_ + kMin_)
-   - fvm::SuSp
+    - fvm::SuSp
     (
-      (1.0 - CwR_/(fw + fwMin))*kl_*(Rbp + Rnat)/(kt_ + kMin_)
-     , omega_
+      (1.0 - CwR_/(fw + fwMin))*kl_*(Rbp + Rnat)/(kt_ + kMin_),
+      omega_
     )
-   - fvm::Sp(Cw2_*sqr(fw)*omega_, omega_)
-   + (
+    - fvm::Sp(Cw2_*sqr(fw)*omega_, omega_)
+    + (
       Cw3_*fOmega(lambdaEff, lambdaT)*alphaTEff*sqr(fw)*sqrt(kt_)
-    )().dimensionedInternalField()/pow3(y_.dimensionedInternalField())
-  );
+      )().dimensionedInternalField()/pow3(y_.dimensionedInternalField())
+  };
   omegaEqn().relax();
   omegaEqn().boundaryManipulate(omega_.boundaryField());
   solve(omegaEqn);
   bound(omega_, omegaMin_);
-  const volScalarField Dl(D(kl_));
+  const volScalarField Dl{D(kl_)};
   // Laminar kinetic energy equation
   tmp<fvScalarMatrix> klEqn
-  (
+  {
     fvm::ddt(kl_)
-   + fvm::div(phi_, kl_)
-   - fvm::laplacian(nu(), kl_)
-  ==
+    + fvm::div(phi_, kl_)
+    - fvm::laplacian(nu(), kl_)
+    ==
     Pkl
-   - fvm::Sp(Rbp + Rnat + Dl/(kl_ + kMin_), kl_)
-  );
+    - fvm::Sp(Rbp + Rnat + Dl/(kl_ + kMin_), kl_)
+  };
   klEqn().relax();
   klEqn().boundaryManipulate(kl_.boundaryField());
   solve(klEqn);
   bound(kl_, kMin_);
-  const volScalarField Dt(D(kt_));
+  const volScalarField Dt{D(kt_)};
   // Turbulent kinetic energy equation
   tmp<fvScalarMatrix> ktEqn
-  (
+  {
     fvm::ddt(kt_)
-   + fvm::div(phi_, kt_)
-   - fvm::laplacian(DkEff(alphaTEff), kt_)
-  ==
+    + fvm::div(phi_, kt_)
+    - fvm::laplacian(DkEff(alphaTEff), kt_)
+    ==
     Pkt
-   + (Rbp + Rnat)*kl_
-   - fvm::Sp(omega_ + Dt/(kt_+ kMin_), kt_)
-  );
+    + (Rbp + Rnat)*kl_
+    - fvm::Sp(omega_ + Dt/(kt_+ kMin_), kt_)
+  };
   ktEqn().relax();
   ktEqn().boundaryManipulate(kt_.boundaryField());
   solve(ktEqn);
@@ -652,6 +673,8 @@ void kkLOmega::correct()
   nut_ = nuts + nutl;
   nut_.correctBoundaryConditions();
 }
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+

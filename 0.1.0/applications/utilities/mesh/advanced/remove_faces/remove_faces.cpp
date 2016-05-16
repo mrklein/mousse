@@ -11,7 +11,9 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 using namespace mousse;
+
 
 int main(int argc, char *argv[])
 {
@@ -36,12 +38,12 @@ int main(int argc, char *argv[])
   labelList cellRegionMaster;
   labelList facesToRemove;
   faceRemover.compatibleRemoves
-  (
-    candidates,
-    cellRegion,
-    cellRegionMaster,
-    facesToRemove
-  );
+    (
+      candidates,
+      cellRegion,
+      cellRegionMaster,
+      facesToRemove
+    );
 
   {
     faceSet t{mesh, "compatibleRemoves", facesToRemove};
@@ -81,27 +83,23 @@ int main(int argc, char *argv[])
   polyTopoChange meshMod{mesh};
   // Insert mesh refinement into polyTopoChange.
   faceRemover.setRefinement
-  (
-    facesToRemove,
-    cellRegion,
-    cellRegionMaster,
-    meshMod
-  );
+    (
+      facesToRemove,
+      cellRegion,
+      cellRegionMaster,
+      meshMod
+    );
   autoPtr<mapPolyMesh> morphMap = meshMod.changeMesh(mesh, false);
   mesh.updateMesh(morphMap);
   // Move mesh (since morphing does not do this)
-  if (morphMap().hasMotionPoints())
-  {
+  if (morphMap().hasMotionPoints()) {
     mesh.movePoints(morphMap().preMotionPoints());
   }
   // Update numbering of cells/vertices.
   faceRemover.updateMesh(morphMap);
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTime++;
-  }
-  else
-  {
+  } else {
     mesh.setInstance(oldInstance);
   }
   // Take over refinement levels and write to new time directory.
@@ -110,3 +108,4 @@ int main(int argc, char *argv[])
   Pout << "End\n" << endl;
   return 0;
 }
+

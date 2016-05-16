@@ -6,17 +6,16 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::energyScalingFunction
-// Description
-// SourceFiles
-//   energy_scaling_function.cpp
-//   energy_scaling_function_new.cpp
+
 #include "iodictionary.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "auto_ptr.hpp"
 #include "pair_potential.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class energyScalingFunction
 {
 protected:
@@ -75,5 +74,8 @@ public:
       const dictionary& energyScalingFunctionProperties
     ) = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

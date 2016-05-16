@@ -8,8 +8,10 @@
 #include "surface_fields.hpp"
 #include "vol_fields.hpp"
 #include "turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
@@ -26,6 +28,8 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
 (
@@ -39,6 +43,8 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
 (
@@ -57,6 +63,8 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   this->refGrad() = 0.0;
   this->valueFraction() = 0.0;
 }
+
+
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
 (
@@ -67,6 +75,8 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 turbulentMixingLengthFrequencyInletFvPatchScalarField::
 turbulentMixingLengthFrequencyInletFvPatchScalarField
 (
@@ -78,22 +88,24 @@ turbulentMixingLengthFrequencyInletFvPatchScalarField
   mixingLength_{ptf.mixingLength_},
   kName_{ptf.kName_}
 {}
+
+
 // Member Functions 
 void turbulentMixingLengthFrequencyInletFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   // Lookup Cmu corresponding to the turbulence model selected
-  const turbulenceModel& turbModel = db().lookupObject<turbulenceModel>
-  (
-    IOobject::groupName
+  const turbulenceModel& turbModel =
+    db().lookupObject<turbulenceModel>
     (
-      turbulenceModel::propertiesName,
-      dimensionedInternalField().group()
-    )
-  );
+      IOobject::groupName
+      (
+        turbulenceModel::propertiesName,
+        dimensionedInternalField().group()
+      )
+    );
   const scalar Cmu =
     turbModel.coeffDict().lookupOrDefault<scalar>("Cmu", 0.09);
   const scalar Cmu25 = pow(Cmu, 0.25);
@@ -105,6 +117,8 @@ void turbulentMixingLengthFrequencyInletFvPatchScalarField::updateCoeffs()
   this->valueFraction() = 1.0 - pos(phip);
   inletOutletFvPatchScalarField::updateCoeffs();
 }
+
+
 void turbulentMixingLengthFrequencyInletFvPatchScalarField::write
 (
   Ostream& os
@@ -117,9 +131,13 @@ void turbulentMixingLengthFrequencyInletFvPatchScalarField::write
   os.writeKeyword("k") << kName_ << token::END_STATEMENT << nl;
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   turbulentMixingLengthFrequencyInletFvPatchScalarField
 );
+
 }  // namespace mousse
+

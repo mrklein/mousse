@@ -4,10 +4,14 @@
 
 #include "relaxation_model.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(relaxationModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(relaxationModel, dictionary);
+
+
 // Constructors 
 relaxationModel::relaxationModel
 (
@@ -16,10 +20,12 @@ relaxationModel::relaxationModel
   const Time& runTime
 )
 :
-  dictionary(relaxationDict),
-  runTime_(runTime),
-  coeffDict_(subDict(type + "Coeffs"))
+  dictionary{relaxationDict},
+  runTime_{runTime},
+  coeffDict_{subDict(type + "Coeffs")}
 {}
+
+
 // Selectors
 autoPtr<relaxationModel> relaxationModel::New
 (
@@ -28,29 +34,33 @@ autoPtr<relaxationModel> relaxationModel::New
 )
 {
   word relaxationModelTypeName
-  (
+  {
     relaxationDict.lookup("relaxationModel")
-  );
-  Info<< nl << "Selecting relaxationModel "
+  };
+  Info << nl << "Selecting relaxationModel "
     << relaxationModelTypeName << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(relaxationModelTypeName);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "relaxationModel::New(const dictionary&, "
       "const conformalVoronoiMesh&)"
-    )   << "Unknown relaxationModel type "
-      << relaxationModelTypeName
-      << endl << endl
-      << "Valid relaxationModel types are :" << endl
-      << dictionaryConstructorTablePtr_->toc()
-      << exit(FatalError);
+    )
+    << "Unknown relaxationModel type "
+    << relaxationModelTypeName
+    << endl << endl
+    << "Valid relaxationModel types are :" << endl
+    << dictionaryConstructorTablePtr_->toc()
+    << exit(FatalError);
   }
   return autoPtr<relaxationModel>(cstrIter()(relaxationDict, runTime));
 }
+
+
 // Destructor 
 relaxationModel::~relaxationModel()
 {}
+
 }  // namespace mousse
+

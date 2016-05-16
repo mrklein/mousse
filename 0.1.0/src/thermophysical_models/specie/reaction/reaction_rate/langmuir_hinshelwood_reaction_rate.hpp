@@ -8,12 +8,15 @@
 //   mousse::LangmuirHinshelwoodReactionRate
 // Description
 //   Power series reaction rate.
+
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 #include "fixed_list.hpp"
 #include "tuple2.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class LangmuirHinshelwoodReactionRate
 {
   // Private data
@@ -67,7 +70,9 @@ public:
       const LangmuirHinshelwoodReactionRate&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
@@ -83,12 +88,13 @@ inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
   c3h6_{c3h6},
   no_{no}
 {
-  for (int i=0; i<n_; i++)
-  {
+  for (int i=0; i<n_; i++) {
     A_[i] = A[i];
     Ta_[i] = Ta[i];
   }
 }
+
+
 inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
 (
   const speciesTable& st,
@@ -100,12 +106,13 @@ inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
   no_{st["NO"]}
 {
   is.readBegin("LangmuirHinshelwoodReactionRate(Istream&)");
-  for (int i=0; i<n_; i++)
-  {
+  for (int i=0; i<n_; i++) {
     is >> A_[i] >> Ta_[i];
   }
   is.readEnd("LangmuirHinshelwoodReactionRate(Istream&)");
 }
+
+
 inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
 (
   const speciesTable& st,
@@ -117,13 +124,14 @@ inline mousse::LangmuirHinshelwoodReactionRate::LangmuirHinshelwoodReactionRate
   no_{st["NO"]}
 {
   // read (A, Ta) pairs
-  FixedList<Tuple2<scalar, scalar>, n_> coeffs(dict.lookup("coeffs"));
-  FOR_ALL(coeffs, i)
-  {
+  FixedList<Tuple2<scalar, scalar>, n_> coeffs{dict.lookup("coeffs")};
+  FOR_ALL(coeffs, i) {
     A_[i] = coeffs[i].first();
     Ta_[i] = coeffs[i].second();
   }
 }
+
+
 // Member Functions 
 inline mousse::scalar mousse::LangmuirHinshelwoodReactionRate::operator()
 (
@@ -132,24 +140,28 @@ inline mousse::scalar mousse::LangmuirHinshelwoodReactionRate::operator()
   const scalarField& c
 ) const
 {
-  return A_[0]*exp(-Ta_[0]/T)/
-  (
-    T
-   *sqr(1 + A_[1]*exp(-Ta_[1]/T)*c[co_] + A_[2]*exp(-Ta_[2]/T)*c[c3h6_])
-   *(1 + A_[3]*exp(-Ta_[3]/T)*sqr(c[co_])*sqr(c[c3h6_]))
-   *(1 + A_[4]*exp(-Ta_[4]/T)*pow(c[no_], 0.7))
-  );
+  return
+    A_[0]*exp(-Ta_[0]/T)/
+    (
+      T
+      *sqr(1 + A_[1]*exp(-Ta_[1]/T)*c[co_] + A_[2]*exp(-Ta_[2]/T)*c[c3h6_])
+      *(1 + A_[3]*exp(-Ta_[3]/T)*sqr(c[co_])*sqr(c[c3h6_]))
+      *(1 + A_[4]*exp(-Ta_[4]/T)*pow(c[no_], 0.7))
+    );
 }
+
+
 inline void mousse::LangmuirHinshelwoodReactionRate::write(Ostream& os) const
 {
   FixedList<Tuple2<scalar, scalar>, n_> coeffs;
-  FOR_ALL(coeffs, i)
-  {
+  FOR_ALL(coeffs, i) {
     coeffs[i].first() = A_[i];
     coeffs[i].second() = Ta_[i];
   }
   os.writeKeyword("coeffs") << coeffs << nl;
 }
+
+
 inline mousse::Ostream& mousse::operator<<
 (
   Ostream& os,
@@ -157,12 +169,13 @@ inline mousse::Ostream& mousse::operator<<
 )
 {
   os << token::BEGIN_LIST;
-  for (int i=0; i<LangmuirHinshelwoodReactionRate::n_; i++)
-  {
+  for (int i=0; i<LangmuirHinshelwoodReactionRate::n_; i++) {
     os << token::SPACE
       << '(' << lhrr.A_[i] << token::SPACE << lhrr.Ta_[i] << ')';
   }
   os << token::END_LIST;
   return os;
 }
+
 #endif
+

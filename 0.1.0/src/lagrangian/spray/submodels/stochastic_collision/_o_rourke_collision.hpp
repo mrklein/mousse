@@ -12,8 +12,9 @@
 #include "_stochastic_collision_model.hpp"
 #include "liquid_mixture_properties.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class ORourkeCollision
 :
@@ -61,18 +62,20 @@ public:
     //- Construct copy
     ORourkeCollision(const ORourkeCollision<CloudType>& cm);
     //- Construct and return a clone
-    virtual autoPtr<StochasticCollisionModel<CloudType> > clone() const
+    virtual autoPtr<StochasticCollisionModel<CloudType>> clone() const
     {
-      return autoPtr<StochasticCollisionModel<CloudType> >
-      (
-        new ORourkeCollision<CloudType>(*this)
-      );
+      return
+        autoPtr<StochasticCollisionModel<CloudType>>
+        {
+          new ORourkeCollision<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ORourkeCollision();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_o_rourke_collision.cpp"
-#endif
+
+#include "_o_rourke_collision.ipp"
+
 #endif

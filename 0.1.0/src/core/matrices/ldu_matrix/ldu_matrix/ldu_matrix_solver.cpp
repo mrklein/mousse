@@ -25,20 +25,21 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
   const dictionary& solverControls
 )
 {
-  const word name(solverControls.lookup("solver"));
+  const word name{solverControls.lookup("solver")};
   if (matrix.diagonal()) {
-    return autoPtr<lduMatrix::solver>
-    {
-      new diagonalSolver
-      (
-        fieldName,
-        matrix,
-        interfaceBouCoeffs,
-        interfaceIntCoeffs,
-        interfaces,
-        solverControls
-      )
-    };
+    return
+      autoPtr<lduMatrix::solver>
+      {
+        new diagonalSolver
+        {
+          fieldName,
+          matrix,
+          interfaceBouCoeffs,
+          interfaceIntCoeffs,
+          interfaces,
+          solverControls
+        }
+      };
   } else if (matrix.symmetric()) {
     symMatrixConstructorTable::iterator constructorIter =
       symMatrixConstructorTablePtr_->find(name);
@@ -52,18 +53,19 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
       << symMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::solver>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        interfaceBouCoeffs,
-        interfaceIntCoeffs,
-        interfaces,
-        solverControls
-      )
-    };
+    return
+      autoPtr<lduMatrix::solver>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          interfaceBouCoeffs,
+          interfaceIntCoeffs,
+          interfaces,
+          solverControls
+        )
+      };
   } else if (matrix.asymmetric()) {
     asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(name);
@@ -77,18 +79,19 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
       << asymMatrixConstructorTablePtr_->sortedToc()
       << exit(FatalIOError);
     }
-    return autoPtr<lduMatrix::solver>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        interfaceBouCoeffs,
-        interfaceIntCoeffs,
-        interfaces,
-        solverControls
-      )
-    };
+    return
+      autoPtr<lduMatrix::solver>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          interfaceBouCoeffs,
+          interfaceIntCoeffs,
+          interfaces,
+          solverControls
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (
@@ -96,7 +99,7 @@ mousse::autoPtr<mousse::lduMatrix::solver> mousse::lduMatrix::solver::New
     )
     << "cannot solve incomplete matrix, no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
-    return autoPtr<lduMatrix::solver>{NULL};
+    return autoPtr<lduMatrix::solver>{nullptr};
   }
 }
 

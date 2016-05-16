@@ -17,6 +17,7 @@
 #include "local_euler_ddt_scheme.hpp"
 #include "fvc_smooth.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -30,42 +31,34 @@ int main(int argc, char *argv[])
   #include "create_mrf.inc"
   #include "create_fv_options.inc"
   #include "correct_phi.inc"
-  if (!LTS)
-  {
+  if (!LTS) {
     #include "read_time_controls.inc"
     #include "courant_no.inc"
     #include "set_initial_delta_t.inc"
   }
-    Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info<< "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_time_controls.inc"
-    if (LTS)
-    {
+    if (LTS) {
       #include "set_rdelta_t.inc"
-    }
-    else
-    {
+    } else {
       #include "courant_no.inc"
       #include "alpha_courant_no.inc"
       #include "set_delta_t.inc"
     }
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
+    Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
+    while (pimple.loop()) {
       #include "alpha_controls.inc"
       #include "alpha_eqn_sub_cycle.inc"
       mixture.correct();
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         turbulence->correct();
       }
     }
@@ -77,3 +70,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

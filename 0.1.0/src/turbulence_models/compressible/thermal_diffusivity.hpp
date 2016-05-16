@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_THERMAL_DIFFUSIVITY_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_THERMAL_DIFFUSIVITY_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,12 +9,9 @@
 // Description
 //   Templated wrapper class to provide compressible turbulence models
 //   thermal diffusivity based thermal transport.
-// SourceFiles
-//   thermal_diffusivity.cpp
-#ifndef THERMAL_DIFFUSIVITY_HPP_
-#define THERMAL_DIFFUSIVITY_HPP_
-namespace mousse
-{
+
+namespace mousse {
+
 template<class BasicTurbulenceModel>
 class ThermalDiffusivity
 :
@@ -111,8 +111,9 @@ public:
       return alpha(patchi);
     }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "thermal_diffusivity.cpp"
-#endif
+
+#include "thermal_diffusivity.ipp"
+
 #endif

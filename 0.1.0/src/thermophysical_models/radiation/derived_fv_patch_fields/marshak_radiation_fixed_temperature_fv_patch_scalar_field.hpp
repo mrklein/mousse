@@ -30,12 +30,13 @@
 // SeeAlso
 //   mousse::radiationCoupledBase
 //   mousse::mixedFvPatchField
-// SourceFiles
-//   marshak_radiation_fixed_temperature_fv_patch_scalar_field.cpp
+
 #include "mixed_fv_patch_fields.hpp"
 #include "radiation_coupled_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class MarshakRadiationFixedTemperatureFvPatchScalarField
 :
   public mixedFvPatchScalarField,
@@ -79,9 +80,9 @@ public:
     virtual tmp<fvPatchScalarField> clone() const
     {
       return tmp<fvPatchScalarField>
-      (
-        new MarshakRadiationFixedTemperatureFvPatchScalarField(*this)
-      );
+      {
+        new MarshakRadiationFixedTemperatureFvPatchScalarField{*this}
+      };
     }
     //- Construct as copy setting internal field reference
     MarshakRadiationFixedTemperatureFvPatchScalarField
@@ -96,27 +97,16 @@ public:
     ) const
     {
       return tmp<fvPatchScalarField>
-      (
-        new MarshakRadiationFixedTemperatureFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      {
+        new MarshakRadiationFixedTemperatureFvPatchScalarField{*this, iF}
+      };
     }
   // Member functions
     // Access
       //- Return the radiation temperature
-      const scalarField& Trad() const
-      {
-        return Trad_;
-      }
-      //- Return reference to the radiation temperature to allow
-      //  adjustment
-      scalarField& Trad()
-      {
-        return Trad_;
-      }
+      const scalarField& Trad() const { return Trad_; }
+      //- Return reference to the radiation temperature to allow adjustment
+      scalarField& Trad() { return Trad_; }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
       virtual void autoMap
@@ -136,5 +126,8 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

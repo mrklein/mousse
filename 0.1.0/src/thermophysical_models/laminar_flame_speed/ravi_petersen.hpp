@@ -17,13 +17,13 @@
 //   Where \f$\phi\f$ is the equivalence ratio, and \f$\alpha\f$ and \f$\beta\f$
 //   are polynomial coefficients given for a number of pressure and equivalence
 //   ratio points.
-// SourceFiles
-//   ravi_petersen.cpp
+
 #include "laminar_flame_speed.hpp"
-namespace mousse
-{
-namespace laminarFlameSpeedModels
-{
+
+
+namespace mousse {
+namespace laminarFlameSpeedModels {
+
 class RaviPetersen
 :
   public laminarFlameSpeed
@@ -35,9 +35,9 @@ class RaviPetersen
     //- Correlation equivalence ratios
     List<scalar> EqRPoints_;
     //- Correlation alpha coefficients
-    List<List<List<scalar> > > alpha_;
+    List<List<List<scalar>>> alpha_;
     //- Correlation beta coefficients
-    List<List<List<scalar> > > beta_;
+    List<List<List<scalar>>> beta_;
     //- Reference temperature
     scalar TRef_;
   // Private Member Functions
@@ -51,7 +51,7 @@ class RaviPetersen
     void checkCoefficientArrayShape
     (
       const word& name,
-      const List<List<List<scalar> > >& x
+      const List<List<List<scalar>>>& x
     ) const;
     //- Find and interpolate a value in the data point arrays
     inline bool interval
@@ -125,6 +125,9 @@ public:
     //- Return the laminar flame speed [m/s]
     tmp<volScalarField> operator()() const;
 };
+
 } // End laminarFlameSpeedModels
 }  // namespace mousse
+
 #endif
+

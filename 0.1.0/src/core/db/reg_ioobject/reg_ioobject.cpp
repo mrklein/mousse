@@ -101,7 +101,7 @@ mousse::regIOobject::regIOobject(const IOobject& io, const bool isTime)
   watchIndex_{-1},
   // Do not get event for top level Time database
   eventNo_{isTime ? 0 : db().getEvent()},
-  isPtr_{NULL}
+  isPtr_{nullptr}
 {
   // Register with objectRegistry if requested
   if (registerObject()) {
@@ -118,7 +118,7 @@ mousse::regIOobject::regIOobject(const regIOobject& rio)
   ownedByRegistry_{false},
   watchIndex_{rio.watchIndex_},
   eventNo_{db().getEvent()},
-  isPtr_{NULL}
+  isPtr_{nullptr}
 {
   // Do not register copy with objectRegistry
 }
@@ -133,7 +133,7 @@ mousse::regIOobject::regIOobject(const regIOobject& rio, bool registerCopy)
   ownedByRegistry_{false},
   watchIndex_{-1},
   eventNo_{db().getEvent()},
-  isPtr_{NULL}
+  isPtr_{nullptr}
 {
   if (registerCopy && rio.registered_) {
     const_cast<regIOobject&>(rio).checkOut();
@@ -154,7 +154,7 @@ mousse::regIOobject::regIOobject
   ownedByRegistry_{false},
   watchIndex_{-1},
   eventNo_{db().getEvent()},
-  isPtr_{NULL}
+  isPtr_{nullptr}
 {
   if (registerCopy) {
     checkIn();
@@ -173,7 +173,7 @@ mousse::regIOobject::regIOobject
   ownedByRegistry_{false},
   watchIndex_{-1},
   eventNo_{db().getEvent()},
-  isPtr_{NULL}
+  isPtr_{nullptr}
 {
   if (registerObject()) {
     checkIn();
@@ -193,7 +193,7 @@ mousse::regIOobject::~regIOobject()
   }
   if (isPtr_) {
     delete isPtr_;
-    isPtr_ = NULL;
+    isPtr_ = nullptr;
   }
   // Check out of objectRegistry if not owned by the registry
   if (!ownedByRegistry_) {
@@ -344,7 +344,7 @@ void mousse::regIOobject::operator=(const IOobject& io)
 {
   if (isPtr_) {
     delete isPtr_;
-    isPtr_ = NULL;
+    isPtr_ = nullptr;
   }
   // Check out of objectRegistry
   checkOut();

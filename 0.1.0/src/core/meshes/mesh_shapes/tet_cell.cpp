@@ -5,11 +5,13 @@
 #include "tet_cell.hpp"
 #include "cell_shape.hpp"
 #include "cell_modeller.hpp"
+
+
 // Member Functions 
 mousse::cellShape mousse::tetCell::tetCellShape() const
 {
-  static const cellModel* tetModelPtr_ = NULL;
-  if (!tetModelPtr_)
+  static const cellModel* tetModelPtr_ = nullptr;
+  if (tetModelPtr_ == nullptr)
   {
     tetModelPtr_ = cellModeller::lookup("tet");
   }

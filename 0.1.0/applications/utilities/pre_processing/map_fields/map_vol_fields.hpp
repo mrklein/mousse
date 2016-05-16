@@ -9,8 +9,9 @@
 #include "mesh_to_mesh0.hpp"
 #include "ioobject_list.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class Type, class CombineOp>
 void MapVolFields
 (
@@ -24,8 +25,7 @@ void MapVolFields
   const fvMesh& meshTarget = meshToMesh0Interp.toMesh();
   word fieldClassName{GeometricField<Type, fvPatchField, volMesh>::typeName};
   IOobjectList fields = objects.lookupClass(fieldClassName);
-  FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-  {
+  FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
     IOobject fieldTargetIOobject
     {
       fieldIter()->name(),
@@ -34,8 +34,7 @@ void MapVolFields
       IOobject::MUST_READ,
       IOobject::AUTO_WRITE
     };
-    if (fieldTargetIOobject.headerOk())
-    {
+    if (fieldTargetIOobject.headerOk()) {
       Info << "    interpolating " << fieldIter()->name()
         << endl;
       // Read field fieldSource
@@ -63,5 +62,8 @@ void MapVolFields
     }
   }
 }
+
 }  // namespace mousse
+
 #endif
+

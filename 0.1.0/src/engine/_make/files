@@ -1,16 +1,16 @@
-engine_time/engine_time.cpp
+time/engine_time.cpp
 ignition/ignition.cpp
 ignition/ignition_io.cpp
 ignition/ignition_site.cpp
 ignition/ignition_site_io.cpp
 
-engine_valve/engine_valve.cpp
-engine_piston/engine_piston.cpp
+valve/engine_valve.cpp
+piston/engine_piston.cpp
 
-engine_mesh/engine_mesh/engine_mesh.cpp
-engine_mesh/engine_mesh/engine_mesh_new.cpp
-engine_mesh/static_engine_mesh/static_engine_mesh.cpp
-engine_mesh/layered_engine_mesh/layered_engine_mesh.cpp
-engine_mesh/fv_motion_solver_engine_mesh/fv_motion_solver_engine_mesh.cpp
+mesh/engine_mesh.cpp
+mesh/engine_mesh_new.cpp
+mesh/static_engine_mesh.cpp
+mesh/layered_engine_mesh.cpp
+mesh/fv_motion_solver_engine_mesh.cpp
 
 LIB =  $(MOUSSE_LIBBIN)/libmousse_engine

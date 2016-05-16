@@ -9,13 +9,13 @@
 // Description
 //   Writes scalar fields corresponding to each component of the supplied
 //   field (name) for each time.
-// SourceFiles
-//   components.cpp
+
 #include "calc_type.hpp"
-namespace mousse
-{
-namespace calcTypes
-{
+
+
+namespace mousse {
+namespace calcTypes {
+
 class components
 :
   public calcType
@@ -62,9 +62,10 @@ public:
   //- Destructor
   virtual ~components();
 };
+
 }  // namespace calcTypes
 }  // namespace mousse
-#ifdef NoRepository
-#   include "write_component_fields.cpp"
-#endif
+
+#include "write_component_fields.ipp"
+
 #endif

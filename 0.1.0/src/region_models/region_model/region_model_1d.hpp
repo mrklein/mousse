@@ -8,15 +8,15 @@
 //   mousse::regionModel1D
 // Description
 //   Base class for 1-D region models
-// SourceFiles
-//   region_model_1d.cpp
+
 #include "region_model.hpp"
 #include "surface_fields.hpp"
 #include "label_list.hpp"
-namespace mousse
-{
-namespace regionModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+
 class regionModel1D
 :
   public regionModel
@@ -103,29 +103,36 @@ public:
         //- Return the number of layers in the region
         inline label nLayers() const;
 };
+
 }  // namespace regionModels
 }  // namespace mousse
+
 
 inline const mousse::labelListList&
 mousse::regionModels::regionModel1D::boundaryFaceFaces() const
 {
   return boundaryFaceFaces_;
 }
+
+
 inline const mousse::labelListList&
 mousse::regionModels::regionModel1D::boundaryFaceCells() const
 {
   return boundaryFaceCells_;
 }
+
+
 inline const mousse::labelList&
 mousse::regionModels::regionModel1D::boundaryFaceOppositeFace() const
 {
   return boundaryFaceOppositeFace_;
 }
+
+
 inline const mousse::surfaceScalarField&
 mousse::regionModels::regionModel1D::nMagSf() const
 {
-  if (!nMagSfPtr_.valid())
-  {
+  if (!nMagSfPtr_.valid()) {
     FATAL_ERROR_IN
     (
       "inline const mousse::surfaceScalarField&"
@@ -135,8 +142,11 @@ mousse::regionModels::regionModel1D::nMagSf() const
   }
   return nMagSfPtr_();
 }
+
+
 inline mousse::label mousse::regionModels::regionModel1D::nLayers() const
 {
   return nLayers_;
 }
+
 #endif

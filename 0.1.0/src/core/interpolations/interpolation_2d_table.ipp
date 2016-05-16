@@ -31,10 +31,10 @@ void mousse::interpolation2DTable<Type>::readTable()
 template<class Type>
 mousse::interpolation2DTable<Type>::interpolation2DTable()
 :
-  List<Tuple2<scalar, List<Tuple2<scalar, Type> > > >{},
+  List<Tuple2<scalar, List<Tuple2<scalar, Type>>>>{},
   boundsHandling_{interpolation2DTable::WARN},
   fileName_{"fileNameIsUndefined"},
-  reader_{NULL}
+  reader_{nullptr}
 {}
 
 
@@ -49,7 +49,7 @@ mousse::interpolation2DTable<Type>::interpolation2DTable
   List<Tuple2<scalar, List<Tuple2<scalar, Type>>>>{values},
   boundsHandling_{bounds},
   fileName_{fName},
-  reader_{NULL}
+  reader_{nullptr}
 {}
 
 
@@ -109,8 +109,8 @@ Type mousse::interpolation2DTable<Type>::interpolateValue
         (
           "mousse::interpolation2DTable<Type>::interpolateValue"
           "("
-            "List<Tuple2<scalar, Type> >&, "
-            "const scalar"
+          "  List<Tuple2<scalar, Type> >&, "
+          "  const scalar"
           ")"
         )
         << "value (" << lookupValue << ") less than lower "
@@ -124,8 +124,8 @@ Type mousse::interpolation2DTable<Type>::interpolateValue
         (
           "mousse::interpolation2DTable<Type>::interpolateValue"
           "("
-            "List<Tuple2<scalar, Type> >&, "
-            "const scalar"
+          "  List<Tuple2<scalar, Type> >&, "
+          "  const scalar"
           ")"
         )
         << "value (" << lookupValue << ") less than lower "
@@ -148,8 +148,8 @@ Type mousse::interpolation2DTable<Type>::interpolateValue
         (
           "mousse::interpolation2DTable<Type>::interpolateValue"
           "("
-            "List<Tuple2<scalar, Type> >&, "
-            "const scalar"
+          "  List<Tuple2<scalar, Type> >&, "
+          "  const scalar"
           ")"
         )
         << "value (" << lookupValue << ") greater than upper "
@@ -163,8 +163,8 @@ Type mousse::interpolation2DTable<Type>::interpolateValue
         (
           "mousse::interpolation2DTable<Type>::interpolateValue"
           "("
-            "List<Tuple2<scalar, Type> >&, "
-            "const scalar"
+          "  List<Tuple2<scalar, Type> >&, "
+          "  const scalar"
           ")"
         )
         << "value (" << lookupValue << ") greater than upper "
@@ -301,8 +301,8 @@ Type mousse::interpolation2DTable<Type>::operator()
     (
       "Type mousse::interpolation2DTable<Type>::operator()"
       "("
-        "const scalar, "
-        "const scalar"
+      "  const scalar, "
+      "  const scalar"
       ") const"
     )
     << "cannot interpolate a zero-sized table - returning zero" << endl;
@@ -337,7 +337,7 @@ mousse::word mousse::interpolation2DTable<Type>::boundsHandlingToWord
   const boundsHandling& bound
 ) const
 {
-  word enumName("warn");
+  word enumName{"warn"};
   switch (bound) {
     case interpolation2DTable::ERROR:
     {
@@ -377,7 +377,7 @@ mousse::interpolation2DTable<Type>::wordToBoundsHandling
     (
       "mousse::interpolation2DTable<Type>::wordToBoundsHandling"
       "("
-      "    const word&"
+      "  const word&"
       ")"
     )
     << "bad outOfBounds specifier " << bound << " using 'warn'" << endl;
@@ -430,3 +430,4 @@ void mousse::interpolation2DTable<Type>::write(Ostream& os) const
     << boundsHandlingToWord(boundsHandling_) << token::END_STATEMENT << nl;
   *this >> os;
 }
+

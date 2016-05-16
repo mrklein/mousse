@@ -293,7 +293,7 @@ inline const mousse::labelList& mousse::cellMatcher::faceLabels() const
 
 inline const mousse::cellModel& mousse::cellMatcher::model() const
 {
-  if (cellModelPtr_ == NULL) {
+  if (cellModelPtr_ == nullptr) {
     cellModelPtr_ = cellModeller::lookup(cellModelName_);
   }
   return *cellModelPtr_;

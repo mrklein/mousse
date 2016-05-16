@@ -3,14 +3,18 @@
 // Copyright (C) 2016 mousse project
 
 #include "reacting_parcel_injection_data.hpp"
+
+
 mousse::reactingParcelInjectionData::reactingParcelInjectionData(Istream& is)
 :
-  thermoParcelInjectionData(is)
+  thermoParcelInjectionData{is}
 {
   is.check("reading Y's");
   is >> Y_;
   is.check("reactingParcelInjectionData(Istream& is)");
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<
 (
@@ -22,6 +26,8 @@ mousse::Ostream& mousse::operator<<
   os << data.Y_;
   return os;
 }
+
+
 mousse::Istream& mousse::operator>>(Istream& is, reactingParcelInjectionData& data)
 {
   is >> static_cast<thermoParcelInjectionData&>(data);
@@ -30,3 +36,4 @@ mousse::Istream& mousse::operator>>(Istream& is, reactingParcelInjectionData& da
   is.check("operator(Istream&, reactingParcelInjectionData&)");
   return is;
 }
+

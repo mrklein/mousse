@@ -6,6 +6,8 @@
 #include "write_funs.hpp"
 #include "cloud.hpp"
 #include "passive_particle.hpp"
+
+
 // Constructors 
 mousse::lagrangianWriter::lagrangianWriter
 (
@@ -26,24 +28,22 @@ mousse::lagrangianWriter::lagrangianWriter
   // Write header
   writeFuns::writeHeader(os_, binary_, mesh.time().caseName());
   os_ << "DATASET POLYDATA" << std::endl;
-  if (dummyCloud)
-  {
+  if (dummyCloud) {
     nParcels_ = 0;
     os_ << "POINTS " << nParcels_ << " float" << std::endl;
-  }
-  else
-  {
-    Cloud<passiveParticle> parcels(mesh, cloudName_, false);
+  } else {
+    Cloud<passiveParticle> parcels{mesh, cloudName_, false};
     nParcels_ = parcels.size();
     os_ << "POINTS " << nParcels_ << " float" << std::endl;
-    DynamicList<floatScalar> partField(3*parcels.size());
-    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt)
-    {
+    DynamicList<floatScalar> partField{3*parcels.size()};
+    FOR_ALL_CONST_ITER(Cloud<passiveParticle>, parcels, elmnt) {
       writeFuns::insert(elmnt().position(), partField);
     }
     writeFuns::write(os_, binary_, partField);
   }
 }
+
+
 // Member Functions 
 void mousse::lagrangianWriter::writeParcelHeader(const label nFields)
 {
@@ -51,3 +51,4 @@ void mousse::lagrangianWriter::writeParcelHeader(const label nFields)
     << "FIELD attributes " << nFields
     << std::endl;
 }
+

@@ -8,12 +8,13 @@
 //   mousse::heRhoThermo
 // Description
 //   Energy for a mixture based on density
-// SourceFiles
-//   he_rho_thermo.cpp
+
 #include "rho_thermo.hpp"
 #include "he_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class BasicPsiThermo, class MixtureType>
 class heRhoThermo
 :
@@ -22,8 +23,6 @@ class heRhoThermo
   // Private Member Functions
     //- Calculate the thermo variables
     void calculate();
-    //- Construct as copy (not implemented)
-    heRhoThermo(const heRhoThermo<BasicPsiThermo, MixtureType>&);
 public:
   //- Runtime type information
   TYPE_NAME("heRhoThermo");
@@ -34,14 +33,17 @@ public:
       const fvMesh&,
       const word& phaseName
     );
+    //- Disable construct as copy
+    heRhoThermo(const heRhoThermo<BasicPsiThermo, MixtureType>&) = delete;
   //- Destructor
   virtual ~heRhoThermo();
   // Member functions
     //- Update properties
     virtual void correct();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "he_rho_thermo.cpp"
-#endif
+
+#include "he_rho_thermo.ipp"
+
 #endif

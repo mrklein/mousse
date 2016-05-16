@@ -135,7 +135,8 @@ void mousse::GAMGAgglomeration::compactLevels(const label nCreatedLevels)
       scalar totRatio = returnReduce(ratio, sumOp<scalar>());
       scalar totProfile = returnReduce(profile, sumOp<scalar>());
       int oldPrecision = Info().precision(4);
-      Info<< setw(8) << levelI
+      Info
+        << setw(8) << levelI
         << setw(8) << totNprocs
         << "    "
         << setw(8) << totNCells/totNprocs
@@ -196,7 +197,7 @@ mousse::GAMGAgglomeration::GAMGAgglomeration
       *this,
       controlDict
     )
-    : autoPtr<GAMGProcAgglomeration>{NULL}
+    : autoPtr<GAMGProcAgglomeration>{nullptr}
   },
   nCells_{maxLevels_},
   restrictAddressing_{maxLevels_},
@@ -257,10 +258,11 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
     }
     return store(cstrIter()(mesh, controlDict).ptr());
   } else {
-    return mesh.thisDb().lookupObject<GAMGAgglomeration>
-    (
-      GAMGAgglomeration::typeName
-    );
+    return
+      mesh.thisDb().lookupObject<GAMGAgglomeration>
+      (
+        GAMGAgglomeration::typeName
+      );
   }
 }
 
@@ -272,10 +274,7 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
 )
 {
   const lduMesh& mesh = matrix.mesh();
-  if (!mesh.thisDb().foundObject<GAMGAgglomeration>
-      (
-        GAMGAgglomeration::typeName
-      )) {
+  if (!mesh.thisDb().foundObject<GAMGAgglomeration>(GAMGAgglomeration::typeName)) {
     const word agglomeratorType
     {
       controlDict.lookupOrDefault<word>("agglomerator", "faceAreaPair")
@@ -286,8 +285,8 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
       "algebraicGAMGAgglomerationLibs",
       lduMatrixConstructorTablePtr_
     );
-    if ( !lduMatrixConstructorTablePtr_
-         || !lduMatrixConstructorTablePtr_->found(agglomeratorType)) {
+    if (!lduMatrixConstructorTablePtr_
+        || !lduMatrixConstructorTablePtr_->found(agglomeratorType)) {
       return New(mesh, controlDict);
     } else {
       lduMatrixConstructorTable::iterator cstrIter =
@@ -295,10 +294,11 @@ const mousse::GAMGAgglomeration& mousse::GAMGAgglomeration::New
       return store(cstrIter()(matrix, controlDict).ptr());
     }
   } else {
-    return mesh.thisDb().lookupObject<GAMGAgglomeration>
-    (
-      GAMGAgglomeration::typeName
-    );
+    return
+      mesh.thisDb().lookupObject<GAMGAgglomeration>
+      (
+        GAMGAgglomeration::typeName
+      );
   }
 }
 
@@ -336,16 +336,17 @@ mousse::autoPtr<mousse::GAMGAgglomeration> mousse::GAMGAgglomeration::New
     << geometryConstructorTablePtr_->sortedToc()
     << exit(FatalError);
   }
-  return autoPtr<GAMGAgglomeration>
-  {
-    cstrIter()
-    (
-      mesh,
-      cellVolumes,
-      faceAreas,
-      controlDict
-    )
-  };
+  return
+    autoPtr<GAMGAgglomeration>
+    {
+      cstrIter()
+      (
+        mesh,
+        cellVolumes,
+        faceAreas,
+        controlDict
+      )
+    };
 }
 
 
@@ -394,15 +395,15 @@ const mousse::lduInterfacePtrsList& mousse::GAMGAgglomeration::interfaceLevel
 void mousse::GAMGAgglomeration::clearLevel(const label i)
 {
   if (hasMeshLevel(i)) {
-    meshLevels_.set(i - 1, NULL);
+    meshLevels_.set(i - 1, nullptr);
     if (i < nCells_.size()) {
       nCells_[i] = -555;
-      restrictAddressing_.set(i, NULL);
+      restrictAddressing_.set(i, nullptr);
       nFaces_[i] = -666;
-      faceRestrictAddressing_.set(i, NULL);
-      faceFlipMap_.set(i, NULL);
-      nPatchFaces_.set(i, NULL);
-      patchFaceRestrictAddressing_.set(i, NULL);
+      faceRestrictAddressing_.set(i, nullptr);
+      faceFlipMap_.set(i, nullptr);
+      nPatchFaces_.set(i, nullptr);
+      patchFaceRestrictAddressing_.set(i, nullptr);
     }
   }
 }
@@ -519,7 +520,7 @@ bool mousse::GAMGAgglomeration::checkRestriction
     }
   }
   // Count number of regions/masters per coarse cell
-  labelListList coarseToMasters(nCoarse);
+  labelListList coarseToMasters{nCoarse};
   nNewCoarse = 0;
   FOR_ALL(restrict, cellI) {
     labelList& masters = coarseToMasters[restrict[cellI]];

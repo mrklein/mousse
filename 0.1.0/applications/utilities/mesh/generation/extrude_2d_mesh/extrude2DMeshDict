@@ -1,46 +1,29 @@
-/*--------------------------------*- C++ -*----------------------------------*\
-| =========                 |                                                 |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  3.0.x                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
-|    \\/     M anipulation  |                                                 |
-\*---------------------------------------------------------------------------*/
+// mousse: CFD toolbox
 
 FoamFile
 {
-    version         2.0;
-    format          ascii;
-
-    root            "";
-    case            "";
-    instance        "";
-    local           "";
-
-    class           dictionary;
-    object          extrude2DMeshDict;
+  version         2.0;
+  format          ascii;
+  class           dictionary;
+  object          extrude2DMeshDict;
 }
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 extrudeModel        linearDirection;
 //extrudeModel        wedge;
-
 patchType           empty;
 //patchType           wedge;
-
 nLayers             1;
-
 expansionRatio      1.0;
-
 linearDirectionCoeffs
 {
-    direction       (0 0 1);
-    thickness       0.1;
+  direction       (0 0 1);
+  thickness       0.1;
 }
-
 wedgeCoeffs
 {
-    axisPt      (0 0 0);
-    axis        (1 0 0);
-    angle       10;
+  axisPt      (0 0 0);
+  axis        (1 0 0);
+  angle       10;
 }
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

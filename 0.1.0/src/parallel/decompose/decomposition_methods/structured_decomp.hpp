@@ -8,11 +8,12 @@
 //   mousse::structuredDecomp
 // Description
 //   Decomposition by walking out decomposition of patch cells mesh.
-// SourceFiles
-//   structured_decomp.cpp
+
 #include "decomposition_method.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class structuredDecomp
 :
   public decompositionMethod
@@ -54,5 +55,8 @@ public:
       const scalarField& cWeights
     );
 };
+
 }  // namespace mousse
+
 #endif
+

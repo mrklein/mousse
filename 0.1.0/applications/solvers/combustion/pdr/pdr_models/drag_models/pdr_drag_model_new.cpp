@@ -3,6 +3,8 @@
 // Copyright (C) 2016 mousse project
 
 #include "pdr_drag_model.hpp"
+
+
 mousse::autoPtr<mousse::PDRDragModel> mousse::PDRDragModel::New
 (
   const dictionary& PDRProperties,
@@ -13,11 +15,10 @@ mousse::autoPtr<mousse::PDRDragModel> mousse::PDRDragModel::New
 )
 {
   const word modelType{PDRProperties.lookup("PDRDragModel")};
-  Info<< "Selecting flame-wrinkling model " << modelType << endl;
+  Info << "Selecting flame-wrinkling model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "PDRDragModel::New"
@@ -30,3 +31,4 @@ mousse::autoPtr<mousse::PDRDragModel> mousse::PDRDragModel::New
   }
   return {cstrIter()(PDRProperties, turbulence, rho, U, phi)};
 }
+

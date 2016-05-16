@@ -11,24 +11,25 @@
 //   Note: defining enthalpy as Cp(T - Tstd) - when using liquids from the
 //   thermophysical library, their enthalpies are calculated similarly, where
 //   Tstd = 298.15 K
-// SourceFiles
-//   thermo_single_layer.cpp
+
 #include "kinematic_single_layer.hpp"
 #include "slg_thermo.hpp"
 #include "film_radiation_model.hpp"
 #include "heat_transfer_model.hpp"
 #include "phase_change_model.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Forward declaration of classes
 class filmViscosityModel;
 class heatTransferModel;
 class phaseChangeModel;
 class filmRadiationModel;
+
+
 class thermoSingleLayer
 :
   public kinematicSingleLayer
@@ -242,19 +243,14 @@ public:
       //- Provide some feedback
       virtual void info();
 };
-}  // namespace surfaceFilmModels
-}  // namespace regionModels
-}  // namespace mousse
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
 inline const SLGThermo& thermoSingleLayer::thermo() const
 {
   return thermo_;
 }
+
+
 inline tmp<scalarField> thermoSingleLayer::hs
 (
   const scalarField& T,
@@ -264,6 +260,8 @@ inline tmp<scalarField> thermoSingleLayer::hs
   const scalarField& Cp = Cp_.boundaryField()[patchI];
   return Cp*(T - 298.15);
 }
+
+
 inline tmp<volScalarField> thermoSingleLayer::hs
 (
   const volScalarField& T
@@ -273,7 +271,6 @@ inline tmp<volScalarField> thermoSingleLayer::hs
   {
     new volScalarField
     {
-      // IOobject
       {
         "hs(" + T.name() + ")",
         time().timeName(),
@@ -281,11 +278,13 @@ inline tmp<volScalarField> thermoSingleLayer::hs
         IOobject::NO_READ,
         IOobject::NO_WRITE
       },
-      Cp_*(T - (dimensionedScalar("Tstd", dimTemperature, 298.15))),
+      Cp_*(T - (dimensionedScalar{"Tstd", dimTemperature, 298.15})),
       zeroGradientFvPatchScalarField::typeName
     }
   };
 }
+
+
 inline tmp<volScalarField> thermoSingleLayer::T
 (
   const volScalarField& hs
@@ -295,7 +294,6 @@ inline tmp<volScalarField> thermoSingleLayer::T
   {
     new volScalarField
     {
-      // IOobject
       {
         "T(" + hs.name() + ")",
         time().timeName(),
@@ -303,7 +301,7 @@ inline tmp<volScalarField> thermoSingleLayer::T
         IOobject::NO_READ,
         IOobject::NO_WRITE
       },
-      hs/Cp_ + dimensionedScalar("Tstd", dimTemperature, 298.15),
+      hs/Cp_ + dimensionedScalar{"Tstd", dimTemperature, 298.15},
       zeroGradientFvPatchScalarField::typeName
     }
   };
@@ -311,38 +309,56 @@ inline tmp<volScalarField> thermoSingleLayer::T
   tT().max(Tmin_);
   return tT;
 }
+
+
 inline const volScalarField& thermoSingleLayer::hsSp() const
 {
   return hsSp_;
 }
+
+
 inline const volScalarField& thermoSingleLayer::hsSpPrimary() const
 {
   return hsSpPrimary_;
 }
+
+
 inline const volScalarField& thermoSingleLayer::TPrimary() const
 {
   return TPrimary_;
 }
+
+
 inline const PtrList<volScalarField>& thermoSingleLayer::YPrimary() const
 {
   return YPrimary_;
 }
+
+
 inline const heatTransferModel& thermoSingleLayer::htcs() const
 {
   return htcs_();
 }
+
+
 inline const heatTransferModel& thermoSingleLayer::htcw() const
 {
   return htcw_();
 }
+
+
 inline const phaseChangeModel& thermoSingleLayer::phaseChange() const
 {
   return phaseChange_();
 }
+
+
 inline const filmRadiationModel& thermoSingleLayer::radiation() const
 {
   return radiation_();
 }
+
+
 inline tmp<scalarField> thermoSingleLayer::Qconvw(const label patchI) const
 {
   const scalarField htc(htcw_->h()().boundaryField()[patchI]);
@@ -350,6 +366,8 @@ inline tmp<scalarField> thermoSingleLayer::Qconvw(const label patchI) const
   const scalarField& Twp = Tw_.boundaryField()[patchI];
   return htc*(Tp - Twp);
 }
+
+
 inline tmp<scalarField> thermoSingleLayer::Qconvp(const label patchI) const
 {
   const scalarField htc(htcs_->h()().boundaryField()[patchI]);
@@ -357,6 +375,7 @@ inline tmp<scalarField> thermoSingleLayer::Qconvp(const label patchI) const
   const scalarField& Tpp = TPrimary_.boundaryField()[patchI];
   return htc*(Tp - Tpp);
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse

@@ -8,17 +8,21 @@
 //   mousse::internalWriter
 // Description
 //   Write fields (internal).
-// SourceFiles
-//   internal_writer.cpp
-//   internal_writer_templates.cpp
+
 #include "ofstream.hpp"
 #include "vol_fields.hpp"
 #include "point_fields.hpp"
 #include "vtk_mesh.hpp"
+
+
 using namespace mousse;
-namespace mousse
-{
+
+
+namespace mousse {
+
 class volPointInterpolation;
+
+
 class internalWriter
 {
   const vtkMesh& vMesh_;
@@ -35,28 +39,26 @@ public:
       const fileName&
     );
   // Member Functions
-    std::ofstream& os()
-    {
-      return os_;
-    }
+    std::ofstream& os() { return os_; }
     //- Write cellIDs
     void writeCellIDs();
     //- Write generic GeometricFields
     template<class Type, template<class> class PatchField, class GeoMesh>
     void write
     (
-      const PtrList<GeometricField<Type, PatchField, GeoMesh> >&
+      const PtrList<GeometricField<Type, PatchField, GeoMesh>>&
     );
     //- Interpolate and write volFields
     template<class Type>
     void write
     (
       const volPointInterpolation&,
-      const PtrList<GeometricField<Type, fvPatchField, volMesh> >&
+      const PtrList<GeometricField<Type, fvPatchField, volMesh>>&
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "internal_writer_templates.cpp"
-#endif
+
+#include "internal_writer.ipp"
+
 #endif

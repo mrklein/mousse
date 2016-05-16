@@ -19,12 +19,16 @@
 //     Gas temperature: Tc > 1500 K
 //     Particle sizes:  75 um -> 200 um
 //     Pox > 0.3 atm
+
 #include "_surface_reaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward class declarations
-template<class CloudType>
-class COxidationHurtMitchell;
+template<class CloudType> class COxidationHurtMitchell;
+
+
 template<class CloudType>
 class COxidationHurtMitchell
 :
@@ -68,12 +72,13 @@ public:
       const COxidationHurtMitchell<CloudType>& srm
     );
     //- Construct and return a clone
-    virtual autoPtr<SurfaceReactionModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceReactionModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceReactionModel<CloudType> >
-      (
-        new COxidationHurtMitchell<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceReactionModel<CloudType>>
+        {
+          new COxidationHurtMitchell<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~COxidationHurtMitchell();
@@ -100,8 +105,9 @@ public:
       scalarField& dMassSRCarrier
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "c_oxidation_hurt_mitchell.cpp"
-#endif
+
+#include "c_oxidation_hurt_mitchell.ipp"
+
 #endif

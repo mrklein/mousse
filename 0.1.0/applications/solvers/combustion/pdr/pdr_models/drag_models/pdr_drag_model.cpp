@@ -3,12 +3,17 @@
 // Copyright (C) 2016 mousse project
 
 #include "pdr_drag_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(PDRDragModel, 0);
 DEFINE_RUN_TIME_SELECTION_TABLE(PDRDragModel, dictionary);
+
 };
+
+
 // Constructors 
 mousse::PDRDragModel::PDRDragModel
 (
@@ -40,9 +45,13 @@ mousse::PDRDragModel::PDRDragModel
   phi_{phi},
   on_{PDRDragModelCoeffs_.lookup("drag")}
 {}
+
+
 // Destructor 
 mousse::PDRDragModel::~PDRDragModel()
 {}
+
+
 // Member Functions 
 bool mousse::PDRDragModel::read(const dictionary& PDRProperties)
 {
@@ -50,3 +59,4 @@ bool mousse::PDRDragModel::read(const dictionary& PDRProperties)
   PDRDragModelCoeffs_.lookup("drag") >> on_;
   return true;
 }
+

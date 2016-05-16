@@ -4,13 +4,15 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   ensight_output_functions.cpp
+
 #include "ensight_file.hpp"
 #include "cloud.hpp"
 #include "poly_mesh.hpp"
 #include "ioobject.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 void ensightCaseEntry
 (
   OFstream& caseFile,
@@ -21,6 +23,7 @@ void ensightCaseEntry
   const label cloudNo=-1,
   const label timeSet=1
 );
+
 void ensightParticlePositions
 (
   const polyMesh& mesh,
@@ -29,6 +32,7 @@ void ensightParticlePositions
   const word& cloudName,
   IOstream::streamFormat format
 );
+
 //- Write lagrangian parcels
 template<class Type>
 void ensightLagrangianField
@@ -39,6 +43,7 @@ void ensightLagrangianField
   const word& cloudName,
   IOstream::streamFormat format
 );
+
 //- Write generalized field components
 template<class Type>
 void ensightVolField
@@ -50,8 +55,9 @@ void ensightVolField
   const fileName& subDir,
   IOstream::streamFormat format
 );
+
 } // namespace mousse
-#ifdef NoRepository
-  #include "ensight_output_functions.cpp"
-#endif
+
+#include "ensight_output_functions.ipp"
+
 #endif

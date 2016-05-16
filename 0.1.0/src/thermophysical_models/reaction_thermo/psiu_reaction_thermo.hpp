@@ -8,12 +8,12 @@
 //   mousse::psiuReactionThermo
 // Description
 //   mousse::psiuReactionThermo
-// SourceFiles
-//   psiu_reaction_thermo.cpp
-//   psiu_reaction_thermo_new.cpp
+
 #include "psi_reaction_thermo.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class psiuReactionThermo
 :
   public psiReactionThermo
@@ -96,5 +96,8 @@ public:
       //- Dynamic viscosity of burnt gas [kg/ms]
       virtual tmp<volScalarField> mub() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

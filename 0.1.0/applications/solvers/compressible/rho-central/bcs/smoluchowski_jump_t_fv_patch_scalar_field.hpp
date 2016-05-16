@@ -1,3 +1,6 @@
+#ifndef SMOLUCHOWSKI_JUMP_T_FV_PATCH_SCALAR_FIELDS_HPP_
+#define SMOLUCHOWSKI_JUMP_T_FV_PATCH_SCALAR_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,13 +8,12 @@
 //   mousse::smoluchowskiJumpTFvPatchScalarField
 // Description
 //   Smoluchowski temperature jump boundary condition
-// SourceFiles
-//   smoluchowski_jump_t_fv_patch_scalar_field.cpp
-#ifndef smoluchowskiJumpTFvPatchScalarFields_H
-#define smoluchowskiJumpTFvPatchScalarFields_H
+
 #include "mixed_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class smoluchowskiJumpTFvPatchScalarField
 :
   public mixedFvPatchScalarField
@@ -60,10 +62,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new smoluchowskiJumpTFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new smoluchowskiJumpTFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     smoluchowskiJumpTFvPatchScalarField
@@ -77,10 +80,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new smoluchowskiJumpTFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new smoluchowskiJumpTFvPatchScalarField{*this, iF}
+        };
     }
     // Mapping functions
       //- Map (and resize as needed) from self given a mapping object
@@ -100,5 +104,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

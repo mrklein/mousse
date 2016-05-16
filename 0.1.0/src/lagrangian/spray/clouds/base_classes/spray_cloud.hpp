@@ -8,11 +8,12 @@
 //   mousse::sprayCloud
 // Description
 //   Virtual abstract base class for templated SprayCloud
-// SourceFiles
-//   spray_cloud.cpp
+
 #include "type_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class sprayCloud
 {
 public:
@@ -28,5 +29,8 @@ public:
   //- Destructor
   virtual ~sprayCloud();
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -57,7 +57,7 @@ public:
     autoPtr<functionObject> clone() const
     {
       NOT_IMPLEMENTED("functionObject::clone() const");
-      return autoPtr<functionObject>(NULL);
+      return autoPtr<functionObject>{nullptr};
     }
 
     //- Return a pointer to a new functionObject created on freestore
@@ -68,7 +68,7 @@ public:
     public:
       iNew(const Time& t)
       :
-        time_(t)
+        time_{t}
       {}
 
       autoPtr<functionObject> operator()

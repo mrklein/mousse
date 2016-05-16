@@ -17,7 +17,11 @@
 #include "region_split.hpp"
 #include "tuple2.hpp"
 #include "cyclic_fv_patch.hpp"
+
+
 using namespace mousse;
+
+
 void modifyOrAddFace
 (
   polyTopoChange& meshMod,
@@ -31,47 +35,46 @@ void modifyOrAddFace
   PackedBoolList& modifiedFace
 )
 {
-  if (!modifiedFace[faceI])
-  {
+  if (!modifiedFace[faceI]) {
     // First usage of face. Modify.
     meshMod.setAction
-    (
-      polyModifyFace
-      {
-        f,                          // modified face
-        faceI,                      // label of face
-        own,                        // owner
-        -1,                         // neighbour
-        flipFaceFlux,               // face flip
-        newPatchI,                  // patch for face
-        false,                      // remove from zone
-        zoneID,                     // zone for face
-        zoneFlip                    // face flip in zone
-      }
-    );
+      (
+        polyModifyFace
+        {
+          f,                          // modified face
+          faceI,                      // label of face
+          own,                        // owner
+          -1,                         // neighbour
+          flipFaceFlux,               // face flip
+          newPatchI,                  // patch for face
+          false,                      // remove from zone
+          zoneID,                     // zone for face
+          zoneFlip                    // face flip in zone
+        }
+      );
     modifiedFace[faceI] = 1;
-  }
-  else
-  {
+  } else {
     // Second or more usage of face. Add.
     meshMod.setAction
-    (
-      polyAddFace
-      {
-        f,                          // modified face
-        own,                        // owner
-        -1,                         // neighbour
-        -1,                         // master point
-        -1,                         // master edge
-        faceI,                      // master face
-        flipFaceFlux,               // face flip
-        newPatchI,                  // patch for face
-        zoneID,                     // zone for face
-        zoneFlip                    // face flip in zone
-      }
-    );
+      (
+        polyAddFace
+        {
+          f,                          // modified face
+          own,                        // owner
+          -1,                         // neighbour
+          -1,                         // master point
+          -1,                         // master edge
+          faceI,                      // master face
+          flipFaceFlux,               // face flip
+          newPatchI,                  // patch for face
+          zoneID,                     // zone for face
+          zoneFlip                    // face flip in zone
+        }
+      );
   }
 }
+
+
 template<class Type>
 void subsetVolFields
 (
@@ -85,51 +88,39 @@ void subsetVolFields
 {
   const fvMesh& baseMesh = subsetter.baseMesh();
   label i = 0;
-  FOR_ALL_CONST_ITER(IOobjectList , objectsList, iter)
-  {
-    if (iter()->headerClassName() == GeomVolType)
-    {
-      const word fieldName = iter()->name();
-      Info << "Subsetting field " << fieldName << endl;
-      GeometricField<Type, fvPatchField, volMesh> volField
-      {
-        *iter(),
-        baseMesh
-      };
-      subFields.set(i, subsetter.interpolate(volField));
-      // Explicitly set exposed faces (in patchI) to exposedValue.
-      if (patchI >= 0)
-      {
-        fvPatchField<Type>& fld = subFields[i++].boundaryField()[patchI];
-        label newStart = fld.patch().patch().start();
-        label oldPatchI = subsetter.patchMap()[patchI];
-        if (oldPatchI == -1)
-        {
-          // New patch. Reset whole value.
-          fld = exposedValue;
-        }
-        else
-        {
-          // Reset those faces that originate from different patch
-          // or internal faces.
-          label oldSize = volField.boundaryField()[oldPatchI].size();
-          label oldStart = volField.boundaryField()
-          [
-            oldPatchI
-          ].patch().patch().start();
-          FOR_ALL(fld, j)
-          {
-            label oldFaceI = subsetter.faceMap()[newStart+j];
-            if (oldFaceI < oldStart || oldFaceI >= oldStart+oldSize)
-            {
-              fld[j] = exposedValue;
-            }
-          }
+  FOR_ALL_CONST_ITER(IOobjectList , objectsList, iter) {
+    if (iter()->headerClassName() != GeomVolType)
+      continue;
+    const word fieldName = iter()->name();
+    Info << "Subsetting field " << fieldName << endl;
+    GeometricField<Type, fvPatchField, volMesh> volField{*iter(), baseMesh};
+    subFields.set(i, subsetter.interpolate(volField));
+    // Explicitly set exposed faces (in patchI) to exposedValue.
+    if (patchI < 0)
+      continue;
+    fvPatchField<Type>& fld = subFields[i++].boundaryField()[patchI];
+    label newStart = fld.patch().patch().start();
+    label oldPatchI = subsetter.patchMap()[patchI];
+    if (oldPatchI == -1) {
+      // New patch. Reset whole value.
+      fld = exposedValue;
+    } else {
+      // Reset those faces that originate from different patch
+      // or internal faces.
+      label oldSize = volField.boundaryField()[oldPatchI].size();
+      label oldStart =
+        volField.boundaryField()[oldPatchI].patch().patch().start();
+      FOR_ALL(fld, j) {
+        label oldFaceI = subsetter.faceMap()[newStart+j];
+        if (oldFaceI < oldStart || oldFaceI >= oldStart+oldSize) {
+          fld[j] = exposedValue;
         }
       }
     }
   }
 }
+
+
 template<class Type>
 void subsetSurfaceFields
 (
@@ -143,51 +134,43 @@ void subsetSurfaceFields
 {
   const fvMesh& baseMesh = subsetter.baseMesh();
   label i{0};
-  FOR_ALL_CONST_ITER(IOobjectList , objectsList, iter)
-  {
-    if (iter()->headerClassName() == GeomSurfType)
+  FOR_ALL_CONST_ITER(IOobjectList , objectsList, iter) {
+    if (iter()->headerClassName() != GeomSurfType)
+      continue;
+    const word& fieldName = iter.key();
+    Info << "Subsetting field " << fieldName << endl;
+    GeometricField<Type, fvsPatchField, surfaceMesh> volField
     {
-      const word& fieldName = iter.key();
-      Info << "Subsetting field " << fieldName << endl;
-      GeometricField<Type, fvsPatchField, surfaceMesh> volField
-      {
-        *iter(),
-        baseMesh
-      };
-      subFields.set(i, subsetter.interpolate(volField));
-      // Explicitly set exposed faces (in patchI) to exposedValue.
-      if (patchI >= 0)
-      {
-        fvsPatchField<Type>& fld = subFields[i++].boundaryField()[patchI];
-        label newStart = fld.patch().patch().start();
-        label oldPatchI = subsetter.patchMap()[patchI];
-        if (oldPatchI == -1)
-        {
-          // New patch. Reset whole value.
-          fld = exposedValue;
-        }
-        else
-        {
-          // Reset those faces that originate from different patch
-          // or internal faces.
-          label oldSize = volField.boundaryField()[oldPatchI].size();
-          label oldStart = volField.boundaryField()
-          [
-            oldPatchI
-          ].patch().patch().start();
-          FOR_ALL(fld, j)
-          {
-            label oldFaceI = subsetter.faceMap()[newStart+j];
-            if (oldFaceI < oldStart || oldFaceI >= oldStart+oldSize)
-            {
-              fld[j] = exposedValue;
-            }
-          }
+      *iter(),
+      baseMesh
+    };
+    subFields.set(i, subsetter.interpolate(volField));
+    // Explicitly set exposed faces (in patchI) to exposedValue.
+    if (patchI < 0)
+      continue;
+    fvsPatchField<Type>& fld = subFields[i++].boundaryField()[patchI];
+    label newStart = fld.patch().patch().start();
+    label oldPatchI = subsetter.patchMap()[patchI];
+    if (oldPatchI == -1) {
+      // New patch. Reset whole value.
+      fld = exposedValue;
+    } else {
+      // Reset those faces that originate from different patch
+      // or internal faces.
+      label oldSize = volField.boundaryField()[oldPatchI].size();
+      label oldStart =
+        volField.boundaryField()[oldPatchI].patch().patch().start();
+      FOR_ALL(fld, j) {
+        label oldFaceI = subsetter.faceMap()[newStart+j];
+        if (oldFaceI < oldStart || oldFaceI >= oldStart+oldSize) {
+          fld[j] = exposedValue;
         }
       }
     }
   }
 }
+
+
 // Faces introduced into zero-sized patches don't get a value at all.
 // This is hack to set them to an initial value.
 template<class GeoField>
@@ -202,29 +185,25 @@ void initCreatedPatches
   {
     mesh.objectRegistry::lookupClass<GeoField>()
   };
-  for
-  (
-    typename HashTable<const GeoField*>::
-      iterator fieldIter = fields.begin();
-    fieldIter != fields.end();
-    ++fieldIter
-  )
-  {
+  typedef typename HashTable<const GeoField*>::iterator iterator;
+  for (iterator fieldIter = fields.begin();
+       fieldIter != fields.end();
+       ++fieldIter) {
     GeoField& field = const_cast<GeoField&>(*fieldIter());
-    FOR_ALL(field.boundaryField(), patchi)
-    {
-      if (map.oldPatchSizes()[patchi] == 0)
+    FOR_ALL(field.boundaryField(), patchi) {
+      if (map.oldPatchSizes()[patchi] != 0)
+        continue;
+      // Not mapped.
+      field.boundaryField()[patchi] = initValue;
+      if (field.boundaryField()[patchi].fixesValue())
       {
-        // Not mapped.
-        field.boundaryField()[patchi] = initValue;
-        if (field.boundaryField()[patchi].fixesValue())
-        {
-          field.boundaryField()[patchi] == initValue;
-        }
+        field.boundaryField()[patchi] == initValue;
       }
     }
   }
 }
+
+
 void createCoupledBaffles
 (
   fvMesh& mesh,
@@ -234,20 +213,18 @@ void createCoupledBaffles
 )
 {
   const faceZoneMesh& faceZones = mesh.faceZones();
-  FOR_ALL(coupledWantedPatch, faceI)
-  {
-    if (coupledWantedPatch[faceI] != -1)
-    {
-      const face& f = mesh.faces()[faceI];
-      label zoneID = faceZones.whichZone(faceI);
-      bool zoneFlip = false;
-      if (zoneID >= 0)
-      {
-        const faceZone& fZone = faceZones[zoneID];
-        zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-      }
-      // Use owner side of face
-      modifyOrAddFace
+  FOR_ALL(coupledWantedPatch, faceI) {
+    if (coupledWantedPatch[faceI] == -1)
+      continue;
+    const face& f = mesh.faces()[faceI];
+    label zoneID = faceZones.whichZone(faceI);
+    bool zoneFlip = false;
+    if (zoneID >= 0) {
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
+    }
+    // Use owner side of face
+    modifyOrAddFace
       (
         meshMod,
         f,                          // modified face
@@ -259,32 +236,31 @@ void createCoupledBaffles
         zoneFlip,                   // face flip in zone
         modifiedFace                // modify or add status
       );
-      if (mesh.isInternalFace(faceI))
-      {
-        label zoneID = faceZones.whichZone(faceI);
-        bool zoneFlip = false;
-        if (zoneID >= 0)
-        {
-          const faceZone& fZone = faceZones[zoneID];
-          zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-        }
-        // Use neighbour side of face
-        modifyOrAddFace
-        (
-          meshMod,
-          f.reverseFace(),            // modified face
-          faceI,                      // label of face
-          mesh.faceNeighbour()[faceI],// owner
-          false,                      // face flip
-          coupledWantedPatch[faceI],  // patch for face
-          zoneID,                     // zone for face
-          zoneFlip,                   // face flip in zone
-          modifiedFace                // modify or add status
-        );
-      }
+    if (!mesh.isInternalFace(faceI))
+      continue;
+    zoneID = faceZones.whichZone(faceI);
+    zoneFlip = false;
+    if (zoneID >= 0) {
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
     }
+    // Use neighbour side of face
+    modifyOrAddFace
+      (
+        meshMod,
+        f.reverseFace(),            // modified face
+        faceI,                      // label of face
+        mesh.faceNeighbour()[faceI],// owner
+        false,                      // face flip
+        coupledWantedPatch[faceI],  // patch for face
+        zoneID,                     // zone for face
+        zoneFlip,                   // face flip in zone
+        modifiedFace                // modify or add status
+      );
   }
 }
+
+
 void createCyclicCoupledBaffles
 (
   fvMesh& mesh,
@@ -295,19 +271,17 @@ void createCyclicCoupledBaffles
 )
 {
   const faceZoneMesh& faceZones = mesh.faceZones();
-  FOR_ALL(cyclicMasterPatch, faceI)
-  {
-    if (cyclicMasterPatch[faceI] != -1)
-    {
-      const face& f = mesh.faces()[faceI];
-      label zoneID = faceZones.whichZone(faceI);
-      bool zoneFlip = false;
-      if (zoneID >= 0)
-      {
-        const faceZone& fZone = faceZones[zoneID];
-        zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-      }
-      modifyOrAddFace
+  FOR_ALL(cyclicMasterPatch, faceI) {
+    if (cyclicMasterPatch[faceI] == -1)
+      continue;
+    const face& f = mesh.faces()[faceI];
+    label zoneID = faceZones.whichZone(faceI);
+    bool zoneFlip = false;
+    if (zoneID >= 0) {
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
+    }
+    modifyOrAddFace
       (
         meshMod,
         f.reverseFace(),                    // modified face
@@ -319,39 +293,37 @@ void createCyclicCoupledBaffles
         zoneFlip,                           // face flip in zone
         modifiedFace                        // modify or add
       );
-    }
   }
-  FOR_ALL(cyclicSlavePatch, faceI)
-  {
-    if (cyclicSlavePatch[faceI] != -1)
+  FOR_ALL(cyclicSlavePatch, faceI) {
+    if (cyclicSlavePatch[faceI] == -1)
+      continue;
+    const face& f = mesh.faces()[faceI];
+    if (!mesh.isInternalFace(faceI))
+      continue;
+    label zoneID = faceZones.whichZone(faceI);
+    bool zoneFlip = false;
+    if (zoneID >= 0)
     {
-      const face& f = mesh.faces()[faceI];
-      if (mesh.isInternalFace(faceI))
-      {
-        label zoneID = faceZones.whichZone(faceI);
-        bool zoneFlip = false;
-        if (zoneID >= 0)
-        {
-          const faceZone& fZone = faceZones[zoneID];
-          zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-        }
-      // Use owner side of face
-        modifyOrAddFace
-        (
-          meshMod,
-          f,                          // modified face
-          faceI,                      // label of face
-          mesh.faceOwner()[faceI],    // owner
-          false,                      // face flip
-          cyclicSlavePatch[faceI],    // patch for face
-          zoneID,                     // zone for face
-          zoneFlip,                   // face flip in zone
-          modifiedFace                // modify or add status
-        );
-      }
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
     }
+    // Use owner side of face
+    modifyOrAddFace
+      (
+        meshMod,
+        f,                          // modified face
+        faceI,                      // label of face
+        mesh.faceOwner()[faceI],    // owner
+        false,                      // face flip
+        cyclicSlavePatch[faceI],    // patch for face
+        zoneID,                     // zone for face
+        zoneFlip,                   // face flip in zone
+        modifiedFace                // modify or add status
+      );
   }
 }
+
+
 void createBaffles
 (
   fvMesh& mesh,
@@ -361,19 +333,17 @@ void createBaffles
 {
   const faceZoneMesh& faceZones = mesh.faceZones();
   Info << "faceZone:createBaffle " << faceZones << endl;
-  FOR_ALL(wantedPatch, faceI)
-  {
-    if (wantedPatch[faceI] != -1)
-    {
-      const face& f = mesh.faces()[faceI];
-      label zoneID = faceZones.whichZone(faceI);
-      bool zoneFlip = false;
-      if (zoneID >= 0)
-      {
-        const faceZone& fZone = faceZones[zoneID];
-        zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-      }
-      meshMod.setAction
+  FOR_ALL(wantedPatch, faceI) {
+    if (wantedPatch[faceI] == -1)
+      continue;
+    const face& f = mesh.faces()[faceI];
+    label zoneID = faceZones.whichZone(faceI);
+    bool zoneFlip = false;
+    if (zoneID >= 0) {
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
+    }
+    meshMod.setAction
       (
         polyModifyFace
         {
@@ -388,41 +358,39 @@ void createBaffles
           zoneFlip                    // face flip in zone
         }
       );
-      if (mesh.isInternalFace(faceI))
-      {
-        label zoneID = faceZones.whichZone(faceI);
-        bool zoneFlip = false;
-        if (zoneID >= 0)
-        {
-          const faceZone& fZone = faceZones[zoneID];
-          zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
-        }
-        meshMod.setAction
-        (
-          polyAddFace
-          {
-            f.reverseFace(),            // modified face
-            mesh.faceNeighbour()[faceI],// owner
-            -1,                         // neighbour
-            -1,                         // masterPointID
-            -1,                         // masterEdgeID
-            faceI,                      // masterFaceID,
-            false,                      // face flip
-            wantedPatch[faceI],         // patch for face
-            zoneID,                     // zone for face
-            zoneFlip                    // face flip in zone
-          }
-        );
-      }
+    if (!mesh.isInternalFace(faceI))
+      continue;
+    zoneID = faceZones.whichZone(faceI);
+    zoneFlip = false;
+    if (zoneID >= 0) {
+      const faceZone& fZone = faceZones[zoneID];
+      zoneFlip = fZone.flipMap()[fZone.whichFace(faceI)];
     }
+    meshMod.setAction
+      (
+        polyAddFace
+        {
+          f.reverseFace(),            // modified face
+          mesh.faceNeighbour()[faceI],// owner
+          -1,                         // neighbour
+          -1,                         // masterPointID
+          -1,                         // masterEdgeID
+          faceI,                      // masterFaceID,
+          false,                      // face flip
+          wantedPatch[faceI],         // patch for face
+          zoneID,                     // zone for face
+          zoneFlip                    // face flip in zone
+        }
+      );
   }
 }
+
+
 // Wrapper around find patch. Also makes sure same patch in parallel.
 label findPatch(const polyBoundaryMesh& patches, const word& patchName)
 {
   label patchI = patches.findPatchID(patchName);
-  if (patchI == -1)
-  {
+  if (patchI == -1) {
     FATAL_ERROR_IN("findPatch(const polyBoundaryMesh&, const word&)")
       << "Illegal patch " << patchName
       << nl << "Valid patches are " << patches.names()
@@ -432,8 +400,7 @@ label findPatch(const polyBoundaryMesh& patches, const word& patchName)
   {
     label newPatch = patchI;
     reduce(newPatch, minOp<label>());
-    if (newPatch != patchI)
-    {
+    if (newPatch != patchI) {
       FATAL_ERROR_IN("findPatch(const polyBoundaryMesh&, const word&)")
         << "Patch " << patchName
         << " should have the same patch index on all processors." << nl
@@ -444,6 +411,8 @@ label findPatch(const polyBoundaryMesh& patches, const word& patchName)
   }
   return patchI;
 }
+
+
 int main(int argc, char *argv[])
 {
   #include "add_overwrite_option.inc"
@@ -470,8 +439,7 @@ int main(int argc, char *argv[])
   FOR_ALL_CONST_ITER(dictionary, functionDicts, iter)
   {
     // safety:
-    if (!iter().isDict())
-    {
+    if (!iter().isDict()) {
       continue;
     }
     const word& key = iter().keyword();
@@ -484,14 +452,12 @@ int main(int argc, char *argv[])
     nameAndType[2] = cyclicName;
     coupledAndPatches.append(nameAndType);
   }
-  FOR_ALL(setsAndPatches, setI)
-  {
+  FOR_ALL(setsAndPatches, setI) {
     Info << "Faces in faceSet " << setsAndPatches[setI][0]
       << " become baffles in patch " << setsAndPatches[setI][1]
       << endl;
   }
-  FOR_ALL(coupledAndPatches, setI)
-  {
+  FOR_ALL(coupledAndPatches, setI) {
     Info << "Faces in faceSet " << coupledAndPatches[setI][0]
       << " become coupled baffles in patch " << coupledAndPatches[setI][1]
       << endl;
@@ -508,18 +474,16 @@ int main(int argc, char *argv[])
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // Check that face sets don't have coincident faces
   labelList wantedPatch{mesh.nFaces(), -1};
-  FOR_ALL(setsAndPatches, setI)
-  {
+  FOR_ALL(setsAndPatches, setI) {
     faceSet fSet{mesh, setsAndPatches[setI][0]};
-    label patchI = findPatch
-    (
-      mesh.boundaryMesh(),
-      setsAndPatches[setI][1]
-    );
-    FOR_ALL_CONST_ITER(faceSet, fSet, iter)
-    {
-      if (wantedPatch[iter.key()] != -1)
-      {
+    label patchI =
+      findPatch
+      (
+        mesh.boundaryMesh(),
+        setsAndPatches[setI][1]
+      );
+    FOR_ALL_CONST_ITER(faceSet, fSet, iter) {
+      if (wantedPatch[iter.key()] != -1) {
         FATAL_ERROR_IN(args.executable())
           << "Face " << iter.key()
           << " is in faceSet " << setsAndPatches[setI][0]
@@ -534,24 +498,22 @@ int main(int argc, char *argv[])
   labelList coupledWantedPatch{mesh.nFaces(), -1};
   labelList cyclicWantedPatch_half0{mesh.nFaces(), -1};
   labelList cyclicWantedPatch_half1{mesh.nFaces(), -1};
-  FOR_ALL(coupledAndPatches, setI)
-  {
+  FOR_ALL(coupledAndPatches, setI) {
     const polyBoundaryMesh& patches = mesh.boundaryMesh();
     const label cyclicId = findPatch(patches, coupledAndPatches[setI][2]);
-    const label cyclicSlaveId = findPatch
-    (
-      patches,
-      refCast<const cyclicFvPatch>
+    const label cyclicSlaveId =
+      findPatch
       (
-        mesh.boundary()[cyclicId]
-      ).neighbFvPatch().name()
-    );
+        patches,
+        refCast<const cyclicFvPatch>
+        (
+          mesh.boundary()[cyclicId]
+        ).neighbFvPatch().name()
+      );
     faceSet fSet{mesh, coupledAndPatches[setI][0]};
     label patchI = findPatch(patches, coupledAndPatches[setI][1]);
-    FOR_ALL_CONST_ITER(faceSet, fSet, iter)
-    {
-      if (coupledWantedPatch[iter.key()] != -1)
-      {
+    FOR_ALL_CONST_ITER(faceSet, fSet, iter) {
+      if (coupledWantedPatch[iter.key()] != -1) {
         FATAL_ERROR_IN(args.executable())
           << "Face " << iter.key()
           << " is in faceSet " << coupledAndPatches[setI][0]
@@ -559,17 +521,15 @@ int main(int argc, char *argv[])
           << " but also in patch " << coupledWantedPatch[iter.key()]
           << exit(FatalError);
       }
-        coupledWantedPatch[iter.key()] = patchI;
-        cyclicWantedPatch_half0[iter.key()] = cyclicId;
-        cyclicWantedPatch_half1[iter.key()] = cyclicSlaveId;
+      coupledWantedPatch[iter.key()] = patchI;
+      cyclicWantedPatch_half0[iter.key()] = cyclicId;
+      cyclicWantedPatch_half1[iter.key()] = cyclicSlaveId;
     }
   }
   // Exposed faces patch
   label defaultPatchI = findPatch(mesh.boundaryMesh(), defaultPatch);
-  //
   // Removing blockedCells (like subsetMesh)
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  //
   // Create mesh subsetting engine
   fvMeshSubset subsetter{mesh};
 
@@ -583,27 +543,29 @@ int main(int argc, char *argv[])
 
   // Subset wantedPatch. Note that might also include boundary faces
   // that have been exposed by subsetting.
-  wantedPatch = IndirectList<label>(wantedPatch, subsetter.faceMap())();
-  coupledWantedPatch = IndirectList<label>
-  (
-    coupledWantedPatch,
-    subsetter.faceMap()
-  )();
-  cyclicWantedPatch_half0 = IndirectList<label>
-  (
-    cyclicWantedPatch_half0,
-    subsetter.faceMap()
-  )();
-  cyclicWantedPatch_half1 = IndirectList<label>
-  (
-    cyclicWantedPatch_half1,
-    subsetter.faceMap()
-  )();
+  wantedPatch = IndirectList<label>{wantedPatch, subsetter.faceMap()}();
+  coupledWantedPatch =
+    IndirectList<label>
+    {
+      coupledWantedPatch,
+      subsetter.faceMap()
+    }();
+  cyclicWantedPatch_half0 =
+    IndirectList<label>
+    {
+      cyclicWantedPatch_half0,
+      subsetter.faceMap()
+    }();
+  cyclicWantedPatch_half1 =
+    IndirectList<label>
+    {
+      cyclicWantedPatch_half1,
+      subsetter.faceMap()
+    }();
   // Read all fields in time and constant directories
   IOobjectList objects{mesh, runTime.timeName()};
   IOobjectList timeObjects{IOobjectList(mesh, mesh.facesInstance())};
-  FOR_ALL_CONST_ITER(IOobjectList, timeObjects, iter)
-  {
+  FOR_ALL_CONST_ITER(IOobjectList, timeObjects, iter) {
     if (iter()->headerClassName() == volScalarField::typeName
         || iter()->headerClassName() == volVectorField::typeName
         || iter()->headerClassName() == volSphericalTensorField::typeName
@@ -613,8 +575,7 @@ int main(int argc, char *argv[])
         || iter()->headerClassName() == surfaceVectorField::typeName
         || iter()->headerClassName() == surfaceSphericalTensorField::typeName
         || iter()->headerClassName() == surfaceSymmTensorField::typeName
-        || iter()->headerClassName() == surfaceTensorField::typeName)
-    {
+        || iter()->headerClassName() == surfaceTensorField::typeName) {
       objects.add(*iter());
     }
   }
@@ -622,25 +583,25 @@ int main(int argc, char *argv[])
   wordList scalarNames{objects.names(volScalarField::typeName)};
   PtrList<volScalarField> scalarFlds{scalarNames.size()};
   subsetVolFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<scalar>::zero,
-    volScalarField::typeName,
-    scalarFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<scalar>::zero,
+      volScalarField::typeName,
+      scalarFlds
+    );
   wordList vectorNames{objects.names(volVectorField::typeName)};
   PtrList<volVectorField> vectorFlds{vectorNames.size()};
   subsetVolFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<vector>::zero,
-    volVectorField::typeName,
-    vectorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<vector>::zero,
+      volVectorField::typeName,
+      vectorFlds
+    );
   wordList sphericalTensorNames
   {
     objects.names(volSphericalTensorField::typeName)
@@ -650,59 +611,59 @@ int main(int argc, char *argv[])
     sphericalTensorNames.size()
   };
   subsetVolFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<sphericalTensor>::zero,
-    volSphericalTensorField::typeName,
-    sphericalTensorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<sphericalTensor>::zero,
+      volSphericalTensorField::typeName,
+      sphericalTensorFlds
+    );
   wordList symmTensorNames{objects.names(volSymmTensorField::typeName)};
   PtrList<volSymmTensorField> symmTensorFlds{symmTensorNames.size()};
   subsetVolFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<symmTensor>::zero,
-    volSymmTensorField::typeName,
-    symmTensorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<symmTensor>::zero,
+      volSymmTensorField::typeName,
+      symmTensorFlds
+    );
   wordList tensorNames{objects.names(volTensorField::typeName)};
   PtrList<volTensorField> tensorFlds{tensorNames.size()};
   subsetVolFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<tensor>::zero,
-    volTensorField::typeName,
-    tensorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<tensor>::zero,
+      volTensorField::typeName,
+      tensorFlds
+    );
   // Read surface fields and subset.
   wordList surfScalarNames{objects.names(surfaceScalarField::typeName)};
   PtrList<surfaceScalarField> surfScalarFlds{surfScalarNames.size()};
   subsetSurfaceFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<scalar>::zero,
-    surfaceScalarField::typeName,
-    surfScalarFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<scalar>::zero,
+      surfaceScalarField::typeName,
+      surfScalarFlds
+    );
   wordList surfVectorNames{objects.names(surfaceVectorField::typeName)};
   PtrList<surfaceVectorField> surfVectorFlds{surfVectorNames.size()};
   subsetSurfaceFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<vector>::zero,
-    surfaceVectorField::typeName,
-    surfVectorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<vector>::zero,
+      surfaceVectorField::typeName,
+      surfVectorFlds
+    );
   wordList surfSphericalTensorNames
   {
     objects.names(surfaceSphericalTensorField::typeName)
@@ -712,14 +673,14 @@ int main(int argc, char *argv[])
     surfSphericalTensorNames.size()
   };
   subsetSurfaceFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<sphericalTensor>::zero,
-    surfaceSphericalTensorField::typeName,
-    surfSphericalTensorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<sphericalTensor>::zero,
+      surfaceSphericalTensorField::typeName,
+      surfSphericalTensorFlds
+    );
   wordList surfSymmTensorNames
   {
     objects.names(surfaceSymmTensorField::typeName)
@@ -729,80 +690,69 @@ int main(int argc, char *argv[])
     surfSymmTensorNames.size()
   };
   subsetSurfaceFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<symmTensor>::zero,
-    surfaceSymmTensorField::typeName,
-    surfSymmTensorFlds
-  );
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<symmTensor>::zero,
+      surfaceSymmTensorField::typeName,
+      surfSymmTensorFlds
+    );
   wordList surfTensorNames{objects.names(surfaceTensorField::typeName)};
   PtrList<surfaceTensorField> surfTensorFlds{surfTensorNames.size()};
   subsetSurfaceFields
-  (
-    subsetter,
-    objects,
-    defaultPatchI,
-    pTraits<tensor>::zero,
-    surfaceTensorField::typeName,
-    surfTensorFlds
-  );
-  if (!overwrite)
-  {
+    (
+      subsetter,
+      objects,
+      defaultPatchI,
+      pTraits<tensor>::zero,
+      surfaceTensorField::typeName,
+      surfTensorFlds
+    );
+  if (!overwrite) {
     runTime++;
   }
   Info << "Writing mesh without blockedCells to time " << runTime.value()
     << endl;
   // Subsetting adds 'subset' prefix. Rename field to be like original.
-  FOR_ALL(scalarFlds, i)
-  {
+  FOR_ALL(scalarFlds, i) {
     scalarFlds[i].rename(scalarNames[i]);
     scalarFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(vectorFlds, i)
-  {
+  FOR_ALL(vectorFlds, i) {
     vectorFlds[i].rename(vectorNames[i]);
     vectorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(sphericalTensorFlds, i)
-  {
+  FOR_ALL(sphericalTensorFlds, i) {
     sphericalTensorFlds[i].rename(sphericalTensorNames[i]);
     sphericalTensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(symmTensorFlds, i)
-  {
+  FOR_ALL(symmTensorFlds, i) {
     symmTensorFlds[i].rename(symmTensorNames[i]);
     symmTensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(tensorFlds, i)
-  {
+  FOR_ALL(tensorFlds, i) {
     tensorFlds[i].rename(tensorNames[i]);
     tensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
   // Surface ones.
-  FOR_ALL(surfScalarFlds, i)
-  {
+  FOR_ALL(surfScalarFlds, i) {
     surfScalarFlds[i].rename(surfScalarNames[i]);
     surfScalarFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(surfVectorFlds, i)
-  {
+  FOR_ALL(surfVectorFlds, i) {
     surfVectorFlds[i].rename(surfVectorNames[i]);
     surfVectorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(surfSphericalTensorFlds, i)
-  {
+  FOR_ALL(surfSphericalTensorFlds, i) {
     surfSphericalTensorFlds[i].rename(surfSphericalTensorNames[i]);
     surfSphericalTensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(surfSymmTensorFlds, i)
-  {
+  FOR_ALL(surfSymmTensorFlds, i) {
     surfSymmTensorFlds[i].rename(surfSymmTensorNames[i]);
     surfSymmTensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
-  FOR_ALL(surfTensorNames, i)
-  {
+  FOR_ALL(surfTensorNames, i) {
     surfTensorFlds[i].rename(surfTensorNames[i]);
     surfTensorFlds[i].writeOpt() = IOobject::AUTO_WRITE;
   }
@@ -813,62 +763,61 @@ int main(int argc, char *argv[])
   //
   // Synchronize wantedPatch across coupled patches.
   syncTools::syncFaceList
-  (
-    subsetter.subMesh(),
-    wantedPatch,
-    maxEqOp<label>()
-  );
+    (
+      subsetter.subMesh(),
+      wantedPatch,
+      maxEqOp<label>()
+    );
   // Synchronize coupledWantedPatch across coupled patches.
   syncTools::syncFaceList
-  (
-    subsetter.subMesh(),
-    coupledWantedPatch,
-    maxEqOp<label>()
-  );
+    (
+      subsetter.subMesh(),
+      coupledWantedPatch,
+      maxEqOp<label>()
+    );
   // Synchronize cyclicWantedPatch across coupled patches.
   syncTools::syncFaceList
-  (
-    subsetter.subMesh(),
-    cyclicWantedPatch_half0,
-    maxEqOp<label>()
-  );
+    (
+      subsetter.subMesh(),
+      cyclicWantedPatch_half0,
+      maxEqOp<label>()
+    );
   // Synchronize cyclicWantedPatch across coupled patches.
   syncTools::syncFaceList
-  (
-    subsetter.subMesh(),
-    cyclicWantedPatch_half1,
-    maxEqOp<label>()
-  );
+    (
+      subsetter.subMesh(),
+      cyclicWantedPatch_half1,
+      maxEqOp<label>()
+    );
   // Topochange container
   polyTopoChange meshMod{subsetter.subMesh()};
   // Whether first use of face (modify) or consecutive (add)
   PackedBoolList modifiedFace{mesh.nFaces()};
   // Create coupled wall-side baffles
   createCoupledBaffles
-  (
-    subsetter.subMesh(),
-    coupledWantedPatch,
-    meshMod,
-    modifiedFace
-  );
+    (
+      subsetter.subMesh(),
+      coupledWantedPatch,
+      meshMod,
+      modifiedFace
+    );
   // Create coupled master/slave cyclic baffles
   createCyclicCoupledBaffles
-  (
-    subsetter.subMesh(),
-    cyclicWantedPatch_half0,
-    cyclicWantedPatch_half1,
-    meshMod,
-    modifiedFace
-  );
+    (
+      subsetter.subMesh(),
+      cyclicWantedPatch_half0,
+      cyclicWantedPatch_half1,
+      meshMod,
+      modifiedFace
+    );
   // Create wall baffles
   createBaffles
-  (
-    subsetter.subMesh(),
-    wantedPatch,
-    meshMod
-  );
-  if (!overwrite)
-  {
+    (
+      subsetter.subMesh(),
+      wantedPatch,
+      meshMod
+    );
+  if (!overwrite) {
     runTime++;
   }
   // Change the mesh. Change points directly (no inflation).
@@ -877,69 +826,48 @@ int main(int argc, char *argv[])
   subsetter.subMesh().updateMesh(map);
   // Fix faces that get mapped to zero-sized patches (these don't get any
   // value)
-  initCreatedPatches<volScalarField>
-  (
-    subsetter.subMesh(),
-    map,
-    0.0
-  );
-  initCreatedPatches<volVectorField>
-  (
-    subsetter.subMesh(),
-    map,
-    vector::zero
-  );
+  initCreatedPatches<volScalarField>(subsetter.subMesh(), map, 0.0);
+  initCreatedPatches<volVectorField>(subsetter.subMesh(), map, vector::zero);
   initCreatedPatches<volSphericalTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    sphericalTensor::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      sphericalTensor::zero
+    );
   initCreatedPatches<volSymmTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    symmTensor::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      symmTensor::zero
+    );
   initCreatedPatches<volTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    tensor::zero
-  );
-  initCreatedPatches<surfaceScalarField>
-  (
-    subsetter.subMesh(),
-    map,
-    0.0
-  );
-  initCreatedPatches<surfaceVectorField>
-  (
-    subsetter.subMesh(),
-    map,
-    vector::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      tensor::zero
+    );
+  initCreatedPatches<surfaceScalarField>(subsetter.subMesh(), map, 0.0);
+  initCreatedPatches<surfaceVectorField>(subsetter.subMesh(), map, vector::zero);
   initCreatedPatches<surfaceSphericalTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    sphericalTensor::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      sphericalTensor::zero
+    );
   initCreatedPatches<surfaceSymmTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    symmTensor::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      symmTensor::zero
+    );
   initCreatedPatches<surfaceTensorField>
-  (
-    subsetter.subMesh(),
-    map,
-    tensor::zero
-  );
+    (
+      subsetter.subMesh(),
+      map,
+      tensor::zero
+    );
   // Move mesh (since morphing might not do this)
-  if (map().hasMotionPoints())
-  {
+  if (map().hasMotionPoints()) {
     subsetter.subMesh().movePoints(map().preMotionPoints());
   }
   Info << "Writing mesh with split blockedFaces to time " << runTime.value()
@@ -951,9 +879,8 @@ int main(int argc, char *argv[])
   //
   // Determine connected regions. regionSplit is the labelList with the
   // region per cell.
-  regionSplit cellRegion(subsetter.subMesh());
-  if (cellRegion.nRegions() > 1)
-  {
+  regionSplit cellRegion{subsetter.subMesh()};
+  if (cellRegion.nRegions() > 1) {
     WARNING_IN(args.executable())
       << "Removing blocked faces and cells created "
       << cellRegion.nRegions()
@@ -966,8 +893,7 @@ int main(int argc, char *argv[])
       << " so might have to be moved back to constant/" << nl
       << endl;
     word startFrom{runTime.controlDict().lookup("startFrom")};
-    if (startFrom != "latestTime")
-    {
+    if (startFrom != "latestTime") {
       WARNING_IN(args.executable())
         << "To run splitMeshRegions please set your"
         << " startFrom entry to latestTime" << endl;
@@ -976,3 +902,4 @@ int main(int argc, char *argv[])
   Info << nl << "End" << endl;
   return 0;
 }
+

@@ -1,0 +1,3 @@
+adiabatic_flame_t.cpp
+
+EXE =  $(MOUSSE_APPBIN)/mousse-adiabatic-flame-t

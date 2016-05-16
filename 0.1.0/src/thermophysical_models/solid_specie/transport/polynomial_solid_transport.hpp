@@ -8,44 +8,52 @@
 //   mousse::polynomialSolidTransport
 // Description
 //   Transport package using polynomial functions for solid kappa
-// SourceFiles
-//   polynomial_solid_transport.cpp
+
 #include "polynomial.hpp"
 #include "specie.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 template<class Thermo, int PolySize> class polynomialSolidTransport;
+
 template<class Thermo, int PolySize>
 inline polynomialSolidTransport<Thermo, PolySize> operator+
 (
   const polynomialSolidTransport<Thermo, PolySize>&,
   const polynomialSolidTransport<Thermo, PolySize>&
 );
+
 template<class Thermo, int PolySize>
 inline polynomialSolidTransport<Thermo, PolySize> operator-
 (
   const polynomialSolidTransport<Thermo, PolySize>&,
   const polynomialSolidTransport<Thermo, PolySize>&
 );
+
 template<class Thermo, int PolySize>
 inline polynomialSolidTransport<Thermo, PolySize> operator*
 (
   const scalar,
   const polynomialSolidTransport<Thermo, PolySize>&
 );
+
 template<class Thermo, int PolySize>
 inline polynomialSolidTransport<Thermo, PolySize> operator==
 (
   const polynomialSolidTransport<Thermo, PolySize>&,
   const polynomialSolidTransport<Thermo, PolySize>&
 );
+
 template<class Thermo, int PolySize>
 Ostream& operator<<
 (
   Ostream&,
   const polynomialSolidTransport<Thermo, PolySize>&
 );
+
+
 template<class Thermo, int PolySize=8>
 class polynomialSolidTransport
 :
@@ -139,7 +147,9 @@ public:
       const polynomialSolidTransport&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class Thermo, int PolySize>
@@ -152,6 +162,8 @@ polynomialSolidTransport
   Thermo{pt},
   kappaCoeffs_{pt.kappaCoeffs_}
 {}
+
+
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize>::
 polynomialSolidTransport
@@ -163,6 +175,8 @@ polynomialSolidTransport
   Thermo{t},
   kappaCoeffs_{kappaCoeffs}
 {}
+
+
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize>::
 polynomialSolidTransport
@@ -174,24 +188,32 @@ polynomialSolidTransport
   Thermo{name, pt},
   kappaCoeffs_{pt.kappaCoeffs_}
 {}
+
+
 template<class Thermo, int PolySize>
 inline mousse::autoPtr<mousse::polynomialSolidTransport<Thermo, PolySize> >
 mousse::polynomialSolidTransport<Thermo, PolySize>::clone() const
 {
   return {new polynomialSolidTransport<Thermo, PolySize>(*this)};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::autoPtr<mousse::polynomialSolidTransport<Thermo, PolySize> >
 mousse::polynomialSolidTransport<Thermo, PolySize>::New(Istream& is)
 {
   return {new polynomialSolidTransport<Thermo, PolySize>(is)};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::autoPtr<mousse::polynomialSolidTransport<Thermo, PolySize> >
 mousse::polynomialSolidTransport<Thermo, PolySize>::New(const dictionary& dict)
 {
   return {new polynomialSolidTransport<Thermo, PolySize>(dict)};
 }
+
+
 // Member Functions 
 template<class Thermo, int PolySize>
 inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::mu
@@ -204,11 +226,13 @@ inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::mu
   (
     "mousse::scalar mousse::polynomialSolidTransport<thermo, PolySize>mu::"
     "("
-    "    const scalar p, const scalar T"
+    "  const scalar p, const scalar T"
     ") const"
   );
   return scalar{0};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::kappa
 (
@@ -218,6 +242,8 @@ inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::kappa
 {
   return kappaCoeffs_.value(T);
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::vector mousse::polynomialSolidTransport<Thermo, PolySize>::Kappa
 (
@@ -226,8 +252,10 @@ inline mousse::vector mousse::polynomialSolidTransport<Thermo, PolySize>::Kappa
 ) const
 {
   const scalar kappa(kappaCoeffs_.value(T));
-  return vector(kappa, kappa, kappa);
+  return {kappa, kappa, kappa};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::alphah
 (
@@ -236,6 +264,8 @@ inline mousse::scalar mousse::polynomialSolidTransport<Thermo, PolySize>::alphah
 {
   return kappa(p, T)/this->Cpv(p, T);
 }
+
+
 // Member Operators 
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize>&
@@ -248,6 +278,8 @@ mousse::polynomialSolidTransport<Thermo, PolySize>::operator=
   kappaCoeffs_ = pt.kappaCoeffs_;
   return *this;
 }
+
+
 template<class Thermo, int PolySize>
 inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator+=
 (
@@ -260,6 +292,8 @@ inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator+=
   scalar molr2 = pt.nMoles()/this->nMoles();
   kappaCoeffs_ = molr1*kappaCoeffs_ + molr2*pt.kappaCoeffs_;
 }
+
+
 template<class Thermo, int PolySize>
 inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator-=
 (
@@ -272,6 +306,8 @@ inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator-=
   scalar molr2 = pt.nMoles()/this->nMoles();
   kappaCoeffs_ = molr1*kappaCoeffs_ - molr2*pt.kappaCoeffs_;
 }
+
+
 template<class Thermo, int PolySize>
 inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator*=
 (
@@ -280,6 +316,8 @@ inline void mousse::polynomialSolidTransport<Thermo, PolySize>::operator*=
 {
   Thermo::operator*=(s);
 }
+
+
 // Friend Operators 
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator+
@@ -288,14 +326,13 @@ inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator+
   const polynomialSolidTransport<Thermo, PolySize>& pt2
 )
 {
-  Thermo t
-  (
-    static_cast<const Thermo&>(pt1) + static_cast<const Thermo&>(pt2)
-  );
+  Thermo t{static_cast<const Thermo&>(pt1) + static_cast<const Thermo&>(pt2)};
   scalar molr1 = pt1.nMoles()/t.nMoles();
   scalar molr2 = pt2.nMoles()/t.nMoles();
   return {t, molr1*pt1.kappaCoeffs_ + molr2*pt2.kappaCoeffs_};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator-
 (
@@ -303,14 +340,13 @@ inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator-
   const polynomialSolidTransport<Thermo, PolySize>& pt2
 )
 {
-  Thermo t
-  (
-    static_cast<const Thermo&>(pt1) - static_cast<const Thermo&>(pt2)
-  );
+  Thermo t{static_cast<const Thermo&>(pt1) - static_cast<const Thermo&>(pt2)};
   scalar molr1 = pt1.nMoles()/t.nMoles();
   scalar molr2 = pt2.nMoles()/t.nMoles();
   return {t, molr1*pt1.kappaCoeffs_ - molr2*pt2.kappaCoeffs_};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator*
 (
@@ -320,6 +356,8 @@ inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator*
 {
   return {s*static_cast<const Thermo&>(pt), pt.kappaCoeffs_};
 }
+
+
 template<class Thermo, int PolySize>
 inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator==
 (
@@ -329,7 +367,7 @@ inline mousse::polynomialSolidTransport<Thermo, PolySize> mousse::operator==
 {
   return pt2 - pt1;
 }
-#ifdef NoRepository
-#   include "polynomial_solid_transport.cpp"
-#endif
+
+#include "polynomial_solid_transport.ipp"
+
 #endif

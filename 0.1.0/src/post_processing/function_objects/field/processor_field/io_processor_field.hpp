@@ -7,8 +7,13 @@
 
 #include "processor_field.hpp"
 #include "io_output_filter.hpp"
-namespace mousse
-{
-  typedef IOOutputFilter<processorField> IOprocessorField;
+
+
+namespace mousse {
+
+typedef IOOutputFilter<processorField> IOprocessorField;
+
 }
+
 #endif
+

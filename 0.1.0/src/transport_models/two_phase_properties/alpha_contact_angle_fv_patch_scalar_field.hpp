@@ -30,12 +30,13 @@
 //   }
 //   \endverbatim
 //   If "limit zeroGradient;" is used the pressure BCs can be left as before.
-// SourceFiles
-//   alpha_contact_angle_fv_patch_scalar_field.cpp
+
 #include "fixed_gradient_fv_patch_fields.hpp"
 #include "fvs_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class alphaContactAngleFvPatchScalarField
 :
   public fixedGradientFvPatchScalarField
@@ -102,5 +103,8 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
+
 #endif
+

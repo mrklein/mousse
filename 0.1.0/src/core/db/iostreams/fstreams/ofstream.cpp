@@ -21,7 +21,7 @@ mousse::OFstreamAllocator::OFstreamAllocator
   IOstream::compressionType compression
 )
 :
-  ofPtr_{NULL}
+  ofPtr_{nullptr}
 {
   if (pathname.empty()) {
     if (OFstream::debug) {
@@ -34,13 +34,13 @@ mousse::OFstreamAllocator::OFstreamAllocator
     if (isFile(pathname, false)) {
       rm(pathname);
     }
-    ofPtr_ = new ogzstream((pathname + ".gz").c_str());
+    ofPtr_ = new ogzstream{(pathname + ".gz").c_str()};
   } else {
     // get identically named compressed version out of the way
     if (isFile(pathname + ".gz", false)) {
       rm(pathname + ".gz");
     }
-    ofPtr_ = new ofstream(pathname.c_str());
+    ofPtr_ = new ofstream{pathname.c_str()};
   }
 }
 

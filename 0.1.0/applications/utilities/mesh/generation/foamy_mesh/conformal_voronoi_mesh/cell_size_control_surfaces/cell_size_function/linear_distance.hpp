@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::linearDistance
-// Description
-// SourceFiles
-//   linear_distance.cpp
+
 #include "cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class linearDistance
 :
   public cellSizeFunction
@@ -65,5 +65,8 @@ public:
       const pointField& pts
     );
 };
+
 }  // namespace mousse
+
 #endif
+

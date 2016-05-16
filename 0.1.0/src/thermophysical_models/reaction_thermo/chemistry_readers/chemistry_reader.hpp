@@ -8,14 +8,15 @@
 //   mousse::chemistryReader
 // Description
 //   Abstract class for reading chemistry
-// SourceFiles
-//   chemistry_reader.cpp
+
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
 #include "reaction.hpp"
 #include "reaction_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class chemistryReader
 {
@@ -62,10 +63,10 @@ public:
     //- Return access to the list of reactions
     virtual const ReactionList<ThermoType>& reactions() const = 0;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "chemistry_reader.cpp"
-#endif
+
+#include "chemistry_reader.ipp"
 
 #define MAKE_CHEMISTRY_READER(Thermo)                                         \
   DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG(chemistryReader<Thermo>, 0);            \

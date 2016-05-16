@@ -8,13 +8,14 @@
 //   mousse::AveragingMethod
 // Description
 //   Base class for lagrangian averaging methods.
-// SourceFiles
-//   _averaging_method.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class Type>
 class AveragingMethod
 :
@@ -113,7 +114,9 @@ public:
     //- Divide-equal tmp
     inline void operator/=(tmp<FieldField<Field, scalar>> x);
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class Type>
@@ -125,6 +128,8 @@ inline void mousse::AveragingMethod<Type>::operator=
   FieldField<Field, Type>::operator=(x);
   updateGrad();
 }
+
+
 template<class Type>
 inline void mousse::AveragingMethod<Type>::operator=
 (
@@ -134,6 +139,8 @@ inline void mousse::AveragingMethod<Type>::operator=
   FieldField<Field, Type>::operator=(x);
   updateGrad();
 }
+
+
 template<class Type>
 inline void mousse::AveragingMethod<Type>::operator=
 (
@@ -143,6 +150,8 @@ inline void mousse::AveragingMethod<Type>::operator=
   FieldField<Field, Type>::operator=(x());
   updateGrad();
 }
+
+
 template<class Type>
 inline void mousse::AveragingMethod<Type>::operator+=
 (
@@ -152,6 +161,8 @@ inline void mousse::AveragingMethod<Type>::operator+=
   FieldField<Field, Type>::operator+=(x());
   updateGrad();
 }
+
+
 template<class Type>
 inline void mousse::AveragingMethod<Type>::operator*=
 (
@@ -161,6 +172,8 @@ inline void mousse::AveragingMethod<Type>::operator*=
   FieldField<Field, Type>::operator*=(x());
   updateGrad();
 }
+
+
 template<class Type>
 inline void mousse::AveragingMethod<Type>::operator/=
 (
@@ -171,7 +184,7 @@ inline void mousse::AveragingMethod<Type>::operator/=
   updateGrad();
 }
 
-#ifdef NoRepository
-#   include "_averaging_method.cpp"
-#endif
+
+#include "_averaging_method.ipp"
+
 #endif

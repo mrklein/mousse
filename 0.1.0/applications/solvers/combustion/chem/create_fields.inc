@@ -1,10 +1,9 @@
-  if (mesh.nCells() != 1)
-  {
+  if (mesh.nCells() != 1) {
     FATAL_ERROR_IN_FUNCTION
       << "Solver only applicable to single cell cases"
       << exit(FatalError);
   }
-  Info<< "Reading initial conditions.\n" << endl;
+  Info << "Reading initial conditions.\n" << endl;
   IOdictionary initialConditions
   {
     {
@@ -17,7 +16,7 @@
   scalar p0 = readScalar(initialConditions.lookup("p"));
   scalar T0 = readScalar(initialConditions.lookup("T"));
   #include "create_base_fields.inc"
-  Info<< nl << "Reading thermophysicalProperties" << endl;
+  Info << nl << "Reading thermophysicalProperties" << endl;
   autoPtr<psiChemistryModel> pChemistry{psiChemistryModel::New(mesh)};
   psiChemistryModel& chemistry = pChemistry();
   scalar dtChem = refCast<const psiChemistryModel>(chemistry).deltaTChem()[0];

@@ -59,16 +59,15 @@
 //       Sigmaw         1.17
 //     }
 //   \endverbatim
-// SourceFiles
-//   kk_l_omega.cpp
+
 #include "turbulent_transport_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace incompressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace incompressible {
+namespace RASModels {
+
 class kkLOmega
 :
   public eddyViscosity<incompressible::RASModel>
@@ -170,17 +169,17 @@ public:
     tmp<volScalarField> DkEff(const volScalarField& alphaT) const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DkEff", alphaT/Sigmak_ + nu())
-      );
+      {
+        new volScalarField{"DkEff", alphaT/Sigmak_ + nu()}
+      };
     }
     //- Return the effective diffusivity for omega
     tmp<volScalarField> DomegaEff(const volScalarField& alphaT) const
     {
       return tmp<volScalarField>
-      (
-        new volScalarField("DomegaEff", alphaT/Sigmaw_ + nu())
-      );
+      {
+        new volScalarField{"DomegaEff", alphaT/Sigmaw_ + nu()}
+      };
     }
     //- Return the laminar kinetic energy
     virtual tmp<volScalarField> kl() const
@@ -201,19 +200,18 @@ public:
     virtual tmp<volScalarField> k() const
     {
       return tmp<volScalarField>
-      (
+      {
         new volScalarField
-        (
-          IOobject
-          (
+        {
+          {
             "k",
             mesh_.time().timeName(),
             mesh_
-          ),
+          },
           kt_ + kl_,
           omega_.boundaryField().types()
-        )
-      );
+        }
+      };
     }
     //- Return the total fluctuation kinetic energy dissipation rate
     virtual tmp<volScalarField> epsilon() const
@@ -223,7 +221,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace incompressible
 }  // namespace mousse
+
 #endif
+

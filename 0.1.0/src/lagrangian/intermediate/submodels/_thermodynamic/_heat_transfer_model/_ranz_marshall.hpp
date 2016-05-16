@@ -8,9 +8,12 @@
 //   mousse::RanzMarshall
 // Description
 //   The Ranz-Marshall correlation for heat transfer
+
 #include "_heat_transfer_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class RanzMarshall
 :
@@ -25,12 +28,13 @@ public:
     //- Construct copy
     RanzMarshall(const RanzMarshall<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<HeatTransferModel<CloudType> > clone() const
+    virtual autoPtr<HeatTransferModel<CloudType>> clone() const
     {
-      return autoPtr<HeatTransferModel<CloudType> >
-      (
-        new RanzMarshall<CloudType>(*this)
-      );
+      return
+        autoPtr<HeatTransferModel<CloudType>>
+        {
+          new RanzMarshall<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~RanzMarshall();
@@ -43,8 +47,9 @@ public:
         const scalar Pr
       ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_ranz_marshall.cpp"
-#endif
+
+#include "_ranz_marshall.ipp"
+
 #endif

@@ -11,8 +11,9 @@
 #include "ioobject_list.hpp"
 #include "compact_io_field.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 //- Gets the indices of (source)particles that have been appended to the
 //  target cloud and maps the lagrangian fields accordingly.
 template<class Type>
@@ -25,10 +26,10 @@ void MapLagrangianFields
 )
 {
   const fvMesh& meshTarget = meshToMesh0Interp.toMesh();
+
   {
     IOobjectList fields = objects.lookupClass(IOField<Type>::typeName);
-    FOR_ALL_ITER(IOobjectList, fields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fields, fieldIter) {
       Info << "    mapping lagrangian field "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
@@ -36,7 +37,6 @@ void MapLagrangianFields
       // Map
       IOField<Type> fieldTarget
       {
-        // IOobject
         {
           fieldIter()->name(),
           meshTarget.time().timeName(),
@@ -48,19 +48,18 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
       fieldTarget.write();
     }
   }
+
   {
     IOobjectList fieldFields =
       objects.lookupClass(IOField<Field<Type>>::typeName);
-    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter) {
       Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
@@ -81,19 +80,18 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
       fieldTarget.write();
     }
   }
+
   {
     IOobjectList fieldFields =
       objects.lookupClass(CompactIOField<Field<Type>, Type>::typeName);
-    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter)
-    {
+    FOR_ALL_ITER(IOobjectList, fieldFields, fieldIter) {
       Info << "    mapping lagrangian fieldField "
         << fieldIter()->name() << endl;
       // Read field (does not need mesh)
@@ -101,7 +99,6 @@ void MapLagrangianFields
       // Map
       CompactIOField<Field<Type>, Type> fieldTarget
       {
-        // IOobject
         {
           fieldIter()->name(),
           meshTarget.time().timeName(),
@@ -113,8 +110,7 @@ void MapLagrangianFields
         },
         addParticles.size()
       };
-      FOR_ALL(addParticles, i)
-      {
+      FOR_ALL(addParticles, i) {
         fieldTarget[i] = fieldSource[addParticles[i]];
       }
       // Write field
@@ -122,5 +118,8 @@ void MapLagrangianFields
     }
   }
 }
+
 }  // namespace mousse
+
 #endif
+

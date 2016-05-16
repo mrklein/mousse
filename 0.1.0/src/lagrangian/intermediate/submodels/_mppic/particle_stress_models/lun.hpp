@@ -25,13 +25,13 @@
 //     Journal of Fluid Mechanics
 //     Volume 140, Pages 223-256, 1984
 //   \endverbatim
-// SourceFiles
-//   lun.cpp
+
 #include "particle_stress_model.hpp"
-namespace mousse
-{
-namespace ParticleStressModels
-{
+
+
+namespace mousse {
+namespace ParticleStressModels {
+
 class Lun
 :
   public ParticleStressModel
@@ -52,10 +52,11 @@ public:
     //- Clone
     virtual autoPtr<ParticleStressModel> clone() const
     {
-      return autoPtr<ParticleStressModel>
-      (
-        new Lun(*this)
-      );
+      return
+        autoPtr<ParticleStressModel>
+        {
+          new Lun{*this}
+        };
     }
   //- Destructor
   virtual ~Lun();
@@ -75,6 +76,9 @@ public:
       const Field<scalar>& uRms
     ) const;
 };
+
 }  // namespace ParticleStressModels
 }  // namespace mousse
+
 #endif
+

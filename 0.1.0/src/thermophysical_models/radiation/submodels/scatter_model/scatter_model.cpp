@@ -4,15 +4,19 @@
 
 #include "error.hpp"
 #include "scatter_model.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  namespace radiation
-  {
-    DEFINE_TYPE_NAME_AND_DEBUG(scatterModel, 0);
-    DEFINE_RUN_TIME_SELECTION_TABLE(scatterModel, dictionary);
-  }
+namespace mousse {
+namespace radiation {
+
+DEFINE_TYPE_NAME_AND_DEBUG(scatterModel, 0);
+DEFINE_RUN_TIME_SELECTION_TABLE(scatterModel, dictionary);
+
 }
+}
+
+
 // Constructors 
 mousse::radiation::scatterModel::scatterModel
 (
@@ -20,8 +24,11 @@ mousse::radiation::scatterModel::scatterModel
   const fvMesh& mesh
 )
 :
-  mesh_(mesh)
+  mesh_{mesh}
 {}
+
+
 // Destructor   
 mousse::radiation::scatterModel::~scatterModel()
 {}
+

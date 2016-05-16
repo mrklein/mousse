@@ -1,0 +1,3 @@
+mixture_adiabatic_flame_t.cpp
+
+EXE =  $(FOAM_APPBIN)/mousse-mixture-adiabatic-flame-t

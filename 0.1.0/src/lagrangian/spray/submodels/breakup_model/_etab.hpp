@@ -24,11 +24,11 @@
 // See Also
 //   The TAB model
 
-
 #include "_breakup_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class ETAB
 :
@@ -50,12 +50,13 @@ public:
     //- Construct copy
     ETAB(const ETAB<CloudType>& bum);
     //- Construct and return a clone
-    virtual autoPtr<BreakupModel<CloudType> > clone() const
+    virtual autoPtr<BreakupModel<CloudType>> clone() const
     {
-      return autoPtr<BreakupModel<CloudType> >
-      (
-        new ETAB<CloudType>(*this)
-      );
+      return
+        autoPtr<BreakupModel<CloudType>>
+        {
+          new ETAB<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ETAB();
@@ -86,9 +87,9 @@ public:
       scalar& massChild
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_etab.cpp"
-#endif
+#include "_etab.ipp"
+
 #endif

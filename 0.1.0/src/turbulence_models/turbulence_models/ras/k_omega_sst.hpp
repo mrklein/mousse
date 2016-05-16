@@ -66,18 +66,18 @@
 //       F3          no;
 //     }
 //   \endverbatim
-// SourceFiles
-//   k_omega_sst.cpp
+
 #include "ras_model.hpp"
 #include "eddy_viscosity.hpp"
-namespace mousse
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace RASModels {
+
 template<class BasicTurbulenceModel>
 class kOmegaSST
 :
-  public eddyViscosity<RASModel<BasicTurbulenceModel> >
+  public eddyViscosity<RASModel<BasicTurbulenceModel>>
 {
 protected:
   // Protected data
@@ -174,22 +174,24 @@ public:
     //- Return the effective diffusivity for k
     tmp<volScalarField> DkEff(const volScalarField& F1) const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField("DkEff", alphaK(F1)*this->nut_ + this->nu())
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField{"DkEff", alphaK(F1)*this->nut_ + this->nu()}
+        };
     }
     //- Return the effective diffusivity for omega
     tmp<volScalarField> DomegaEff(const volScalarField& F1) const
     {
-      return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          "DomegaEff",
-          alphaOmega(F1)*this->nut_ + this->nu()
-        )
-      );
+      return
+        tmp<volScalarField>
+        {
+          new volScalarField
+          {
+            "DomegaEff",
+            alphaOmega(F1)*this->nut_ + this->nu()
+          }
+        };
     }
     //- Return the turbulence kinetic energy
     virtual tmp<volScalarField> k() const
@@ -199,20 +201,20 @@ public:
     //- Return the turbulence kinetic energy dissipation rate
     virtual tmp<volScalarField> epsilon() const
     {
-       return tmp<volScalarField>
-      (
-        new volScalarField
-        (
-          IOobject
-          (
-            "epsilon",
-            this->mesh_.time().timeName(),
-            this->mesh_
-          ),
-          betaStar_*k_*omega_,
-          omega_.boundaryField().types()
-        )
-      );
+       return
+         tmp<volScalarField>
+         {
+           new volScalarField
+           {
+             {
+               "epsilon",
+               this->mesh_.time().timeName(),
+               this->mesh_
+             },
+             betaStar_*k_*omega_,
+             omega_.boundaryField().types()
+           }
+         };
     }
     //- Return the turbulence kinetic energy dissipation rate
     virtual tmp<volScalarField> omega() const
@@ -222,9 +224,10 @@ public:
     //- Solve the turbulence equations and correct the turbulence viscosity
     virtual void correct();
 };
+
 }  // namespace RASModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "k_omega_sst.cpp"
-#endif
+
+#include "k_omega_sst.ipp"
+
 #endif

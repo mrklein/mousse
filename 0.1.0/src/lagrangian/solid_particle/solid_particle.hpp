@@ -9,18 +9,19 @@
 // Description
 //   Simple solid spherical particle class with one-way coupling with the
 //   continuous phase.
-// SourceFiles
-//   solid_particle_i.hpp
-//   solid_particle.cpp
-//   solid_particle_io.cpp
+
 #include "particle.hpp"
 #include "iostream.hpp"
 #include "auto_ptr.hpp"
 #include "interpolation_cell_point.hpp"
 #include "contiguous.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class solidParticleCloud;
+
+
 class solidParticle
 :
   public particle
@@ -83,7 +84,7 @@ public:
     //- Construct and return a clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new solidParticle(*this));
+      return autoPtr<particle>{new solidParticle{*this}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -93,14 +94,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
       autoPtr<solidParticle> operator()(Istream& is) const
       {
-        return autoPtr<solidParticle>
-        (
-          new solidParticle(mesh_, is, true)
-        );
+        return
+          autoPtr<solidParticle>
+          {
+            new solidParticle{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -158,12 +160,11 @@ public:
   // Ostream Operator
     friend Ostream& operator<<(Ostream&, const solidParticle&);
 };
-template<>
-inline bool contiguous<solidParticle>()
-{
-  return true;
-}
+
+template<> inline bool contiguous<solidParticle>() { return true; }
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::solidParticle::trackingData::trackingData
@@ -181,6 +182,8 @@ inline mousse::solidParticle::trackingData::trackingData
   nuInterp_{nuInterp},
   g_{g}
 {}
+
+
 inline mousse::solidParticle::solidParticle
 (
   const polyMesh& mesh,
@@ -196,32 +199,46 @@ inline mousse::solidParticle::solidParticle
   d_{d},
   U_{U}
 {}
+
+
 // Member Functions 
 inline const mousse::interpolationCellPoint<mousse::scalar>&
 mousse::solidParticle::trackingData::rhoInterp() const
 {
   return rhoInterp_;
 }
+
+
 inline const mousse::interpolationCellPoint<mousse::vector>&
 mousse::solidParticle::trackingData::UInterp() const
 {
   return UInterp_;
 }
+
+
 inline const mousse::interpolationCellPoint<mousse::scalar>&
 mousse::solidParticle::trackingData::nuInterp() const
 {
   return nuInterp_;
 }
+
+
 inline const mousse::vector& mousse::solidParticle::trackingData::g() const
 {
   return g_;
 }
+
+
 inline mousse::scalar mousse::solidParticle::d() const
 {
   return d_;
 }
+
+
 inline const mousse::vector& mousse::solidParticle::U() const
 {
   return U_;
 }
+
 #endif
+

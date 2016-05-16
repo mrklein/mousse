@@ -4,6 +4,8 @@
 
 #include "internal_writer.hpp"
 #include "write_funs.hpp"
+
+
 // Constructors 
 mousse::internalWriter::internalWriter
 (
@@ -12,10 +14,10 @@ mousse::internalWriter::internalWriter
   const fileName& fName
 )
 :
-  vMesh_(vMesh),
-  binary_(binary),
-  fName_(fName),
-  os_(fName.c_str())
+  vMesh_{vMesh},
+  binary_{binary},
+  fName_{fName},
+  os_{fName.c_str()}
 {
   const fvMesh& mesh = vMesh_.mesh();
   const vtkTopo& topo = vMesh_.topo();
@@ -29,25 +31,20 @@ mousse::internalWriter::internalWriter
   DynamicList<floatScalar> ptField{3*nTotPoints};
   writeFuns::insert(mesh.points(), ptField);
   const pointField& ctrs = mesh.cellCentres();
-  FOR_ALL(addPointCellLabels, api)
-  {
+  FOR_ALL(addPointCellLabels, api) {
     writeFuns::insert(ctrs[addPointCellLabels[api]], ptField);
   }
   writeFuns::write(os_, binary_, ptField);
-  //
   // Write cells
-  //
   const labelListList& vtkVertLabels = topo.vertLabels();
   // Count total number of vertices referenced.
   label nFaceVerts = 0;
-  FOR_ALL(vtkVertLabels, cellI)
-  {
+  FOR_ALL(vtkVertLabels, cellI) {
     nFaceVerts += vtkVertLabels[cellI].size() + 1;
   }
   os_ << "CELLS " << vtkVertLabels.size() << ' ' << nFaceVerts << std::endl;
   DynamicList<label> vertLabels{nFaceVerts};
-  FOR_ALL(vtkVertLabels, cellI)
-  {
+  FOR_ALL(vtkVertLabels, cellI) {
     const labelList& vtkVerts = vtkVertLabels[cellI];
     vertLabels.append(vtkVerts.size());
     writeFuns::insert(vtkVerts, vertLabels);
@@ -60,6 +57,8 @@ mousse::internalWriter::internalWriter
   writeFuns::insert(vtkCellTypes, cellTypes);
   writeFuns::write(os_, binary_, cellTypes);
 }
+
+
 // Member Functions 
 void mousse::internalWriter::writeCellIDs()
 {
@@ -69,32 +68,26 @@ void mousse::internalWriter::writeCellIDs()
   const labelList& superCells = topo.superCells();
   // Cell ids first
   os_ << "cellID 1 " << vtkCellTypes.size() << " int" << std::endl;
-  labelList cellId(vtkCellTypes.size());
+  labelList cellId{vtkCellTypes.size()};
   label labelI = 0;
-  if (vMesh_.useSubMesh())
-  {
+  if (vMesh_.useSubMesh()) {
     const labelList& cMap = vMesh_.subsetter().cellMap();
-    FOR_ALL(mesh.cells(), cellI)
-    {
+    FOR_ALL(mesh.cells(), cellI) {
       cellId[labelI++] = cMap[cellI];
     }
-    FOR_ALL(superCells, superCellI)
-    {
+    FOR_ALL(superCells, superCellI) {
       label origCellI = cMap[superCells[superCellI]];
       cellId[labelI++] = origCellI;
     }
-  }
-  else
-  {
-    FOR_ALL(mesh.cells(), cellI)
-    {
+  } else {
+    FOR_ALL(mesh.cells(), cellI) {
       cellId[labelI++] = cellI;
     }
-    FOR_ALL(superCells, superCellI)
-    {
+    FOR_ALL(superCells, superCellI) {
       label origCellI = superCells[superCellI];
       cellId[labelI++] = origCellI;
     }
   }
   writeFuns::write(os_, binary_, cellId);
 }
+

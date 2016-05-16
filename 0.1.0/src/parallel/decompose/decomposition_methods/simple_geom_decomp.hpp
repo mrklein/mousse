@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::simpleGeomDecomp
-// Description
-// SourceFiles
-//   simple_geom_decomp.cpp
+
 #include "geom_decomp.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class simpleGeomDecomp
 :
   public geomDecomp
@@ -77,5 +77,8 @@ public:
       return decompose(cc, cWeights);
     }
 };
+
 }  // namespace mousse
+
 #endif
+

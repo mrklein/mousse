@@ -6,10 +6,14 @@
 #include "mesh_tools.hpp"
 #include "primitive_mesh.hpp"
 
+
 // Static Data Members
 namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(regionSide, 0);
+
 }
+
 
 // Private Member Functions 
 // Step across edge onto other face on cell
@@ -23,15 +27,9 @@ mousse::label mousse::regionSide::otherFace
 {
   label f0I, f1I;
   meshTools::getEdgeFaces(mesh, cellI, edgeI, f0I, f1I);
-  if (f0I == faceI)
-  {
-    return f1I;
-  }
-  else
-  {
-    return f0I;
-  }
+  return (f0I == faceI) ? f1I : f0I;
 }
+
 
 // Step across point to other edge on face
 mousse::label mousse::regionSide::otherEdge
@@ -46,13 +44,11 @@ mousse::label mousse::regionSide::otherEdge
   // Get other point on edge.
   label freePointI = e.otherVertex(pointI);
   const labelList& fEdges = mesh.faceEdges()[faceI];
-  FOR_ALL(fEdges, fEdgeI)
-  {
+  FOR_ALL(fEdges, fEdgeI) {
     const label otherEdgeI = fEdges[fEdgeI];
     const edge& otherE = mesh.edges()[otherEdgeI];
     if ((otherE.start() == pointI && otherE.end() != freePointI)
-        || (otherE.end() == pointI && otherE.start() != freePointI))
-    {
+        || (otherE.end() == pointI && otherE.start() != freePointI)) {
       // otherE shares one (but not two) points with e.
       return otherEdgeI;
     }
@@ -72,6 +68,7 @@ mousse::label mousse::regionSide::otherEdge
   return -1;
 }
 
+
 // Step from faceI (on side cellI) to connected face & cell without crossing
 // fenceEdges.
 void mousse::regionSide::visitConnectedFaces
@@ -84,78 +81,71 @@ void mousse::regionSide::visitConnectedFaces
   labelHashSet& visitedFace
 )
 {
-  if (!visitedFace.found(faceI))
-  {
-    if (debug)
-    {
-      Info << "visitConnectedFaces : cellI:" << cellI << " faceI:"
-        << faceI << "  isOwner:" << (cellI == mesh.faceOwner()[faceI])
-        << endl;
-    }
-    // Mark as visited
-    visitedFace.insert(faceI);
-    // Mark which side of face was visited.
-    if (cellI == mesh.faceOwner()[faceI])
-    {
-      sideOwner_.insert(faceI);
-    }
-    // Visit all neighbouring faces on faceSet. Stay on this 'side' of
-    // face by doing edge-face-cell walk.
-    const labelList& fEdges = mesh.faceEdges()[faceI];
-    FOR_ALL(fEdges, fEdgeI)
-    {
-      label edgeI = fEdges[fEdgeI];
-      if (!fenceEdges.found(edgeI))
-      {
-        // Step along faces on edge from cell to cell until
-        // we hit face on faceSet.
-        // Find face reachable from edge
-        label otherFaceI = otherFace(mesh, cellI, faceI, edgeI);
-        if (mesh.isInternalFace(otherFaceI))
-        {
-          label otherCellI = cellI;
-          // Keep on crossing faces/cells until back on face on
-          // surface
-          while (!region.found(otherFaceI))
-          {
-            visitedFace.insert(otherFaceI);
-            if (debug)
-            {
-              Info << "visitConnectedFaces : cellI:" << cellI
-                << " found insideEdgeFace:" << otherFaceI
-                << endl;
-            }
-            // Cross otherFaceI into neighbouring cell
-            otherCellI =
-              meshTools::otherCell
-              (
-                mesh,
-                otherCellI,
-                otherFaceI
-              );
-            otherFaceI =
-                otherFace
-                (
-                  mesh,
-                  otherCellI,
-                  otherFaceI,
-                  edgeI
-                );
-          }
-          visitConnectedFaces
+  if (visitedFace.found(faceI))
+    return;
+  if (debug) {
+    Info << "visitConnectedFaces : cellI:" << cellI << " faceI:"
+      << faceI << "  isOwner:" << (cellI == mesh.faceOwner()[faceI])
+      << endl;
+  }
+  // Mark as visited
+  visitedFace.insert(faceI);
+  // Mark which side of face was visited.
+  if (cellI == mesh.faceOwner()[faceI]) {
+    sideOwner_.insert(faceI);
+  }
+  // Visit all neighbouring faces on faceSet. Stay on this 'side' of
+  // face by doing edge-face-cell walk.
+  const labelList& fEdges = mesh.faceEdges()[faceI];
+  FOR_ALL(fEdges, fEdgeI) {
+    label edgeI = fEdges[fEdgeI];
+    if (fenceEdges.found(edgeI))
+      continue;
+    // Step along faces on edge from cell to cell until
+    // we hit face on faceSet.
+    // Find face reachable from edge
+    label otherFaceI = otherFace(mesh, cellI, faceI, edgeI);
+    if (!mesh.isInternalFace(otherFaceI))
+      continue;
+    label otherCellI = cellI;
+    // Keep on crossing faces/cells until back on face on
+    // surface
+    while (!region.found(otherFaceI)) {
+      visitedFace.insert(otherFaceI);
+      if (debug) {
+        Info << "visitConnectedFaces : cellI:" << cellI
+          << " found insideEdgeFace:" << otherFaceI
+          << endl;
+      }
+      // Cross otherFaceI into neighbouring cell
+      otherCellI =
+        meshTools::otherCell
+        (
+          mesh,
+          otherCellI,
+          otherFaceI
+        );
+      otherFaceI =
+          otherFace
           (
             mesh,
-            region,
-            fenceEdges,
             otherCellI,
             otherFaceI,
-            visitedFace
+            edgeI
           );
-        }
-      }
     }
+    visitConnectedFaces
+    (
+      mesh,
+      region,
+      fenceEdges,
+      otherCellI,
+      otherFaceI,
+      visitedFace
+    );
   }
 }
+
 
 // From edge on face connected to point on region (regionPointI) cross
 // to all other edges using this point by walking across faces
@@ -173,8 +163,7 @@ void mousse::regionSide::walkPointConnectedFaces
 {
   // Mark as visited
   insidePointFaces_.insert(startFaceI);
-  if (debug)
-  {
+  if (debug) {
     Info << "walkPointConnectedFaces : regionPointI:" << regionPointI
       << " faceI:" << startFaceI
       << " edgeI:" << startEdgeI << " verts:"
@@ -183,38 +172,35 @@ void mousse::regionSide::walkPointConnectedFaces
   }
   // Cross faceI i.e. get edge not startEdgeI which uses regionPointI
   label edgeI = otherEdge(mesh, startFaceI, startEdgeI, regionPointI);
-  if (!regionEdges.found(edgeI))
-  {
-    if (!visitedEdges.found(edgeI))
-    {
-      visitedEdges.insert(edgeI);
-      if (debug)
-      {
-        Info << "Crossed face from "
-          << " edgeI:" << startEdgeI << " verts:"
-          << mesh.edges()[startEdgeI]
-          << " to edge:" << edgeI << " verts:"
-          << mesh.edges()[edgeI]
-          << endl;
-      }
-      // Cross edge to all faces connected to it.
-      const labelList& eFaces = mesh.edgeFaces()[edgeI];
-      FOR_ALL(eFaces, eFaceI)
-      {
-        label faceI = eFaces[eFaceI];
-        walkPointConnectedFaces
-        (
-          mesh,
-          regionEdges,
-          regionPointI,
-          faceI,
-          edgeI,
-          visitedEdges
-        );
-      }
-    }
+  if (regionEdges.found(edgeI))
+    return;
+  if (visitedEdges.found(edgeI))
+    return;
+  visitedEdges.insert(edgeI);
+  if (debug) {
+    Info << "Crossed face from "
+      << " edgeI:" << startEdgeI << " verts:"
+      << mesh.edges()[startEdgeI]
+      << " to edge:" << edgeI << " verts:"
+      << mesh.edges()[edgeI]
+      << endl;
+  }
+  // Cross edge to all faces connected to it.
+  const labelList& eFaces = mesh.edgeFaces()[edgeI];
+  FOR_ALL(eFaces, eFaceI) {
+    label faceI = eFaces[eFaceI];
+    walkPointConnectedFaces
+    (
+      mesh,
+      regionEdges,
+      regionPointI,
+      faceI,
+      edgeI,
+      visitedEdges
+    );
   }
 }
+
 
 // Find all faces reachable from all non-fence points and staying on
 // regionFaces side.
@@ -225,58 +211,42 @@ void mousse::regionSide::walkAllPointConnectedFaces
   const labelHashSet& fencePoints
 )
 {
-  //
   // Get all (internal and external) edges on region.
-  //
   labelHashSet regionEdges{4*regionFaces.size()};
-  FOR_ALL_CONST_ITER(labelHashSet, regionFaces, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, regionFaces, iter) {
     const label faceI = iter.key();
     const labelList& fEdges = mesh.faceEdges()[faceI];
-    FOR_ALL(fEdges, fEdgeI)
-    {
+    FOR_ALL(fEdges, fEdgeI) {
       regionEdges.insert(fEdges[fEdgeI]);
     }
   }
-  //
   // Visit all internal points on surface.
-  //
   // Storage for visited points
   labelHashSet visitedPoint{4*regionFaces.size()};
   // Insert fence points so we don't visit them
-  FOR_ALL_CONST_ITER(labelHashSet, fencePoints, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, fencePoints, iter) {
     visitedPoint.insert(iter.key());
   }
   labelHashSet visitedEdges{2*fencePoints.size()};
-  if (debug)
-  {
+  if (debug) {
     Info << "Excluding visit of points:" << visitedPoint << endl;
   }
-  FOR_ALL_CONST_ITER(labelHashSet, regionFaces, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, regionFaces, iter) {
     const label faceI = iter.key();
     // Get side of face.
-    label cellI;
-    if (sideOwner_.found(faceI))
-    {
-      cellI = mesh.faceOwner()[faceI];
-    }
-    else
-    {
-      cellI = mesh.faceNeighbour()[faceI];
-    }
+    label  cellI =
+      (sideOwner_.found(faceI))
+      ? mesh.faceOwner()[faceI]
+      : mesh.faceNeighbour()[faceI];
     // Find starting point and edge on face.
     const labelList& fEdges = mesh.faceEdges()[faceI];
-    FOR_ALL(fEdges, fEdgeI)
-    {
+    FOR_ALL(fEdges, fEdgeI) {
       label edgeI = fEdges[fEdgeI];
       // Get the face 'perpendicular' to faceI on region.
       label otherFaceI = otherFace(mesh, cellI, faceI, edgeI);
       // Edge
       const edge& e = mesh.edges()[edgeI];
-      if (!visitedPoint.found(e.start()))
-      {
+      if (!visitedPoint.found(e.start())) {
         Info << "Determining visibility from point " << e.start()
           << endl;
         visitedPoint.insert(e.start());
@@ -291,8 +261,7 @@ void mousse::regionSide::walkAllPointConnectedFaces
           visitedEdges
         );
       }
-      if (!visitedPoint.found(e.end()))
-      {
+      if (!visitedPoint.found(e.end())) {
         Info << "Determining visibility from point " << e.end()
           << endl;
         visitedPoint.insert(e.end());
@@ -310,6 +279,7 @@ void mousse::regionSide::walkAllPointConnectedFaces
     }
   }
 }
+
 
 // Constructors 
 // Construct from components
@@ -344,11 +314,11 @@ mousse::regionSide::regionSide
   // Sets insidePointFaces_.
   //
   labelHashSet fencePoints{fenceEdges.size()};
-  FOR_ALL_CONST_ITER(labelHashSet, fenceEdges, iter)
-  {
+  FOR_ALL_CONST_ITER(labelHashSet, fenceEdges, iter) {
     const edge& e = mesh.edges()[iter.key()];
     fencePoints.insert(e.start());
     fencePoints.insert(e.end());
   }
   walkAllPointConnectedFaces(mesh, region, fencePoints);
 }
+

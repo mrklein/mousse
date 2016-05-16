@@ -3,11 +3,16 @@
 // Copyright (C) 2016 mousse project
 
 #include "motion_smoother.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
-  DEFINE_TYPE_NAME_AND_DEBUG(motionSmoother, 0);
+namespace mousse {
+
+DEFINE_TYPE_NAME_AND_DEBUG(motionSmoother, 0);
+
 }
+
+
 // Constructors 
 mousse::motionSmoother::motionSmoother
 (
@@ -18,9 +23,9 @@ mousse::motionSmoother::motionSmoother
   const dictionary& paramDict
 )
 :
-  motionSmootherData(pMesh),
+  motionSmootherData{pMesh},
   motionSmootherAlgo
-  (
+  {
     mesh,
     pMesh,
     pp,
@@ -29,8 +34,10 @@ mousse::motionSmoother::motionSmoother
     motionSmootherData::oldPoints_,
     adaptPatchIDs,
     paramDict
-  )
+  }
 {}
+
+
 mousse::motionSmoother::motionSmoother
 (
   polyMesh& mesh,
@@ -40,9 +47,9 @@ mousse::motionSmoother::motionSmoother
   const dictionary& paramDict
 )
 :
-  motionSmootherData(displacement),
+  motionSmootherData{displacement},
   motionSmootherAlgo
-  (
+  {
     mesh,
     const_cast<pointMesh&>(displacement.mesh()),
     pp,
@@ -51,5 +58,6 @@ mousse::motionSmoother::motionSmoother
     motionSmootherData::oldPoints_,
     adaptPatchIDs,
     paramDict
-  )
+  }
 {}
+

@@ -565,14 +565,14 @@ public:
       virtual bool checkFaceOrthogonality
       (
         const bool report = false,
-        labelHashSet* setPtr = NULL
+        labelHashSet* setPtr = nullptr
       ) const;
 
       //- Check face skewness
       virtual bool checkFaceSkewness
       (
         const bool report = false,
-        labelHashSet* setPtr = NULL
+        labelHashSet* setPtr = nullptr
       ) const;
 
       //- Check edge alignment for 1D/2D cases
@@ -602,7 +602,7 @@ public:
       (
         const bool report,
         const scalar minWeight = 0.05,
-        labelHashSet* setPtr = NULL
+        labelHashSet* setPtr = nullptr
       ) const;
 
       //- Check for neighbouring cell volumes
@@ -610,7 +610,7 @@ public:
       (
         const bool report,
         const scalar minRatio = 0.01,
-        labelHashSet* setPtr = NULL
+        labelHashSet* setPtr = nullptr
       ) const;
 
     // Position search functions

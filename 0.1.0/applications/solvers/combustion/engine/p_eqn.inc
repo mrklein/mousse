@@ -3,8 +3,7 @@ volScalarField rAU{1.0/UEqn.A()};
 surfaceScalarField rhorAUf{"rhorAUf", fvc::interpolate(rho*rAU)};
 volVectorField HbyA{"HbyA", U};
 HbyA = rAU*UEqn.H();
-if (pimple.transonic())
-{
+if (pimple.transonic()) {
   surfaceScalarField phid
   {
     "phid",
@@ -14,25 +13,20 @@ if (pimple.transonic())
   };
   fvc::makeRelative(phid, psi, U);
   MRF.makeRelative(fvc::interpolate(psi), phid);
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvm::ddt(psi, p)
-      + fvm::div(phid, p)
-      - fvm::laplacian(rho*rAU, p)
-      ==
+    + fvm::div(phid, p)
+    - fvm::laplacian(rho*rAU, p)
+    ==
       fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi == pEqn.flux();
     }
   }
-}
-else
-{
+} else {
   surfaceScalarField phiHbyA
   {
     "phiHbyA",
@@ -41,19 +35,16 @@ else
   };
   fvc::makeRelative(phiHbyA, rho, U);
   MRF.makeRelative(fvc::interpolate(rho), phiHbyA);
-  while (pimple.correctNonOrthogonal())
-  {
-    fvScalarMatrix pEqn
-    {
+  while (pimple.correctNonOrthogonal()) {
+    fvScalarMatrix pEqn {
       fvm::ddt(psi, p)
-      + fvc::div(phiHbyA)
-      - fvm::laplacian(rho*rAU, p)
+    + fvc::div(phiHbyA)
+    - fvm::laplacian(rho*rAU, p)
       ==
       fvOptions(psi, p, rho.name())
     };
     pEqn.solve(mesh.solver(p.select(pimple.finalInnerIter())));
-    if (pimple.finalNonOrthogonalIter())
-    {
+    if (pimple.finalNonOrthogonalIter()) {
       phi = phiHbyA + pEqn.flux();
     }
   }
@@ -64,14 +55,11 @@ U = HbyA - rAU*fvc::grad(p);
 U.correctBoundaryConditions();
 fvOptions.correct(U);
 K = 0.5*magSqr(U);
-
 {
   rhoUf = fvc::interpolate(rho*U);
   surfaceVectorField n{mesh.Sf()/mesh.magSf()};
   rhoUf += n*(fvc::absolute(phi, rho, U)/mesh.magSf() - (n & rhoUf));
 }
-
-if (thermo.dpdt())
-{
+if (thermo.dpdt()) {
   dpdt = fvc::ddt(p) - fvc::div(fvc::meshPhi(rho, U), p);
 }

@@ -8,11 +8,12 @@
 //   mousse::ParticleTracks
 // Description
 //   Records particle state (all variables) on each call to postFace
-// SourceFiles
-//   _particle_tracks.cpp
+
 #include "_cloud_function_object.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleTracks
 :
@@ -23,7 +24,7 @@ class ParticleTracks
       //- Convenience typedef for parcel type
       typedef typename CloudType::parcelType parcelType;
       //- Convenience typedef for hash hit-table
-      typedef HashTable<label, labelPair, typename labelPair::Hash<> >
+      typedef HashTable<label, labelPair, typename labelPair::Hash<>>
         hitTableType;
     //- Number of face-hit intervals between storing parcel data
     label trackInterval_;
@@ -34,7 +35,7 @@ class ParticleTracks
     //- Table of number of times a particle has hit a face
     hitTableType faceHitCounter_;
     //- Pointer to the cloud storage
-    autoPtr<Cloud<parcelType> > cloudPtr_;
+    autoPtr<Cloud<parcelType>> cloudPtr_;
 protected:
   // Protected member functions
     //- Write post-processing info
@@ -53,12 +54,13 @@ public:
     //- Construct copy
     ParticleTracks(const ParticleTracks<CloudType>& ppm);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new ParticleTracks<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new ParticleTracks<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParticleTracks();
@@ -87,34 +89,43 @@ public:
 };
 }  // namespace mousse
 
+
 template<class CloudType>
 inline mousse::label mousse::ParticleTracks<CloudType>::trackInterval() const
 {
   return trackInterval_;
 }
+
+
 template<class CloudType>
 inline mousse::label mousse::ParticleTracks<CloudType>::maxSamples() const
 {
   return maxSamples_;
 }
+
+
 template<class CloudType>
 inline const mousse::Switch& mousse::ParticleTracks<CloudType>::resetOnWrite() const
 {
   return resetOnWrite_;
 }
+
+
 template<class CloudType>
 inline const typename mousse::ParticleTracks<CloudType>::hitTableType&
 mousse::ParticleTracks<CloudType>::faceHitCounter() const
 {
   return faceHitCounter_;
 }
+
+
 template<class CloudType>
 inline const mousse::Cloud<typename CloudType::parcelType>&
 mousse::ParticleTracks<CloudType>::cloud() const
 {
   return cloudPtr_();
 }
-#ifdef NoRepository
-  #include "_particle_tracks.cpp"
-#endif
+
+#include "_particle_tracks.ipp"
+
 #endif

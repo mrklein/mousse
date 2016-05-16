@@ -4,6 +4,8 @@
 
 #include "error.hpp"
 #include "scatter_model.hpp"
+
+
 // Constructors 
 mousse::autoPtr<mousse::radiation::scatterModel> mousse::radiation::scatterModel::New
 (
@@ -11,20 +13,22 @@ mousse::autoPtr<mousse::radiation::scatterModel> mousse::radiation::scatterModel
   const fvMesh& mesh
 )
 {
-  const word modelType(dict.lookup("scatterModel"));
-  Info<< "Selecting scatterModel " << modelType << endl;
+  const word modelType{dict.lookup("scatterModel")};
+  Info << "Selecting scatterModel " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "scatterModel::New(const dictionary&, const fvMesh&)"
-    )   << "Unknown scatterModel type "
-      << modelType << nl << nl
-      << "Valid scatterModel types are :" << nl
-      << dictionaryConstructorTablePtr_->sortedToc()
-      << exit(FatalError);
+    )
+    << "Unknown scatterModel type "
+    << modelType << nl << nl
+    << "Valid scatterModel types are :" << nl
+    << dictionaryConstructorTablePtr_->sortedToc()
+    << exit(FatalError);
   }
-  return autoPtr<scatterModel>(cstrIter()(dict, mesh));
+
+  return autoPtr<scatterModel>{cstrIter()(dict, mesh)};
 }
+

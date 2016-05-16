@@ -18,9 +18,12 @@
 //       e           1;       // optional - elasticity coeff
 //       mu          0;       // optional - restitution coeff
 //     }
+
 #include "_patch_interaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class StandardWallInteraction
 :
@@ -53,12 +56,13 @@ public:
     //- Construct copy from owner cloud and patch interaction model
     StandardWallInteraction(const StandardWallInteraction<CloudType>& pim);
     //- Construct and return a clone using supplied owner cloud
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const
     {
-      return autoPtr<PatchInteractionModel<CloudType> >
-      (
-        new StandardWallInteraction<CloudType>(*this)
-      );
+      return
+        autoPtr<PatchInteractionModel<CloudType>>
+        {
+          new StandardWallInteraction<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~StandardWallInteraction();
@@ -77,8 +81,9 @@ public:
       //- Write patch interaction info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_standard_wall_interaction.cpp"
-#endif
+
+#include "_standard_wall_interaction.ipp"
+
 #endif

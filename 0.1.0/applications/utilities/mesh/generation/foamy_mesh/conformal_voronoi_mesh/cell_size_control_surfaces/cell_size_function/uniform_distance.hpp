@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::uniformDistance
-// Description
-// SourceFiles
-//   uniform_distance.cpp
+
 #include "cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class uniformDistance
 :
   public cellSizeFunction
@@ -60,5 +60,8 @@ public:
       const pointField& pts
     );
 };
+
 }  // namespace mousse
+
 #endif
+

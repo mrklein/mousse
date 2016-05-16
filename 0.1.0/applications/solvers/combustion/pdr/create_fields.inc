@@ -1,8 +1,5 @@
 Info << "Reading thermophysical properties\n" << endl;
-autoPtr<psiuReactionThermo> pThermo
-{
-  psiuReactionThermo::New(mesh)
-};
+autoPtr<psiuReactionThermo> pThermo{psiuReactionThermo::New(mesh)};
 psiuReactionThermo& thermo = pThermo();
 thermo.validate(args.executable(), "ha", "ea");
 basicMultiComponentMixture& composition = thermo.composition();
@@ -181,3 +178,4 @@ fields.add(b);
 fields.add(thermo.he());
 fields.add(thermo.heu());
 flameWrinkling->addXi(fields);
+

@@ -8,16 +8,17 @@
 //   mousse::PDRDragModel
 // Description
 //   Base-class for sub-grid obstacle drag models. The available drag model is at
-//   \link basic.H \endlink.
-// SourceFiles
-//   pdr_drag_model.cpp
+//   \link basic.hpp \endlink.
+
 #include "iodictionary.hpp"
 #include "psiu_reaction_thermo.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 #include "multivariate_surface_interpolation_scheme.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class PDRDragModel
 :
   public regIOobject
@@ -94,14 +95,14 @@ public:
     using regIOobject::read;
     //- Update properties from given dictionary
     virtual bool read(const dictionary& PDRProperties) = 0;
-    virtual bool writeData(Ostream&) const
-    {
-      return true;
-    }
+    virtual bool writeData(Ostream&) const { return true; }
     virtual void writeFields() const
     {
       NOT_IMPLEMENTED("PDRDragModel::write()");
     }
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -23,8 +23,10 @@
 #include "polynomial_transport.hpp"
 #include "he_rho_thermo.hpp"
 #include "pure_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Private static data
 MAKE_THERMO
 (
@@ -37,6 +39,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -48,6 +52,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -59,6 +65,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -70,6 +78,8 @@ MAKE_THERMO
   rhoConst,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -81,6 +91,8 @@ MAKE_THERMO
   perfectFluid,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -92,6 +104,8 @@ MAKE_THERMO
   adiabaticPerfectFluid,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -103,6 +117,8 @@ MAKE_THERMO
   icoPolynomial,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -114,6 +130,8 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -125,6 +143,8 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -136,6 +156,8 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -147,6 +169,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -158,6 +182,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -169,6 +195,8 @@ MAKE_THERMO
   PengRobinsonGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -180,6 +208,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -191,6 +221,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -202,6 +234,8 @@ MAKE_THERMO
   perfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -213,6 +247,8 @@ MAKE_THERMO
   rhoConst,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -224,6 +260,8 @@ MAKE_THERMO
   perfectFluid,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -235,6 +273,8 @@ MAKE_THERMO
   adiabaticPerfectFluid,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -246,6 +286,8 @@ MAKE_THERMO
   icoPolynomial,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -257,6 +299,8 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -268,6 +312,8 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
+
 MAKE_THERMO
 (
   rhoThermo,
@@ -279,4 +325,6 @@ MAKE_THERMO
   incompressiblePerfectGas,
   specie
 );
+
 }  // namespace mousse
+

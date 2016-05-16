@@ -57,6 +57,7 @@
     }                                                                         \
   }
 
+
 // internal use:
 // constructor/destructor aid
 #define DEFINE_GLOBAL_FUNCTION_SELECTION_TABLE_CONSTRUCT_DESTRUCT\
@@ -80,9 +81,10 @@
     if (memberFunction##argNames##MemberFunctionTablePtr_)                    \
     {                                                                         \
       delete memberFunction##argNames##MemberFunctionTablePtr_;               \
-      memberFunction##argNames##MemberFunctionTablePtr_ = NULL;               \
+      memberFunction##argNames##MemberFunctionTablePtr_ = nullptr;            \
     }                                                                         \
   }
+
 
 // internal use:
 // create pointer to hash-table of functions
@@ -91,7 +93,8 @@
                                                                               \
   /* Define the memberFunction table */                                       \
   memberFunction##argNames##MemberFunctionTable*                              \
-    memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+    memberFunction##argNames##MemberFunctionTablePtr_ = nullptr
+
 
 // external use:
 // ~~~~~~~~~~~~~

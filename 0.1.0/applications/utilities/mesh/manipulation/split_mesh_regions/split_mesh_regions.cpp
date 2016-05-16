@@ -19,7 +19,9 @@
 #include "fv_mesh_tools.hpp"
 #include "zero_gradient_fv_patch_fields.hpp"
 
+
 using namespace mousse;
+
 
 // Prepend prefix to selected patches.
 void renamePatches
@@ -31,12 +33,10 @@ void renamePatches
 {
   polyBoundaryMesh& polyPatches =
     const_cast<polyBoundaryMesh&>(mesh.boundaryMesh());
-  FOR_ALL(patchesToRename, i)
-  {
+  FOR_ALL(patchesToRename, i) {
     label patchI = patchesToRename[i];
     polyPatch& pp = polyPatches[patchI];
-    if (isA<coupledPolyPatch>(pp))
-    {
+    if (isA<coupledPolyPatch>(pp)) {
       WARNING_IN
       (
         "renamePatches(fvMesh&, const word&, const labelList&"
@@ -53,6 +53,7 @@ void renamePatches
   polyPatches.updateMesh();
 }
 
+
 template<class GeoField>
 void subsetVolFields
 (
@@ -68,8 +69,7 @@ void subsetVolFields
   {
     mesh.objectRegistry::lookupClass<GeoField>()
   };
-  FOR_ALL_CONST_ITER(typename HashTable<const GeoField*>, fields, iter)
-  {
+  FOR_ALL_CONST_ITER(typename HashTable<const GeoField*>, fields, iter) {
     const GeoField& fld = *iter();
     Info << "Mapping field " << fld.name() << endl;
     tmp<GeoField> tSubFld
@@ -85,10 +85,8 @@ void subsetVolFields
     };
     // Hack: set value to 0 for introduced patches (since don't
     //       get initialised.
-    FOR_ALL(tSubFld().boundaryField(), patchI)
-    {
-      if (addedPatches.found(patchI))
-      {
+    FOR_ALL(tSubFld().boundaryField(), patchI) {
+      if (addedPatches.found(patchI)) {
         tSubFld().boundaryField()[patchI] ==
           pTraits<typename GeoField::value_type>::zero;
       }
@@ -100,6 +98,7 @@ void subsetVolFields
     subFld->store();
   }
 }
+
 
 template<class GeoField>
 void subsetSurfaceFields
@@ -115,8 +114,7 @@ void subsetSurfaceFields
   {
     mesh.objectRegistry::lookupClass<GeoField>()
   };
-  FOR_ALL_CONST_ITER(typename HashTable<const GeoField*>, fields, iter)
-  {
+  FOR_ALL_CONST_ITER(typename HashTable<const GeoField*>, fields, iter) {
     const GeoField& fld = *iter();
     Info << "Mapping field " << fld.name() << endl;
     tmp<GeoField> tSubFld
@@ -131,10 +129,8 @@ void subsetSurfaceFields
     };
     // Hack: set value to 0 for introduced patches (since don't
     //       get initialised.
-    FOR_ALL(tSubFld().boundaryField(), patchI)
-    {
-      if (addedPatches.found(patchI))
-      {
+    FOR_ALL(tSubFld().boundaryField(), patchI) {
+      if (addedPatches.found(patchI)) {
         tSubFld().boundaryField()[patchI] ==
           pTraits<typename GeoField::value_type>::zero;
       }
@@ -147,19 +143,19 @@ void subsetSurfaceFields
   }
 }
 
+
 // Select all cells not in the region
 labelList getNonRegionCells(const labelList& cellRegion, const label regionI)
 {
   DynamicList<label> nonRegionCells{cellRegion.size()};
-  FOR_ALL(cellRegion, cellI)
-  {
-    if (cellRegion[cellI] != regionI)
-    {
+  FOR_ALL(cellRegion, cellI) {
+    if (cellRegion[cellI] != regionI) {
       nonRegionCells.append(cellI);
     }
   }
   return nonRegionCells.shrink();
 }
+
 
 void addToInterface
 (
@@ -170,40 +166,26 @@ void addToInterface
   EdgeMap<Map<label> >& regionsToSize
 )
 {
-  edge interface
-  {
-    min(ownRegion, neiRegion),
-    max(ownRegion, neiRegion)
-  };
-
-  EdgeMap<Map<label>>::iterator iter = regionsToSize.find
-  (
-    interface
-  );
-
-  if (iter != regionsToSize.end())
-  {
+  edge interface{min(ownRegion, neiRegion), max(ownRegion, neiRegion)};
+  EdgeMap<Map<label>>::iterator iter = regionsToSize.find(interface);
+  if (iter != regionsToSize.end()) {
     // Check if zone present
     Map<label>::iterator zoneFnd = iter().find(zoneID);
-    if (zoneFnd != iter().end())
-    {
+    if (zoneFnd != iter().end()) {
       // Found zone. Increment count.
       zoneFnd()++;
-    }
-    else
-    {
+    } else {
       // New or no zone. Insert with count 1.
       iter().insert(zoneID, 1);
     }
-  }
-  else
-  {
+  } else {
     // Create new interface of size 1.
     Map<label> zoneToSize;
     zoneToSize.insert(zoneID, 1);
     regionsToSize.insert(interface, zoneToSize);
   }
 }
+
 
 // Get region-region interface name and sizes.
 // Returns interfaces as straight list for looping in identical order.
@@ -223,12 +205,10 @@ void getInterfaceSizes
   EdgeMap<Map<label>> regionsToSize;
   // Internal faces
   // ~~~~~~~~~~~~~~
-  FOR_ALL(mesh.faceNeighbour(), faceI)
-  {
+  FOR_ALL(mesh.faceNeighbour(), faceI) {
     label ownRegion = cellRegion[mesh.faceOwner()[faceI]];
     label neiRegion = cellRegion[mesh.faceNeighbour()[faceI]];
-    if (ownRegion != neiRegion)
-    {
+    if (ownRegion != neiRegion) {
       addToInterface
       (
         mesh,
@@ -243,19 +223,16 @@ void getInterfaceSizes
   // ~~~~~~~~~~~~~~
   // Neighbour cellRegion.
   labelList coupledRegion{mesh.nFaces()-mesh.nInternalFaces()};
-  FOR_ALL(coupledRegion, i)
-  {
+  FOR_ALL(coupledRegion, i) {
     label cellI = mesh.faceOwner()[i+mesh.nInternalFaces()];
     coupledRegion[i] = cellRegion[cellI];
   }
   syncTools::swapBoundaryFaceList(mesh, coupledRegion);
-  FOR_ALL(coupledRegion, i)
-  {
+  FOR_ALL(coupledRegion, i) {
     label faceI = i+mesh.nInternalFaces();
     label ownRegion = cellRegion[mesh.faceOwner()[faceI]];
     label neiRegion = coupledRegion[i];
-    if (ownRegion != neiRegion)
-    {
+    if (ownRegion != neiRegion) {
       addToInterface
       (
         mesh,
@@ -266,57 +243,37 @@ void getInterfaceSizes
       );
     }
   }
-
-  if (Pstream::parRun())
-  {
-    if (Pstream::master())
-    {
+  if (Pstream::parRun()) {
+    if (Pstream::master()) {
       // Receive and add to my sizes
-      for
-      (
-        int slave=Pstream::firstSlave();
-        slave<=Pstream::lastSlave();
-        slave++
-      )
-      {
+      for (int slave=Pstream::firstSlave();
+           slave<=Pstream::lastSlave();
+           slave++) {
         IPstream fromSlave{Pstream::blocking, slave};
         EdgeMap<Map<label>> slaveSizes{fromSlave};
-        FOR_ALL_CONST_ITER(EdgeMap<Map<label>>, slaveSizes, slaveIter)
-        {
+        FOR_ALL_CONST_ITER(EdgeMap<Map<label>>, slaveSizes, slaveIter) {
           EdgeMap<Map<label>>::iterator masterIter =
             regionsToSize.find(slaveIter.key());
-          if (masterIter != regionsToSize.end())
-          {
+          if (masterIter != regionsToSize.end()) {
             // Same inter-region
             const Map<label>& slaveInfo = slaveIter();
             Map<label>& masterInfo = masterIter();
-            FOR_ALL_CONST_ITER(Map<label>, slaveInfo, iter)
-            {
+            FOR_ALL_CONST_ITER(Map<label>, slaveInfo, iter) {
               label zoneID = iter.key();
               label slaveSize = iter();
-              Map<label>::iterator zoneFnd = masterInfo.find
-              (
-                zoneID
-              );
-              if (zoneFnd != masterInfo.end())
-              {
+              auto zoneFnd = masterInfo.find(zoneID);
+              if (zoneFnd != masterInfo.end()) {
                 zoneFnd() += slaveSize;
-              }
-              else
-              {
+              } else {
                 masterInfo.insert(zoneID, slaveSize);
               }
             }
-          }
-          else
-          {
+          } else {
             regionsToSize.insert(slaveIter.key(), slaveIter());
           }
         }
       }
-    }
-    else
-    {
+    } else {
       // Send to master
       {
         OPstream toMaster{Pstream::blocking, Pstream::masterNo()};
@@ -329,8 +286,7 @@ void getInterfaceSizes
   // Now we have the global sizes of all inter-regions.
   // Invert this on master and distribute.
   label nInterfaces = 0;
-  FOR_ALL_CONST_ITER(EdgeMap<Map<label>>, regionsToSize, iter)
-  {
+  FOR_ALL_CONST_ITER(EdgeMap<Map<label>>, regionsToSize, iter) {
     const Map<label>& info = iter();
     nInterfaces += info.size();
   }
@@ -339,40 +295,34 @@ void getInterfaceSizes
   interfaceSizes.setSize(nInterfaces);
   EdgeMap<Map<label>> regionsToInterface{nInterfaces};
   nInterfaces = 0;
-  FOR_ALL_CONST_ITER(EdgeMap<Map<label> >, regionsToSize, iter)
-  {
+  FOR_ALL_CONST_ITER(EdgeMap<Map<label> >, regionsToSize, iter) {
     const edge& e = iter.key();
     const word& name0 = regionNames[e[0]];
     const word& name1 = regionNames[e[1]];
     const Map<label>& info = iter();
-    FOR_ALL_CONST_ITER(Map<label>, info, infoIter)
-    {
+    FOR_ALL_CONST_ITER(Map<label>, info, infoIter) {
       interfaces[nInterfaces] = iter.key();
       label zoneID = infoIter.key();
-      if (zoneID == -1)
-      {
-        interfaceNames[nInterfaces] = Pair<word>
-        (
-          name0 + "_to_" + name1,
-          name1 + "_to_" + name0
-        );
-      }
-      else
-      {
+      if (zoneID == -1) {
+        interfaceNames[nInterfaces] =
+          Pair<word>
+          {
+            name0 + "_to_" + name1,
+            name1 + "_to_" + name0
+          };
+      } else {
         const word& zoneName = mesh.faceZones()[zoneID].name();
-        interfaceNames[nInterfaces] = Pair<word>
-        (
-          zoneName + "_" + name0 + "_to_" + name1,
-          zoneName + "_" + name1 + "_to_" + name0
-        );
+        interfaceNames[nInterfaces] =
+          Pair<word>
+          {
+            zoneName + "_" + name0 + "_to_" + name1,
+            zoneName + "_" + name1 + "_to_" + name0
+          };
       }
       interfaceSizes[nInterfaces] = infoIter();
-      if (regionsToInterface.found(e))
-      {
+      if (regionsToInterface.found(e)) {
         regionsToInterface[e].insert(zoneID, nInterfaces);
-      }
-      else
-      {
+      } else {
         Map<label> zoneAndInterface;
         zoneAndInterface.insert(zoneID, nInterfaces);
         regionsToInterface.insert(e, zoneAndInterface);
@@ -387,46 +337,42 @@ void getInterfaceSizes
   Pstream::scatter(regionsToInterface);
   // Mark all inter-region faces.
   faceToInterface.setSize(mesh.nFaces(), -1);
-  FOR_ALL(mesh.faceNeighbour(), faceI)
-  {
+  FOR_ALL(mesh.faceNeighbour(), faceI) {
     label ownRegion = cellRegion[mesh.faceOwner()[faceI]];
     label neiRegion = cellRegion[mesh.faceNeighbour()[faceI]];
-    if (ownRegion != neiRegion)
-    {
-      label zoneID = -1;
-      if (useFaceZones)
-      {
-        zoneID = mesh.faceZones().whichZone(faceI);
-      }
-      edge interface
-      (
-        min(ownRegion, neiRegion),
-        max(ownRegion, neiRegion)
-      );
-      faceToInterface[faceI] = regionsToInterface[interface][zoneID];
+    if (ownRegion == neiRegion)
+      continue;
+    label zoneID = -1;
+    if (useFaceZones) {
+      zoneID = mesh.faceZones().whichZone(faceI);
     }
+    edge interface
+    {
+      min(ownRegion, neiRegion),
+      max(ownRegion, neiRegion)
+    };
+    faceToInterface[faceI] = regionsToInterface[interface][zoneID];
   }
-  FOR_ALL(coupledRegion, i)
-  {
+  FOR_ALL(coupledRegion, i) {
     label faceI = i+mesh.nInternalFaces();
     label ownRegion = cellRegion[mesh.faceOwner()[faceI]];
     label neiRegion = coupledRegion[i];
-    if (ownRegion != neiRegion)
-    {
-      label zoneID = -1;
-      if (useFaceZones)
-      {
-        zoneID = mesh.faceZones().whichZone(faceI);
-      }
-      edge interface
-      (
-        min(ownRegion, neiRegion),
-        max(ownRegion, neiRegion)
-      );
-      faceToInterface[faceI] = regionsToInterface[interface][zoneID];
+    if (ownRegion == neiRegion)
+      continue;
+    label zoneID = -1;
+    if (useFaceZones) {
+      zoneID = mesh.faceZones().whichZone(faceI);
     }
+    edge interface
+    {
+      min(ownRegion, neiRegion),
+      max(ownRegion, neiRegion)
+    };
+    faceToInterface[faceI] = regionsToInterface[interface][zoneID];
   }
 }
+
+
 // Create mesh for region.
 autoPtr<mapPolyMesh> createRegionMesh
 (
@@ -454,9 +400,7 @@ autoPtr<mapPolyMesh> createRegionMesh
       false
     };
     Info << "Testing:" << io.objectPath() << endl;
-    if (!io.headerOk())
-    // if (!exists(io.objectPath()))
-    {
+    if (!io.headerOk()) {
       Info << "Writing dummy " << regionName/io.name() << endl;
       dictionary dummyDict;
       dictionary divDict;
@@ -479,17 +423,15 @@ autoPtr<mapPolyMesh> createRegionMesh
       IOobject::NO_WRITE,
       false
     };
-    if (!io.headerOk())
-    {
+    if (!io.headerOk()) {
       Info << "Writing dummy " << regionName/io.name() << endl;
       dictionary dummyDict;
-      IOdictionary(io, dummyDict).regIOobject::write();
+      IOdictionary{io, dummyDict}.regIOobject::write();
     }
   }
   // Neighbour cellRegion.
   labelList coupledRegion{mesh.nFaces()-mesh.nInternalFaces()};
-  FOR_ALL(coupledRegion, i)
-  {
+  FOR_ALL(coupledRegion, i) {
     label cellI = mesh.faceOwner()[i+mesh.nInternalFaces()];
     coupledRegion[i] = cellRegion[cellI];
   }
@@ -505,33 +447,24 @@ autoPtr<mapPolyMesh> createRegionMesh
   // face in same order (important!)
   labelList exposedFaces = cellRemover.getExposedFaces(cellsToRemove);
   labelList exposedPatchIDs{exposedFaces.size()};
-  FOR_ALL(exposedFaces, i)
-  {
+  FOR_ALL(exposedFaces, i) {
     label faceI = exposedFaces[i];
     label interfaceI = faceToInterface[faceI];
     label ownRegion = cellRegion[mesh.faceOwner()[faceI]];
     label neiRegion = -1;
-    if (mesh.isInternalFace(faceI))
-    {
+    if (mesh.isInternalFace(faceI)) {
       neiRegion = cellRegion[mesh.faceNeighbour()[faceI]];
-    }
-    else
-    {
+    } else {
       neiRegion = coupledRegion[faceI-mesh.nInternalFaces()];
     }
     // Check which side is being kept - determines which of the two
     // patches will be used.
     label otherRegion = -1;
-    if (ownRegion == regionI && neiRegion != regionI)
-    {
+    if (ownRegion == regionI && neiRegion != regionI) {
       otherRegion = neiRegion;
-    }
-    else if (ownRegion != regionI && neiRegion == regionI)
-    {
+    } else if (ownRegion != regionI && neiRegion == regionI) {
       otherRegion = ownRegion;
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("createRegionMesh(..)")
         << "Exposed face:" << faceI
         << " fc:" << mesh.faceCentres()[faceI]
@@ -541,12 +474,9 @@ autoPtr<mapPolyMesh> createRegionMesh
         << exit(FatalError);
     }
     // Find the patch.
-    if (regionI < otherRegion)
-    {
+    if (regionI < otherRegion) {
       exposedPatchIDs[i] = interfacePatches[interfaceI];
-    }
-    else
-    {
+    } else {
       exposedPatchIDs[i] = interfacePatches[interfaceI]+1;
     }
   }
@@ -558,20 +488,22 @@ autoPtr<mapPolyMesh> createRegionMesh
     exposedPatchIDs,
     meshMod
   );
-  autoPtr<mapPolyMesh> map = meshMod.makeMesh
-  (
-    newMesh,
-    {
-      regionName,
-      mesh.time().timeName(),
-      mesh.time(),
-      IOobject::NO_READ,
-      IOobject::AUTO_WRITE
-    },
-    mesh
-  );
+  autoPtr<mapPolyMesh> map =
+    meshMod.makeMesh
+    (
+      newMesh,
+      {
+        regionName,
+        mesh.time().timeName(),
+        mesh.time(),
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+      },
+      mesh
+    );
   return map;
 }
+
 
 void createAndWriteRegion
 (
@@ -588,20 +520,20 @@ void createAndWriteRegion
   Info << "Creating mesh for region " << regionI
     << ' ' << regionNames[regionI] << endl;
   autoPtr<fvMesh> newMesh;
-  autoPtr<mapPolyMesh> map = createRegionMesh
-  (
-    mesh,
-    cellRegion,
-    regionI,
-    regionNames[regionI],
-    interfacePatches,
-    faceToInterface,
-    newMesh
-  );
+  autoPtr<mapPolyMesh> map =
+    createRegionMesh
+    (
+      mesh,
+      cellRegion,
+      regionI,
+      regionNames[regionI],
+      interfacePatches,
+      faceToInterface,
+      newMesh
+    );
   // Make map of all added patches
   labelHashSet addedPatches{2*interfacePatches.size()};
-  FOR_ALL(interfacePatches, interfaceI)
-  {
+  FOR_ALL(interfacePatches, interfaceI) {
     addedPatches.insert(interfacePatches[interfaceI]);
     addedPatches.insert(interfacePatches[interfaceI]+1);
   }
@@ -694,45 +626,36 @@ void createAndWriteRegion
   label newI = 0;
   Info << "Deleting empty patches" << endl;
   // Assumes all non-proc boundaries are on all processors!
-  FOR_ALL(newPatches, patchI)
-  {
+  FOR_ALL(newPatches, patchI) {
     const polyPatch& pp = newPatches[patchI];
-    if (!isA<processorPolyPatch>(pp))
-    {
-      if (returnReduce(pp.size(), sumOp<label>()) > 0)
-      {
-        oldToNew[patchI] = newI;
-        if (!addedPatches.found(patchI))
-        {
-          sharedPatches.append(newI);
-        }
-        newI++;
-      }
+    if (isA<processorPolyPatch>(pp))
+      continue;
+    if (returnReduce(pp.size(), sumOp<label>()) <= 0)
+      continue;
+    oldToNew[patchI] = newI;
+    if (!addedPatches.found(patchI)) {
+      sharedPatches.append(newI);
     }
+    newI++;
   }
   // Same for processor patches (but need no reduction)
-  FOR_ALL(newPatches, patchI)
-  {
+  FOR_ALL(newPatches, patchI) {
     const polyPatch& pp = newPatches[patchI];
-    if (isA<processorPolyPatch>(pp) && pp.size())
-    {
+    if (isA<processorPolyPatch>(pp) && pp.size()) {
       oldToNew[patchI] = newI++;
     }
   }
   const label nNewPatches = newI;
   // Move all deleteable patches to the end
-  FOR_ALL(oldToNew, patchI)
-  {
-    if (oldToNew[patchI] == -1)
-    {
+  FOR_ALL(oldToNew, patchI) {
+    if (oldToNew[patchI] == -1) {
       oldToNew[patchI] = newI++;
     }
   }
   //reorderPatches(newMesh(), oldToNew, nNewPatches);
   fvMeshTools::reorderPatches(newMesh(), oldToNew, nNewPatches, true);
   // Rename shared patches with region name
-  if (prefixRegion)
-  {
+  if (prefixRegion) {
     Info << "Prefixing patches with region name" << endl;
     renamePatches(newMesh(), regionNames[regionI], sharedPatches);
   }
@@ -771,18 +694,14 @@ void createAndWriteRegion
     },
     newMesh().nFaces()
   };
-  FOR_ALL(faceProcAddressing, faceI)
-  {
+  FOR_ALL(faceProcAddressing, faceI) {
     // face + turning index. (see decomposePar)
     // Is the face pointing in the same direction?
     label oldFaceI = map().faceMap()[faceI];
     if (map().cellMap()[newMesh().faceOwner()[faceI]]
-        == mesh.faceOwner()[oldFaceI])
-    {
+        == mesh.faceOwner()[oldFaceI]) {
       faceProcAddressing[faceI] = oldFaceI+1;
-    }
-    else
-    {
+    } else {
       faceProcAddressing[faceI] = -(oldFaceI+1);
     }
   }
@@ -820,15 +739,12 @@ void createAndWriteRegion
     },
     labelList(nNewPatches, -1)
   };
-  FOR_ALL(oldToNew, i)
-  {
-    if (!addedPatches.found(i))
-    {
-      label newI = oldToNew[i];
-      if (newI >= 0 && newI < nNewPatches)
-      {
-        boundaryProcAddressing[oldToNew[i]] = i;
-      }
+  FOR_ALL(oldToNew, i) {
+    if (addedPatches.found(i))
+      continue;
+    label newI = oldToNew[i];
+    if (newI >= 0 && newI < nNewPatches) {
+      boundaryProcAddressing[oldToNew[i]] = i;
     }
   }
   Info << "Writing map " << boundaryProcAddressing.name()
@@ -836,6 +752,7 @@ void createAndWriteRegion
     << " boundary back to base mesh." << endl;
   boundaryProcAddressing.write();
 }
+
 
 // Create for every region-region interface with non-zero size two patches.
 // First one is for minimumregion to maximumregion.
@@ -851,8 +768,7 @@ labelList addRegionPatches
 {
   Info << nl << "Adding patches" << nl << endl;
   labelList interfacePatches{interfaces.size()};
-  FOR_ALL(interfaces, interI)
-  {
+  FOR_ALL(interfaces, interI) {
     const edge& e = interfaces[interI];
     const Pair<word>& names = interfaceNames[interI];
     mappedWallPolyPatch patch1
@@ -867,14 +783,15 @@ labelList addRegionPatches
       point::zero,        // offset
       mesh.boundaryMesh()
     };
-    interfacePatches[interI] = fvMeshTools::addPatch
-    (
-      mesh,
-      patch1,
-      dictionary(),   //optional per field value
-      calculatedFvPatchField<scalar>::typeName,
-      true            //validBoundary
-    );
+    interfacePatches[interI] =
+      fvMeshTools::addPatch
+      (
+        mesh,
+        patch1,
+        dictionary(),   //optional per field value
+        calculatedFvPatchField<scalar>::typeName,
+        true            //validBoundary
+      );
     mappedWallPolyPatch patch2
     {
       names[1],
@@ -907,6 +824,7 @@ labelList addRegionPatches
   return interfacePatches;
 }
 
+
 // Find region that covers most of cell zone
 label findCorrespondingRegion
 (
@@ -919,10 +837,8 @@ label findCorrespondingRegion
 {
   // Per region the number of cells in zoneI
   labelList cellsInZone{nCellRegions, 0};
-  FOR_ALL(cellRegion, cellI)
-  {
-    if (existingZoneID[cellI] == zoneI)
-    {
+  FOR_ALL(cellRegion, cellI) {
+    if (existingZoneID[cellI] == zoneI) {
       cellsInZone[cellRegion[cellI]]++;
     }
   }
@@ -930,18 +846,13 @@ label findCorrespondingRegion
   Pstream::listCombineScatter(cellsInZone);
   // Pick region with largest overlap of zoneI
   label regionI = findMax(cellsInZone);
-  if (cellsInZone[regionI] < minOverlapSize)
-  {
+  if (cellsInZone[regionI] < minOverlapSize) {
     // Region covers too little of zone. Not good enough.
     regionI = -1;
-  }
-  else
-  {
+  } else {
     // Check that region contains no cells that aren't in cellZone.
-    FOR_ALL(cellRegion, cellI)
-    {
-      if (cellRegion[cellI] == regionI && existingZoneID[cellI] != zoneI)
-      {
+    FOR_ALL(cellRegion, cellI) {
+      if (cellRegion[cellI] == regionI && existingZoneID[cellI] != zoneI) {
         // cellI in regionI but not in zoneI
         regionI = -1;
         break;
@@ -953,6 +864,7 @@ label findCorrespondingRegion
   }
   return regionI;
 }
+
 
 // Get zone per cell
 // - non-unique zoning
@@ -968,18 +880,13 @@ void getZoneID
   // Existing zoneID
   zoneID.setSize(mesh.nCells());
   zoneID = -1;
-  FOR_ALL(cellZones, zoneI)
-  {
+  FOR_ALL(cellZones, zoneI) {
     const cellZone& cz = cellZones[zoneI];
-    FOR_ALL(cz, i)
-    {
+    FOR_ALL(cz, i) {
       label cellI = cz[i];
-      if (zoneID[cellI] == -1)
-      {
+      if (zoneID[cellI] == -1) {
         zoneID[cellI] = zoneI;
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN("getZoneID(..)")
           << "Cell " << cellI << " with cell centre "
           << mesh.cellCentres()[cellI]
@@ -992,12 +899,12 @@ void getZoneID
   }
   // Neighbour zoneID.
   neiZoneID.setSize(mesh.nFaces()-mesh.nInternalFaces());
-  FOR_ALL(neiZoneID, i)
-  {
+  FOR_ALL(neiZoneID, i) {
     neiZoneID[i] = zoneID[mesh.faceOwner()[i+mesh.nInternalFaces()]];
   }
   syncTools::swapBoundaryFaceList(mesh, neiZoneID);
 }
+
 
 void matchRegions
 (
@@ -1026,45 +933,35 @@ void matchRegions
     zoneNames[Pstream::myProcNo()] = cellZones.names();
     Pstream::gatherList(zoneNames);
     Pstream::scatterList(zoneNames);
-    FOR_ALL(zoneNames, procI)
-    {
-      if (zoneNames[procI] != zoneNames[0])
-      {
-        FATAL_ERROR_IN("matchRegions(..)")
-          << "cellZones not synchronised across processors." << endl
-          << "Master has cellZones " << zoneNames[0] << endl
-          << "Processor " << procI
-          << " has cellZones " << zoneNames[procI]
-          << exit(FatalError);
-      }
+    FOR_ALL(zoneNames, procI) {
+      if (zoneNames[procI] == zoneNames[0])
+        continue;
+      FATAL_ERROR_IN("matchRegions(..)")
+        << "cellZones not synchronised across processors." << endl
+        << "Master has cellZones " << zoneNames[0] << endl
+        << "Processor " << procI
+        << " has cellZones " << zoneNames[procI]
+        << exit(FatalError);
     }
-    FOR_ALL(cellZones, zoneI)
-    {
-      zoneSizes[zoneI] = returnReduce
-      (
-        cellZones[zoneI].size(),
-        sumOp<label>()
-      );
+    FOR_ALL(cellZones, zoneI) {
+      zoneSizes[zoneI] = returnReduce(cellZones[zoneI].size(), sumOp<label>());
     }
   }
-  if (sloppyCellZones)
-  {
+  if (sloppyCellZones) {
     Info << "Trying to match regions to existing cell zones;"
       << " region can be subset of cell zone." << nl << endl;
-    FOR_ALL(cellZones, zoneI)
-    {
-      label regionI = findCorrespondingRegion
-      (
-        zoneID,
-        cellRegion,
-        nCellRegions,
-        zoneI,
-        label(0.5*zoneSizes[zoneI]) // minimum overlap
-      );
-      if (regionI != -1)
-      {
+    FOR_ALL(cellZones, zoneI) {
+      label regionI =
+        findCorrespondingRegion
+        (
+          zoneID,
+          cellRegion,
+          nCellRegions,
+          zoneI,
+          label(0.5*zoneSizes[zoneI]) // minimum overlap
+        );
+      if (regionI != -1) {
         Info << "Sloppily matched region " << regionI
-          //<< " size " << regionSizes[regionI]
           << " to zone " << zoneI << " size " << zoneSizes[zoneI]
           << endl;
         zoneToRegion[zoneI] = regionI;
@@ -1072,22 +969,19 @@ void matchRegions
         regionNames[regionI] = cellZones[zoneI].name();
       }
     }
-  }
-  else
-  {
+  } else {
     Info << "Trying to match regions to existing cell zones." << nl << endl;
-    FOR_ALL(cellZones, zoneI)
-    {
-      label regionI = findCorrespondingRegion
-      (
-        zoneID,
-        cellRegion,
-        nCellRegions,
-        zoneI,
-        1               // minimum overlap
-      );
-      if (regionI != -1)
-      {
+    FOR_ALL(cellZones, zoneI) {
+      label regionI =
+        findCorrespondingRegion
+        (
+          zoneID,
+          cellRegion,
+          nCellRegions,
+          zoneI,
+          1               // minimum overlap
+        );
+      if (regionI != -1) {
         zoneToRegion[zoneI] = regionI;
         regionToZone[regionI] = zoneI;
         regionNames[regionI] = cellZones[zoneI].name();
@@ -1095,14 +989,13 @@ void matchRegions
     }
   }
   // Allocate region names for unmatched regions.
-  FOR_ALL(regionToZone, regionI)
-  {
-    if (regionToZone[regionI] == -1)
-    {
+  FOR_ALL(regionToZone, regionI) {
+    if (regionToZone[regionI] == -1) {
       regionNames[regionI] = "domain" + mousse::name(regionI);
     }
   }
 }
+
 
 void writeCellToRegion(const fvMesh& mesh, const labelList& cellRegion)
 {
@@ -1142,8 +1035,7 @@ void writeCellToRegion(const fvMesh& mesh, const labelList& cellRegion)
       zeroGradientFvPatchScalarField::typeName
     };
 
-    FOR_ALL(cellRegion, cellI)
-    {
+    FOR_ALL(cellRegion, cellI) {
       cellToRegion[cellI] = cellRegion[cellI];
     }
     cellToRegion.write();
@@ -1151,6 +1043,7 @@ void writeCellToRegion(const fvMesh& mesh, const labelList& cellRegion)
       << cellToRegion.objectPath() << nl << endl;
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -1224,8 +1117,7 @@ int main(int argc, char *argv[])
   #include "create_named_mesh.inc"
   const word oldInstance = mesh.pointsInstance();
   word blockedFacesName;
-  if (args.optionReadIfPresent("blockedFaces", blockedFacesName))
-  {
+  if (args.optionReadIfPresent("blockedFaces", blockedFacesName)) {
     Info << "Reading blocked internal faces from faceSet "
       << blockedFacesName << nl << endl;
   }
@@ -1241,8 +1133,7 @@ int main(int argc, char *argv[])
   const bool useFaceZones = args.optionFound("useFaceZones");
   const bool prefixRegion = args.optionFound("prefixRegion");
   if ((useCellZonesOnly || useCellZonesFile)
-      && (useCellZones || blockedFacesName.size()))
-  {
+      && (useCellZones || blockedFacesName.size())) {
     FATAL_ERROR_IN(args.executable())
       << "You cannot specify both -cellZonesOnly or -cellZonesFileOnly"
       << " (which specify complete split)"
@@ -1250,19 +1141,15 @@ int main(int argc, char *argv[])
       << " (which imply a split based on topology)"
       << exit(FatalError);
   }
-  if (useFaceZones)
-  {
+  if (useFaceZones) {
     Info << "Using current faceZones to divide inter-region interfaces"
       << " into multiple patches."
       << nl << endl;
-  }
-  else
-  {
+  } else {
     Info << "Creating single patch per inter-region interface."
       << nl << endl;
   }
-  if (insidePoint && largestOnly)
-  {
+  if (insidePoint && largestOnly) {
     FATAL_ERROR_IN(args.executable())
       << "You cannot specify both -largestOnly"
       << " (keep region with most cells)"
@@ -1286,14 +1173,12 @@ int main(int argc, char *argv[])
   // Zone to region
   labelList zoneToRegion;
   label nCellRegions = 0;
-  if (useCellZonesOnly)
-  {
+  if (useCellZonesOnly) {
     Info << "Using current cellZones to split mesh into regions."
       << " This requires all"
       << " cells to be in one and only one cellZone." << nl << endl;
     label unzonedCellI = findIndex(zoneID, -1);
-    if (unzonedCellI != -1)
-    {
+    if (unzonedCellI != -1) {
       FATAL_ERROR_IN(args.executable())
         << "For the cellZonesOnly option all cells "
         << "have to be in a cellZone." << endl
@@ -1307,15 +1192,12 @@ int main(int argc, char *argv[])
     regionToZone.setSize(nCellRegions);
     regionNames.setSize(nCellRegions);
     zoneToRegion.setSize(cellZones.size(), -1);
-    for (label regionI = 0; regionI < nCellRegions; regionI++)
-    {
+    for (label regionI = 0; regionI < nCellRegions; regionI++) {
       regionToZone[regionI] = regionI;
       zoneToRegion[regionI] = regionI;
       regionNames[regionI] = cellZones[regionI].name();
     }
-  }
-  else if (useCellZonesFile)
-  {
+  } else if (useCellZonesFile) {
     const word zoneFile = args.option("cellZonesFileOnly");
     Info << "Reading split from cellZones file " << zoneFile << endl
       << "This requires all"
@@ -1337,8 +1219,7 @@ int main(int argc, char *argv[])
     labelList newNeiZoneID{mesh.nFaces()-mesh.nInternalFaces()};
     getZoneID(mesh, newCellZones, newZoneID, newNeiZoneID);
     label unzonedCellI = findIndex(newZoneID, -1);
-    if (unzonedCellI != -1)
-    {
+    if (unzonedCellI != -1) {
       FATAL_ERROR_IN(args.executable())
         << "For the cellZonesFileOnly option all cells "
         << "have to be in a cellZone." << endl
@@ -1352,51 +1233,41 @@ int main(int argc, char *argv[])
     zoneToRegion.setSize(newCellZones.size(), -1);
     regionToZone.setSize(nCellRegions);
     regionNames.setSize(nCellRegions);
-    for (label regionI = 0; regionI < nCellRegions; regionI++)
-    {
+    for (label regionI = 0; regionI < nCellRegions; regionI++) {
       regionToZone[regionI] = regionI;
       zoneToRegion[regionI] = regionI;
       regionNames[regionI] = newCellZones[regionI].name();
     }
-  }
-  else
-  {
+  } else {
     // Determine connected regions
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Mark additional faces that are blocked
     boolList blockedFace;
     // Read from faceSet
-    if (blockedFacesName.size())
-    {
+    if (blockedFacesName.size()) {
       faceSet blockedFaceSet{mesh, blockedFacesName};
       Info << "Read "
         << returnReduce(blockedFaceSet.size(), sumOp<label>())
         << " blocked faces from set " << blockedFacesName << nl << endl;
       blockedFace.setSize(mesh.nFaces(), false);
-      FOR_ALL_CONST_ITER(faceSet, blockedFaceSet, iter)
-      {
+      FOR_ALL_CONST_ITER(faceSet, blockedFaceSet, iter) {
         blockedFace[iter.key()] = true;
       }
     }
     // Imply from differing cellZones
-    if (useCellZones)
-    {
+    if (useCellZones) {
       blockedFace.setSize(mesh.nFaces(), false);
-      for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++)
-      {
+      for (label faceI = 0; faceI < mesh.nInternalFaces(); faceI++) {
         label own = mesh.faceOwner()[faceI];
         label nei = mesh.faceNeighbour()[faceI];
-        if (zoneID[own] != zoneID[nei])
-        {
+        if (zoneID[own] != zoneID[nei]) {
           blockedFace[faceI] = true;
         }
       }
       // Different cellZones on either side of processor patch.
-      FOR_ALL(neiZoneID, i)
-      {
+      FOR_ALL(neiZoneID, i) {
         label faceI = i + mesh.nInternalFaces();
-        if (zoneID[mesh.faceOwner()[faceI]] != neiZoneID[i])
-        {
+        if (zoneID[mesh.faceOwner()[faceI]] != neiZoneID[i]) {
           blockedFace[faceI] = true;
         }
       }
@@ -1417,24 +1288,16 @@ int main(int argc, char *argv[])
       zoneToRegion
     );
     // Override any default region names if single region selected
-    if (largestOnly || insidePoint)
-    {
-      FOR_ALL(regionToZone, regionI)
-      {
-        if (regionToZone[regionI] == -1)
-        {
-          if (overwrite)
-          {
-            regionNames[regionI] = polyMesh::defaultRegion;
-          }
-          else if (insidePoint)
-          {
-            regionNames[regionI] = "insidePoint";
-          }
-          else if (largestOnly)
-          {
-            regionNames[regionI] = "largestOnly";
-          }
+    if (largestOnly || insidePoint) {
+      FOR_ALL(regionToZone, regionI) {
+        if (regionToZone[regionI] != -1)
+          continue;
+        if (overwrite) {
+          regionNames[regionI] = polyMesh::defaultRegion;
+        } else if (insidePoint) {
+          regionNames[regionI] = "insidePoint";
+        } else if (largestOnly){
+          regionNames[regionI] = "largestOnly";
         }
       }
     }
@@ -1443,28 +1306,23 @@ int main(int argc, char *argv[])
   // Write decomposition to file
   writeCellToRegion(mesh, cellRegion);
   // Sizes per region
-  // ~~~~~~~~~~~~~~~~
   labelList regionSizes{nCellRegions, 0};
-  FOR_ALL(cellRegion, cellI)
-  {
+  FOR_ALL(cellRegion, cellI) {
     regionSizes[cellRegion[cellI]]++;
   }
-  FOR_ALL(regionSizes, regionI)
-  {
+  FOR_ALL(regionSizes, regionI) {
     reduce(regionSizes[regionI], sumOp<label>());
   }
   Info << "Region\tCells" << nl
     << "------\t-----" << endl;
-  FOR_ALL(regionSizes, regionI)
-  {
+  FOR_ALL(regionSizes, regionI) {
     Info << regionI << '\t' << regionSizes[regionI] << nl;
   }
   Info << endl;
   // Print region to zone
   Info << "Region\tZone\tName" << nl
     << "------\t----\t----" << endl;
-  FOR_ALL(regionToZone, regionI)
-  {
+  FOR_ALL(regionToZone, regionI) {
     Info << regionI << '\t' << regionToZone[regionI] << '\t'
       << regionNames[regionI] << nl;
   }
@@ -1498,16 +1356,14 @@ int main(int argc, char *argv[])
   Info << "Sizes of interfaces between regions:" << nl << nl
     << "Interface\tRegion\tRegion\tFaces" << nl
     << "---------\t------\t------\t-----" << endl;
-  FOR_ALL(interfaces, interI)
-  {
+  FOR_ALL(interfaces, interI) {
     const edge& e = interfaces[interI];
     Info << interI
       << "\t\t" << e[0] << '\t' << e[1]
       << '\t' << interfaceSizes[interI] << nl;
   }
   Info << endl;
-  if (detectOnly)
-  {
+  if (detectOnly) {
     return 0;
   }
   // Read objects in time directory
@@ -1538,32 +1394,24 @@ int main(int argc, char *argv[])
   Info << endl;
   // Remove any demand-driven fields ('S', 'V' etc)
   mesh.clearOut();
-  if (nCellRegions == 1)
-  {
+  if (nCellRegions == 1) {
     Info << "Only one region. Doing nothing." << endl;
-  }
-  else if (makeCellZones)
-  {
+  } else if (makeCellZones) {
     Info << "Putting cells into cellZones instead of splitting mesh."
       << endl;
     // Check if region overlaps with existing zone. If so keep.
-    for (label regionI = 0; regionI < nCellRegions; regionI++)
-    {
+    for (label regionI = 0; regionI < nCellRegions; regionI++) {
       label zoneI = regionToZone[regionI];
-      if (zoneI != -1)
-      {
+      if (zoneI != -1) {
         Info << "    Region " << regionI << " : corresponds to existing"
           << " cellZone "
           << zoneI << ' ' << cellZones[zoneI].name() << endl;
-      }
-      else
-      {
+      } else {
         // Create new cellZone.
         labelList regionCells = findIndices(cellRegion, regionI);
         word zoneName = "region" + mousse::name(regionI);
         zoneI = cellZones.findZoneID(zoneName);
-        if (zoneI == -1)
-        {
+        if (zoneI == -1) {
           zoneI = cellZones.size();
           mesh.cellZones().setSize(zoneI+1);
           mesh.cellZones().set
@@ -1577,9 +1425,7 @@ int main(int argc, char *argv[])
               cellZones           //cellZoneMesh
             }
           );
-        }
-        else
-        {
+        } else {
           mesh.cellZones()[zoneI].clearAddressing();
           mesh.cellZones()[zoneI] = regionCells;
         }
@@ -1588,13 +1434,10 @@ int main(int argc, char *argv[])
       }
     }
     mesh.cellZones().writeOpt() = IOobject::AUTO_WRITE;
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
       mesh.setInstance(runTime.timeName());
-    }
-    else
-    {
+    } else {
       mesh.setInstance(oldInstance);
     }
     Info << "Writing cellZones as new mesh to time " << runTime.timeName()
@@ -1603,14 +1446,11 @@ int main(int argc, char *argv[])
     // Write cellSets for convenience
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Info << "Writing cellSets corresponding to cellZones." << nl << endl;
-    FOR_ALL(cellZones, zoneI)
-    {
+    FOR_ALL(cellZones, zoneI) {
       const cellZone& cz = cellZones[zoneI];
       cellSet{mesh, cz.name(), cz}.write();
     }
-  }
-  else
-  {
+  } else {
     // Add patches for interfaces
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Add all possible patches. Empty ones get filtered later on.
@@ -1625,30 +1465,26 @@ int main(int argc, char *argv[])
         interfaceNames
       )
     };
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
     }
     // Create regions
     // ~~~~~~~~~~~~~~
-    if (insidePoint)
-    {
+    if (insidePoint) {
       const point insidePoint = args.optionRead<point>("insidePoint");
       label regionI = -1;
       (void)mesh.tetBasePtIs();
       label cellI = mesh.findCell(insidePoint);
       Info << nl << "Found point " << insidePoint << " in cell " << cellI
         << endl;
-      if (cellI != -1)
-      {
+      if (cellI != -1) {
         regionI = cellRegion[cellI];
       }
       reduce(regionI, maxOp<label>());
       Info << nl
         << "Subsetting region " << regionI
         << " containing point " << insidePoint << endl;
-      if (regionI == -1)
-      {
+      if (regionI == -1) {
         FATAL_ERROR_IN(args.executable())
           << "Point " << insidePoint
           << " is not inside the mesh." << nl
@@ -1666,9 +1502,7 @@ int main(int argc, char *argv[])
         regionI,
         (overwrite ? oldInstance : runTime.timeName())
       );
-    }
-    else if (largestOnly)
-    {
+    } else if (largestOnly) {
       label regionI = findMax(regionSizes);
       Info << nl
         << "Subsetting region " << regionI
@@ -1685,12 +1519,9 @@ int main(int argc, char *argv[])
         regionI,
         (overwrite ? oldInstance : runTime.timeName())
       );
-    }
-    else
-    {
+    } else {
       // Split all
-      for (label regionI = 0; regionI < nCellRegions; regionI++)
-      {
+      for (label regionI = 0; regionI < nCellRegions; regionI++) {
         Info << nl
           << "Region " << regionI << nl
           << "-------- " << endl;
@@ -1711,3 +1542,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

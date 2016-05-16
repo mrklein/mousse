@@ -11,18 +11,16 @@ using namespace mousse;
 void getRootCase(fileName& casePath)
 {
   casePath.clean();
-  if (casePath.empty() || casePath == ".")
-  {
+  if (casePath.empty() || casePath == ".") {
     // handle degenerate form and '.'
     casePath = cwd();
-  }
-  else if (casePath[0] != '/' && casePath.name() == "..")
-  {
+  } else if (casePath[0] != '/' && casePath.name() == "..") {
     // avoid relative cases ending in '..' - makes for very ugly names
     casePath = cwd()/casePath;
     casePath.clean();
   }
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -47,8 +45,7 @@ int main(int argc, char *argv[])
     "specify alternative mesh region for the additional mesh"
   );
   argList args(argc, argv);
-  if (!args.check())
-  {
+  if (!args.check()) {
     FatalError.exit();
   }
   const bool overwrite = args.optionFound("overwrite");
@@ -67,7 +64,6 @@ int main(int argc, char *argv[])
   Info << "Create mesh\n" << endl;
   mergePolyMesh masterMesh
   {
-    // IOobject
     {
       masterRegion,
       runTimeMaster.timeName(),
@@ -79,25 +75,23 @@ int main(int argc, char *argv[])
   Info << "Create mesh\n" << endl;
   polyMesh meshToAdd
   {
-    // IOobject
     {
       addRegion,
       runTimeToAdd.timeName(),
       runTimeToAdd
     }
   };
-  if (!overwrite)
-  {
+  if (!overwrite) {
     runTimeMaster++;
   }
   Info << "Writing combined mesh to " << runTimeMaster.timeName() << endl;
   masterMesh.addMesh(meshToAdd);
   masterMesh.merge();
-  if (overwrite)
-  {
+  if (overwrite) {
     masterMesh.setInstance(oldInstance);
   }
   masterMesh.write();
   Info << "\nEnd\n" << endl;
   return 0;
 }
+

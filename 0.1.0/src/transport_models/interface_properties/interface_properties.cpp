@@ -9,10 +9,14 @@
 #include "fvc_div.hpp"
 #include "fvc_grad.hpp"
 #include "fvc_sn_grad.hpp"
+
+using mousse::constant::mathematical::pi;
+
 // Static Member Data 
-const mousse::scalar mousse::interfaceProperties::convertToRad =
-  mousse::constant::mathematical::pi/180.0;
+const mousse::scalar mousse::interfaceProperties::convertToRad = pi/180.0;
+
 // Private Member Functions 
+
 // Correction for the boundary condition on the unit normal nHat on
 // walls to produce the correct contact angle.
 // The dynamic contact angle is calculated from the component of the
@@ -26,38 +30,29 @@ void mousse::interfaceProperties::correctContactAngle
   const fvMesh& mesh = alpha1_.mesh();
   const volScalarField::GeometricBoundaryField& abf = alpha1_.boundaryField();
   const fvBoundaryMesh& boundary = mesh.boundary();
-  FOR_ALL(boundary, patchi)
-  {
-    if (isA<alphaContactAngleFvPatchScalarField>(abf[patchi]))
-    {
+  FOR_ALL(boundary, patchi) {
+    if (isA<alphaContactAngleFvPatchScalarField>(abf[patchi])) {
       alphaContactAngleFvPatchScalarField& acap =
         const_cast<alphaContactAngleFvPatchScalarField&>
         (
-          refCast<const alphaContactAngleFvPatchScalarField>
-          (
-            abf[patchi]
-          )
+          refCast<const alphaContactAngleFvPatchScalarField>(abf[patchi])
         );
       fvsPatchVectorField& nHatp = nHatb[patchi];
       const scalarField theta
-      (
-        convertToRad*acap.theta(U_.boundaryField()[patchi], nHatp)
-      );
-      const vectorField nf
-      (
-        boundary[patchi].nf()
-      );
-      // Reset nHatp to correspond to the contact angle
-      const scalarField a12(nHatp & nf);
-      const scalarField b1(cos(theta));
-      scalarField b2(nHatp.size());
-      FOR_ALL(b2, facei)
       {
+        convertToRad*acap.theta(U_.boundaryField()[patchi], nHatp)
+      };
+      const vectorField nf{boundary[patchi].nf()};
+      // Reset nHatp to correspond to the contact angle
+      const scalarField a12{nHatp & nf};
+      const scalarField b1{cos(theta)};
+      scalarField b2{nHatp.size()};
+      FOR_ALL(b2, facei) {
         b2[facei] = cos(acos(a12[facei]) - theta[facei]);
       }
       const scalarField det(1.0 - a12*a12);
-      scalarField a((b1 - a12*b2)/det);
-      scalarField b((b2 - a12*b1)/det);
+      scalarField a{(b1 - a12*b2)/det};
+      scalarField b{(b2 - a12*b1)/det};
       nHatp = a*nf + b*nHatp;
       nHatp /= (mag(nHatp) + deltaN_.value());
       acap.gradient() = (nf & nHatp)*mag(gradAlphaf[patchi]);
@@ -65,19 +60,21 @@ void mousse::interfaceProperties::correctContactAngle
     }
   }
 }
+
+
 void mousse::interfaceProperties::calculateK()
 {
   const fvMesh& mesh = alpha1_.mesh();
   const surfaceVectorField& Sf = mesh.Sf();
   // Cell gradient of alpha
-  const volVectorField gradAlpha(fvc::grad(alpha1_, "nHat"));
+  const volVectorField gradAlpha{fvc::grad(alpha1_, "nHat")};
   // Interpolated face-gradient of alpha
-  surfaceVectorField gradAlphaf(fvc::interpolate(gradAlpha));
+  surfaceVectorField gradAlphaf{fvc::interpolate(gradAlpha)};
   //gradAlphaf -=
   //    (mesh.Sf()/mesh.magSf())
   //   *(fvc::snGrad(alpha1_) - (mesh.Sf() & gradAlphaf)/mesh.magSf());
   // Face unit interface normal
-  surfaceVectorField nHatfv(gradAlphaf/(mag(gradAlphaf) + deltaN_));
+  surfaceVectorField nHatfv{gradAlphaf/(mag(gradAlphaf) + deltaN_)};
   // surfaceVectorField nHatfv
   // (
   //     (gradAlphaf + deltaN_*vector(0, 0, 1)
@@ -91,14 +88,15 @@ void mousse::interfaceProperties::calculateK()
   // Complex expression for curvature.
   // Correction is formally zero but numerically non-zero.
   /*
-  volVectorField nHat(gradAlpha/(mag(gradAlpha) + deltaN_));
-  FOR_ALL(nHat.boundaryField(), patchi)
-  {
+  volVectorField nHat{gradAlpha/(mag(gradAlpha) + deltaN_)};
+  FOR_ALL(nHat.boundaryField(), patchi) {
     nHat.boundaryField()[patchi] = nHatfv.boundaryField()[patchi];
   }
   K_ = -fvc::div(nHatf_) + (nHat & fvc::grad(nHatfv) & nHat);
   */
 }
+
+
 // Constructors 
 mousse::interfaceProperties::interfaceProperties
 (
@@ -107,61 +105,59 @@ mousse::interfaceProperties::interfaceProperties
   const IOdictionary& dict
 )
 :
-  transportPropertiesDict_(dict),
+  transportPropertiesDict_{dict},
   cAlpha_
-  (
-    readScalar
-    (
-      alpha1.mesh().solverDict(alpha1.name()).lookup("cAlpha")
-    )
-  ),
-  sigma_("sigma", dimensionSet(1, 0, -2, 0, 0), dict),
-  deltaN_
-  (
-    "deltaN",
-    1e-8/pow(average(alpha1.mesh().V()), 1.0/3.0)
-  ),
-  alpha1_(alpha1),
-  U_(U),
+  {
+    readScalar(alpha1.mesh().solverDict(alpha1.name()).lookup("cAlpha"))
+  },
+  sigma_{"sigma", dimensionSet(1, 0, -2, 0, 0), dict},
+  deltaN_{"deltaN", 1e-8/pow(average(alpha1.mesh().V()), 1.0/3.0)},
+  alpha1_{alpha1},
+  U_{U},
   nHatf_
-  (
-    IOobject
-    (
+  {
+    {
       "nHatf",
       alpha1_.time().timeName(),
       alpha1_.mesh()
-    ),
+    },
     alpha1_.mesh(),
-    dimensionedScalar("nHatf", dimArea, 0.0)
-  ),
+    {"nHatf", dimArea, 0.0}
+  },
   K_
-  (
-    IOobject
-    (
+  {
+    {
       "interfaceProperties:K",
       alpha1_.time().timeName(),
       alpha1_.mesh()
-    ),
+    },
     alpha1_.mesh(),
-    dimensionedScalar("K", dimless/dimLength, 0.0)
-  )
+    {"K", dimless/dimLength, 0.0}
+  }
 {
   calculateK();
 }
+
+
 // Member Functions 
 mousse::tmp<mousse::surfaceScalarField>
 mousse::interfaceProperties::surfaceTensionForce() const
 {
   return fvc::interpolate(sigmaK())*fvc::snGrad(alpha1_);
 }
+
+
 mousse::tmp<mousse::volScalarField>
 mousse::interfaceProperties::nearInterface() const
 {
   return pos(alpha1_ - 0.01)*pos(0.99 - alpha1_);
 }
+
+
 bool mousse::interfaceProperties::read()
 {
   alpha1_.mesh().solverDict(alpha1_.name()).lookup("cAlpha") >> cAlpha_;
   transportPropertiesDict_.lookup("sigma") >> sigma_;
   return true;
 }
+

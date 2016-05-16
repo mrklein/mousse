@@ -9,12 +9,13 @@
 // Description
 //   Templated abstract base class for multiphase incompressible
 //   turbulence models.
-// SourceFiles
-//   phase_incompressible_turbulence_model.cpp
+
 #include "_turbulence_model.hpp"
 #include "incompressible_turbulence_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class TransportModel>
 class PhaseIncompressibleTurbulenceModel
 :
@@ -73,8 +74,9 @@ public:
     //- Return the source term for the momentum equation
     virtual tmp<fvVectorMatrix> divDevRhoReff(volVectorField& U) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "phase_incompressible_turbulence_model.cpp"
-#endif
+
+#include "phase_incompressible_turbulence_model.ipp"
+
 #endif

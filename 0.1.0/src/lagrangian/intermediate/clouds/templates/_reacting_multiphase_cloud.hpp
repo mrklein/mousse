@@ -12,17 +12,17 @@
 //    - multiphase composition
 //    - devolatilisatsion
 //    - surface reactions
-// SourceFiles
-//   _reacting_multiphase_cloud_i.hpp
-//   _reacting_multiphase_cloud.cpp
+
 #include "reacting_multiphase_cloud.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
-template<class CloudType>
-class DevolatilisationModel;
-template<class CloudType>
-class SurfaceReactionModel;
+template<class CloudType> class DevolatilisationModel;
+template<class CloudType> class SurfaceReactionModel;
+
+
 template<class CloudType>
 class ReactingMultiphaseCloud
 :
@@ -99,18 +99,20 @@ public:
     //- Construct and return clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> clone(const word& name)
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new ReactingMultiphaseCloud(*this, name)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ReactingMultiphaseCloud{*this, name}
+        };
     }
     //- Construct and return bare clone based on (this) with new name
     virtual autoPtr<Cloud<parcelType>> cloneBare(const word& name) const
     {
-      return autoPtr<Cloud<parcelType>>
-      (
-        new ReactingMultiphaseCloud(this->mesh(), name, *this)
-      );
+      return
+        autoPtr<Cloud<parcelType>>
+        {
+          new ReactingMultiphaseCloud{this->mesh(), name, *this}
+        };
     }
     //- Disallow default bitwise copy construct
     ReactingMultiphaseCloud(const ReactingMultiphaseCloud&) = delete;
@@ -187,7 +189,9 @@ public:
       //- Write the field data for the cloud
       virtual void writeFields() const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 template<class CloudType>
@@ -196,18 +200,24 @@ mousse::ReactingMultiphaseCloud<CloudType>::cloudCopy() const
 {
   return cloudCopyPtr_();
 }
+
+
 template<class CloudType>
 inline const typename CloudType::particleType::constantProperties&
 mousse::ReactingMultiphaseCloud<CloudType>::constProps() const
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline typename CloudType::particleType::constantProperties&
 mousse::ReactingMultiphaseCloud<CloudType>::constProps()
 {
   return constProps_;
 }
+
+
 template<class CloudType>
 inline const mousse::DevolatilisationModel
 <
@@ -217,6 +227,8 @@ mousse::ReactingMultiphaseCloud<CloudType>::devolatilisation() const
 {
   return devolatilisationModel_;
 }
+
+
 template<class CloudType>
 inline mousse::DevolatilisationModel
 <
@@ -226,6 +238,8 @@ mousse::ReactingMultiphaseCloud<CloudType>::devolatilisation()
 {
   return devolatilisationModel_();
 }
+
+
 template<class CloudType>
 inline const mousse::SurfaceReactionModel
 <
@@ -235,6 +249,8 @@ mousse::ReactingMultiphaseCloud<CloudType>::surfaceReaction() const
 {
   return surfaceReactionModel_;
 }
+
+
 template<class CloudType>
 inline mousse::SurfaceReactionModel
 <
@@ -245,7 +261,6 @@ mousse::ReactingMultiphaseCloud<CloudType>::surfaceReaction()
   return surfaceReactionModel_();
 }
 
-#ifdef NoRepository
-  #include "_reacting_multiphase_cloud.cpp"
-#endif
+#include "_reacting_multiphase_cloud.ipp"
+
 #endif

@@ -26,13 +26,13 @@
 //       alphaInversion  0.7;
 //     }
 //   \endverbatim
-// SourceFiles
-//   continuous_gas_k_eqn.cpp
+
 #include "k_eqn.hpp"
-namespace mousse
-{
-namespace LESModels
-{
+
+
+namespace mousse {
+namespace LESModels {
+
 template<class BasicTurbulenceModel>
 class continuousGasKEqn
 :
@@ -78,9 +78,10 @@ public:
     //- Read model coefficients if they have changed
     virtual bool read();
 };
+
 }  // namespace LESModels
 }  // namespace mousse
-#ifdef NoRepository
-#   include "continuous_gas_k_eqn.cpp"
-#endif
+
+#include "continuous_gas_k_eqn.ipp"
+
 #endif

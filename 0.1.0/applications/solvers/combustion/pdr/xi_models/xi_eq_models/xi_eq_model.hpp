@@ -1,3 +1,6 @@
+#ifndef XI_EQ_MODEL_HPP_
+#define XI_EQ_MODEL_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,21 +9,20 @@
 // Description
 //   Base-class for all XiEq models used by the b-XiEq combustion model.
 //   The available models are :
-//     \link basicXiSubXiEq.H \endlink
-//     \link Gulder.H \endlink
-//     \link instabilityXiEq.H \endlink
-//     \link SCOPEBlendXiEq.H \endlink
-//     \link SCOPEXiEq.H \endlink
-// SourceFiles
-//   xi_eq_model.cpp
-#ifndef XI_EQ_MODEL_HPP_
-#define XI_EQ_MODEL_HPP_
+//     \link basic_xi_sub_xi_eq.hpp \endlink
+//     \link gulder.hpp \endlink
+//     \link instability_xi_eq.hpp \endlink
+//     \link scope_blend_xi_eq.hpp \endlink
+//     \link scope_xi_eq.hpp \endlink
+
 #include "iodictionary.hpp"
 #include "psiu_reaction_thermo.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class XiEqModel
 {
 protected:
@@ -92,5 +94,8 @@ public:
     //- Write fields
     void writeFields() const;
 };
+
 }  // namespace mousse
+
 #endif
+

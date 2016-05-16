@@ -3,10 +3,12 @@
 // Copyright (C) 2016 mousse project
 
 #include "reacting_multiphase_parcel_injection_data.hpp"
+
+
 mousse::reactingMultiphaseParcelInjectionData::
 reactingMultiphaseParcelInjectionData(Istream& is)
 :
-  reactingParcelInjectionData(is)
+  reactingParcelInjectionData{is}
 {
   is.check("reading YGas's");
   is >> YGas_;
@@ -16,6 +18,8 @@ reactingMultiphaseParcelInjectionData(Istream& is)
   is >> YSolid_;
   is.check("reactingMultiphaseParcelInjectionData(Istream& is)");
 }
+
+
 // IOstream Operators 
 mousse::Ostream& mousse::operator<<
 (
@@ -27,6 +31,8 @@ mousse::Ostream& mousse::operator<<
   os << data.YGas_ << data.YLiquid_ << data.YSolid_;
   return os;
 }
+
+
 mousse::Istream& mousse::operator>>
 (
   Istream& is,
@@ -43,3 +49,4 @@ mousse::Istream& mousse::operator>>
   is.check("operator(Istream&, reactingMultiphaseParcelInjectionData&)");
   return is;
 }
+

@@ -37,20 +37,22 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   cloud_info.cpp
-//   i_ocloud_info.hpp
+
 #include "function_object_file.hpp"
 #include "ptr_list.hpp"
 #include "point_field_fwd.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
+
+
 class cloudInfo
 :
   public functionObjectFile
@@ -108,5 +110,8 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

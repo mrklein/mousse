@@ -1,5 +1,4 @@
-  Info<< "Create mesh for time = "
-    << runTime.timeName() << nl << endl;
+  Info << "Create mesh for time = " << runTime.timeName() << nl << endl;
   autoPtr<engineMesh> meshPtr
   {
     engineMesh::New

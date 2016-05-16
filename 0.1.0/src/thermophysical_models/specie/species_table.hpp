@@ -6,8 +6,13 @@
 // Copyright (C) 2016 mousse project
 
 #include "hashed_word_list.hpp"
-namespace mousse
-{
-  typedef hashedWordList speciesTable;
+
+
+namespace mousse {
+
+typedef hashedWordList speciesTable;
+
 }
+
 #endif
+

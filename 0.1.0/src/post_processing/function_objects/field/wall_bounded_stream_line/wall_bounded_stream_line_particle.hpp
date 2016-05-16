@@ -9,16 +9,19 @@
 // Description
 //   Particle class that samples fields as it passes through. Used in streamline
 //   calculation.
-// SourceFiles
-//   wall_bounded_stream_line_particle.cpp
+
 #include "wall_bounded_particle.hpp"
 #include "auto_ptr.hpp"
 #include "interpolation.hpp"
 #include "vector_list.hpp"
 #include "info_proxy.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class wallBoundedStreamLineParticleCloud;
+
+
 class wallBoundedStreamLineParticle
 :
   public wallBoundedParticle
@@ -33,45 +36,45 @@ public:
     >
   {
   public:
-    const PtrList<interpolation<scalar> >& vsInterp_;
-    const PtrList<interpolation<vector> >& vvInterp_;
+    const PtrList<interpolation<scalar>>& vsInterp_;
+    const PtrList<interpolation<vector>>& vvInterp_;
     const label UIndex_;
     const bool trackForward_;
     const scalar trackLength_;
     DynamicList<vectorList>& allPositions_;
-    List<DynamicList<scalarList> >& allScalars_;
-    List<DynamicList<vectorList> >& allVectors_;
+    List<DynamicList<scalarList>>& allScalars_;
+    List<DynamicList<vectorList>>& allVectors_;
     // Constructors
       trackingData
       (
         Cloud<wallBoundedStreamLineParticle>& cloud,
-        const PtrList<interpolation<scalar> >& vsInterp,
-        const PtrList<interpolation<vector> >& vvInterp,
+        const PtrList<interpolation<scalar>>& vsInterp,
+        const PtrList<interpolation<vector>>& vvInterp,
         const label UIndex,
         const bool trackForward,
         const scalar trackLength,
         const PackedBoolList& isWallPatch,
-        DynamicList<List<point> >& allPositions,
-        List<DynamicList<scalarList> >& allScalars,
-        List<DynamicList<vectorList> >& allVectors
+        DynamicList<List<point>>& allPositions,
+        List<DynamicList<scalarList>>& allScalars,
+        List<DynamicList<vectorList>>& allVectors
       )
       :
         wallBoundedParticle::TrackingData
         <
           Cloud<wallBoundedStreamLineParticle>
         >
-        (
+        {
           cloud,
           isWallPatch
-        ),
-        vsInterp_(vsInterp),
-        vvInterp_(vvInterp),
-        UIndex_(UIndex),
-        trackForward_(trackForward),
-        trackLength_(trackLength),
-        allPositions_(allPositions),
-        allScalars_(allScalars),
-        allVectors_(allVectors)
+        },
+        vsInterp_{vsInterp},
+        vvInterp_{vvInterp},
+        UIndex_{UIndex},
+        trackForward_{trackForward},
+        trackLength_{trackLength},
+        allPositions_{allPositions},
+        allScalars_{allScalars},
+        allVectors_{allVectors}
       {}
   };
 private:
@@ -81,9 +84,9 @@ private:
     //- Sampled positions
     DynamicList<point> sampledPositions_;
     //- Sampled scalars
-    List<DynamicList<scalar> > sampledScalars_;
+    List<DynamicList<scalar>> sampledScalars_;
     //- Sampled vectors
-    List<DynamicList<vector> > sampledVectors_;
+    List<DynamicList<vector>> sampledVectors_;
   // Private Member Functions
     vector interpolateFields
     (
@@ -119,7 +122,7 @@ public:
     //- Construct and return a clone
     autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new wallBoundedStreamLineParticle(*this));
+      return autoPtr<particle>{new wallBoundedStreamLineParticle{*this}};
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -129,17 +132,18 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
       autoPtr<wallBoundedStreamLineParticle> operator()
       (
         Istream& is
       ) const
       {
-        return autoPtr<wallBoundedStreamLineParticle>
-        (
-          new wallBoundedStreamLineParticle(mesh_, is, true)
-        );
+        return
+          autoPtr<wallBoundedStreamLineParticle>
+          {
+            new wallBoundedStreamLineParticle{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -161,5 +165,8 @@ public:
       const wallBoundedStreamLineParticle&
     );
 };
+
 }  // namespace mousse
+
 #endif
+

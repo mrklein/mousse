@@ -45,12 +45,7 @@ volScalarField rho
   },
   alpha1*rho1 + alpha2*rho2
 };
-dimensionedScalar pMin
-{
-  "pMin",
-  dimPressure,
-  mixture
-};
+dimensionedScalar pMin{"pMin", dimPressure, mixture};
 mesh.setFluxRequired(p_rgh.name());
 #include "read_gravitational_acceleration.inc"
 #include "read_href.inc"

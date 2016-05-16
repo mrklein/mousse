@@ -8,12 +8,18 @@
 //   mousse::LindemannFallOffFunction
 // Description
 //   Lindemann fall-off function
+
 #include "scalar.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
 class LindemannFallOffFunction;
+
 Ostream& operator<<(Ostream&, const LindemannFallOffFunction&);
+
+
 class LindemannFallOffFunction
 {
 public:
@@ -40,18 +46,26 @@ public:
   // Ostream Operator
     friend Ostream& operator<<(Ostream&, const LindemannFallOffFunction&);
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 inline mousse::LindemannFallOffFunction::LindemannFallOffFunction()
 {}
+
+
 inline mousse::LindemannFallOffFunction::LindemannFallOffFunction(Istream&)
 {}
+
+
 inline mousse::LindemannFallOffFunction::LindemannFallOffFunction
 (
   const dictionary&
 )
 {}
+
+
 // Member Functions 
 inline mousse::scalar mousse::LindemannFallOffFunction::operator()
 (
@@ -61,8 +75,12 @@ inline mousse::scalar mousse::LindemannFallOffFunction::operator()
 {
   return 1.0;
 }
+
+
 inline void mousse::LindemannFallOffFunction::write(Ostream&) const
 {}
+
+
 // Ostream Operator 
 inline mousse::Ostream& mousse::operator<<
 (
@@ -72,4 +90,6 @@ inline mousse::Ostream& mousse::operator<<
 {
   return os;
 }
+
 #endif
+

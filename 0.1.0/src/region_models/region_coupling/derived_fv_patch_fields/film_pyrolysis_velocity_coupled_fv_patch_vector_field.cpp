@@ -7,6 +7,8 @@
 #include "surface_fields.hpp"
 #include "pyrolysis_model.hpp"
 #include "surface_film_model.hpp"
+
+
 // Constructors 
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
@@ -21,6 +23,8 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   phiName_{"phi"},
   rhoName_{"rho"}
 {}
+
+
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
 (
@@ -36,6 +40,8 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   phiName_{ptf.phiName_},
   rhoName_{ptf.rhoName_}
 {}
+
+
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
 (
@@ -56,8 +62,10 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   phiName_{dict.lookupOrDefault<word>("phi", "phi")},
   rhoName_{dict.lookupOrDefault<word>("rho", "rho")}
 {
-  fvPatchVectorField::operator=(vectorField("value", dict, p.size()));
+  fvPatchVectorField::operator=(vectorField{"value", dict, p.size()});
 }
+
+
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
 (
@@ -70,6 +78,8 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   phiName_{fpvpvf.phiName_},
   rhoName_{fpvpvf.rhoName_}
 {}
+
+
 mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::
 filmPyrolysisVelocityCoupledFvPatchVectorField
 (
@@ -83,11 +93,12 @@ filmPyrolysisVelocityCoupledFvPatchVectorField
   phiName_{fpvpvf.phiName_},
   rhoName_{fpvpvf.rhoName_}
 {}
+
+
 // Member Functions 
 void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   typedef regionModels::surfaceFilmModels::surfaceFilmModel filmModelType;
@@ -99,8 +110,7 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
   bool foundFilm = db().time().foundObject<filmModelType>(filmRegionName_);
   bool foundPyrolysis =
     db().time().foundObject<pyrModelType>(pyrolysisRegionName_);
-  if (!foundFilm || !foundPyrolysis)
-  {
+  if (!foundFilm || !foundPyrolysis) {
     // do nothing on construction - film model doesn't exist yet
     return;
   }
@@ -122,18 +132,14 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
   pyrModel.toPrimary(pyrPatchI, phiPyr);
   const surfaceScalarField& phi =
     db().lookupObject<surfaceScalarField>(phiName_);
-  if (phi.dimensions() == dimVelocity*dimArea)
-  {
+  if (phi.dimensions() == dimVelocity*dimArea) {
     // do nothing
   }
-  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea)
-  {
+  else if (phi.dimensions() == dimDensity*dimVelocity*dimArea) {
     const fvPatchField<scalar>& rhop =
       patch().lookupPatchField<volScalarField, scalar>(rhoName_);
     phiPyr /= rhop;
-  }
-  else
-  {
+  } else {
     FATAL_ERROR_IN
     (
       "filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()"
@@ -145,7 +151,7 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
     << " in file " << dimensionedInternalField().objectPath()
     << exit(FatalError);
   }
-  const scalarField UAvePyr(-phiPyr/patch().magSf());
+  const scalarField UAvePyr{-phiPyr/patch().magSf()};
   const vectorField& nf = patch().nf();
   // Evaluate velocity
   Up = alphaFilm*UFilm + (1.0 - alphaFilm)*UAvePyr*nf;
@@ -153,6 +159,8 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::updateCoeffs()
   UPstream::msgType() = oldTag;
   fixedValueFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::write
 (
   Ostream& os
@@ -177,11 +185,15 @@ void mousse::filmPyrolysisVelocityCoupledFvPatchVectorField::write
   writeEntryIfDifferent<word>(os, "rho", "rho", rhoName_);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   filmPyrolysisVelocityCoupledFvPatchVectorField
 );
+
 }
+

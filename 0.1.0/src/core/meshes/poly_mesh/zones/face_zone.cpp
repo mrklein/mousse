@@ -33,7 +33,7 @@ void mousse::faceZone::calcFaceZonePatch() const
       << "Calculating primitive patch"
       << endl;
   }
-  if (patchPtr_) {
+  if (patchPtr_ != nullptr) {
     FATAL_ERROR_IN
     (
       "void faceZone::calcFaceZonePatch() const"
@@ -75,7 +75,7 @@ void mousse::faceZone::calcCellLayers() const
   }
   // It is an error to attempt to recalculate edgeCells
   // if the pointer is already set
-  if (masterCellsPtr_ || slaveCellsPtr_) {
+  if (masterCellsPtr_ != nullptr || slaveCellsPtr_ != nullptr) {
     FATAL_ERROR_IN("void faceZone::calcCellLayers() const")
       << "cell layers already calculated"
       << abort(FatalError);
@@ -149,10 +149,10 @@ mousse::faceZone::faceZone
   zone{name, addr, index},
   flipMap_{fm},
   zoneMesh_{zm},
-  patchPtr_{NULL},
-  masterCellsPtr_{NULL},
-  slaveCellsPtr_{NULL},
-  mePtr_{NULL}
+  patchPtr_{nullptr},
+  masterCellsPtr_{nullptr},
+  slaveCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   checkAddressing();
 }
@@ -170,10 +170,10 @@ mousse::faceZone::faceZone
   zone{name, addr, index},
   flipMap_{fm},
   zoneMesh_{zm},
-  patchPtr_{NULL},
-  masterCellsPtr_{NULL},
-  slaveCellsPtr_{NULL},
-  mePtr_{NULL}
+  patchPtr_{nullptr},
+  masterCellsPtr_{nullptr},
+  slaveCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   checkAddressing();
 }
@@ -190,10 +190,10 @@ mousse::faceZone::faceZone
   zone{name, dict, this->labelsName, index},
   flipMap_{dict.lookup("flipMap")},
   zoneMesh_{zm},
-  patchPtr_{NULL},
-  masterCellsPtr_{NULL},
-  slaveCellsPtr_{NULL},
-  mePtr_{NULL}
+  patchPtr_{nullptr},
+  masterCellsPtr_{nullptr},
+  slaveCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   checkAddressing();
 }
@@ -211,10 +211,10 @@ mousse::faceZone::faceZone
   zone{fz, addr, index},
   flipMap_{fm},
   zoneMesh_{zm},
-  patchPtr_{NULL},
-  masterCellsPtr_{NULL},
-  slaveCellsPtr_{NULL},
-  mePtr_{NULL}
+  patchPtr_{nullptr},
+  masterCellsPtr_{nullptr},
+  slaveCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   checkAddressing();
 }
@@ -232,10 +232,10 @@ mousse::faceZone::faceZone
   zone{fz, addr, index},
   flipMap_{fm},
   zoneMesh_{zm},
-  patchPtr_{NULL},
-  masterCellsPtr_{NULL},
-  slaveCellsPtr_{NULL},
-  mePtr_{NULL}
+  patchPtr_{nullptr},
+  masterCellsPtr_{nullptr},
+  slaveCellsPtr_{nullptr},
+  mePtr_{nullptr}
 {
   checkAddressing();
 }
@@ -263,7 +263,7 @@ mousse::label mousse::faceZone::whichFace(const label globalFaceID) const
 
 const mousse::primitiveFacePatch& mousse::faceZone::operator()() const
 {
-  if (!patchPtr_) {
+  if (patchPtr_ == nullptr) {
     calcFaceZonePatch();
   }
   return *patchPtr_;
@@ -272,7 +272,7 @@ const mousse::primitiveFacePatch& mousse::faceZone::operator()() const
 
 const mousse::labelList& mousse::faceZone::masterCells() const
 {
-  if (!masterCellsPtr_) {
+  if (masterCellsPtr_ == nullptr) {
     calcCellLayers();
   }
   return *masterCellsPtr_;
@@ -281,7 +281,7 @@ const mousse::labelList& mousse::faceZone::masterCells() const
 
 const mousse::labelList& mousse::faceZone::slaveCells() const
 {
-  if (!slaveCellsPtr_) {
+  if (slaveCellsPtr_ == nullptr) {
     calcCellLayers();
   }
   return *slaveCellsPtr_;
@@ -290,7 +290,7 @@ const mousse::labelList& mousse::faceZone::slaveCells() const
 
 const mousse::labelList& mousse::faceZone::meshEdges() const
 {
-  if (!mePtr_) {
+  if (mePtr_ == nullptr) {
     mePtr_ =
       new labelList
       {
@@ -363,8 +363,8 @@ bool mousse::faceZone::checkParallelSync(const bool report) const
 
   // Check that zone faces are synced
   {
-    boolList neiZoneFace{mesh.nFaces()-mesh.nInternalFaces(), false};
-    boolList neiZoneFlip{mesh.nFaces()-mesh.nInternalFaces(), false};
+    boolList neiZoneFace{mesh.nFaces() - mesh.nInternalFaces(), false};
+    boolList neiZoneFlip{mesh.nFaces() - mesh.nInternalFaces(), false};
     FOR_ALL(*this, i) {
       const label faceI = operator[](i);
       if (!mesh.isInternalFace(faceI)) {

@@ -8,17 +8,18 @@
 //   mousse::regionModelFunctionObject
 // Description
 //   Region model function object base class
-// SourceFiles
-//   region_model_function_object.cpp
-//   region_model_function_object_new.cpp
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
-namespace regionModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+
 class regionModel;
+
+
 class regionModelFunctionObject
 {
 protected:
@@ -60,9 +61,9 @@ public:
     virtual autoPtr<regionModelFunctionObject> clone() const
     {
       return autoPtr<regionModelFunctionObject>
-      (
-        new regionModelFunctionObject(*this)
-      );
+      {
+        new regionModelFunctionObject{*this}
+      };
     }
   //- Destructor
   virtual ~regionModelFunctionObject();
@@ -83,6 +84,9 @@ public:
     //- write
     virtual void write() const;
 };
+
 }  // namespace regionModels
 }  // namespace mousse
+
 #endif
+

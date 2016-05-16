@@ -1,3 +1,6 @@
+#ifndef SIMPLE_HPP_
+#define SIMPLE_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2014-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -5,15 +8,13 @@
 //   mousse::simple
 // Description
 //   Simple relative velocity model
-// SourceFiles
-//   simple.cpp
-#ifndef SIMPLE_HPP_
-#define SIMPLE_HPP_
+
 #include "relative_velocity_model.hpp"
-namespace mousse
-{
-namespace relativeVelocityModels
-{
+
+
+namespace mousse {
+namespace relativeVelocityModels {
+
 class simple
 :
   public relativeVelocityModel
@@ -41,6 +42,9 @@ public:
     //- Update the diffusion velocity
     virtual void correct();
 };
+
 }  // namespace relativeVelocityModels
 }  // namespace mousse
+
 #endif
+

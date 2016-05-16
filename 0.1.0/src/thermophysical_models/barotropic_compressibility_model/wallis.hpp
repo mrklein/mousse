@@ -8,14 +8,14 @@
 //   mousse::compressibilityModels::Wallis
 // Description
 //   Wallis compressibility model.
-// SourceFiles
-//   wallis.cpp
+
 #include "barotropic_compressibility_model.hpp"
 #include "dimensioned_scalar.hpp"
-namespace mousse
-{
-namespace compressibilityModels
-{
+
+
+namespace mousse {
+namespace compressibilityModels {
+
 class Wallis
 :
   public barotropicCompressibilityModel
@@ -45,6 +45,9 @@ public:
     //- Read transportProperties dictionary
     bool read(const dictionary& compressibilityProperties);
 };
+
 }  // namespace compressibilityModels
 }  // namespace mousse
+
 #endif
+

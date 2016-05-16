@@ -67,16 +67,14 @@
   // Update tho boundary values of the reciprocal time-step
   rDeltaT.correctBoundaryConditions();
   // Spatially smooth the time scale field
-  if (rDeltaTSmoothingCoeff < 1.0)
-  {
+  if (rDeltaTSmoothingCoeff < 1.0) {
     fvc::smooth(rDeltaT, rDeltaTSmoothingCoeff);
   }
   // Limit rate of change of time scale
   // - reduce as much as required
   // - only increase at a fraction of old time scale
   if (rDeltaTDampingCoeff < 1.0
-      && runTime.timeIndex() > runTime.startTimeIndex() + 1)
-  {
+      && runTime.timeIndex() > runTime.startTimeIndex() + 1) {
     rDeltaT = max
     (
       rDeltaT,

@@ -9,7 +9,11 @@
 #include "fv_mesh.hpp"
 #include "poly_mesh_filter.hpp"
 #include "face_set.hpp"
+
+
 using namespace mousse;
+
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions(true, false);
@@ -39,8 +43,7 @@ int main(int argc, char *argv[])
   const bool overwrite = args.optionFound("overwrite");
   const bool collapseFaces = args.optionFound("collapseFaces");
   const bool collapseFaceSet = args.optionFound("collapseFaceSet");
-  if (collapseFaces && collapseFaceSet)
-  {
+  if (collapseFaces && collapseFaceSet) {
     FATAL_ERROR_IN("main(int, char*[])")
       << "Both face zone collapsing and face collapsing have been"
       << "selected. Choose only one of:" << nl
@@ -52,8 +55,7 @@ int main(int argc, char *argv[])
   // (if collapseFaceSet option provided)
   word faceSetName{"indirectPatchFaces"};
   IOobject::readOption readFlag = IOobject::READ_IF_PRESENT;
-  if (args.optionReadIfPresent("collapseFaceSet", faceSetName))
-  {
+  if (args.optionReadIfPresent("collapseFaceSet", faceSetName)) {
     readFlag = IOobject::MUST_READ;
   }
   labelIOList pointPriority
@@ -67,10 +69,9 @@ int main(int argc, char *argv[])
     },
     labelList{mesh.nPoints(), labelMin}
   };
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
-    Info<< "Time = " << runTime.timeName() << endl;
+    Info << "Time = " << runTime.timeName() << endl;
     autoPtr<polyMeshFilter> meshFilterPtr;
     label nBadFaces = 0;
     faceSet indirectPatchFaces
@@ -80,7 +81,7 @@ int main(int argc, char *argv[])
       readFlag,
       IOobject::AUTO_WRITE
     };
-    Info<< "Read faceSet " << indirectPatchFaces.name() << " with "
+    Info << "Read faceSet " << indirectPatchFaces.name() << " with "
       << returnReduce(indirectPatchFaces.size(), sumOp<label>())
       << " faces" << endl;
 
@@ -102,8 +103,7 @@ int main(int argc, char *argv[])
       pointPriority = meshFilter.pointPriority();
     }
 
-    if (collapseFaceSet)
-    {
+    if (collapseFaceSet) {
       meshFilterPtr.reset(new polyMeshFilter{mesh, pointPriority});
       polyMeshFilter& meshFilter = meshFilterPtr();
       const autoPtr<fvMesh>& newMesh = meshFilter.filteredMesh();
@@ -120,9 +120,8 @@ int main(int argc, char *argv[])
       pointPriority = meshFilter.pointPriority();
     }
 
-    if (collapseFaces)
-    {
-      meshFilterPtr.reset(new polyMeshFilter(mesh, pointPriority));
+    if (collapseFaces) {
+      meshFilterPtr.reset(new polyMeshFilter{mesh, pointPriority});
       polyMeshFilter& meshFilter = meshFilterPtr();
       const autoPtr<fvMesh>& newMesh = meshFilter.filteredMesh();
       // Filter faces. Pass in the number of bad faces that are present
@@ -139,22 +138,20 @@ int main(int argc, char *argv[])
     }
 
     // Write resulting mesh
-    if (!overwrite)
-    {
+    if (!overwrite) {
       runTime++;
-    }
-    else
-    {
+    } else {
       mesh.setInstance(oldInstance);
     }
-    Info<< nl << "Writing collapsed mesh to time " << runTime.timeName()
+    Info << nl << "Writing collapsed mesh to time " << runTime.timeName()
       << nl << endl;
     mesh.write();
     pointPriority.write();
   }
-  Info<< nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+  Info << nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
     << "  ClockTime = " << runTime.elapsedClockTime() << " s"
     << nl << endl;
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }
+

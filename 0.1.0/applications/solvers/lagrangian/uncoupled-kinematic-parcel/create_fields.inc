@@ -31,24 +31,11 @@
   Info << "Creating turbulence model\n" << endl;
   autoPtr<compressible::turbulenceModel> turbulence
   {
-    compressible::turbulenceModel::New
-    (
-      rho,
-      U,
-      phi,
-      thermo
-    )
+    compressible::turbulenceModel::New(rho, U, phi, thermo)
   };
   const word kinematicCloudName
   {
     args.optionLookupOrDefault<word>("cloudName", "kinematicCloud")
   };
   Info << "Constructing kinematicCloud " << kinematicCloudName << endl;
-  basicKinematicCloud kinematicCloud
-  {
-    kinematicCloudName,
-    rho,
-    U,
-    thermo.mu(),
-    g
-  };
+  basicKinematicCloud kinematicCloud{kinematicCloudName, rho, U, thermo.mu(), g};

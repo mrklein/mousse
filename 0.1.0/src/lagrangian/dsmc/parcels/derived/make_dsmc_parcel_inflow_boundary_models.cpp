@@ -6,11 +6,17 @@
 #include "_dsmc_cloud.hpp"
 #include "_free_stream.hpp"
 #include "_no_inflow.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 typedef DSMCCloud<dsmcParcel> CloudType;
+
+
 MAKE_INFLOW_BOUNDARY_MODEL(CloudType);
 // Add instances of inflow boundary model to the table
 MAKE_INFLOW_BOUNDARY_MODEL_TYPE(FreeStream, CloudType);
 MAKE_INFLOW_BOUNDARY_MODEL_TYPE(NoInflow, CloudType);
+
 }
+

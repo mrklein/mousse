@@ -8,6 +8,8 @@
 #include "vol_fields.hpp"
 #include "radiation_model.hpp"
 #include "physico_chemical_constants.hpp"
+
+
 // Constructors 
 mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
 (
@@ -15,14 +17,16 @@ mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  radiationCoupledBase(p, "undefined", scalarField::null()),
-  TName_("T")
+  mixedFvPatchScalarField{p, iF},
+  radiationCoupledBase{p, "undefined", scalarField::null()},
+  TName_{"T"}
 {
   refValue() = 0.0;
   refGrad() = 0.0;
   valueFraction() = 0.0;
 }
+
+
 mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
 (
   const MarshakRadiationFvPatchScalarField& ptf,
@@ -31,16 +35,12 @@ mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  mixedFvPatchScalarField(ptf, p, iF, mapper),
-  radiationCoupledBase
-  (
-    p,
-    ptf.emissivityMethod(),
-    ptf.emissivity_,
-    mapper
-  ),
-  TName_(ptf.TName_)
+  mixedFvPatchScalarField{ptf, p, iF, mapper},
+  radiationCoupledBase{p, ptf.emissivityMethod(), ptf.emissivity_, mapper},
+  TName_{ptf.TName_}
 {}
+
+
 mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
 (
   const fvPatch& p,
@@ -48,16 +48,13 @@ mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
   const dictionary& dict
 )
 :
-  mixedFvPatchScalarField(p, iF),
-  radiationCoupledBase(p, dict),
-  TName_(dict.lookupOrDefault<word>("T", "T"))
+  mixedFvPatchScalarField{p, iF},
+  radiationCoupledBase{p, dict},
+  TName_{dict.lookupOrDefault<word>("T", "T")}
 {
-  if (dict.found("value"))
-  {
-    refValue() = scalarField("value", dict, p.size());
-  }
-  else
-  {
+  if (dict.found("value")) {
+    refValue() = scalarField{"value", dict, p.size()};
+  } else {
     refValue() = 0.0;
   }
   // zero gradient
@@ -65,35 +62,31 @@ mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
   valueFraction() = 1.0;
   fvPatchScalarField::operator=(refValue());
 }
+
+
 mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
 (
   const MarshakRadiationFvPatchScalarField& ptf
 )
 :
-  mixedFvPatchScalarField(ptf),
-  radiationCoupledBase
-  (
-    ptf.patch(),
-    ptf.emissivityMethod(),
-    ptf.emissivity_
-  ),
-  TName_(ptf.TName_)
+  mixedFvPatchScalarField{ptf},
+  radiationCoupledBase{ptf.patch(), ptf.emissivityMethod(), ptf.emissivity_},
+  TName_{ptf.TName_}
 {}
+
+
 mousse::MarshakRadiationFvPatchScalarField::MarshakRadiationFvPatchScalarField
 (
   const MarshakRadiationFvPatchScalarField& ptf,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  mixedFvPatchScalarField(ptf, iF),
-  radiationCoupledBase
-  (
-    ptf.patch(),
-    ptf.emissivityMethod(),
-    ptf.emissivity_
-  ),
-  TName_(ptf.TName_)
+  mixedFvPatchScalarField{ptf, iF},
+  radiationCoupledBase{ptf.patch(), ptf.emissivityMethod(), ptf.emissivity_},
+  TName_{ptf.TName_}
 {}
+
+
 // Member Functions 
 void mousse::MarshakRadiationFvPatchScalarField::autoMap
 (
@@ -103,6 +96,8 @@ void mousse::MarshakRadiationFvPatchScalarField::autoMap
   mixedFvPatchScalarField::autoMap(m);
   radiationCoupledBase::autoMap(m);
 }
+
+
 void mousse::MarshakRadiationFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -112,10 +107,11 @@ void mousse::MarshakRadiationFvPatchScalarField::rmap
   mixedFvPatchScalarField::rmap(ptf, addr);
   radiationCoupledBase::rmap(ptf, addr);
 }
+
+
 void mousse::MarshakRadiationFvPatchScalarField::updateCoeffs()
 {
-  if (this->updated())
-  {
+  if (this->updated()) {
     return;
   }
   // Since we're inside initEvaluate/evaluate there might be processor
@@ -131,24 +127,30 @@ void mousse::MarshakRadiationFvPatchScalarField::updateCoeffs()
   const scalarField& gamma =
     patch().lookupPatchField<volScalarField, scalar>("gammaRad");
   const scalarField temissivity = emissivity();
-  const scalarField Ep(temissivity/(2.0*(2.0 - temissivity)));
+  const scalarField Ep{temissivity/(2.0*(2.0 - temissivity))};
   // Set value fraction
   valueFraction() = 1.0/(1.0 + gamma*patch().deltaCoeffs()/Ep);
   // Restore tag
   UPstream::msgType() = oldTag;
   mixedFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::MarshakRadiationFvPatchScalarField::write(Ostream& os) const
 {
   mixedFvPatchScalarField::write(os);
   radiationCoupledBase::write(os);
   writeEntryIfDifferent<word>(os, "T", "T", TName_);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   MarshakRadiationFvPatchScalarField
 );
+
 }
+

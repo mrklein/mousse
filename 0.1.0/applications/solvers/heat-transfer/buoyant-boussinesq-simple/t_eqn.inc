@@ -5,8 +5,8 @@
   fvScalarMatrix TEqn
   {
     fvm::div(phi, T)
-    - fvm::laplacian(alphaEff, T)
-    ==
+  - fvm::laplacian(alphaEff, T)
+  ==
     fvOptions(T)
   };
   TEqn.relax();

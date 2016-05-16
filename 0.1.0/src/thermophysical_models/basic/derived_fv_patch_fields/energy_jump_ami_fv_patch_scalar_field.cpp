@@ -6,6 +6,8 @@
 #include "energy_jump_ami_fv_patch_scalar_field.hpp"
 #include "fixed_jump_ami_fv_patch_fields.hpp"
 #include "basic_thermo.hpp"
+
+
 // Constructors 
 mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
 (
@@ -13,8 +15,10 @@ mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedJumpAMIFvPatchField<scalar>(p, iF)
+  fixedJumpAMIFvPatchField<scalar>{p, iF}
 {}
+
+
 mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
 (
   const energyJumpAMIFvPatchScalarField& ptf,
@@ -23,8 +27,10 @@ mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedJumpAMIFvPatchField<scalar>(ptf, p, iF, mapper)
+  fixedJumpAMIFvPatchField<scalar>{ptf, p, iF, mapper}
 {}
+
+
 mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
 (
   const fvPatch& p,
@@ -32,44 +38,42 @@ mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedJumpAMIFvPatchField<scalar>(p, iF)
+  fixedJumpAMIFvPatchField<scalar>{p, iF}
 {
-  if (dict.found("value"))
-  {
-    fvPatchScalarField::operator=
-    (
-      scalarField("value", dict, p.size())
-    );
-  }
-  else
-  {
+  if (dict.found("value")) {
+    fvPatchScalarField::operator=(scalarField{"value", dict, p.size()});
+  } else {
     evaluate(Pstream::blocking);
   }
 }
+
+
 mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
 (
   const energyJumpAMIFvPatchScalarField& ptf
 )
 :
-  fixedJumpAMIFvPatchField<scalar>(ptf)
+  fixedJumpAMIFvPatchField<scalar>{ptf}
 {}
+
+
 mousse::energyJumpAMIFvPatchScalarField::energyJumpAMIFvPatchScalarField
 (
   const energyJumpAMIFvPatchScalarField& ptf,
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedJumpAMIFvPatchField<scalar>(ptf, iF)
+  fixedJumpAMIFvPatchField<scalar>{ptf, iF}
 {}
+
+
 // Member Functions 
 void mousse::energyJumpAMIFvPatchScalarField::updateCoeffs()
 {
-  if (this->updated())
-  {
+  if (this->updated()) {
     return;
   }
-  if (this->cyclicAMIPatch().owner())
-  {
+  if (this->cyclicAMIPatch().owner()) {
     const basicThermo& thermo = basicThermo::lookupThermo(*this);
     label patchID = patch().index();
     const scalarField& pp = thermo.p().boundaryField()[patchID];
@@ -87,16 +91,22 @@ void mousse::energyJumpAMIFvPatchScalarField::updateCoeffs()
   }
   fixedJumpAMIFvPatchField<scalar>::updateCoeffs();
 }
+
+
 void mousse::energyJumpAMIFvPatchScalarField::write(Ostream& os) const
 {
   fixedJumpAMIFvPatchField<scalar>::write(os);
   this->writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   energyJumpAMIFvPatchScalarField
 );
+
 }
+

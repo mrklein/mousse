@@ -8,9 +8,12 @@
 //   mousse::NoDevolatilisation
 // Description
 //   Dummy devolatilisation model for 'none'
+
 #include "_devolatilisation_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoDevolatilisation
 :
@@ -25,12 +28,13 @@ public:
     //- Construct copy
     NoDevolatilisation(const NoDevolatilisation<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DevolatilisationModel<CloudType> > clone() const
+    virtual autoPtr<DevolatilisationModel<CloudType>> clone() const
     {
-      return autoPtr<DevolatilisationModel<CloudType> >
-      (
-        new NoDevolatilisation<CloudType>(*this)
-      );
+      return
+        autoPtr<DevolatilisationModel<CloudType>>
+        {
+          new NoDevolatilisation<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoDevolatilisation();
@@ -52,8 +56,9 @@ public:
       scalarField& dMassDV
     ) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_devolatilisation.cpp"
-#endif
+
+#include "_no_devolatilisation.ipp"
+
 #endif

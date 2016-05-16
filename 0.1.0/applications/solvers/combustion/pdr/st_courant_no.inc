@@ -4,8 +4,7 @@
 
 {
   scalar meanStCoNum = 0.0;
-  if (mesh.nInternalFaces())
-  {
+  if (mesh.nInternalFaces()) {
    scalarField sumPhi
    {
      fvc::surfaceSum(mag(phiSt))().internalField()/rho.internalField()

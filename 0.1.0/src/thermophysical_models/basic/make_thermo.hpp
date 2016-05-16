@@ -8,6 +8,7 @@
 #include "fluid_thermo.hpp"
 #include "add_to_run_time_selection_table.hpp"
 
+
 #define MAKE_THERMO_TYPEDEFS\
 (                                                                             \
  BaseThermo,                                                                  \
@@ -99,4 +100,6 @@ ADD_TO_RUN_TIME_SELECTION_TABLE                                               \
   Cthermo##Mixture##Transport##Type##Thermo##EqnOfState##Specie,              \
   fvMesh                                                                      \
 );
+
 #endif
+

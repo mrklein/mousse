@@ -13,12 +13,12 @@
 #include "fvc_grad.hpp"
 #include "string_list_ops.hpp"
 #include "cyclic_poly_patch.hpp"
-namespace mousse
-{
-namespace regionModels
-{
-namespace surfaceFilmModels
-{
+
+
+namespace mousse {
+namespace regionModels {
+namespace surfaceFilmModels {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(curvatureSeparation, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -27,6 +27,8 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   curvatureSeparation,
   dictionary
 );
+
+
 // Protected Member Functions 
 tmp<volScalarField> curvatureSeparation::calcInvR1
 (
@@ -41,75 +43,67 @@ tmp<volScalarField> curvatureSeparation::calcInvR1
   );
 */
   // method 2
-  dimensionedScalar smallU("smallU", dimVelocity, ROOTVSMALL);
-  volVectorField UHat(U/(mag(U) + smallU));
+  dimensionedScalar smallU{"smallU", dimVelocity, ROOTVSMALL};
+  volVectorField UHat{U/(mag(U) + smallU)};
   tmp<volScalarField> tinvR1
-  (
-    new volScalarField("invR1", UHat & (UHat & gradNHat_))
-  );
+  {
+    new volScalarField{"invR1", UHat & (UHat & gradNHat_)}
+  };
   scalarField& invR1 = tinvR1().internalField();
   // apply defined patch radii
   const scalar rMin = 1e-6;
   const fvMesh& mesh = owner().regionMesh();
   const polyBoundaryMesh& pbm = mesh.boundaryMesh();
-  FOR_ALL(definedPatchRadii_, i)
-  {
+  FOR_ALL(definedPatchRadii_, i) {
     label patchI = definedPatchRadii_[i].first();
     scalar definedInvR1 = 1.0/max(rMin, definedPatchRadii_[i].second());
-    UIndirectList<scalar>(invR1, pbm[patchI].faceCells()) = definedInvR1;
+    UIndirectList<scalar>{invR1, pbm[patchI].faceCells()} = definedInvR1;
   }
   // filter out large radii
   const scalar rMax = 1e6;
-  FOR_ALL(invR1, i)
-  {
-    if (mag(invR1[i]) < 1/rMax)
-    {
+  FOR_ALL(invR1, i) {
+    if (mag(invR1[i]) < 1/rMax) {
       invR1[i] = -1.0;
     }
   }
-  if (debug && mesh.time().outputTime())
-  {
+  if (debug && mesh.time().outputTime()) {
     tinvR1().write();
   }
   return tinvR1;
 }
+
+
 tmp<scalarField> curvatureSeparation::calcCosAngle
 (
   const surfaceScalarField& phi
 ) const
 {
   const fvMesh& mesh = owner().regionMesh();
-  const vectorField nf(mesh.Sf()/mesh.magSf());
+  const vectorField nf{mesh.Sf()/mesh.magSf()};
   const unallocLabelList& own = mesh.owner();
   const unallocLabelList& nbr = mesh.neighbour();
-  scalarField phiMax(mesh.nCells(), -GREAT);
-  scalarField cosAngle(mesh.nCells(), 0.0);
-  FOR_ALL(nbr, faceI)
-  {
+  scalarField phiMax{mesh.nCells(), -GREAT};
+  scalarField cosAngle{mesh.nCells(), 0.0};
+  FOR_ALL(nbr, faceI) {
     label cellO = own[faceI];
     label cellN = nbr[faceI];
-    if (phi[faceI] > phiMax[cellO])
-    {
+    if (phi[faceI] > phiMax[cellO]) {
       phiMax[cellO] = phi[faceI];
       cosAngle[cellO] = -gHat_ & nf[faceI];
     }
-    if (-phi[faceI] > phiMax[cellN])
-    {
+    if (-phi[faceI] > phiMax[cellN]) {
       phiMax[cellN] = -phi[faceI];
       cosAngle[cellN] = -gHat_ & -nf[faceI];
     }
   }
-  FOR_ALL(phi.boundaryField(), patchI)
-  {
+  FOR_ALL(phi.boundaryField(), patchI) {
     const fvsPatchScalarField& phip = phi.boundaryField()[patchI];
     const fvPatch& pp = phip.patch();
     const labelList& faceCells = pp.faceCells();
-    const vectorField nf(pp.nf());
-    FOR_ALL(phip, i)
-    {
+    const vectorField nf{pp.nf()};
+    FOR_ALL(phip, i) {
       label cellI = faceCells[i];
-      if (phip[i] > phiMax[cellI])
-      {
+      if (phip[i] > phiMax[cellI]) {
         phiMax[cellI] = phip[i];
         cosAngle[cellI] = -gHat_ & nf[i];
       }
@@ -149,27 +143,27 @@ tmp<scalarField> curvatureSeparation::calcCosAngle
   }
 */
   // checks
-  if (debug && mesh.time().outputTime())
-  {
+  if (debug && mesh.time().outputTime()) {
     volScalarField volCosAngle
-    (
-      IOobject
-      (
+    {
+      {
         "cosAngle",
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ
-      ),
+      },
       mesh,
-      dimensionedScalar("zero", dimless, 0.0),
+      {"zero", dimless, 0.0},
       zeroGradientFvPatchScalarField::typeName
-    );
+    };
     volCosAngle.internalField() = cosAngle;
     volCosAngle.correctBoundaryConditions();
     volCosAngle.write();
   }
   return max(min(cosAngle, scalar(1.0)), scalar(-1.0));
 }
+
+
 // Constructors 
 curvatureSeparation::curvatureSeparation
 (
@@ -177,39 +171,35 @@ curvatureSeparation::curvatureSeparation
   const dictionary& dict
 )
 :
-  injectionModel(type(), owner, dict),
-  gradNHat_(fvc::grad(owner.nHat())),
-  deltaByR1Min_(coeffDict_.lookupOrDefault<scalar>("deltaByR1Min", 0.0)),
+  injectionModel{type(), owner, dict},
+  gradNHat_{fvc::grad(owner.nHat())},
+  deltaByR1Min_{coeffDict_.lookupOrDefault<scalar>("deltaByR1Min", 0.0)},
   definedPatchRadii_(),
-  magG_(mag(owner.g().value())),
-  gHat_(vector::zero)
+  magG_{mag(owner.g().value())},
+  gHat_{vector::zero}
 {
-  if (magG_ < ROOTVSMALL)
-  {
+  if (magG_ < ROOTVSMALL) {
     FATAL_ERROR_IN
     (
       "curvatureSeparation::curvatureSeparation"
       "("
-        "const surfaceFilmModel&, "
-        "const dictionary&"
+      "  const surfaceFilmModel&, "
+      "  const dictionary&"
       ")"
     )
-      << "Acceleration due to gravity must be non-zero"
-      << exit(FatalError);
+    << "Acceleration due to gravity must be non-zero"
+    << exit(FatalError);
   }
   gHat_ = owner.g().value()/magG_;
-  List<Tuple2<word, scalar> > prIn(coeffDict_.lookup("definedPatchRadii"));
+  List<Tuple2<word, scalar>> prIn{coeffDict_.lookup("definedPatchRadii")};
   const wordList& allPatchNames = owner.regionMesh().boundaryMesh().names();
-  DynamicList<Tuple2<label, scalar> > prData(allPatchNames.size());
+  DynamicList<Tuple2<label, scalar>> prData{allPatchNames.size()};
   labelHashSet uniquePatchIDs;
-  FOR_ALL_REVERSE(prIn, i)
-  {
+  FOR_ALL_REVERSE(prIn, i) {
     labelList patchIDs = findStrings(prIn[i].first(), allPatchNames);
-    FOR_ALL(patchIDs, j)
-    {
+    FOR_ALL(patchIDs, j) {
       const label patchI = patchIDs[j];
-      if (!uniquePatchIDs.found(patchI))
-      {
+      if (!uniquePatchIDs.found(patchI)) {
         const scalar radius = prIn[i].second();
         prData.append(Tuple2<label, scalar>(patchI, radius));
         uniquePatchIDs.insert(patchI);
@@ -218,9 +208,13 @@ curvatureSeparation::curvatureSeparation
   }
   definedPatchRadii_.transfer(prData);
 }
+
+
 // Destructor 
 curvatureSeparation::~curvatureSeparation()
 {}
+
+
 // Member Functions 
 void curvatureSeparation::correct
 (
@@ -236,30 +230,26 @@ void curvatureSeparation::correct
   const volVectorField& U = film.U();
   const surfaceScalarField& phi = film.phi();
   const volScalarField& rho = film.rho();
-  const scalarField magSqrU(magSqr(film.U()));
+  const scalarField magSqrU{magSqr(film.U())};
   const volScalarField& sigma = film.sigma();
-  const scalarField invR1(calcInvR1(U));
-  const scalarField cosAngle(calcCosAngle(phi));
+  const scalarField invR1{calcInvR1(U)};
+  const scalarField cosAngle{calcCosAngle(phi)};
   // calculate force balance
   const scalar Fthreshold = 1e-10;
-  scalarField Fnet(mesh.nCells(), 0.0);
-  scalarField separated(mesh.nCells(), 0.0);
-  FOR_ALL(invR1, i)
-  {
-    if ((invR1[i] > 0) && (delta[i]*invR1[i] > deltaByR1Min_))
-    {
+  scalarField Fnet{mesh.nCells(), 0.0};
+  scalarField separated{mesh.nCells(), 0.0};
+  FOR_ALL(invR1, i) {
+    if ((invR1[i] > 0) && (delta[i]*invR1[i] > deltaByR1Min_)) {
       scalar R1 = 1.0/(invR1[i] + ROOTVSMALL);
       scalar R2 = R1 + delta[i];
       // inertial force
       scalar Fi = -delta[i]*rho[i]*magSqrU[i]*72.0/60.0*invR1[i];
       // body force
-      scalar Fb =
-       - 0.5*rho[i]*magG_*invR1[i]*(sqr(R1) - sqr(R2))*cosAngle[i];
+      scalar Fb = -0.5*rho[i]*magG_*invR1[i]*(sqr(R1) - sqr(R2))*cosAngle[i];
       // surface force
       scalar Fs = sigma[i]/R2;
       Fnet[i] = Fi + Fb + Fs;
-      if (Fnet[i] + Fthreshold < 0)
-      {
+      if (Fnet[i] + Fthreshold < 0) {
         separated[i] = 1.0;
       }
     }
@@ -269,27 +259,27 @@ void curvatureSeparation::correct
   diameterToInject = separated*delta;
   availableMass -= separated*availableMass;
   addToInjectedMass(sum(separated*availableMass));
-  if (debug && mesh.time().outputTime())
-  {
+  if (debug && mesh.time().outputTime()) {
     volScalarField volFnet
-    (
-      IOobject
-      (
+    {
+      {
         "Fnet",
         mesh.time().timeName(),
         mesh,
         IOobject::NO_READ
-      ),
+      },
       mesh,
-      dimensionedScalar("zero", dimForce, 0.0),
+      {"zero", dimForce, 0.0},
       zeroGradientFvPatchScalarField::typeName
-    );
+    };
     volFnet.internalField() = Fnet;
     volFnet.correctBoundaryConditions();
     volFnet.write();
   }
   injectionModel::correct();
 }
+
 }  // namespace surfaceFilmModels
 }  // namespace regionModels
 }  // namespace mousse
+

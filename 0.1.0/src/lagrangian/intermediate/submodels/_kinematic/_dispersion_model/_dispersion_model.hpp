@@ -6,13 +6,15 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::DispersionModel
-// Description
+
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
 #include "_cloud_sub_model_base.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class DispersionModel
 :
@@ -46,11 +48,11 @@ public:
     //- Construct copy
     DispersionModel(const DispersionModel<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<DispersionModel<CloudType> > clone() const = 0;
+    virtual autoPtr<DispersionModel<CloudType>> clone() const = 0;
   //- Destructor
   virtual ~DispersionModel();
   //- Selector
-  static autoPtr<DispersionModel<CloudType> > New
+  static autoPtr<DispersionModel<CloudType>> New
   (
     const dictionary& dict,
     CloudType& owner
@@ -67,7 +69,9 @@ public:
       scalar& tTurb
     ) = 0;
 };
+
 }  // namespace mousse
+
 
 #define MAKE_DISPERSION_MODEL(CloudType)                                      \
                                                                               \
@@ -75,14 +79,14 @@ public:
   DEFINE_TEMPLATE_TYPE_NAME_AND_DEBUG                                         \
     (mousse::DispersionModel<kinematicCloudType>, 0);                         \
                                                                               \
-  namespace mousse                                                            \
-  {                                                                           \
-    DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                  \
-    (                                                                         \
-      DispersionModel<kinematicCloudType>,                                    \
-      dictionary                                                              \
-    );                                                                        \
+  namespace mousse {                                                          \
+  DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE                                    \
+  (                                                                           \
+    DispersionModel<kinematicCloudType>,                                      \
+    dictionary                                                                \
+  );                                                                          \
   }
+
 
 #define MAKE_DISPERSION_MODEL_TYPE(SS, CloudType)                             \
                                                                               \
@@ -90,10 +94,10 @@ public:
   DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::SS<kinematicCloudType>, 0);\
                                                                               \
   mousse::DispersionModel<kinematicCloudType>::                               \
-    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType> >          \
+    adddictionaryConstructorToTable<mousse::SS<kinematicCloudType>>           \
       add##SS##CloudType##kinematicCloudType##ConstructorToTable_;
 
-#ifdef NoRepository
-#   include "_dispersion_model.cpp"
-#endif
+
+#include "_dispersion_model.ipp"
+
 #endif

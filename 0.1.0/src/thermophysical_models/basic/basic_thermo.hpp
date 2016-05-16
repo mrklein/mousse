@@ -8,15 +8,16 @@
 //   mousse::basicThermo
 // Description
 //   Abstract base-class for fluid and solid thermodynamic properties
-// SourceFiles
-//   basic_thermo.cpp
+
 #include "vol_fields.hpp"
 #include "type_info.hpp"
 #include "iodictionary.hpp"
 #include "auto_ptr.hpp"
 #include "word_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class basicThermo
 :
   public IOdictionary
@@ -322,8 +323,9 @@ public:
     //- Read thermophysical properties dictionary
     virtual bool read();
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "basic_thermo_templates.cpp"
-#endif
+
+#include "basic_thermo.ipp"
+
 #endif

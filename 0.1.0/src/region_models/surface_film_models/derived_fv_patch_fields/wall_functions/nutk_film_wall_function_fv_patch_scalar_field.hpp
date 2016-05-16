@@ -1,3 +1,6 @@
+#ifndef REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_NUTK_FILM_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+#define REGION_MODELS_SURFACE_FILM_MODELS_DERIVED_FV_PATCH_FIELDS_WALL_FUNCTIONS_NUTK_FILM_WALL_FUNCTION_FV_PATCH_SCALAR_FIELD_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -20,17 +23,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::nutkWallFunctionFvPatchScalarField
-// SourceFiles
-//   nutk_film_wall_function_fv_patch_scalar_field.cpp
-#ifndef compressibleNutSpalartAllmarasWallFunctionFvPatchScalarField_H
-#define compressibleNutSpalartAllmarasWallFunctionFvPatchScalarField_H
+
 #include "nutk_wall_function_fv_patch_scalar_field.hpp"
-namespace mousse
-{
-namespace compressible
-{
-namespace RASModels
-{
+
+
+namespace mousse {
+namespace compressible {
+namespace RASModels {
+
 class nutkFilmWallFunctionFvPatchScalarField
 :
   public nutkWallFunctionFvPatchScalarField
@@ -81,10 +81,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new nutkFilmWallFunctionFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new nutkFilmWallFunctionFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     nutkFilmWallFunctionFvPatchScalarField
@@ -98,10 +99,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new nutkFilmWallFunctionFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new nutkFilmWallFunctionFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
@@ -111,7 +113,10 @@ public:
       //- Write
       virtual void write(Ostream& os) const;
 };
+
 }  // namespace RASModels
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

@@ -1,6 +1,5 @@
 {
-  FOR_ALL(Y, specieI)
-  {
+  FOR_ALL(Y, specieI) {
     volScalarField& Yi = Y[specieI];
     solve
     (

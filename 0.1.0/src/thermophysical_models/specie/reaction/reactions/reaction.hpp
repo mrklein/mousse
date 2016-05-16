@@ -9,20 +9,23 @@
 // Description
 //   Simple extension of ReactionThermo to handle reaction kinetics in addition
 //   to the equilibrium thermodynamics already handled.
-// SourceFiles
-//   reaction.cpp
+
 #include "species_table.hpp"
 #include "hash_ptr_table.hpp"
 #include "scalar_field.hpp"
 #include "type_info.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of friend functions and operators
-template<class ReactionThermo>
-class Reaction;
+template<class ReactionThermo> class Reaction;
+
 template<class ReactionThermo>
 inline Ostream& operator<<(Ostream&, const Reaction<ReactionThermo>&);
+
+
 template<class ReactionThermo>
 class Reaction
 :
@@ -48,9 +51,9 @@ public:
       scalar exponent;
       specieCoeffs()
       :
-        index(-1),
-        stoichCoeff(0),
-        exponent(1)
+        index{-1},
+        stoichCoeff{0},
+        exponent{1}
       {}
       specieCoeffs(const speciesTable& species, Istream& is);
       bool operator==(const specieCoeffs& sc) const
@@ -63,7 +66,7 @@ public:
       }
       friend Ostream& operator<<(Ostream& os, const specieCoeffs& sc)
       {
-        os  << sc.index << token::SPACE
+        os << sc.index << token::SPACE
           << sc.stoichCoeff << token::SPACE
           << sc.exponent;
         return os;
@@ -127,15 +130,15 @@ public:
         const HashPtrTable<ReactionThermo>& thermoDatabase
       )
       :
-        species_(species),
-        thermoDatabase_(thermoDatabase)
+        species_{species},
+        thermoDatabase_{thermoDatabase}
       {}
       autoPtr<Reaction> operator()(Istream& is) const
       {
         return autoPtr<Reaction>
-        (
+        {
           Reaction::New(species_, thermoDatabase_, is)
-        );
+        };
       }
     };
   // Constructors
@@ -164,23 +167,23 @@ public:
       const dictionary& dict
     );
     //- Construct and return a clone
-    virtual autoPtr<Reaction<ReactionThermo> > clone() const //
+    virtual autoPtr<Reaction<ReactionThermo>> clone() const //
     {
-      return autoPtr<Reaction<ReactionThermo> >
-      (
-        new Reaction<ReactionThermo>(*this)
-      );
+      return autoPtr<Reaction<ReactionThermo>>
+      {
+        new Reaction<ReactionThermo>{*this}
+      };
     }
     //- Construct and return a clone with new speciesTable
-    virtual autoPtr<Reaction<ReactionThermo> > clone
+    virtual autoPtr<Reaction<ReactionThermo>> clone
     (
       const speciesTable& species
     ) const
     {
-      return autoPtr<Reaction<ReactionThermo> >
-      (
-        new Reaction<ReactionThermo>(*this, species)
-      );
+      return autoPtr<Reaction<ReactionThermo>>
+      {
+        new Reaction<ReactionThermo>{*this, species}
+      };
     }
     //- Disallow default bitwise assignment
     Reaction<ReactionThermo>& operator=
@@ -189,14 +192,14 @@ public:
     ) = delete;
   // Selectors
     //- Return a pointer to new patchField created on freestore from input
-    static autoPtr<Reaction<ReactionThermo> > New
+    static autoPtr<Reaction<ReactionThermo>> New
     (
       const speciesTable& species,
       const HashPtrTable<ReactionThermo>& thermoDatabase,
       Istream& is
     );
     //- Return a pointer to new patchField created on freestore from dict
-    static autoPtr<Reaction<ReactionThermo> > New
+    static autoPtr<Reaction<ReactionThermo>> New
     (
       const speciesTable& species,
       const HashPtrTable<ReactionThermo>& thermoDatabase,
@@ -261,33 +264,43 @@ public:
       const Reaction<ReactionThermo>&
     );
 };
+
 }  // namespace mousse
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Member Functions 
 template<class ReactionThermo>
 inline word& Reaction<ReactionThermo>::name()
 {
   return name_;
 }
+
+
 template<class ReactionThermo>
 inline const word& Reaction<ReactionThermo>::name() const
 {
   return name_;
 }
+
+
 template<class ReactionThermo>
 inline const List<typename Reaction<ReactionThermo>::specieCoeffs>&
 Reaction<ReactionThermo>::lhs() const
 {
   return lhs_;
 }
+
+
 template<class ReactionThermo>
 inline const List<typename Reaction<ReactionThermo>::specieCoeffs>&
 Reaction<ReactionThermo>::rhs() const
 {
   return rhs_;
 }
+
+
 // Ostream Operator 
 template<class ReactionThermo>
 inline Ostream& operator<<(Ostream& os, const Reaction<ReactionThermo>& r)
@@ -296,8 +309,9 @@ inline Ostream& operator<<(Ostream& os, const Reaction<ReactionThermo>& r)
   os << r.reactionStr(reaction)<< token::END_STATEMENT <<nl;
  return os;
 }
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "reaction.cpp"
-#endif
+
+#include "reaction.ipp"
+
 #endif

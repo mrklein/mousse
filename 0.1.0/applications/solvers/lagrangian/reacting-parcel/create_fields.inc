@@ -9,8 +9,7 @@ SLGThermo slgThermo{mesh, thermo};
 basicSpecieMixture& composition = thermo.composition();
 PtrList<volScalarField>& Y = composition.Y();
 const word inertSpecie{thermo.lookup("inertSpecie")};
-if (!composition.contains(inertSpecie))
-{
+if (!composition.contains(inertSpecie)) {
   FATAL_ERROR_IN(args.executable())
     << "Specified inert specie '" << inertSpecie << "' not found in "
     << "species list. Available species:" << composition.species()
@@ -46,34 +45,16 @@ volVectorField U
 mesh.setFluxRequired(p.name());
 dimensionedScalar rhoMax
 {
-  dimensionedScalar::lookupOrDefault
-  (
-    "rhoMax",
-    pimple.dict(),
-    dimDensity,
-    GREAT
-  )
+  dimensionedScalar::lookupOrDefault("rhoMax", pimple.dict(), dimDensity, GREAT)
 };
 dimensionedScalar rhoMin
 {
-  dimensionedScalar::lookupOrDefault
-  (
-    "rhoMin",
-    pimple.dict(),
-    dimDensity,
-    0
-  )
+  dimensionedScalar::lookupOrDefault("rhoMin", pimple.dict(), dimDensity, 0)
 };
 Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
 // Set the turbulence into the combustion model
 combustion->setTurbulence(turbulence());
@@ -92,8 +73,7 @@ Info << "Creating field kinetic energy K\n" << endl;
 volScalarField K{"K", 0.5*magSqr(U)};
 Info << "Creating multi-variate interpolation scheme\n" << endl;
 multivariateSurfaceInterpolationScheme<scalar>::fieldTable fields;
-FOR_ALL(Y, i)
-{
+FOR_ALL(Y, i) {
   fields.add(Y[i]);
 }
 fields.add(thermo.he());

@@ -17,15 +17,16 @@ mousse::LduMatrix<Type, DType, LUType>::solver::New
 {
   word solverName = solverDict.lookup("solver");
   if (matrix.diagonal()) {
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
-    {
-      new DiagonalSolver<Type, DType, LUType>
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
       {
-        fieldName,
-        matrix,
-        solverDict
-      }
-    };
+        new DiagonalSolver<Type, DType, LUType>
+        {
+          fieldName,
+          matrix,
+          solverDict
+        }
+      };
   } else if (matrix.symmetric()) {
     typename symMatrixConstructorTable::iterator constructorIter =
       symMatrixConstructorTablePtr_->find(solverName);
@@ -40,15 +41,16 @@ mousse::LduMatrix<Type, DType, LUType>::solver::New
       << symMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        solverDict
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          solverDict
+        )
+      };
   } else if (matrix.asymmetric()) {
     typename asymMatrixConstructorTable::iterator constructorIter =
       asymMatrixConstructorTablePtr_->find(solverName);
@@ -63,15 +65,16 @@ mousse::LduMatrix<Type, DType, LUType>::solver::New
       << asymMatrixConstructorTablePtr_->toc()
       << exit(FatalIOError);
     }
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
-    {
-      constructorIter()
-      (
-        fieldName,
-        matrix,
-        solverDict
-      )
-    };
+    return
+      autoPtr<typename LduMatrix<Type, DType, LUType>::solver>
+      {
+        constructorIter()
+        (
+          fieldName,
+          matrix,
+          solverDict
+        )
+      };
   } else {
     FATAL_IO_ERROR_IN
     (
@@ -79,7 +82,7 @@ mousse::LduMatrix<Type, DType, LUType>::solver::New
     )
     << "cannot solve incomplete matrix, no diagonal or off-diagonal coefficient"
     << exit(FatalIOError);
-    return autoPtr<typename LduMatrix<Type, DType, LUType>::solver>{NULL};
+    return autoPtr<typename LduMatrix<Type, DType, LUType>::solver>{nullptr};
   }
 }
 
@@ -138,11 +141,12 @@ Type mousse::LduMatrix<Type, DType, LUType>::solver::normFactor
   // --- Calculate A dot reference value of psi
   matrix_.sumA(tmpField);
   cmptMultiply(tmpField, tmpField, gAverage(psi));
-  return stabilise
-  (
-    gSum(cmptMag(Apsi - tmpField) + cmptMag(matrix_.source() - tmpField)),
-    SolverPerformance<Type>::small_
-  );
+  return
+    stabilise
+    (
+      gSum(cmptMag(Apsi - tmpField) + cmptMag(matrix_.source() - tmpField)),
+      SolverPerformance<Type>::small_
+    );
   // At convergence this simpler method is equivalent to the above
   // return stabilise(2*gSumCmptMag(matrix_.source()), matrix_.small_);
 }

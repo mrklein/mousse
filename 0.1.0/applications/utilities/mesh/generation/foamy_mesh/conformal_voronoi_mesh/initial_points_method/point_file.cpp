@@ -4,11 +4,15 @@
 
 #include "point_file.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(pointFile, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE(initialPointsMethod, pointFile, dictionary);
+
+
 // Constructors 
 pointFile::pointFile
 (
@@ -21,7 +25,7 @@ pointFile::pointFile
 )
 :
   initialPointsMethod
-  (
+  {
     typeName,
     initialPointsDict,
     runTime,
@@ -29,72 +33,64 @@ pointFile::pointFile
     geometryToConformTo,
     cellShapeControls,
     decomposition
-  ),
-  pointFileName_(detailsDict().lookup("pointFile")),
-  insideOutsideCheck_(detailsDict().lookup("insideOutsideCheck")),
-  randomiseInitialGrid_(detailsDict().lookup("randomiseInitialGrid")),
+  },
+  pointFileName_{detailsDict().lookup("pointFile")},
+  insideOutsideCheck_{detailsDict().lookup("insideOutsideCheck")},
+  randomiseInitialGrid_{detailsDict().lookup("randomiseInitialGrid")},
   randomPerturbationCoeff_
-  (
+  {
     readScalar(detailsDict().lookup("randomPerturbationCoeff"))
-  )
+  }
 {
-  Info<< "    Inside/Outside check is " << insideOutsideCheck_.asText()
+  Info << "    Inside/Outside check is " << insideOutsideCheck_.asText()
     << endl;
 }
+
+
 // Member Functions 
 List<Vb::Point> pointFile::initialPoints() const
 {
   pointIOField points
-  (
+  {
     IOobject
-    (
+    {
       pointFileName_.name(),
       time().timeName(),
       time(),
       IOobject::MUST_READ,
       IOobject::NO_WRITE
-    )
-  );
-  Info<< "    Inserting points from file " << pointFileName_ << endl;
-  if (points.empty())
-  {
+    }
+  };
+  Info << "    Inserting points from file " << pointFileName_ << endl;
+  if (points.empty()) {
     FATAL_ERROR_IN("List<Vb::Point> pointFile::initialPoints() const")
       << "Point file contain no points"
       << exit(FatalError) << endl;
   }
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     // Testing filePath to see if the file originated in a processor
     // directory, if so, assume that the points in each processor file
     // are unique.  They are unlikely to belong on the current
     // processor as the background mesh is unlikely to be the same.
     const bool isParentFile = (points.objectPath() != points.filePath());
-    if (!isParentFile)
-    {
+    if (!isParentFile) {
       decomposition().distributePoints(points);
-    }
-    else
-    {
+    } else {
       // Otherwise, this is assumed to be points covering the whole
       // domain, so filter the points to be only those on this processor
-      boolList procPt(decomposition().positionOnThisProcessor(points));
-      List<boolList> allProcPt(Pstream::nProcs());
+      boolList procPt{decomposition().positionOnThisProcessor(points)};
+      List<boolList> allProcPt{Pstream::nProcs()};
       allProcPt[Pstream::myProcNo()] = procPt;
       Pstream::gatherList(allProcPt);
       Pstream::scatterList(allProcPt);
-      FOR_ALL(procPt, ptI)
-      {
+      FOR_ALL(procPt, ptI) {
         bool foundAlready = false;
-        FOR_ALL(allProcPt, procI)
-        {
+        FOR_ALL(allProcPt, procI) {
           // If a processor with a lower index has found this point
           // to insert already, defer to it and don't insert.
-          if (foundAlready)
-          {
+          if (foundAlready) {
             allProcPt[procI][ptI] = false;
-          }
-          else if (allProcPt[procI][ptI])
-          {
+          } else if (allProcPt[procI][ptI]) {
             foundAlready = true;
           }
         }
@@ -103,42 +99,39 @@ List<Vb::Point> pointFile::initialPoints() const
       inplaceSubset(procPt, points);
     }
   }
-  Field<bool> insidePoints(points.size(), true);
-  if (insideOutsideCheck_)
-  {
-    insidePoints = geometryToConformTo().wellInside
-    (
-      points,
-      minimumSurfaceDistanceCoeffSqr_
-     *sqr(cellShapeControls().cellSize(points))
-    );
+  Field<bool> insidePoints{points.size(), true};
+  if (insideOutsideCheck_) {
+    insidePoints =
+      geometryToConformTo().wellInside
+      (
+        points,
+        minimumSurfaceDistanceCoeffSqr_
+        *sqr(cellShapeControls().cellSize(points))
+      );
   }
-  DynamicList<Vb::Point> initialPoints(insidePoints.size()/10);
-  FOR_ALL(insidePoints, i)
-  {
-    if (insidePoints[i])
-    {
-      point& p = points[i];
-      if (randomiseInitialGrid_)
-      {
-        p.x() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
-        p.y() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
-        p.z() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
-      }
-      initialPoints.append(Vb::Point(p.x(), p.y(), p.z()));
+  DynamicList<Vb::Point> initialPoints{insidePoints.size()/10};
+  FOR_ALL(insidePoints, i) {
+    if (!insidePoints[i])
+      continue;
+    point& p = points[i];
+    if (randomiseInitialGrid_) {
+      p.x() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
+      p.y() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
+      p.z() += randomPerturbationCoeff_*(rndGen().scalar01() - 0.5);
     }
+    initialPoints.append(Vb::Point(p.x(), p.y(), p.z()));
   }
   initialPoints.shrink();
   label nPointsRejected = points.size() - initialPoints.size();
-  if (Pstream::parRun())
-  {
+  if (Pstream::parRun()) {
     reduce(nPointsRejected, sumOp<label>());
   }
-  if (nPointsRejected)
-  {
-    Info<< "    " << nPointsRejected << " points rejected from "
+  if (nPointsRejected) {
+    Info << "    " << nPointsRejected << " points rejected from "
       << pointFileName_.name() << endl;
   }
   return initialPoints;
 }
+
 }  // namespace mousse
+

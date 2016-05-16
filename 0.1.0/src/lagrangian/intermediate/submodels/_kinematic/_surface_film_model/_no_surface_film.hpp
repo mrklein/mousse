@@ -8,11 +8,12 @@
 //   mousse::NoSurfaceFilm
 // Description
 //   Place holder for 'none' option
-// SourceFiles
-//   _no_surface_film.cpp
+
 #include "_surface_film_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class NoSurfaceFilm
 :
@@ -31,12 +32,13 @@ public:
     //- Construct copy
     NoSurfaceFilm(const NoSurfaceFilm<CloudType>& dm);
     //- Construct and return a clone
-    virtual autoPtr<SurfaceFilmModel<CloudType> > clone() const
+    virtual autoPtr<SurfaceFilmModel<CloudType>> clone() const
     {
-      return autoPtr<SurfaceFilmModel<CloudType> >
-      (
-        new NoSurfaceFilm<CloudType>(*this)
-      );
+      return
+        autoPtr<SurfaceFilmModel<CloudType>>
+        {
+          new NoSurfaceFilm<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~NoSurfaceFilm();
@@ -62,8 +64,9 @@ public:
       //- Write surface film info to stream
       virtual void info(Ostream& os);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_no_surface_film.cpp"
-#endif
+
+#include "_no_surface_film.ipp"
+
 #endif

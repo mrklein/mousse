@@ -9,6 +9,8 @@
 #include "surface_fields.hpp"
 #include "ioobject_list.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
+
+
 // Constructors 
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
@@ -26,6 +28,8 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   refGrad() = 0.0;
   valueFraction() = 0.0;
 }
+
+
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 (
@@ -42,18 +46,17 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   refValue() = 1.0;
   refGrad() = 0.0;
   valueFraction() = 0.0;
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<scalar>::operator=
     (
-      Field<scalar>("value", dict, p.size())
+      Field<scalar>{"value", dict, p.size()}
     );
-  }
-  else
-  {
+  } else {
     fvPatchField<scalar>::operator=(refValue());
   }
 }
+
+
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 (
@@ -68,6 +71,8 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   rhoName_{ptf.rhoName_},
   massFluxFraction_{ptf.massFluxFraction_}
 {}
+
+
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 (
@@ -79,6 +84,8 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   rhoName_{tppsf.rhoName_},
   massFluxFraction_{tppsf.massFluxFraction_}
 {}
+
+
 mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 (
@@ -91,6 +98,8 @@ totalFlowRateAdvectiveDiffusiveFvPatchScalarField
   rhoName_{tppsf.rhoName_},
   massFluxFraction_{tppsf.massFluxFraction_}
 {}
+
+
 // Member Functions 
 void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::autoMap
 (
@@ -99,6 +108,8 @@ void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::autoMap
 {
   scalarField::autoMap(m);
 }
+
+
 void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::rmap
 (
   const fvPatchScalarField& ptf,
@@ -107,17 +118,18 @@ void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::rmap
 {
   mixedFvPatchField<scalar>::rmap(ptf, addr);
 }
+
+
 void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::updateCoeffs()
 {
-  if (this->updated())
-  {
+  if (this->updated()) {
     return;
   }
   const label patchI = patch().index();
   const LESModel<EddyDiffusivity<compressible::turbulenceModel> >& turbModel =
     db().lookupObject
     <
-      LESModel<EddyDiffusivity<compressible::turbulenceModel> >
+      LESModel<EddyDiffusivity<compressible::turbulenceModel>>
     >
     (
       IOobject::groupName
@@ -128,27 +140,24 @@ void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::updateCoeffs()
     );
   const fvsPatchField<scalar>& phip =
     patch().lookupPatchField<surfaceScalarField, scalar>(phiName_);
-  const scalarField alphap(turbModel.alphaEff(patchI));
+  const scalarField alphap{turbModel.alphaEff(patchI)};
   refValue() = massFluxFraction_;
   refGrad() = 0.0;
   valueFraction() =
     1.0
-    /
-    (
-      1.0 +
-      alphap*patch().deltaCoeffs()*patch().magSf()/max(mag(phip), SMALL)
-    );
+    /(1.0 + alphap*patch().deltaCoeffs()*patch().magSf()/max(mag(phip), SMALL));
   mixedFvPatchField<scalar>::updateCoeffs();
-  if (debug)
-  {
+  if (debug) {
     scalar phi = gSum(-phip*(*this));
-    Info<< patch().boundaryMesh().mesh().name() << ':'
+    Info << patch().boundaryMesh().mesh().name() << ':'
       << patch().name() << ':'
       << this->dimensionedInternalField().name() << " :"
       << " mass flux[Kg/s]:" << phi
       << endl;
   }
 }
+
+
 void mousse::totalFlowRateAdvectiveDiffusiveFvPatchScalarField::
 write(Ostream& os) const
 {
@@ -159,11 +168,15 @@ write(Ostream& os) const
     << token::END_STATEMENT << nl;
   this->writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   totalFlowRateAdvectiveDiffusiveFvPatchScalarField
 );
+
 }
+

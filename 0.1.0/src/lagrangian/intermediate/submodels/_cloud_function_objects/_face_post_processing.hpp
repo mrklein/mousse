@@ -11,12 +11,13 @@
 //   Currently supports:
 //     accummulated mass
 //     average mass flux
-// SourceFiles
-//   _face_post_processing.cpp
+
 #include "_cloud_function_object.hpp"
 #include "face_zone.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class FacePostProcessing
 :
@@ -73,12 +74,13 @@ public:
     //- Construct copy
     FacePostProcessing(const FacePostProcessing<CloudType>& ppm);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new FacePostProcessing<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new FacePostProcessing<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~FacePostProcessing();
@@ -95,7 +97,9 @@ public:
         bool& keepParticle
       );
 };
+
 }  // namespace mousse
+
 
 template<class CloudType>
 inline const mousse::Switch&
@@ -103,7 +107,7 @@ mousse::FacePostProcessing<CloudType>::resetOnWrite() const
 {
   return resetOnWrite_;
 }
-#ifdef NoRepository
-#   include "_face_post_processing.cpp"
-#endif
+
+#include "_face_post_processing.ipp"
+
 #endif

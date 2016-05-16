@@ -7,6 +7,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "psiu_reaction_thermo.hpp"
+
+
 // Constructors 
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
@@ -21,6 +23,8 @@ mixedUnburntEnthalpyFvPatchScalarField
   refValue() = 0.0;
   refGrad() = 0.0;
 }
+
+
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
 (
@@ -32,6 +36,8 @@ mixedUnburntEnthalpyFvPatchScalarField
 :
   mixedFvPatchScalarField{ptf, p, iF, mapper}
 {}
+
+
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
 (
@@ -42,6 +48,8 @@ mixedUnburntEnthalpyFvPatchScalarField
 :
   mixedFvPatchScalarField{p, iF, dict}
 {}
+
+
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
 (
@@ -50,6 +58,8 @@ mixedUnburntEnthalpyFvPatchScalarField
 :
   mixedFvPatchScalarField{tppsf}
 {}
+
+
 mousse::mixedUnburntEnthalpyFvPatchScalarField::
 mixedUnburntEnthalpyFvPatchScalarField
 (
@@ -59,39 +69,40 @@ mixedUnburntEnthalpyFvPatchScalarField
 :
   mixedFvPatchScalarField{tppsf, iF}
 {}
+
+
 // Member Functions 
 void mousse::mixedUnburntEnthalpyFvPatchScalarField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
-  const psiuReactionThermo& thermo = db().lookupObject<psiuReactionThermo>
-  (
-    basicThermo::dictName
-  );
+  const psiuReactionThermo& thermo =
+    db().lookupObject<psiuReactionThermo>(basicThermo::dictName);
   const label patchi = patch().index();
   const scalarField& pw = thermo.p().boundaryField()[patchi];
-  mixedFvPatchScalarField& Tw = refCast<mixedFvPatchScalarField>
-  (
-    const_cast<fvPatchScalarField&>(thermo.Tu().boundaryField()[patchi])
-  );
+  mixedFvPatchScalarField& Tw =
+    refCast<mixedFvPatchScalarField>
+    (
+      const_cast<fvPatchScalarField&>(thermo.Tu().boundaryField()[patchi])
+    );
   Tw.evaluate();
   valueFraction() = Tw.valueFraction();
   refValue() = thermo.heu(pw, Tw.refValue(), patchi);
   refGrad() = thermo.Cp(pw, Tw, patchi)*Tw.refGrad()
-   + patch().deltaCoeffs()*
-    (
-      thermo.heu(pw, Tw, patchi)
-     - thermo.heu(pw, Tw, patch().faceCells())
-    );
+    + patch().deltaCoeffs()*(thermo.heu(pw, Tw, patchi)
+                             - thermo.heu(pw, Tw, patch().faceCells()));
   mixedFvPatchScalarField::updateCoeffs();
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   mixedUnburntEnthalpyFvPatchScalarField
 );
+
 }
+

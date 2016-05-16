@@ -8,11 +8,12 @@
 //   mousse::pureMixture
 // Description
 //   mousse::pureMixture
-// SourceFiles
-//   pure_mixture.cpp
+
 #include "basic_mixture.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class ThermoType>
 class pureMixture
 :
@@ -20,19 +21,16 @@ class pureMixture
 {
   // Private data
     ThermoType mixture_;
-    //- Construct as copy (not implemented)
-    pureMixture(const pureMixture<ThermoType>&);
 public:
   //- The type of thermodynamics this mixture is instantiated for
   typedef ThermoType thermoType;
   // Constructors
     //- Construct from dictionary, mesh and phase name
     pureMixture(const dictionary&, const fvMesh&, const word&);
+    //- Disable construct as copy
+    pureMixture(const pureMixture<ThermoType>&) = delete;
   // Member functions
-    const ThermoType& cellMixture(const label) const
-    {
-      return mixture_;
-    }
+    const ThermoType& cellMixture(const label) const { return mixture_; }
     const ThermoType& patchFaceMixture
     (
       const label,
@@ -63,9 +61,10 @@ public:
     //- Read dictionary
     void read(const dictionary&);
 };
+
 }  // namespace mousse
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-#ifdef NoRepository
-#   include "pure_mixture.cpp"
-#endif
+
+
+#include "pure_mixture.ipp"
+
 #endif

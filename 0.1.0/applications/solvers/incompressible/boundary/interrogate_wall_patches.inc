@@ -4,51 +4,39 @@ label patchId{-1};
 label nWallFaces{0};
 vector wallNormal{vector::zero};
 const fvPatchList& patches = mesh.boundary();
-FOR_ALL(patches, patchi)
-{
+FOR_ALL(patches, patchi) {
   const fvPatch& currPatch = patches[patchi];
-  if (isA<wallFvPatch>(currPatch))
-  {
-    const vectorField nf(currPatch.nf());
-    FOR_ALL(nf, facei)
-    {
-      nWallFaces++;
-      if (nWallFaces == 1)
-      {
-        wallNormal = -nf[facei];
-        faceId = facei;
-        patchId = patchi;
+  if (!isA<wallFvPatch>(currPatch))
+    continue;
+  const vectorField nf(currPatch.nf());
+  FOR_ALL(nf, facei) {
+    nWallFaces++;
+    if (nWallFaces == 1) {
+      wallNormal = -nf[facei];
+      faceId = facei;
+      patchId = patchi;
+    } else if (nWallFaces == 2) {
+      const vector wallNormal2 = -nf[facei];
+      //- Check that wall faces are parallel
+      if (mag(wallNormal & wallNormal2) > 1.01
+        || mag(wallNormal & wallNormal2) < 0.99) {
+        FATAL_ERROR_IN(args.executable())
+          << "wall faces are not parallel for patches "
+          << patches[patchId].name() << " and "
+          << currPatch.name() << nl
+          << exit(FatalError);
       }
-      else if (nWallFaces == 2)
-      {
-        const vector wallNormal2 = -nf[facei];
-        //- Check that wall faces are parallel
-        if (mag(wallNormal & wallNormal2) > 1.01
-          || mag(wallNormal & wallNormal2) < 0.99)
-        {
-          FATAL_ERROR_IN(args.executable())
-            << "wall faces are not parallel for patches "
-            << patches[patchId].name() << " and "
-            << currPatch.name() << nl
-            << exit(FatalError);
-        }
-      }
-      else
-      {
-        FATAL_ERROR_IN(args.executable()) << "number of wall faces > 2"
-          << nl << exit(FatalError);
-      }
+    } else {
+      FATAL_ERROR_IN(args.executable()) << "number of wall faces > 2"
+        << nl << exit(FatalError);
     }
   }
 }
-if (nWallFaces == 0)
-{
+if (nWallFaces == 0) {
   FATAL_ERROR_IN(args.executable()) << "No wall patches identified"
     << exit(FatalError);
-}
-else
-{
-  Info<< "Generating wall data for patch: " << patches[patchId].name()
+} else {
+  Info << "Generating wall data for patch: " << patches[patchId].name()
     << endl;
 }
 // store local id of near-walll cell to process
@@ -59,4 +47,4 @@ scalarField y
   wallNormal
   & (mesh.C().internalField() - mesh.C().boundaryField()[patchId][faceId])
 };
-Info<< "    Height to first cell centre y0 = " << y[cellId] << endl;
+Info << "    Height to first cell centre y0 = " << y[cellId] << endl;

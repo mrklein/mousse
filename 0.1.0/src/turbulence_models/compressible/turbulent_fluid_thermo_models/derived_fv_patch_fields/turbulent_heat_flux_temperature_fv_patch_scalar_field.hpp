@@ -1,3 +1,6 @@
+#ifndef TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TURBULENT_HEAT_FLUX_TEMPERATURE_FV_PATCH_SCALAR_FIELDS_HPP_
+#define TURBULENCE_MODELS_COMPRESSIBLE_TURBULENT_FLUID_THERMO_MODELS_DERIVED_FV_PATCH_FIELDS_TURBULENT_HEAT_FLUX_TEMPERATURE_FV_PATCH_SCALAR_FIELDS_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2015 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -33,16 +36,14 @@
 //   \endverbatim
 // SeeAlso
 //   mousse::temperatureCoupledBase
-// SourceFiles
-//   turbulent_heat_flux_temperature_fv_patch_scalar_field.cpp
-#ifndef turbulentHeatFluxTemperatureFvPatchScalarFields_H
-#define turbulentHeatFluxTemperatureFvPatchScalarFields_H
+
 #include "fixed_gradient_fv_patch_fields.hpp"
 #include "temperature_coupled_base.hpp"
-namespace mousse
-{
-namespace compressible
-{
+
+
+namespace mousse {
+namespace compressible {
+
 class turbulentHeatFluxTemperatureFvPatchScalarField
 :
   public fixedGradientFvPatchScalarField,
@@ -101,10 +102,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentHeatFluxTemperatureFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentHeatFluxTemperatureFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     turbulentHeatFluxTemperatureFvPatchScalarField
@@ -118,14 +120,11 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new turbulentHeatFluxTemperatureFvPatchScalarField
-        (
-          *this,
-          iF
-        )
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new turbulentHeatFluxTemperatureFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Mapping functions
@@ -144,6 +143,9 @@ public:
       //- Write
       virtual void write(Ostream&) const;
 };
+
 }  // namespace compressible
 }  // namespace mousse
+
 #endif
+

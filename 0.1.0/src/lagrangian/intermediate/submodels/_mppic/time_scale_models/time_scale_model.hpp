@@ -8,15 +8,16 @@
 //   mousse::TimeScaleModel
 // Description
 //   Base class for time scale models.
-// SourceFiles
-//   time_scale_model.cpp
+
 #include "constants.hpp"
 #include "field.hpp"
 #include "field_field.hpp"
 #include "dictionary.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class TimeScaleModel
 {
 protected:
@@ -63,5 +64,8 @@ public:
       const FieldField<Field, scalar>& f
     ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

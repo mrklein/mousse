@@ -1,3 +1,6 @@
+#ifndef SCOPE_BLEND_XI_EQ_HPP_
+#define SCOPE_BLEND_XI_EQ_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
@@ -6,17 +9,15 @@
 // Description
 //   Simple SCOPEBlendXiEq model for XiEq based on SCOPEXiEqs correlation
 //   with a linear correction function to give a plausible profile for XiEq.
-//   See @link SCOPELaminarFlameSpeed.H @endlink for details on the SCOPE
+//   See @link scope_laminar_flame_speed.hpp @endlink for details on the SCOPE
 //   laminar flame speed model.
-// SourceFiles
-//   scope_blend.cpp
-#ifndef SCOPE_BLEND_H
-#define SCOPE_BLEND_H
+
 #include "xi_eq_model.hpp"
-namespace mousse
-{
-namespace XiEqModels
-{
+
+
+namespace mousse {
+namespace XiEqModels {
+
 class SCOPEBlend
 :
   public XiEqModel
@@ -53,6 +54,9 @@ public:
       return true;
     }
 };
+
 }  // namespace XiEqModels
 }  // namespace mousse
+
 #endif
+

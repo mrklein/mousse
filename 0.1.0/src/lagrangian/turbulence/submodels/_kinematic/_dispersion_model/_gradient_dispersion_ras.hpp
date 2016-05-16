@@ -11,11 +11,11 @@
 //   Gaussian random number distribution with variance sigma.
 //   where sigma is defined below
 
-
 #include "_dispersion_ras_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class GradientDispersionRAS
 :
@@ -39,10 +39,11 @@ public:
     //- Construct and return a clone
     virtual autoPtr<DispersionModel<CloudType>> clone() const
     {
-      return autoPtr<DispersionModel<CloudType>>
-      {
-        new GradientDispersionRAS<CloudType>{*this}
-      };
+      return
+        autoPtr<DispersionModel<CloudType>>
+        {
+          new GradientDispersionRAS<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~GradientDispersionRAS();
@@ -60,9 +61,9 @@ public:
       scalar& tTurb
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#include "_gradient_dispersion_ras.cpp"
-#endif
+#include "_gradient_dispersion_ras.ipp"
+
 #endif

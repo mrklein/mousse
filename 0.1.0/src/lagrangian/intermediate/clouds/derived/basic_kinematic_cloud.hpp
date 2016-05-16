@@ -8,11 +8,16 @@
 //   mousse::basicKinematicCloud
 // Description
 //   Cloud class to introduce kinematic parcels
+
 #include "_cloud.hpp"
 #include "_kinematic_cloud.hpp"
 #include "basic_kinematic_parcel.hpp"
-namespace mousse
-{
-  typedef KinematicCloud<Cloud<basicKinematicParcel>> basicKinematicCloud;
+
+
+namespace mousse {
+
+typedef KinematicCloud<Cloud<basicKinematicParcel>> basicKinematicCloud;
+
 }
+
 #endif

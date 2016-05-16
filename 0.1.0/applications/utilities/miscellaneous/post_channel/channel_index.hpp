@@ -8,14 +8,15 @@
 //   mousse::channelIndex
 // Description
 //   Does averaging of fields over layers of cells. Assumes layered mesh.
-// SourceFiles
-//   channel_index.cpp
+
 #include "region_split.hpp"
 #include "direction.hpp"
 #include "scalar_field.hpp"
 #include "poly_mesh.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class channelIndex
 {
   // Private data
@@ -45,9 +46,6 @@ class channelIndex
       const polyMesh& mesh,
       const labelList& startFaces
     );
-    //- Disallow default bitwise copy construct and assignment
-    channelIndex(const channelIndex&);
-    void operator=(const channelIndex&);
 public:
   // Constructors
     //- Construct from dictionary
@@ -60,6 +58,9 @@ public:
       const bool symmetric,
       const direction dir
     );
+    //- Disallow default bitwise copy construct and assignment
+    channelIndex(const channelIndex&) = delete;
+    void operator=(const channelIndex&) = delete;
   // Member Functions
     // Access
       //- Sum field per region
@@ -78,8 +79,9 @@ public:
         return y_;
       }
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-  #include "channel_index_templates.cpp"
-#endif
+
+#include "channel_index.ipp"
+
 #endif

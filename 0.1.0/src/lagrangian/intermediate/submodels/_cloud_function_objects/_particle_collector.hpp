@@ -56,15 +56,16 @@
 //     log             yes;
 //   }
 //   \endverbatim
-// SourceFiles
-//   _particle_collector.cpp
+
 #include "_cloud_function_object.hpp"
 #include "cylindrical_cs.hpp"
 #include "face.hpp"
 #include "switch.hpp"
 #include "ofstream.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class ParticleCollector
 :
@@ -94,7 +95,7 @@ private:
     List<face> faces_;
     // Polygon collector
       //- Triangulation of faces
-      List<List<face> > faceTris_;
+      List<List<face>> faceTris_;
     // Concentric circles collector
       //- Number of sectors per circle
       label nSector_;
@@ -137,7 +138,7 @@ private:
       const Field<scalar>& area
     );
     //- Initialise polygon collectors
-    void initPolygons(const List<Field<point> >& polygons);
+    void initPolygons(const List<Field<point>>& polygons);
     //- Initialise concentric circle collectors
     void initConcentricCircles();
     //- Collect parcels in polygon collectors
@@ -170,12 +171,13 @@ public:
     //- Construct copy
     ParticleCollector(const ParticleCollector<CloudType>& pc);
     //- Construct and return a clone
-    virtual autoPtr<CloudFunctionObject<CloudType> > clone() const
+    virtual autoPtr<CloudFunctionObject<CloudType>> clone() const
     {
-      return autoPtr<CloudFunctionObject<CloudType> >
-      (
-        new ParticleCollector<CloudType>(*this)
-      );
+      return
+        autoPtr<CloudFunctionObject<CloudType>>
+        {
+          new ParticleCollector<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~ParticleCollector();
@@ -202,7 +204,7 @@ mousse::ParticleCollector<CloudType>::resetOnWrite() const
 {
   return resetOnWrite_;
 }
-#ifdef NoRepository
-#   include "_particle_collector.cpp"
-#endif
+
+#include "_particle_collector.ipp"
+
 #endif

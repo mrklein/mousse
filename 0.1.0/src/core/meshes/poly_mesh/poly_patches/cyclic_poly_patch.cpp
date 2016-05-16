@@ -23,9 +23,7 @@
 namespace mousse {
 
 DEFINE_TYPE_NAME_AND_DEBUG(cyclicPolyPatch, 0);
-
 ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicPolyPatch, word);
-
 ADD_TO_RUN_TIME_SELECTION_TABLE(polyPatch, cyclicPolyPatch, dictionary);
 
 }

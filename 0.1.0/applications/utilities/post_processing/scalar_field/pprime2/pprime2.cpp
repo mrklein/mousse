@@ -4,6 +4,7 @@
 
 #include "fv_cfd.hpp"
 
+
 int main(int argc, char *argv[])
 {
   timeSelector::addOptions();
@@ -23,8 +24,7 @@ int main(int argc, char *argv[])
     },
     mesh
   };
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
     IOobject pheader
@@ -35,8 +35,7 @@ int main(int argc, char *argv[])
       IOobject::MUST_READ
     };
     // Check p exists
-    if (pheader.headerOk())
-    {
+    if (pheader.headerOk()) {
       mesh.readUpdate();
       Info << "    Reading p" << endl;
       volScalarField p{pheader, mesh};
@@ -52,12 +51,11 @@ int main(int argc, char *argv[])
         sqr(p - pMean)
       };
       pPrime2.write();
-    }
-    else
-    {
+    } else {
       Info << "    No p" << endl;
     }
     Info << endl;
   }
   return 0;
 }
+

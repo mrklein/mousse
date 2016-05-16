@@ -4,13 +4,13 @@
 // mousse: CFD toolbox
 // Copyright (C) 2011 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
-//   write_patch.cpp
 
 #include "primitive_mesh.hpp"
 #include "primitive_face_patch.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 // Write faceSet
 void writePatch
 (
@@ -21,5 +21,8 @@ void writePatch
   labelList& fieldValues,
   const fileName& fileName
 );
+
 }  // namespace mousse
+
 #endif
+

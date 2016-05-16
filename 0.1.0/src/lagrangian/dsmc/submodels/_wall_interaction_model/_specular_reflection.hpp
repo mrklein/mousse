@@ -9,11 +9,11 @@
 // Description
 //   Reversing the wall-normal component of the particle velocity
 
-
 #include "_wall_interaction_model.hpp"
 
-namespace mousse
-{
+
+namespace mousse {
+
 template<class CloudType>
 class SpecularReflection
 :
@@ -39,9 +39,9 @@ public:
       const wallPolyPatch& wpp
     );
 };
+
 }  // namespace mousse
 
-#ifdef NoRepository
-#   include "_specular_reflection.cpp"
-#endif
+#include "_specular_reflection.ipp"
+
 #endif

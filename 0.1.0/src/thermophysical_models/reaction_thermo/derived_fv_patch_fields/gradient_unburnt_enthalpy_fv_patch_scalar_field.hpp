@@ -8,11 +8,12 @@
 //   mousse::gradientUnburntEnthalpyFvPatchScalarField
 // Description
 //   gradient boundary condition for unburnt
-// SourceFiles
-//   gradient_unburnt_enthalpy_fv_patch_scalar_field.cpp
+
 #include "fixed_gradient_fv_patch_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class gradientUnburntEnthalpyFvPatchScalarField
 :
   public fixedGradientFvPatchScalarField
@@ -51,10 +52,11 @@ public:
     //- Construct and return a clone
     virtual tmp<fvPatchScalarField> clone() const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new gradientUnburntEnthalpyFvPatchScalarField(*this)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new gradientUnburntEnthalpyFvPatchScalarField{*this}
+        };
     }
     //- Construct as copy setting internal field reference
     gradientUnburntEnthalpyFvPatchScalarField
@@ -68,15 +70,19 @@ public:
       const DimensionedField<scalar, volMesh>& iF
     ) const
     {
-      return tmp<fvPatchScalarField>
-      (
-        new gradientUnburntEnthalpyFvPatchScalarField(*this, iF)
-      );
+      return
+        tmp<fvPatchScalarField>
+        {
+          new gradientUnburntEnthalpyFvPatchScalarField{*this, iF}
+        };
     }
   // Member functions
     // Evaluation functions
       //- Update the coefficients associated with the patch field
       virtual void updateCoeffs();
 };
+
 }  // namespace mousse
+
 #endif
+

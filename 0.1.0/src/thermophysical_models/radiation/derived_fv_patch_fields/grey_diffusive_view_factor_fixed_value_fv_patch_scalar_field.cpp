@@ -6,6 +6,8 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
+
+
 // Constructors 
 mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 greyDiffusiveViewFactorFixedValueFvPatchScalarField
@@ -14,10 +16,12 @@ greyDiffusiveViewFactorFixedValueFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  radiationCoupledBase(patch(), "undefined", scalarField::null()),
-  Qro_(p.size(), 0.0)
+  fixedValueFvPatchScalarField{p, iF},
+  radiationCoupledBase{patch(), "undefined", scalarField::null()},
+  Qro_{p.size(), 0.0}
 {}
+
+
 mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 greyDiffusiveViewFactorFixedValueFvPatchScalarField
 (
@@ -27,15 +31,12 @@ greyDiffusiveViewFactorFixedValueFvPatchScalarField
   const fvPatchFieldMapper& mapper
 )
 :
-  fixedValueFvPatchScalarField(ptf, p, iF, mapper),
-  radiationCoupledBase
-  (
-    patch(),
-    ptf.emissivityMethod(),
-    ptf.emissivity_
-  ),
-  Qro_(ptf.Qro_)
+  fixedValueFvPatchScalarField{ptf, p, iF, mapper},
+  radiationCoupledBase{patch(), ptf.emissivityMethod(), ptf.emissivity_},
+  Qro_{ptf.Qro_}
 {}
+
+
 mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 greyDiffusiveViewFactorFixedValueFvPatchScalarField
 (
@@ -44,37 +45,30 @@ greyDiffusiveViewFactorFixedValueFvPatchScalarField
   const dictionary& dict
 )
 :
-  fixedValueFvPatchScalarField(p, iF),
-  radiationCoupledBase(p, dict),
-  Qro_("Qro", dict, p.size())
+  fixedValueFvPatchScalarField{p, iF},
+  radiationCoupledBase{p, dict},
+  Qro_{"Qro", dict, p.size()}
 {
-  if (dict.found("value"))
-  {
-    fvPatchScalarField::operator=
-    (
-      scalarField("value", dict, p.size())
-    );
-  }
-  else
-  {
+  if (dict.found("value")) {
+    fvPatchScalarField::operator=(scalarField{"value", dict, p.size()});
+  } else {
     fvPatchScalarField::operator=(0.0);
   }
 }
+
+
 mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 greyDiffusiveViewFactorFixedValueFvPatchScalarField
 (
   const greyDiffusiveViewFactorFixedValueFvPatchScalarField& ptf
 )
 :
-  fixedValueFvPatchScalarField(ptf),
-  radiationCoupledBase
-  (
-    ptf.patch(),
-    ptf.emissivityMethod(),
-    ptf.emissivity_
-  ),
-  Qro_(ptf.Qro_)
+  fixedValueFvPatchScalarField{ptf},
+  radiationCoupledBase{ptf.patch(), ptf.emissivityMethod(), ptf.emissivity_},
+  Qro_{ptf.Qro_}
 {}
+
+
 mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 greyDiffusiveViewFactorFixedValueFvPatchScalarField
 (
@@ -82,28 +76,23 @@ greyDiffusiveViewFactorFixedValueFvPatchScalarField
   const DimensionedField<scalar, volMesh>& iF
 )
 :
-  fixedValueFvPatchScalarField(ptf, iF),
-  radiationCoupledBase
-  (
-    ptf.patch(),
-    ptf.emissivityMethod(),
-    ptf.emissivity_
-  ),
-  Qro_(ptf.Qro_)
+  fixedValueFvPatchScalarField{ptf, iF},
+  radiationCoupledBase{ptf.patch(), ptf.emissivityMethod(), ptf.emissivity_},
+  Qro_{ptf.Qro_}
 {}
+
+
 // Member Functions 
 void mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 updateCoeffs()
 {
-  if (this->updated())
-  {
+  if (this->updated()) {
     return;
   }
   // Do nothing
-  if (debug)
-  {
+  if (debug) {
     scalar Q = gSum((*this)*patch().magSf());
-    Info<< patch().boundaryMesh().mesh().name() << ':'
+    Info << patch().boundaryMesh().mesh().name() << ':'
       << patch().name() << ':'
       << this->dimensionedInternalField().name() << " <- "
       << " heat transfer rate:" << Q
@@ -115,6 +104,8 @@ updateCoeffs()
   }
   fixedValueFvPatchScalarField::updateCoeffs();
 }
+
+
 void mousse::radiation::greyDiffusiveViewFactorFixedValueFvPatchScalarField::
 write
 (
@@ -125,14 +116,17 @@ write
   radiationCoupledBase::write(os);
   Qro_.writeEntry("Qro", os);
 }
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchScalarField,
   greyDiffusiveViewFactorFixedValueFvPatchScalarField
 );
+
 }
 }
+

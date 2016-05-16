@@ -82,8 +82,8 @@
     if (baseType::memberFunction##argNames##MemberFunctionTablePtr_)          \
     {                                                                         \
       delete baseType::memberFunction##argNames##MemberFunctionTablePtr_;     \
-      baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL;     \
-    }                                                                     \
+      baseType::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr;  \
+    }                                                                         \
   }
 
 
@@ -94,7 +94,7 @@
                                                                               \
   /* Define the memberFunction table */                                       \
   baseType::memberFunction##argNames##MemberFunctionTable*                    \
-    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = NULL
+    baseType::memberFunction##argNames##MemberFunctionTablePtr_ = nullptr
 
 
 // external use:

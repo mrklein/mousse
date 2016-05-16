@@ -14,7 +14,9 @@
 #include "turbulent_transport_model.hpp"
 #include "turbulent_fluid_thermo_model.hpp"
 
+
 using namespace mousse;
+
 
 // Read all fields of type. Returns names of fields read. Guarantees all
 // processors to read fields in same order.
@@ -29,41 +31,33 @@ wordList ReadUniformFields
   // Search list of objects for wanted type
   IOobjectList fieldObjects{objects.lookupClass(GeoField::typeName)};
   wordList masterNames{fieldObjects.names()};
-  if (syncPar && Pstream::parRun())
-  {
+  if (syncPar && Pstream::parRun()) {
     // Check that I have the same fields as the master
     const wordList localNames{masterNames};
     Pstream::scatter(masterNames);
     HashSet<word> localNamesSet{localNames};
-    FOR_ALL(masterNames, i)
-    {
+    FOR_ALL(masterNames, i) {
       const word& masterFld = masterNames[i];
       HashSet<word>::iterator iter = localNamesSet.find(masterFld);
-      if (iter == localNamesSet.end())
-      {
+      if (iter == localNamesSet.end()) {
         FATAL_ERROR_IN
         (
           "ReadFields<class GeoField>"
-          "(const IOobjectList&, PtrList<GeoField>&"
-          ", const bool)"
+          "(const IOobjectList&, PtrList<GeoField>&, const bool)"
         )
         << "Fields not synchronised across processors." << endl
         << "Master has fields " << masterNames
         << "  processor " << Pstream::myProcNo()
         << " has fields " << localNames << exit(FatalError);
-      }
-      else
-      {
+      } else {
         localNamesSet.erase(iter);
       }
     }
-    FOR_ALL_CONST_ITER(HashSet<word>, localNamesSet, iter)
-    {
+    FOR_ALL_CONST_ITER(HashSet<word>, localNamesSet, iter) {
       FATAL_ERROR_IN
       (
         "ReadFields<class GeoField>"
-        "(const IOobjectList&, PtrList<GeoField>&"
-        ", const bool)"
+        "(const IOobjectList&, PtrList<GeoField>&, const bool)"
       )
       << "Fields not synchronised across processors." << endl
       << "Master has fields " << masterNames
@@ -73,8 +67,7 @@ wordList ReadUniformFields
   }
   fields.setSize(masterNames.size());
   // Make sure to read in masterNames order.
-  FOR_ALL(masterNames, i)
-  {
+  FOR_ALL(masterNames, i) {
     Info << "Reading " << GeoField::typeName << ' ' << masterNames[i] << endl;
     const IOobject& io = *fieldObjects[masterNames[i]];
     fields.set
@@ -97,6 +90,7 @@ wordList ReadUniformFields
   return masterNames;
 }
 
+
 void calc
 (
   const argList& args,
@@ -105,8 +99,7 @@ void calc
   functionObjectList& fol
 )
 {
-  if (args.optionFound("noFlow"))
-  {
+  if (args.optionFound("noFlow")) {
     Info << "    Operating in no-flow mode; no models will be loaded."
       << " All vol, surface and point fields will be loaded." << endl;
     // Read objects in time directory
@@ -169,9 +162,7 @@ void calc
     PtrList<uniformDimensionedTensorField> utFlds;
     ReadUniformFields(constantObjects, utFlds, true);
     fol.execute(true);
-  }
-  else
-  {
+  } else {
     Info << "    Reading phi" << endl;
     surfaceScalarField phi
     {
@@ -206,8 +197,7 @@ void calc
       mesh
     };
     #include "create_fv_options.inc"
-    if (phi.dimensions() == dimVolume/dimTime)
-    {
+    if (phi.dimensions() == dimVolume/dimTime) {
       IOobject turbulencePropertiesHeader
       {
         "turbulenceProperties",
@@ -217,8 +207,7 @@ void calc
         IOobject::NO_WRITE,
         false
       };
-      if (turbulencePropertiesHeader.headerOk())
-      {
+      if (turbulencePropertiesHeader.headerOk()) {
         singlePhaseTransportModel laminarTransport{U, phi};
         autoPtr<incompressible::turbulenceModel> turbulenceModel
         {
@@ -230,9 +219,7 @@ void calc
           )
         };
         fol.execute(true);
-      }
-      else
-      {
+      } else {
         IOdictionary transportProperties
         {
           {
@@ -245,9 +232,7 @@ void calc
         };
         fol.execute(true);
       }
-    }
-    else if (phi.dimensions() == dimMass/dimTime)
-    {
+    } else if (phi.dimensions() == dimMass/dimTime) {
       autoPtr<fluidThermo> thermo{fluidThermo::New(mesh)};
       volScalarField rho
       {
@@ -267,8 +252,7 @@ void calc
         IOobject::NO_WRITE,
         false
       };
-      if (turbulencePropertiesHeader.headerOk())
-      {
+      if (turbulencePropertiesHeader.headerOk()) {
         autoPtr<compressible::turbulenceModel> turbulenceModel
         {
           compressible::turbulenceModel::New
@@ -280,9 +264,7 @@ void calc
           )
         };
         fol.execute(true);
-      }
-      else
-      {
+      } else {
         IOdictionary transportProperties
         {
           {
@@ -295,15 +277,14 @@ void calc
         };
         fol.execute(true);
       }
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN(args.executable())
         << "Incorrect dimensions of phi: " << phi.dimensions()
         << nl << exit(FatalError);
     }
   }
 }
+
 
 autoPtr<functionObjectList> readFunctionObjects
 (
@@ -313,25 +294,24 @@ autoPtr<functionObjectList> readFunctionObjects
 )
 {
   autoPtr<functionObjectList> folPtr;
-  if (args.optionFound("dict"))
-  {
-    folDict = IOdictionary
-    {
+  if (args.optionFound("dict")) {
+    folDict =
+      IOdictionary
       {
-        args["dict"],
-        runTime,
-        IOobject::MUST_READ_IF_MODIFIED
-      }
-    };
+        {
+          args["dict"],
+          runTime,
+          IOobject::MUST_READ_IF_MODIFIED
+        }
+      };
     folPtr.reset(new functionObjectList{runTime, folDict});
-  }
-  else
-  {
+  } else {
     folPtr.reset(new functionObjectList{runTime});
   }
   folPtr->start();
   return folPtr;
 }
+
 
 int main(int argc, char *argv[])
 {
@@ -355,22 +335,17 @@ int main(int argc, char *argv[])
   {
     readFunctionObjects(args, runTime, folDict)
   };
-  FOR_ALL(timeDirs, timeI)
-  {
+  FOR_ALL(timeDirs, timeI) {
     runTime.setTime(timeDirs[timeI], timeI);
     Info << "Time = " << runTime.timeName() << endl;
-    if (mesh.readUpdate() != polyMesh::UNCHANGED)
-    {
+    if (mesh.readUpdate() != polyMesh::UNCHANGED) {
       // Update functionObjectList if mesh changes
       folPtr = readFunctionObjects(args, runTime, folDict);
     }
     FatalIOError.throwExceptions();
-    try
-    {
+    try {
       calc(args, runTime, mesh, folPtr());
-    }
-    catch (IOerror& err)
-    {
+    } catch (IOerror& err) {
       Warning << err << endl;
     }
     Info << endl;
@@ -378,3 +353,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

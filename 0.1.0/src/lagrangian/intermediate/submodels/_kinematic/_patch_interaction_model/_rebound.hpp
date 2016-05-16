@@ -8,9 +8,12 @@
 //   mousse::Rebound
 // Description
 //   Simple rebound patch interaction model
+
 #include "_patch_interaction_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class Rebound
 :
@@ -29,12 +32,13 @@ public:
     //- Construct copy
     Rebound(const Rebound<CloudType>& pim);
     //- Construct and return a clone
-    virtual autoPtr<PatchInteractionModel<CloudType> > clone() const
+    virtual autoPtr<PatchInteractionModel<CloudType>> clone() const
     {
-      return autoPtr<PatchInteractionModel<CloudType> >
-      (
-        new Rebound<CloudType>(*this)
-      );
+      return
+        autoPtr<PatchInteractionModel<CloudType>>
+        {
+          new Rebound<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~Rebound();
@@ -50,8 +54,9 @@ public:
       const tetIndices& tetIs
     );
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_rebound.cpp"
-#endif
+
+#include "_rebound.ipp"
+
 #endif

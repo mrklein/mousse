@@ -1,11 +1,8 @@
 //  Pressure-velocity SIMPLE corrector
   {
-    if (frozenFlow)
-    {
+    if (frozenFlow) {
       #include "e_eqn.inc"
-    }
-    else
-    {
+    } else {
       p_rgh.storePrevIter();
       rho.storePrevIter();
       #include "u_eqn.inc"

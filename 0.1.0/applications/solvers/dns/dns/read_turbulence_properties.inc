@@ -1,4 +1,4 @@
-  Info<< "Reading turbulenceProperties\n" << endl;
+  Info << "Reading turbulenceProperties\n" << endl;
   IOdictionary turbulenceProperties
   {
     {
@@ -13,5 +13,5 @@
   {
     U/dimensionedScalar{"dt", dimTime, runTime.deltaTValue()}
   };
-  Kmesh K(mesh);
-  UOprocess forceGen(K, runTime.deltaTValue(), turbulenceProperties);
+  Kmesh K{mesh};
+  UOprocess forceGen{K, runTime.deltaTValue(), turbulenceProperties};

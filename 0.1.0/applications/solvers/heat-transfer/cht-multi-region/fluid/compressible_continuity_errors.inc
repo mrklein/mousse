@@ -9,7 +9,7 @@
     fvc::domainIntegrate(rho - thermo.rho())/totalMass
   ).value();
   cumulativeContErr[i] += globalContErr;
-  Info<< "time step continuity errors (" << mesh.name() << ")"
+  Info << "time step continuity errors (" << mesh.name() << ")"
     << ": sum local = " << sumLocalContErr
     << ", global = " << globalContErr
     << ", cumulative = " << cumulativeContErr[i]

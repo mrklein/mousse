@@ -14,15 +14,15 @@
 //   The computed linear function is used to interpolate values within a cell.
 //   The gradient is calculated from the coefficients of the function, and is
 //   assumed constant over the cell.
-// SourceFiles
-//   _moment.cpp
+
 #include "_averaging_method.hpp"
 #include "point_mesh.hpp"
 #include "tet_indices.hpp"
-namespace mousse
-{
-namespace AveragingMethods
-{
+
+
+namespace mousse {
+namespace AveragingMethods {
+
 template<class Type>
 class Moment
 :
@@ -63,12 +63,13 @@ public:
     //- Construct a copy
     Moment(const Moment<Type>& am);
     //- Construct and return a clone
-    virtual autoPtr<AveragingMethod<Type> > clone() const
+    virtual autoPtr<AveragingMethod<Type>> clone() const
     {
-      return autoPtr<AveragingMethod<Type> >
-      (
-        new Moment<Type>(*this)
-      );
+      return
+        autoPtr<AveragingMethod<Type>>
+        {
+          new Moment<Type>{*this}
+        };
     }
   //- Destructor
   virtual ~Moment();
@@ -93,13 +94,14 @@ public:
       const tetIndices& tetIs
     ) const;
     //- Return an internal field of the average
-    tmp<Field<Type> > internalField() const;
+    tmp<Field<Type>> internalField() const;
     //- Return an internal field of the gradient
-    tmp<Field<TypeGrad> > internalFieldGrad() const;
+    tmp<Field<TypeGrad>> internalFieldGrad() const;
 };
+
 }  // namespace AveragingMethods
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_moment.cpp"
-#endif
+
+#include "_moment.ipp"
+
 #endif

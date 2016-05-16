@@ -1,4 +1,4 @@
-Info<< "Reading field D\n" << endl;
+Info << "Reading field D\n" << endl;
 volVectorField D
 {
   {
@@ -10,10 +10,9 @@ volVectorField D
   },
   mesh
 };
-autoPtr<volScalarField> Tptr(NULL);
-if (thermalStress)
-{
-  Info<< "Reading field T\n" << endl;
+autoPtr<volScalarField> Tptr{nullptr};
+if (thermalStress) {
+  Info << "Reading field T\n" << endl;
   Tptr.reset
   (
     new volScalarField
@@ -29,7 +28,7 @@ if (thermalStress)
     }
   );
 }
-Info<< "Calculating stress field sigmaD\n" << endl;
+Info << "Calculating stress field sigmaD\n" << endl;
 volSymmTensorField sigmaD
 {
   {
@@ -39,7 +38,7 @@ volSymmTensorField sigmaD
   },
   mu*twoSymm(fvc::grad(D)) + lambda*(I*tr(fvc::grad(D)))
 };
-Info<< "Calculating explicit part of div(sigma) divSigmaExp\n" << endl;
+Info << "Calculating explicit part of div(sigma) divSigmaExp\n" << endl;
 volVectorField divSigmaExp
 {
   {
@@ -49,12 +48,9 @@ volVectorField divSigmaExp
   },
   fvc::div(sigmaD)
 };
-if (compactNormalStress)
-{
+if (compactNormalStress) {
   divSigmaExp -= fvc::laplacian(2*mu + lambda, D, "laplacian(DD,D)");
-}
-else
-{
+} else {
   divSigmaExp -= fvc::div((2*mu + lambda)*fvc::grad(D), "div(sigmaD)");
 }
 mesh.setFluxRequired(D.name());

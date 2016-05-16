@@ -7,11 +7,12 @@
 // Class
 //   mousse::motionSmootherData
 // Description
-// SourceFiles
-//   motion_smoother_data.cpp
+
 #include "point_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class motionSmootherData
 {
 protected:
@@ -25,15 +26,9 @@ protected:
 public:
   // Constructors
     //- Construct read
-    motionSmootherData
-    (
-      const pointMesh&
-    );
+    motionSmootherData(const pointMesh&);
     //- Construct from pointDisplacement
-    motionSmootherData
-    (
-      const pointVectorField&
-    );
+    motionSmootherData(const pointVectorField&);
   // Member Functions
     //- Reference to displacement field
     pointVectorField& displacement();
@@ -44,5 +39,8 @@ public:
     //- Starting mesh position
     const pointField& oldPoints() const;
 };
+
 }  // namespace mousse
+
 #endif
+

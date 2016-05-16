@@ -17,8 +17,10 @@
 #include "h_polynomial_thermo.hpp"
 #include "ico_polynomial.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 #define MAKE_REACTION(Thermo, ReactionType, ReactionRate)                     \
                                                                               \
   typedef Reaction<Thermo> Reaction##Thermo;                                  \
@@ -75,6 +77,7 @@ namespace mousse
                                                                               \
   MAKE_REACTION(Thermo, ReversibleReaction, ReactionRate)
 
+
 #define MAKE_IRN_REACTIONS(Thermo, ReactionRate)                              \
                                                                               \
   MAKE_IR_REACTIONS(Thermo, ReactionRate)                                     \
@@ -119,5 +122,8 @@ namespace mousse
     ReactionRate,                                                             \
     FallOffFunction                                                           \
   )
+
 }  // namespace mousse
+
 #endif
+

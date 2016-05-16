@@ -6,6 +6,7 @@
 #include "time.hpp"
 #include "plane.hpp"
 
+
 // Constructors 
 mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
 :
@@ -20,7 +21,7 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
       IOobject::NO_WRITE
     }
   },
-  mirrorMeshPtr_{NULL}
+  mirrorMeshPtr_{nullptr}
 {
   plane mirrorPlane{mirrorMeshDict_};
   scalar planeTolerance
@@ -38,13 +39,11 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   label nNewPoints = 0;
   labelList mirrorPointLookup{oldPoints.size(), -1};
   // Grab the old points
-  FOR_ALL(oldPoints, pointI)
-  {
+  FOR_ALL(oldPoints, pointI) {
     newPoints[nNewPoints] = oldPoints[pointI];
     nNewPoints++;
   }
-  FOR_ALL(oldPoints, pointI)
-  {
+  FOR_ALL(oldPoints, pointI) {
     scalar alpha =
       mirrorPlane.normalIntersect
       (
@@ -52,17 +51,14 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
         mirrorPlane.normal()
       );
     // Check plane on tolerance
-    if (mag(alpha) > planeTolerance)
-    {
+    if (mag(alpha) > planeTolerance) {
       // The point gets mirrored
       newPoints[nNewPoints] =
         oldPoints[pointI] + 2.0*alpha*mirrorPlane.normal();
       // remember the point correspondence
       mirrorPointLookup[pointI] = nNewPoints;
       nNewPoints++;
-    }
-    else
-    {
+    } else {
       // The point is on the plane and does not get mirrored
       // Adjust plane location
       newPoints[nNewPoints] =
@@ -91,25 +87,21 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   // Distribute internal faces
   labelListList newCellFaces{oldCells.size()};
   const labelUList& oldOwnerStart = lduAddr().ownerStartAddr();
-  FOR_ALL(newCellFaces, cellI)
-  {
+  FOR_ALL(newCellFaces, cellI) {
     labelList& curFaces = newCellFaces[cellI];
     const label s = oldOwnerStart[cellI];
     const label e = oldOwnerStart[cellI + 1];
     curFaces.setSize(e - s);
-    FOR_ALL(curFaces, i)
-    {
+    FOR_ALL(curFaces, i) {
       curFaces[i] = s + i;
     }
   }
   // Distribute boundary faces.  Remember the faces that have been inserted
   // as internal
   boolListList insertedBouFace{oldPatches.size()};
-  FOR_ALL(oldPatches, patchI)
-  {
+  FOR_ALL(oldPatches, patchI) {
     const polyPatch& curPatch = oldPatches[patchI];
-    if (curPatch.coupled())
-    {
+    if (curPatch.coupled()) {
       WARNING_IN("mirrorFvMesh::mirrorFvMesh(const IOobject&)")
         << "Found coupled patch " << curPatch.name() << endl
         << "    Mirroring faces on coupled patches destroys"
@@ -122,19 +114,16 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
     // Get faceCells for face insertion
     const labelUList& curFaceCells = curPatch.faceCells();
     const label curStart = curPatch.start();
-    FOR_ALL(curPatch, faceI)
-    {
+    FOR_ALL(curPatch, faceI) {
       // Find out if the mirrored face is identical to the
       // original.  If so, the face needs to become internal and
       // added to its owner cell
       const face& origFace = curPatch[faceI];
-      face mirrorFace(origFace.size());
-      FOR_ALL(mirrorFace, pointI)
-      {
+      face mirrorFace{origFace.size()};
+      FOR_ALL(mirrorFace, pointI) {
         mirrorFace[pointI] = mirrorPointLookup[origFace[pointI]];
       }
-      if (origFace == mirrorFace)
-      {
+      if (origFace == mirrorFace) {
         // The mirror is identical to current face.  This will
         // become an internal face
         const label oldSize = newCellFaces[curFaceCells[faceI]].size();
@@ -154,25 +143,21 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   faceList newFaces{2*oldFaces.size()};
   label nNewFaces = 0;
   // Insert original (internal) faces
-  FOR_ALL(newCellFaces, cellI)
-  {
+  FOR_ALL(newCellFaces, cellI) {
     const labelList& curCellFaces = newCellFaces[cellI];
-    FOR_ALL(curCellFaces, cfI)
-    {
+    FOR_ALL(curCellFaces, cfI) {
       newFaces[nNewFaces] = oldFaces[curCellFaces[cfI]];
       masterFaceLookup[curCellFaces[cfI]] = nNewFaces;
       nNewFaces++;
     }
   }
   // Mirror internal faces
-  for (label faceI = 0; faceI < nOldInternalFaces; faceI++)
-  {
+  for (label faceI = 0; faceI < nOldInternalFaces; faceI++) {
     const face& oldFace = oldFaces[faceI];
     face& nf = newFaces[nNewFaces];
     nf.setSize(oldFace.size());
     nf[0] = mirrorPointLookup[oldFace[0]];
-    for (label i = 1; i < oldFace.size(); i++)
-    {
+    for (label i = 1; i < oldFace.size(); i++) {
       nf[i] = mirrorPointLookup[oldFace[oldFace.size() - i]];
     }
     mirrorFaceLookup[faceI] = nNewFaces;
@@ -184,56 +169,46 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   labelList newPatchSizes{boundary().size(), -1};
   labelList newPatchStarts{boundary().size(), -1};
   label nNewPatches = 0;
-  FOR_ALL(boundaryMesh(), patchI)
-  {
+  FOR_ALL(boundaryMesh(), patchI) {
     const label curPatchSize = boundaryMesh()[patchI].size();
     const label curPatchStart = boundaryMesh()[patchI].start();
     const boolList& curInserted = insertedBouFace[patchI];
     newPatchStarts[nNewPatches] = nNewFaces;
     // Master side
-    for (label faceI = 0; faceI < curPatchSize; faceI++)
-    {
+    for (label faceI = 0; faceI < curPatchSize; faceI++) {
       // Check if the face has already been added.  If not, add it and
       // insert the numbering details.
-      if (!curInserted[faceI])
-      {
+      if (!curInserted[faceI]) {
         newFaces[nNewFaces] = oldFaces[curPatchStart + faceI];
         masterFaceLookup[curPatchStart + faceI] = nNewFaces;
         nNewFaces++;
       }
     }
     // Mirror side
-    for (label faceI = 0; faceI < curPatchSize; faceI++)
-    {
+    for (label faceI = 0; faceI < curPatchSize; faceI++) {
       // Check if the face has already been added.  If not, add it and
       // insert the numbering details.
-      if (!curInserted[faceI])
-      {
+      if (!curInserted[faceI]) {
         const face& oldFace = oldFaces[curPatchStart + faceI];
         face& nf = newFaces[nNewFaces];
         nf.setSize(oldFace.size());
         nf[0] = mirrorPointLookup[oldFace[0]];
-        for (label i = 1; i < oldFace.size(); i++)
-        {
+        for (label i = 1; i < oldFace.size(); i++) {
           nf[i] = mirrorPointLookup[oldFace[oldFace.size() - i]];
         }
         mirrorFaceLookup[curPatchStart + faceI] = nNewFaces;
         nNewFaces++;
-      }
-      else
-      {
+      } else {
         // Grab the index of the master face for the mirror side
         mirrorFaceLookup[curPatchStart + faceI] =
           masterFaceLookup[curPatchStart + faceI];
       }
     }
     // If patch exists, grab the name and type of the original patch
-    if (nNewFaces > newPatchStarts[nNewPatches])
-    {
+    if (nNewFaces > newPatchStarts[nNewPatches]) {
       newPatchTypes[nNewPatches] = boundaryMesh()[patchI].type();
       newPatchNames[nNewPatches] = boundaryMesh()[patchI].name();
-      newPatchSizes[nNewPatches] =
-        nNewFaces - newPatchStarts[nNewPatches];
+      newPatchSizes[nNewPatches] = nNewFaces - newPatchStarts[nNewPatches];
       nNewPatches++;
     }
   }
@@ -251,25 +226,21 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   cellList newCells{2*oldCells.size()};
   label nNewCells = 0;
   // Grab the original cells.  Take care of face renumbering.
-  FOR_ALL(oldCells, cellI)
-  {
+  FOR_ALL(oldCells, cellI) {
     const cell& oc = oldCells[cellI];
     cell& nc = newCells[nNewCells];
     nc.setSize(oc.size());
-    FOR_ALL(oc, i)
-    {
+    FOR_ALL(oc, i) {
       nc[i] = masterFaceLookup[oc[i]];
     }
     nNewCells++;
   }
   // Mirror the cells
-  FOR_ALL(oldCells, cellI)
-  {
+  FOR_ALL(oldCells, cellI) {
     const cell& oc = oldCells[cellI];
     cell& nc = newCells[nNewCells];
     nc.setSize(oc.size());
-    FOR_ALL(oc, i)
-    {
+    FOR_ALL(oc, i) {
       nc[i] = mirrorFaceLookup[oc[i]];
     }
     nNewCells++;
@@ -277,30 +248,34 @@ mousse::mirrorFvMesh::mirrorFvMesh(const IOobject& io)
   // Mirror the cell shapes
   Info << "Mirroring cell shapes." << endl;
   Info << nl << "Creating new mesh" << endl;
-  mirrorMeshPtr_ = new fvMesh
-  {
-    io,
-    xferMove(newPoints),
-    xferMove(newFaces),
-    xferMove(newCells)
-  };
+  mirrorMeshPtr_ =
+    new fvMesh
+    {
+      io,
+      xferMove(newPoints),
+      xferMove(newFaces),
+      xferMove(newCells)
+    };
   fvMesh& pMesh = *mirrorMeshPtr_;
   // Add the boundary patches
   List<polyPatch*> p{newPatchTypes.size()};
-  FOR_ALL(p, patchI)
-  {
-    p[patchI] = polyPatch::New
-    (
-      newPatchTypes[patchI],
-      newPatchNames[patchI],
-      newPatchSizes[patchI],
-      newPatchStarts[patchI],
-      patchI,
-      pMesh.boundaryMesh()
-    ).ptr();
+  FOR_ALL(p, patchI) {
+    p[patchI] =
+      polyPatch::New
+      (
+        newPatchTypes[patchI],
+        newPatchNames[patchI],
+        newPatchSizes[patchI],
+        newPatchStarts[patchI],
+        patchI,
+        pMesh.boundaryMesh()
+      ).ptr();
   }
   pMesh.addPatches(p);
 }
+
+
 // Destructor 
 mousse::mirrorFvMesh::~mirrorFvMesh()
 {}
+

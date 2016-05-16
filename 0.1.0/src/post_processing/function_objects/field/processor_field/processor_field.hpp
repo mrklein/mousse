@@ -28,20 +28,22 @@
 // SeeAlso
 //   mousse::functionObject
 //   mousse::OutputFilterFunctionObject
-// SourceFiles
-//   processor_field.cpp
-//   i_oprocessor_field.hpp
+
 #include "ofstream.hpp"
 #include "point_field_fwd.hpp"
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 #include "coordinate_system.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Forward declaration of classes
 class objectRegistry;
 class dictionary;
 class mapPolyMesh;
+
+
 class processorField
 {
 protected:
@@ -73,10 +75,7 @@ public:
   virtual ~processorField();
   // Member Functions
     //- Return name of the processorField object
-    virtual const word& name() const
-    {
-      return name_;
-    }
+    virtual const word& name() const { return name_; }
     //- Read the input data
     virtual void read(const dictionary&);
     //- Execute, currently does nothing
@@ -94,5 +93,8 @@ public:
     virtual void movePoints(const polyMesh&)
     {}
 };
+
 }  // namespace mousse
+
 #endif
+

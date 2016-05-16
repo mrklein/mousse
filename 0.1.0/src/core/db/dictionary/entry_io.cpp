@@ -59,13 +59,13 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
       word functionName = keyword(1, keyword.size()-1);
       return functionEntry::execute(functionName, parentDict, is);
     } else if (!disableFunctionEntries && keyword[0] == '$') { // ... Substitution entry
-      token nextToken(is);
+      token nextToken{is};
       is.putBack(nextToken);
       if (keyword.size() > 2 && keyword[1] == token::BEGIN_BLOCK) {
         // Recursive substitution mode. Replace between {} with
         // expansion and then let standard variable expansion deal
         // with rest.
-        string s(keyword(2, keyword.size()-3));
+        string s{keyword(2, keyword.size()-3)};
         // Substitute dictionary and environment variables. Do not allow
         // empty substitutions.
         stringOps::inplaceExpand(s, parentDict, true, false);
@@ -74,20 +74,22 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
       if (nextToken == token::BEGIN_BLOCK) {
         word varName = keyword(1, keyword.size()-1);
         // lookup the variable name in the given dictionary
-        const entry* ePtr = parentDict.lookupScopedEntryPtr
-        (
-          varName,
-          true,
-          true
-        );
+        const entry* ePtr =
+          parentDict.lookupScopedEntryPtr
+          (
+            varName,
+            true,
+            true
+          );
         if (ePtr) {
           // Read as primitiveEntry
-          const keyType newKeyword(ePtr->stream());
-          return parentDict.add
-          (
-            new dictionaryEntry(newKeyword, parentDict, is),
-            false
-          );
+          const keyType newKeyword{ePtr->stream()};
+          return
+            parentDict.add
+            (
+              new dictionaryEntry{newKeyword, parentDict, is},
+              false
+            );
         } else {
           FATAL_IO_ERROR_IN
           (
@@ -111,12 +113,13 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
       // Deal with duplicate entries
       bool mergeEntry = false;
       // See (using exact match) if entry already present
-      entry* existingPtr = parentDict.lookupEntryPtr
-      (
-        keyword,
-        false,
-        false
-      );
+      entry* existingPtr =
+        parentDict.lookupEntryPtr
+        (
+          keyword,
+          false,
+          false
+        );
       if (existingPtr) {
         if (functionEntries::inputModeEntry::merge()) {
           mergeEntry = true;
@@ -146,17 +149,19 @@ bool mousse::entry::New(dictionary& parentDict, Istream& is)
         }
       }
       if (nextToken == token::BEGIN_BLOCK) {
-        return parentDict.add
-        (
-          new dictionaryEntry{keyword, parentDict, is},
-          mergeEntry
-        );
+        return
+          parentDict.add
+          (
+            new dictionaryEntry{keyword, parentDict, is},
+            mergeEntry
+          );
       } else {
-        return parentDict.add
-        (
-          new primitiveEntry{keyword, parentDict, is},
-          mergeEntry
-        );
+        return
+          parentDict.add
+          (
+            new primitiveEntry{keyword, parentDict, is},
+            mergeEntry
+          );
       }
     }
   }
@@ -169,7 +174,7 @@ mousse::autoPtr<mousse::entry> mousse::entry::New(Istream& is)
   keyType keyword;
   // Get the next keyword and if invalid return false
   if (!getKeyword(keyword, is)) {
-    return autoPtr<entry>(NULL);
+    return autoPtr<entry>(nullptr);
   } else { // Keyword starts entry ...
     token nextToken{is};
     is.putBack(nextToken);

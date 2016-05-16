@@ -11,6 +11,7 @@
 #include "correct_phi.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -36,47 +37,39 @@ int main(int argc, char *argv[])
   };
   #include "correct_phi.inc"
   #include "create_uf.inc"
-    Info<< "\nStarting time loop\n" << endl;
-  while (runTime.run())
-  {
+  Info << "\nStarting time loop\n" << endl;
+  while (runTime.run()) {
     #include "read_controls.inc"
     #include "courant_no.inc"
     #include "set_delta_t.inc"
     runTime++;
     Info << "Time = " << runTime.timeName() << nl << endl;
     // --- Pressure-velocity PIMPLE corrector loop
-    while (pimple.loop())
-    {
-      if (pimple.firstIter() || moveMeshOuterCorrectors)
-      {
+    while (pimple.loop()) {
+      if (pimple.firstIter() || moveMeshOuterCorrectors) {
         scalar timeBeforeMeshUpdate = runTime.elapsedCpuTime();
         mesh.update();
-        if (mesh.changing())
-        {
+        if (mesh.changing()) {
           Info << "Execution time for mesh.update() = "
             << runTime.elapsedCpuTime() - timeBeforeMeshUpdate << " s" << endl;
         }
-        if (mesh.changing() && correctPhi)
-        {
+        if (mesh.changing() && correctPhi) {
           // Calculate absolute flux from the mapped surface velocity
           phi = mesh.Sf() & Uf;
           #include "correct_phi.inc"
           // Make the flux relative to the mesh motion
           fvc::makeRelative(phi, U);
         }
-        if (mesh.changing() && checkMeshCourantNo)
-        {
+        if (mesh.changing() && checkMeshCourantNo) {
           #include "mesh_courant_no.inc"
         }
       }
       #include "u_eqn.inc"
       // --- Pressure corrector loop
-      while (pimple.correct())
-      {
+      while (pimple.correct()) {
         #include "p_eqn.inc"
       }
-      if (pimple.turbCorr())
-      {
+      if (pimple.turbCorr()) {
         laminarTransport.correct();
         turbulence->correct();
       }
@@ -89,3 +82,4 @@ int main(int argc, char *argv[])
   Info << "End\n" << endl;
   return 0;
 }
+

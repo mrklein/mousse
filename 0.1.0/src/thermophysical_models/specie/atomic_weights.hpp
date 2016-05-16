@@ -8,12 +8,13 @@
 //   mousse::atomicWeightTable
 // Description
 //   A table of atomic weights for all the elements
-// SourceFiles
-//   atomic_weights.cpp
+
 #include "scalar.hpp"
 #include "hash_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class atomicWeightTable
 :
   public HashTable<scalar>
@@ -33,8 +34,12 @@ public:
     //- Construct from atomicWeights_
     atomicWeightTable();
 };
+
 // Global data 
 // Atomic weights table for every element in the periodic table
 extern atomicWeightTable atomicWeights;
+
 }  // namespace mousse
+
 #endif
+

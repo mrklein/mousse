@@ -1,5 +1,4 @@
-if (Pstream::master())
-{
+if (Pstream::master()) {
   ensightCaseFile << nl << "TIME" << nl
     << "time set:                      " << 1 << nl
     << "number of steps:               " << nTimeSteps << nl
@@ -10,18 +9,16 @@ if (Pstream::master())
   ensightCaseFile.precision(5);
   label count = 0;
   scalar Tcorr = 0.0;
-  if (Times[0].value() < 0)
-  {
+  if (Times[0].value() < 0) {
     Tcorr = - Times[0].value();
     Info<< "Correcting time values. Adding " << Tcorr << endl;
   }
-  FOR_ALL(Times, n)
-  {
+  FOR_ALL(Times, n) {
     ensightCaseFile << setw(12) << Times[n].value() + Tcorr << " ";
-    if (++count % 6 == 0)
-    {
+    if (++count % 6 == 0) {
       ensightCaseFile << nl;
     }
   }
   ensightCaseFile << nl;
 }
+

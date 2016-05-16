@@ -9,34 +9,34 @@
 #include "region_split.hpp"
 #include "tuple2.hpp"
 #include "face_set.hpp"
+
+
 void mousse::domainDecomposition::distributeCells()
 {
-  Info<< "\nCalculating distribution of cells" << endl;
+  Info << "\nCalculating distribution of cells" << endl;
   cpuTime decompositionTime;
-  autoPtr<decompositionMethod> decomposePtr = decompositionMethod::New
-  (
-    decompositionDict_
-  );
+  autoPtr<decompositionMethod> decomposePtr =
+    decompositionMethod::New(decompositionDict_);
   scalarField cellWeights;
-  if (decompositionDict_.found("weightField"))
-  {
+  if (decompositionDict_.found("weightField")) {
     word weightName = decompositionDict_.lookup("weightField");
     volScalarField weights
-    (
+    {
       IOobject
-      (
+      {
         weightName,
         time().timeName(),
         *this,
         IOobject::MUST_READ,
         IOobject::NO_WRITE
-      ),
+      },
       *this
-    );
+    };
     cellWeights = weights.internalField();
   }
   cellToProc_ = decomposePtr().decompose(*this, cellWeights);
-  Info<< "\nFinished decomposition in "
+  Info << "\nFinished decomposition in "
     << decompositionTime.elapsedCpuTime()
     << " s" << endl;
 }
+

@@ -8,13 +8,14 @@
 //   mousse::decompositionMethod
 // Description
 //   Abstract base class for decomposition
-// SourceFiles
-//   decomposition_method.cpp
+
 #include "poly_mesh.hpp"
 #include "point_field.hpp"
 #include "compact_list_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class decompositionMethod
 {
 protected:
@@ -58,10 +59,7 @@ public:
   virtual ~decompositionMethod()
   {}
   // Member Functions
-    label nDomains() const
-    {
-      return nProcessors_;
-    }
+    label nDomains() const { return nProcessors_; }
     //- Is method parallel aware (i.e. does it synchronize domains across
     //  proc boundaries)
     virtual bool parallelAware() const = 0;
@@ -78,7 +76,7 @@ public:
           "decompositionMethod:decompose(const pointField&"
           ", const scalarField&)"
         );
-        return labelList(0);
+        return labelList{0};
       }
       //- Like decompose but with uniform weights on the points
       virtual labelList decompose(const pointField&)
@@ -87,7 +85,7 @@ public:
         (
           "decompositionMethod:decompose(const pointField&)"
         );
-        return labelList(0);
+        return labelList{0};
       }
     // Topology provided by mesh
       //- Return for every coordinate the wanted processor number. Use the
@@ -203,5 +201,8 @@ public:
         const scalarField& cWeights
       );
 };
+
 }  // namespace mousse
+
 #endif
+

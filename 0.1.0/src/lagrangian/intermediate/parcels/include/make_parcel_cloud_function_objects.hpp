@@ -5,7 +5,6 @@
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-
 #include "_face_post_processing.hpp"
 #include "_particle_collector.hpp"
 #include "_particle_erosion.hpp"
@@ -13,6 +12,7 @@
 #include "_particle_trap.hpp"
 #include "_patch_post_processing.hpp"
 #include "_void_fraction.hpp"
+
 
 #define MAKE_PARCEL_CLOUD_FUNCTION_OBJECTS(CloudType)                         \
                                                                               \
@@ -27,3 +27,4 @@
   MAKE_CLOUD_FUNCTION_OBJECT_TYPE(VoidFraction, CloudType);
 
 #endif
+

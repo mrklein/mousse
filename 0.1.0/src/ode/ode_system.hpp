@@ -8,10 +8,13 @@
 //   mousse::ODESystem
 // Description
 //   Abstract base class for the systems of ordinary differential equations.
+
 #include "scalar_field.hpp"
 #include "scalar_matrices.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class ODESystem
 {
 public:
@@ -42,5 +45,8 @@ public:
       scalarSquareMatrix& dfdy
     ) const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

@@ -8,15 +8,17 @@
 //   mousse::fvFieldDecomposer
 // Description
 //   Finite Volume volume and surface field decomposer.
-// SourceFiles
-//   fv_field_decomposer.cpp
-//   fv_field_decomposer_decompose_fields.cpp
+
 #include "fv_mesh.hpp"
 #include "fv_patch_field_mapper.hpp"
 #include "surface_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class IOobjectList;
+
+
 class fvFieldDecomposer
 {
 public:
@@ -36,23 +38,11 @@ public:
           const label addressingOffset
         );
       // Member functions
-        label size() const
-        {
-          return directAddressing_.size();
-        }
-        bool direct() const
-        {
-          return true;
-        }
+        label size() const { return directAddressing_.size(); }
+        bool direct() const { return true; }
         //- Are there unmapped values
-        bool hasUnmapped() const
-        {
-          return false;
-        }
-        const labelUList& directAddressing() const
-        {
-          return directAddressing_;
-        }
+        bool hasUnmapped() const { return false; }
+        const labelUList& directAddressing() const { return directAddressing_; }
     };
     //- Processor patch field decomposer class. Maps either owner or
     //  neighbour data (no interpolate anymore - processorFvPatchField
@@ -71,23 +61,11 @@ public:
         const labelUList& addressingSlice
       );
       // Member functions
-        label size() const
-        {
-          return directAddressing_.size();
-        }
-        bool direct() const
-        {
-          return true;
-        }
+        label size() const { return directAddressing_.size(); }
+        bool direct() const { return true; }
         //- Are there unmapped values
-        bool hasUnmapped() const
-        {
-          return false;
-        }
-        const labelUList& directAddressing() const
-        {
-          return directAddressing_;
-        }
+        bool hasUnmapped() const { return false; }
+        const labelUList& directAddressing() const { return directAddressing_; }
     };
     //- Processor patch field decomposer class. Surface field is assumed
     //  to have direction (so manipulates sign when mapping)
@@ -104,27 +82,12 @@ public:
         const labelUList& addressingSlice
       );
       // Member functions
-        label size() const
-        {
-          return addressing_.size();
-        }
-        bool direct() const
-        {
-          return false;
-        }
+        label size() const { return addressing_.size(); }
+        bool direct() const { return false; }
         //- Are there unmapped values
-        bool hasUnmapped() const
-        {
-          return false;
-        }
-        const labelListList& addressing() const
-        {
-          return addressing_;
-        }
-        const scalarListList& weights() const
-        {
-          return weights_;
-        }
+        bool hasUnmapped() const { return false; }
+        const labelListList& addressing() const { return addressing_; }
+        const scalarListList& weights() const { return weights_; }
     };
 private:
   // Private data
@@ -181,7 +144,7 @@ public:
     void decomposeFields(const PtrList<GeoField>& fields) const;
 };
 }  // namespace mousse
-#ifdef NoRepository
-#   include "fv_field_decomposer_decompose_fields.cpp"
-#endif
+
+#include "fv_field_decomposer_decompose_fields.ipp"
+
 #endif

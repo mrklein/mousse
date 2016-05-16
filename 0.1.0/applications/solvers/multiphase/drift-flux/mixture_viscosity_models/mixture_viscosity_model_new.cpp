@@ -6,6 +6,7 @@
 #include "vol_fields.hpp"
 #include "surface_fields.hpp"
 
+
 mousse::autoPtr<mousse::mixtureViscosityModel> mousse::mixtureViscosityModel::New
 (
   const word& name,
@@ -15,11 +16,10 @@ mousse::autoPtr<mousse::mixtureViscosityModel> mousse::mixtureViscosityModel::Ne
 )
 {
   const word modelType{viscosityProperties.lookup("transportModel")};
-  Info<< "Selecting incompressible transport model " << modelType << endl;
+  Info << "Selecting incompressible transport model " << modelType << endl;
   dictionaryConstructorTable::iterator cstrIter =
     dictionaryConstructorTablePtr_->find(modelType);
-  if (cstrIter == dictionaryConstructorTablePtr_->end())
-  {
+  if (cstrIter == dictionaryConstructorTablePtr_->end()) {
     FATAL_ERROR_IN
     (
       "mixtureViscosityModel::New(const volVectorField&, "
@@ -33,3 +33,4 @@ mousse::autoPtr<mousse::mixtureViscosityModel> mousse::mixtureViscosityModel::Ne
   }
   return {cstrIter()(name, viscosityProperties, U, phi)};
 }
+

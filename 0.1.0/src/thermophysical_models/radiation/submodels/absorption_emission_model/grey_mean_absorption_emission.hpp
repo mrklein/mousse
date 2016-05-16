@@ -49,17 +49,17 @@
 //       );
 //     }
 //   \endverbatim
-// SourceFiles
-//   grey_mean_absorption_emission.cpp
+
 #include "interpolation_look_up_table.hpp"
 #include "absorption_emission_model.hpp"
 #include "hash_table.hpp"
 #include "absorption_coeffs.hpp"
 #include "fluid_thermo.hpp"
-namespace mousse
-{
-namespace radiation
-{
+
+
+namespace mousse {
+namespace radiation {
+
 class greyMeanAbsorptionEmission
 :
   public absorptionEmissionModel
@@ -111,6 +111,9 @@ public:
       return true;
     }
 };
+
 }  // namespace radiation
 }  // namespace mousse
+
 #endif
+

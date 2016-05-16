@@ -8,14 +8,15 @@
 //   mousse::solidReactionThermo
 // Description
 //   mousse::solidReactionThermo
-// SourceFiles
-//   solid_reaction_thermo.cpp
+
 #include "basic_specie_mixture.hpp"
 #include "solid_thermo.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class solidReactionThermo
 :
   public solidThermo
@@ -77,5 +78,8 @@ public:
     //- Return the composition of the multi-component mixture
     virtual const basicSpecieMixture& composition() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

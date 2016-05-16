@@ -9,13 +9,14 @@
 // Description
 //   Base-class for all transport models used by the compressible turbulence
 //   models.
-// SourceFiles
-//   compressible_transport_model.cpp
+
 #include "primitive_fields_fwd.hpp"
 #include "vol_fields_fwd.hpp"
 #include "surface_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class compressibleTransportModel
 {
 public:

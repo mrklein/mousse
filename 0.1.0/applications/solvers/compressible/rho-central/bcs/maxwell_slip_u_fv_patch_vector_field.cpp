@@ -8,6 +8,8 @@
 #include "fv_patch_field_mapper.hpp"
 #include "vol_fields.hpp"
 #include "fvc_grad.hpp"
+
+
 // Constructors 
 mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
 (
@@ -26,6 +28,8 @@ mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
   thermalCreep_{true},
   curvature_{true}
 {}
+
+
 mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
 (
   const maxwellSlipUFvPatchVectorField& mspvf,
@@ -45,6 +49,8 @@ mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
   thermalCreep_{mspvf.thermalCreep_},
   curvature_{mspvf.curvature_}
 {}
+
+
 mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
 (
   const fvPatch& p,
@@ -63,8 +69,7 @@ mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
   thermalCreep_{dict.lookupOrDefault("thermalCreep", true)},
   curvature_{dict.lookupOrDefault("curvature", true)}
 {
-  if (mag(accommodationCoeff_) < SMALL || mag(accommodationCoeff_) > 2.0)
-  {
+  if (mag(accommodationCoeff_) < SMALL || mag(accommodationCoeff_) > 2.0) {
     FATAL_IO_ERROR_IN
     (
       "maxwellSlipUFvPatchScalarField::maxwellSlipUFvPatchScalarField"
@@ -79,25 +84,22 @@ mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
     << "(0 < accommodationCoeff_ <= 1)" << endl
     << exit(FatalIOError);
   }
-  if (dict.found("value"))
-  {
+  if (dict.found("value")) {
     fvPatchField<vector>::operator=
     (
       vectorField{"value", dict, p.size()}
     );
-    if (dict.found("refValue") && dict.found("valueFraction"))
-    {
+    if (dict.found("refValue") && dict.found("valueFraction")) {
       this->refValue() = vectorField{"refValue", dict, p.size()};
-      this->valueFraction() =
-        scalarField{"valueFraction", dict, p.size()};
-    }
-    else
-    {
+      this->valueFraction() = scalarField{"valueFraction", dict, p.size()};
+    } else {
       this->refValue() = *this;
-      this->valueFraction() = scalar(1.0);
+      this->valueFraction() = scalar{1.0};
     }
   }
 }
+
+
 mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
 (
   const maxwellSlipUFvPatchVectorField& mspvf,
@@ -115,11 +117,12 @@ mousse::maxwellSlipUFvPatchVectorField::maxwellSlipUFvPatchVectorField
   thermalCreep_{mspvf.thermalCreep_},
   curvature_{mspvf.curvature_}
 {}
+
+
 // Member Functions 
 void mousse::maxwellSlipUFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const fvPatchScalarField& pmu =
@@ -136,8 +139,7 @@ void mousse::maxwellSlipUFvPatchVectorField::updateCoeffs()
   Field<scalar> pnu{pmu/prho};
   valueFraction() = (1.0/(1.0 + patch().deltaCoeffs()*C1*pnu));
   refValue() = Uwall_;
-  if (thermalCreep_)
-  {
+  if (thermalCreep_) {
     const volScalarField& vsfT =
       this->db().objectRegistry::lookupObject<volScalarField>(TName_);
     label patchi = this->patch().index();
@@ -146,8 +148,7 @@ void mousse::maxwellSlipUFvPatchVectorField::updateCoeffs()
     vectorField n{patch().nf()};
     refValue() -= 3.0*pnu/(4.0*pT)*transform(I - n*n, gradpT);
   }
-  if (curvature_)
-  {
+  if (curvature_) {
     const fvPatchTensorField& ptauMC =
       patch().lookupPatchField<volTensorField, tensor>(tauMCName_);
     vectorField n{patch().nf()};
@@ -155,6 +156,8 @@ void mousse::maxwellSlipUFvPatchVectorField::updateCoeffs()
   }
   mixedFixedValueSlipFvPatchVectorField::updateCoeffs();
 }
+
+
 void mousse::maxwellSlipUFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -173,11 +176,15 @@ void mousse::maxwellSlipUFvPatchVectorField::write(Ostream& os) const
   valueFraction().writeEntry("valueFraction", os);
   writeEntry("value", os);
 }
-namespace mousse
-{
+
+
+namespace mousse {
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   maxwellSlipUFvPatchVectorField
 );
+
 }
+

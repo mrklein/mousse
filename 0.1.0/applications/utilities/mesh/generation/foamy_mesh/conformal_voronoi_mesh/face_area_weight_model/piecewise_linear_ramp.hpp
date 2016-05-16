@@ -8,11 +8,12 @@
 //   mousse::piecewiseLinearRamp
 // Description
 //   A linear ramp between 0 and 1 with definable start and end points.
-// SourceFiles
-//   piecewise_linear_ramp.cpp
+
 #include "face_area_weight_model.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class piecewiseLinearRamp
 :
   public faceAreaWeightModel
@@ -39,5 +40,8 @@ public:
     //- Return the faceAreaWeight
     virtual scalar faceAreaWeight(scalar faceAreaFraction) const;
 };
+
 }  // namespace mousse
+
 #endif
+

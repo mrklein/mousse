@@ -5,8 +5,10 @@
 #include "traction_displacement_fv_patch_vector_field.hpp"
 #include "add_to_run_time_selection_table.hpp"
 #include "vol_fields.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 // Constructors 
 tractionDisplacementFvPatchVectorField::tractionDisplacementFvPatchVectorField
 (
@@ -21,6 +23,8 @@ tractionDisplacementFvPatchVectorField::tractionDisplacementFvPatchVectorField
   fvPatchVectorField::operator=(patchInternalField());
   gradient() = vector::zero;
 }
+
+
 tractionDisplacementFvPatchVectorField::
 tractionDisplacementFvPatchVectorField
 (
@@ -34,6 +38,8 @@ tractionDisplacementFvPatchVectorField
   traction_{tdpvf.traction_, mapper},
   pressure_{tdpvf.pressure_, mapper}
 {}
+
+
 tractionDisplacementFvPatchVectorField::
 tractionDisplacementFvPatchVectorField
 (
@@ -49,6 +55,8 @@ tractionDisplacementFvPatchVectorField
   fvPatchVectorField::operator=(patchInternalField());
   gradient() = vector::zero;
 }
+
+
 tractionDisplacementFvPatchVectorField::
 tractionDisplacementFvPatchVectorField
 (
@@ -59,6 +67,8 @@ tractionDisplacementFvPatchVectorField
   traction_{tdpvf.traction_},
   pressure_{tdpvf.pressure_}
 {}
+
+
 tractionDisplacementFvPatchVectorField::
 tractionDisplacementFvPatchVectorField
 (
@@ -70,6 +80,8 @@ tractionDisplacementFvPatchVectorField
   traction_{tdpvf.traction_},
   pressure_{tdpvf.pressure_}
 {}
+
+
 // Member Functions 
 void tractionDisplacementFvPatchVectorField::autoMap
 (
@@ -80,6 +92,8 @@ void tractionDisplacementFvPatchVectorField::autoMap
   traction_.autoMap(m);
   pressure_.autoMap(m);
 }
+
+
 void tractionDisplacementFvPatchVectorField::rmap
 (
   const fvPatchVectorField& ptf,
@@ -92,10 +106,11 @@ void tractionDisplacementFvPatchVectorField::rmap
   traction_.rmap(dmptf.traction_, addr);
   pressure_.rmap(dmptf.pressure_, addr);
 }
+
+
 void tractionDisplacementFvPatchVectorField::updateCoeffs()
 {
-  if (updated())
-  {
+  if (updated()) {
     return;
   }
   const dictionary& mechanicalProperties =
@@ -113,8 +128,7 @@ void tractionDisplacementFvPatchVectorField::updateCoeffs()
   scalarField lambda{nu*E/((1.0 + nu)*(1.0 - 2.0*nu))};
   scalarField threeK{E/(1.0 - 2.0*nu)};
   Switch planeStress{mechanicalProperties.lookup("planeStress")};
-  if (planeStress)
-  {
+  if (planeStress) {
     lambda = nu*E/((1.0 + nu)*(1.0 - nu));
     threeK = E/(1.0 - nu);
   }
@@ -128,8 +142,7 @@ void tractionDisplacementFvPatchVectorField::updateCoeffs()
     + twoMuLambda*fvPatchField<vector>::snGrad() - (n & sigmaD)
   )/twoMuLambda;
   Switch thermalStress{thermalProperties.lookup("thermalStress")};
-  if (thermalStress)
-  {
+  if (thermalStress) {
     const fvPatchField<scalar>&  threeKalpha=
       patch().lookupPatchField<volScalarField, scalar>("threeKalpha");
     const fvPatchField<scalar>& T =
@@ -138,6 +151,8 @@ void tractionDisplacementFvPatchVectorField::updateCoeffs()
   }
   fixedGradientFvPatchVectorField::updateCoeffs();
 }
+
+
 void tractionDisplacementFvPatchVectorField::write(Ostream& os) const
 {
   fvPatchVectorField::write(os);
@@ -145,9 +160,12 @@ void tractionDisplacementFvPatchVectorField::write(Ostream& os) const
   pressure_.writeEntry("pressure", os);
   writeEntry("value", os);
 }
+
+
 MAKE_PATCH_TYPE_FIELD
 (
   fvPatchVectorField,
   tractionDisplacementFvPatchVectorField
 );
+
 }  // namespace mousse

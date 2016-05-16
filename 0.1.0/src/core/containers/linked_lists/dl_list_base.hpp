@@ -417,7 +417,7 @@ inline mousse::DLListBase::iterator::iterator(DLListBase& s, link* elmt)
 inline mousse::DLListBase::iterator::iterator(DLListBase& s)
 :
   curList_{s},
-  curElmt_{NULL},
+  curElmt_{nullptr},
   curLink_{}
 {}
 

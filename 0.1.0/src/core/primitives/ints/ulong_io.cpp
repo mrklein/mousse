@@ -49,7 +49,7 @@ unsigned long mousse::readUlong(Istream& is)
 
 bool mousse::read(const char* buf, unsigned long& s)
 {
-  char *endptr = NULL;
+  char *endptr = nullptr;
   s = strtoul(buf, &endptr, 10);
   return (*endptr == 0);
 }

@@ -8,14 +8,15 @@
 //   mousse::processorMeshes
 // Description
 //   Container for processor mesh addressing.
-// SourceFiles
-//   processor_meshes.cpp
+
 #include "ptr_list.hpp"
 #include "fv_mesh.hpp"
 #include "ioobject_list.hpp"
 #include "label_io_list.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class processorMeshes
 {
   // Private data
@@ -48,18 +49,12 @@ public:
     fvMesh::readUpdateState readUpdate();
     //- Reconstruct point position after motion in parallel
     void reconstructPoints(fvMesh&);
-    PtrList<fvMesh>& meshes()
-    {
-      return meshes_;
-    }
+    PtrList<fvMesh>& meshes() { return meshes_; }
     const PtrList<labelIOList>& pointProcAddressing() const
     {
       return pointProcAddressing_;
     }
-    PtrList<labelIOList>& faceProcAddressing()
-    {
-      return faceProcAddressing_;
-    }
+    PtrList<labelIOList>& faceProcAddressing() { return faceProcAddressing_; }
     const PtrList<labelIOList>& cellProcAddressing() const
     {
       return cellProcAddressing_;
@@ -69,5 +64,8 @@ public:
       return boundaryProcAddressing_;
     }
 };
+
 }  // namespace mousse
+
 #endif
+

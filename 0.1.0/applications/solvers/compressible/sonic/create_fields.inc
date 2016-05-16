@@ -1,8 +1,5 @@
-Info<< "Reading thermophysical properties\n" << endl;
-autoPtr<psiThermo> pThermo
-{
-  psiThermo::New(mesh)
-};
+Info << "Reading thermophysical properties\n" << endl;
+autoPtr<psiThermo> pThermo{psiThermo::New(mesh)};
 psiThermo& thermo = pThermo();
 thermo.validate(args.executable(), "e");
 volScalarField& p = thermo.p();
@@ -17,7 +14,7 @@ volScalarField rho
   },
   thermo.rho()
 };
-Info<< "Reading field U\n" << endl;
+Info << "Reading field U\n" << endl;
 volVectorField U
 {
   {
@@ -31,16 +28,10 @@ volVectorField U
 };
 #include "compressible_create_phi.inc"
 mesh.setFluxRequired(p.name());
-Info<< "Creating turbulence model\n" << endl;
+Info << "Creating turbulence model\n" << endl;
 autoPtr<compressible::turbulenceModel> turbulence
 {
-  compressible::turbulenceModel::New
-  (
-    rho,
-    U,
-    phi,
-    thermo
-  )
+  compressible::turbulenceModel::New(rho, U, phi, thermo)
 };
-Info<< "Creating field kinetic energy K\n" << endl;
-volScalarField K("K", 0.5*magSqr(U));
+Info << "Creating field kinetic energy K\n" << endl;
+volScalarField K{"K", 0.5*magSqr(U)};

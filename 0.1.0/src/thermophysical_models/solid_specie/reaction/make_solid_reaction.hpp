@@ -1,15 +1,18 @@
+#ifndef THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_MAKE_SOLID_REACTION_HPP_
+#define THERMOPHYSICAL_MODELS_SOLID_SPECIE_REACTION_MAKE_SOLID_REACTION_HPP_
+
 // mousse: CFD toolbox
 // Copyright (C) 2011-2012 OpenFOAM Foundation
 // Copyright (C) 2016 mousse project
 
-#ifndef makeSolidReactionThermo_H
-#define makeSolidReactionThermo_H
 #include "solid_reaction.hpp"
 #include "irreversible_reaction.hpp"
 #include "reaction.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 #define MAKE_SOLID_REACTION(ReactionType, Thermo, ReactionRate)               \
                                                                               \
   typedef solidReaction<Thermo> solidReaction##Thermo;                        \
@@ -51,5 +54,8 @@ namespace mousse
 #define MAKE_SOLID_IR_REACTIONS(Thermo, ReactionRate)                         \
                                                                               \
   MAKE_SOLID_REACTION(IrreversibleReaction, Thermo, ReactionRate)
+
 }  // namespace mousse
+
 #endif
+

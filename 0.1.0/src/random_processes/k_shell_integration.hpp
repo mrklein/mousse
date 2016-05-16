@@ -8,17 +8,23 @@
 #include "complex_fields.hpp"
 #include "kmesh.hpp"
 #include "graph.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 graph kShellIntegration
 (
   const complexVectorField& Ek,
   const Kmesh& K
 );
+
 graph kShellMean
 (
   const complexVectorField& Ek,
   const Kmesh& K
 );
+
 }  // namespace mousse
+
 #endif
+

@@ -19,12 +19,15 @@
 #include "janev_reaction_rate.hpp"
 #include "power_series_reaction_rate.hpp"
 #include "add_to_run_time_selection_table.hpp"
-/* * * * * * * * * * * * * * * * * Static data * * * * * * * * * * * * * * * */
-namespace mousse
-{
+
+
+namespace mousse {
+
 ADD_CHEMISTRY_READER_TYPE(chemkinReader, gasHThermoPhysics);
+
 }
-/* * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * */
+
+
 const char* mousse::chemkinReader::reactionTypeNames[4] =
 {
   "irreversible",
@@ -32,6 +35,7 @@ const char* mousse::chemkinReader::reactionTypeNames[4] =
   "nonEquilibriumReversible",
   "unknownReactionType"
 };
+
 const char* mousse::chemkinReader::reactionRateTypeNames[8] =
 {
   "Arrhenius",
@@ -43,6 +47,7 @@ const char* mousse::chemkinReader::reactionRateTypeNames[8] =
   "powerSeries",
   "unknownReactionRateType"
 };
+
 const char* mousse::chemkinReader::fallOffFunctionNames[4] =
 {
   "Lindemann",
@@ -50,6 +55,8 @@ const char* mousse::chemkinReader::fallOffFunctionNames[4] =
   "SRI",
   "unknownFallOffFunctionType"
 };
+
+
 void mousse::chemkinReader::initReactionKeywordTable()
 {
   reactionKeywordTable_.insert("M", thirdBodyReactionType);
@@ -78,26 +85,22 @@ void mousse::chemkinReader::initReactionKeywordTable()
   reactionKeywordTable_.insert("UNITS", UnitsOfReaction);
   reactionKeywordTable_.insert("END", end);
 }
+
+
 mousse::scalar mousse::chemkinReader::molecularWeight
 (
   const List<specieElement>& specieComposition
 ) const
 {
   scalar molWt = 0.0;
-  FOR_ALL(specieComposition, i)
-  {
+  FOR_ALL(specieComposition, i) {
     label nAtoms = specieComposition[i].nAtoms;
     const word& elementName = specieComposition[i].elementName;
-    if (isotopeAtomicWts_.found(elementName))
-    {
+    if (isotopeAtomicWts_.found(elementName)) {
       molWt += nAtoms*isotopeAtomicWts_[elementName];
-    }
-    else if (atomicWeights.found(elementName))
-    {
+    } else if (atomicWeights.found(elementName)) {
       molWt += nAtoms*atomicWeights[elementName];
-    }
-    else
-    {
+    } else {
       FATAL_ERROR_IN("chemkinReader::lex()")
         << "Unknown element " << elementName
         << " on line " << lineNo_-1 << nl
@@ -107,6 +110,8 @@ mousse::scalar mousse::chemkinReader::molecularWeight
   }
   return molWt;
 }
+
+
 void mousse::chemkinReader::checkCoeffs
 (
   const scalarList& reactionCoeffs,
@@ -114,8 +119,7 @@ void mousse::chemkinReader::checkCoeffs
   const label nCoeffs
 ) const
 {
-  if (reactionCoeffs.size() != nCoeffs)
-  {
+  if (reactionCoeffs.size() != nCoeffs) {
     FATAL_ERROR_IN("chemkinReader::checkCoeffs")
       << "Wrong number of coefficients for the " << reactionRateName
       << " rate expression on line "
@@ -126,6 +130,8 @@ void mousse::chemkinReader::checkCoeffs
       << exit(FatalError);
   }
 }
+
+
 template<class ReactionRateType>
 void mousse::chemkinReader::addReactionType
 (
@@ -135,57 +141,51 @@ void mousse::chemkinReader::addReactionType
   const ReactionRateType& rr
 )
 {
-  switch (rType)
-  {
+  switch (rType) {
     case irreversible:
-    {
-      reactions_.append
-      (
-        new IrreversibleReaction
-        <Reaction, gasHThermoPhysics, ReactionRateType>
-        (
-          Reaction<gasHThermoPhysics>
-          (
-            speciesTable_,
-            lhs.shrink(),
-            rhs.shrink(),
-            speciesThermo_
-          ),
-          rr
-        )
-      );
-    }
-    break;
-    case reversible:
-    {
-      reactions_.append
-      (
-        new ReversibleReaction
-        <Reaction, gasHThermoPhysics, ReactionRateType>
-        (
-          Reaction<gasHThermoPhysics>
-          (
-            speciesTable_,
-            lhs.shrink(),
-            rhs.shrink(),
-            speciesThermo_
-          ),
-          rr
-        )
-      );
-    }
-    break;
-    default:
-      if (rType < 3)
       {
+        reactions_.append
+        (
+          new IrreversibleReaction<Reaction, gasHThermoPhysics, ReactionRateType>
+          {
+            Reaction<gasHThermoPhysics>
+            {
+              speciesTable_,
+              lhs.shrink(),
+              rhs.shrink(),
+              speciesThermo_
+            },
+            rr
+          }
+        );
+      }
+      break;
+    case reversible:
+      {
+        reactions_.append
+        (
+          new ReversibleReaction<Reaction, gasHThermoPhysics, ReactionRateType>
+          {
+            Reaction<gasHThermoPhysics>
+            {
+              speciesTable_,
+              lhs.shrink(),
+              rhs.shrink(),
+              speciesThermo_
+            },
+            rr
+          }
+        );
+      }
+      break;
+    default:
+      if (rType < 3) {
         FATAL_ERROR_IN("chemkinReader::addReactionType")
           << "Reaction type " << reactionTypeNames[rType]
           << " on line " << lineNo_-1
           << " not handled by this function"
           << exit(FatalError);
-      }
-      else
-      {
+      } else {
         FATAL_ERROR_IN("chemkinReader::addReactionType")
           << "Unknown reaction type " << rType
           << " on line " << lineNo_-1
@@ -193,6 +193,8 @@ void mousse::chemkinReader::addReactionType
       }
   }
 }
+
+
 template<template<class, class> class PressureDependencyType>
 void mousse::chemkinReader::addPressureDependentReaction
 (
@@ -211,152 +213,146 @@ void mousse::chemkinReader::addPressureDependentReaction
 {
   checkCoeffs(k0Coeffs, "k0", 3);
   checkCoeffs(kInfCoeffs, "kInf", 3);
-  switch (fofType)
-  {
+  switch (fofType) {
     case Lindemann:
-    {
-      addReactionType
-      (
-        rType,
-        lhs, rhs,
-        PressureDependencyType
-          <ArrheniusReactionRate, LindemannFallOffFunction>
+      {
+        addReactionType
         (
-          ArrheniusReactionRate
+          rType,
+          lhs, rhs,
+          PressureDependencyType<ArrheniusReactionRate, LindemannFallOffFunction>
           (
-            Afactor0*k0Coeffs[0],
-            k0Coeffs[1],
-            k0Coeffs[2]/RR
-          ),
-          ArrheniusReactionRate
-          (
-            AfactorInf*kInfCoeffs[0],
-            kInfCoeffs[1],
-            kInfCoeffs[2]/RR
-          ),
-          LindemannFallOffFunction(),
-          thirdBodyEfficiencies(speciesTable_, efficiencies)
-        )
-      );
-      break;
-    }
+            ArrheniusReactionRate
+            (
+              Afactor0*k0Coeffs[0],
+              k0Coeffs[1],
+              k0Coeffs[2]/RR
+            ),
+            ArrheniusReactionRate
+            (
+              AfactorInf*kInfCoeffs[0],
+              kInfCoeffs[1],
+              kInfCoeffs[2]/RR
+            ),
+            LindemannFallOffFunction(),
+            thirdBodyEfficiencies(speciesTable_, efficiencies)
+          )
+        );
+        break;
+      }
     case Troe:
-    {
-      scalarList TroeCoeffs
-      (
-        reactionCoeffsTable[fallOffFunctionNames[fofType]]
-      );
-      if (TroeCoeffs.size() != 4 && TroeCoeffs.size() != 3)
       {
-        FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
-          << "Wrong number of coefficients for Troe rate expression"
-           " on line " << lineNo_-1 << ", should be 3 or 4 but "
-          << TroeCoeffs.size() << " supplied." << nl
-          << "Coefficients are "
-          << TroeCoeffs << nl
-          << exit(FatalError);
-      }
-      if (TroeCoeffs.size() == 3)
-      {
-        TroeCoeffs.setSize(4);
-        TroeCoeffs[3] = GREAT;
-      }
-      addReactionType
-      (
-        rType,
-        lhs, rhs,
-        PressureDependencyType
-          <ArrheniusReactionRate, TroeFallOffFunction>
+        scalarList TroeCoeffs
+        {
+          reactionCoeffsTable[fallOffFunctionNames[fofType]]
+        };
+        if (TroeCoeffs.size() != 4 && TroeCoeffs.size() != 3) {
+          FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
+            << "Wrong number of coefficients for Troe rate expression"
+               " on line " << lineNo_-1 << ", should be 3 or 4 but "
+            << TroeCoeffs.size() << " supplied." << nl
+            << "Coefficients are "
+            << TroeCoeffs << nl
+            << exit(FatalError);
+        }
+        if (TroeCoeffs.size() == 3) {
+          TroeCoeffs.setSize(4);
+          TroeCoeffs[3] = GREAT;
+        }
+        addReactionType
         (
-          ArrheniusReactionRate
+          rType,
+          lhs, rhs,
+          PressureDependencyType<ArrheniusReactionRate, TroeFallOffFunction>
           (
-            Afactor0*k0Coeffs[0],
-            k0Coeffs[1],
-            k0Coeffs[2]/RR
-          ),
-          ArrheniusReactionRate
-          (
-            AfactorInf*kInfCoeffs[0],
-            kInfCoeffs[1],
-            kInfCoeffs[2]/RR
-          ),
-          TroeFallOffFunction
-          (
-            TroeCoeffs[0],
-            TroeCoeffs[1],
-            TroeCoeffs[2],
-            TroeCoeffs[3]
-          ),
-          thirdBodyEfficiencies(speciesTable_, efficiencies)
-        )
-      );
-      break;
-    }
+            ArrheniusReactionRate
+            (
+              Afactor0*k0Coeffs[0],
+              k0Coeffs[1],
+              k0Coeffs[2]/RR
+            ),
+            ArrheniusReactionRate
+            (
+              AfactorInf*kInfCoeffs[0],
+              kInfCoeffs[1],
+              kInfCoeffs[2]/RR
+            ),
+            TroeFallOffFunction
+            (
+              TroeCoeffs[0],
+              TroeCoeffs[1],
+              TroeCoeffs[2],
+              TroeCoeffs[3]
+            ),
+            thirdBodyEfficiencies(speciesTable_, efficiencies)
+          )
+        );
+        break;
+      }
     case SRI:
-    {
-      scalarList SRICoeffs
-      (
-        reactionCoeffsTable[fallOffFunctionNames[fofType]]
-      );
-      if (SRICoeffs.size() != 5 && SRICoeffs.size() != 3)
+      {
+        scalarList SRICoeffs
+        {
+          reactionCoeffsTable[fallOffFunctionNames[fofType]]
+        };
+        if (SRICoeffs.size() != 5 && SRICoeffs.size() != 3) {
+          FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
+            << "Wrong number of coefficients for SRI rate expression"
+             " on line " << lineNo_-1 << ", should be 3 or 5 but "
+            << SRICoeffs.size() << " supplied." << nl
+            << "Coefficients are "
+            << SRICoeffs << nl
+            << exit(FatalError);
+        }
+        if (SRICoeffs.size() == 3) {
+          SRICoeffs.setSize(5);
+          SRICoeffs[3] = 1.0;
+          SRICoeffs[4] = 0.0;
+        }
+        addReactionType
+        (
+          rType,
+          lhs, rhs,
+          PressureDependencyType<ArrheniusReactionRate, SRIFallOffFunction>
+          (
+            ArrheniusReactionRate
+            (
+              Afactor0*k0Coeffs[0],
+              k0Coeffs[1],
+              k0Coeffs[2]/RR
+            ),
+            ArrheniusReactionRate
+            (
+              AfactorInf*kInfCoeffs[0],
+              kInfCoeffs[1],
+              kInfCoeffs[2]/RR
+            ),
+            SRIFallOffFunction
+            (
+              SRICoeffs[0],
+              SRICoeffs[1],
+              SRICoeffs[2],
+              SRICoeffs[3],
+              SRICoeffs[4]
+            ),
+            thirdBodyEfficiencies(speciesTable_, efficiencies)
+          )
+        );
+        break;
+      }
+    default:
       {
         FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
-          << "Wrong number of coefficients for SRI rate expression"
-           " on line " << lineNo_-1 << ", should be 3 or 5 but "
-          << SRICoeffs.size() << " supplied." << nl
-          << "Coefficients are "
-          << SRICoeffs << nl
+          << "Fall-off function type "
+          << fallOffFunctionNames[fofType]
+          << " on line " << lineNo_-1
+          << " not implemented"
           << exit(FatalError);
       }
-      if (SRICoeffs.size() == 3)
-      {
-        SRICoeffs.setSize(5);
-        SRICoeffs[3] = 1.0;
-        SRICoeffs[4] = 0.0;
-      }
-      addReactionType
-      (
-        rType,
-        lhs, rhs,
-        PressureDependencyType
-          <ArrheniusReactionRate, SRIFallOffFunction>
-        (
-          ArrheniusReactionRate
-          (
-            Afactor0*k0Coeffs[0],
-            k0Coeffs[1],
-            k0Coeffs[2]/RR
-          ),
-          ArrheniusReactionRate
-          (
-            AfactorInf*kInfCoeffs[0],
-            kInfCoeffs[1],
-            kInfCoeffs[2]/RR
-          ),
-          SRIFallOffFunction
-          (
-            SRICoeffs[0],
-            SRICoeffs[1],
-            SRICoeffs[2],
-            SRICoeffs[3],
-            SRICoeffs[4]
-          ),
-          thirdBodyEfficiencies(speciesTable_, efficiencies)
-        )
-      );
-      break;
-    }
-    default:
-    {
-      FATAL_ERROR_IN("chemkinReader::addPressureDependentReaction")
-        << "Fall-off function type "
-        << fallOffFunctionNames[fofType]
-        << " on line " << lineNo_-1
-        << " not implemented"
-        << exit(FatalError);
-    }
   }
 }
+
+
 void mousse::chemkinReader::addReaction
 (
   DynamicList<gasHReaction::specieCoeffs>& lhs,
@@ -371,23 +367,19 @@ void mousse::chemkinReader::addReaction
 )
 {
   checkCoeffs(ArrheniusCoeffs, "Arrhenius", 3);
-  scalarList nAtoms(elementNames_.size(), 0.0);
-  FOR_ALL(lhs, i)
-  {
+  scalarList nAtoms{elementNames_.size(), 0.0};
+  FOR_ALL(lhs, i) {
     const List<specieElement>& specieComposition =
       specieComposition_[speciesTable_[lhs[i].index]];
-    FOR_ALL(specieComposition, j)
-    {
+    FOR_ALL(specieComposition, j) {
       label elementi = elementIndices_[specieComposition[j].elementName];
       nAtoms[elementi] += lhs[i].stoichCoeff*specieComposition[j].nAtoms;
     }
   }
-  FOR_ALL(rhs, i)
-  {
+  FOR_ALL(rhs, i) {
     const List<specieElement>& specieComposition =
       specieComposition_[speciesTable_[rhs[i].index]];
-    FOR_ALL(specieComposition, j)
-    {
+    FOR_ALL(specieComposition, j) {
       label elementi = elementIndices_[specieComposition[j].elementName];
       nAtoms[elementi] -= rhs[i].stoichCoeff*specieComposition[j].nAtoms;
     }
@@ -396,195 +388,207 @@ void mousse::chemkinReader::addReaction
   // for the change from mol/cm^3 to kmol/m^3 concentraction units
   const scalar concFactor = 0.001;
   scalar sumExp = 0.0;
-  FOR_ALL(lhs, i)
-  {
+  FOR_ALL(lhs, i) {
     sumExp += lhs[i].exponent;
   }
   scalar Afactor = pow(concFactor, sumExp - 1.0);
   scalar AfactorRev = Afactor;
-  if (rType == nonEquilibriumReversible)
-  {
+  if (rType == nonEquilibriumReversible) {
     sumExp = 0.0;
-    FOR_ALL(rhs, i)
-    {
+    FOR_ALL(rhs, i) {
       sumExp += rhs[i].exponent;
     }
     AfactorRev = pow(concFactor, sumExp - 1.0);
   }
-  switch (rrType)
-  {
+  switch (rrType) {
     case Arrhenius:
-    {
-      if (rType == nonEquilibriumReversible)
       {
-        const scalarList& reverseArrheniusCoeffs =
-          reactionCoeffsTable[reactionTypeNames[rType]];
-        checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
-        reactions_.append
-        (
-          new NonEquilibriumReversibleReaction
-            <Reaction, gasHThermoPhysics, ArrheniusReactionRate>
+        if (rType == nonEquilibriumReversible) {
+          const scalarList& reverseArrheniusCoeffs =
+            reactionCoeffsTable[reactionTypeNames[rType]];
+          checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
+          reactions_.append
           (
-            Reaction<gasHThermoPhysics>
+            new NonEquilibriumReversibleReaction
+              <Reaction, gasHThermoPhysics, ArrheniusReactionRate>
             (
-              speciesTable_,
-              lhs.shrink(),
-              rhs.shrink(),
-              speciesThermo_
-            ),
+              Reaction<gasHThermoPhysics>
+              (
+                speciesTable_,
+                lhs.shrink(),
+                rhs.shrink(),
+                speciesThermo_
+              ),
+              ArrheniusReactionRate
+              (
+                Afactor*ArrheniusCoeffs[0],
+                ArrheniusCoeffs[1],
+                ArrheniusCoeffs[2]/RR
+              ),
+              ArrheniusReactionRate
+              (
+                AfactorRev*reverseArrheniusCoeffs[0],
+                reverseArrheniusCoeffs[1],
+                reverseArrheniusCoeffs[2]/RR
+              )
+            )
+          );
+        } else {
+          addReactionType
+          (
+            rType,
+            lhs, rhs,
             ArrheniusReactionRate
             (
               Afactor*ArrheniusCoeffs[0],
               ArrheniusCoeffs[1],
               ArrheniusCoeffs[2]/RR
-            ),
-            ArrheniusReactionRate
-            (
-              AfactorRev*reverseArrheniusCoeffs[0],
-              reverseArrheniusCoeffs[1],
-              reverseArrheniusCoeffs[2]/RR
             )
-          )
-        );
+          );
+        }
+        break;
       }
-      else
-      {
-        addReactionType
-        (
-          rType,
-          lhs, rhs,
-          ArrheniusReactionRate
-          (
-            Afactor*ArrheniusCoeffs[0],
-            ArrheniusCoeffs[1],
-            ArrheniusCoeffs[2]/RR
-          )
-        );
-      }
-      break;
-    }
     case thirdBodyArrhenius:
-    {
-      if (rType == nonEquilibriumReversible)
       {
-        const scalarList& reverseArrheniusCoeffs =
-          reactionCoeffsTable[reactionTypeNames[rType]];
-        checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
-        reactions_.append
-        (
-          new NonEquilibriumReversibleReaction
-          <
-            Reaction,
-            gasHThermoPhysics,
-            thirdBodyArrheniusReactionRate
-          >
+        if (rType == nonEquilibriumReversible) {
+          const scalarList& reverseArrheniusCoeffs =
+            reactionCoeffsTable[reactionTypeNames[rType]];
+          checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
+          reactions_.append
           (
-            Reaction<gasHThermoPhysics>
+            new NonEquilibriumReversibleReaction
+            <
+              Reaction,
+              gasHThermoPhysics,
+              thirdBodyArrheniusReactionRate
+            >
             (
-              speciesTable_,
-              lhs.shrink(),
-              rhs.shrink(),
-              speciesThermo_
-            ),
+              Reaction<gasHThermoPhysics>
+              (
+                speciesTable_,
+                lhs.shrink(),
+                rhs.shrink(),
+                speciesThermo_
+              ),
+              thirdBodyArrheniusReactionRate
+              (
+                Afactor*concFactor*ArrheniusCoeffs[0],
+                ArrheniusCoeffs[1],
+                ArrheniusCoeffs[2]/RR,
+                thirdBodyEfficiencies(speciesTable_, efficiencies)
+              ),
+              thirdBodyArrheniusReactionRate
+              (
+                AfactorRev*concFactor*reverseArrheniusCoeffs[0],
+                reverseArrheniusCoeffs[1],
+                reverseArrheniusCoeffs[2]/RR,
+                thirdBodyEfficiencies(speciesTable_, efficiencies)
+              )
+            )
+          );
+        } else {
+          addReactionType
+          (
+            rType,
+            lhs, rhs,
             thirdBodyArrheniusReactionRate
             (
               Afactor*concFactor*ArrheniusCoeffs[0],
               ArrheniusCoeffs[1],
               ArrheniusCoeffs[2]/RR,
               thirdBodyEfficiencies(speciesTable_, efficiencies)
-            ),
-            thirdBodyArrheniusReactionRate
-            (
-              AfactorRev*concFactor*reverseArrheniusCoeffs[0],
-              reverseArrheniusCoeffs[1],
-              reverseArrheniusCoeffs[2]/RR,
-              thirdBodyEfficiencies(speciesTable_, efficiencies)
             )
-          )
-        );
+          );
+        }
+        break;
       }
-      else
+    case unimolecularFallOff:
       {
-        addReactionType
+        addPressureDependentReaction<FallOffReactionRate>
         (
           rType,
-          lhs, rhs,
-          thirdBodyArrheniusReactionRate
-          (
-            Afactor*concFactor*ArrheniusCoeffs[0],
-            ArrheniusCoeffs[1],
-            ArrheniusCoeffs[2]/RR,
-            thirdBodyEfficiencies(speciesTable_, efficiencies)
-          )
+          fofType,
+          lhs,
+          rhs,
+          efficiencies,
+          reactionCoeffsTable[reactionRateTypeNames[rrType]],
+          ArrheniusCoeffs,
+          reactionCoeffsTable,
+          concFactor*Afactor,
+          Afactor,
+          RR
         );
+        break;
       }
-      break;
-    }
-    case unimolecularFallOff:
-    {
-      addPressureDependentReaction<FallOffReactionRate>
-      (
-        rType,
-        fofType,
-        lhs,
-        rhs,
-        efficiencies,
-        reactionCoeffsTable[reactionRateTypeNames[rrType]],
-        ArrheniusCoeffs,
-        reactionCoeffsTable,
-        concFactor*Afactor,
-        Afactor,
-        RR
-      );
-      break;
-    }
     case chemicallyActivatedBimolecular:
-    {
-      addPressureDependentReaction<ChemicallyActivatedReactionRate>
-      (
-        rType,
-        fofType,
-        lhs,
-        rhs,
-        efficiencies,
-        ArrheniusCoeffs,
-        reactionCoeffsTable[reactionRateTypeNames[rrType]],
-        reactionCoeffsTable,
-        Afactor,
-        Afactor/concFactor,
-        RR
-      );
-      break;
-    }
-    case LandauTeller:
-    {
-      const scalarList& LandauTellerCoeffs =
-        reactionCoeffsTable[reactionRateTypeNames[rrType]];
-      checkCoeffs(LandauTellerCoeffs, "Landau-Teller", 2);
-      if (rType == nonEquilibriumReversible)
       {
-        const scalarList& reverseArrheniusCoeffs =
-          reactionCoeffsTable[reactionTypeNames[rType]];
-        checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
-        const scalarList& reverseLandauTellerCoeffs =
-          reactionCoeffsTable
-          [
-            word(reactionTypeNames[rType])
-           + reactionRateTypeNames[rrType]
-          ];
-        checkCoeffs(LandauTellerCoeffs, "reverse Landau-Teller", 2);
-        reactions_.append
+        addPressureDependentReaction<ChemicallyActivatedReactionRate>
         (
-          new NonEquilibriumReversibleReaction
-            <Reaction, gasHThermoPhysics, LandauTellerReactionRate>
+          rType,
+          fofType,
+          lhs,
+          rhs,
+          efficiencies,
+          ArrheniusCoeffs,
+          reactionCoeffsTable[reactionRateTypeNames[rrType]],
+          reactionCoeffsTable,
+          Afactor,
+          Afactor/concFactor,
+          RR
+        );
+        break;
+      }
+    case LandauTeller:
+      {
+        const scalarList& LandauTellerCoeffs =
+          reactionCoeffsTable[reactionRateTypeNames[rrType]];
+        checkCoeffs(LandauTellerCoeffs, "Landau-Teller", 2);
+        if (rType == nonEquilibriumReversible) {
+          const scalarList& reverseArrheniusCoeffs =
+            reactionCoeffsTable[reactionTypeNames[rType]];
+          checkCoeffs(reverseArrheniusCoeffs, "reverse Arrhenius", 3);
+          const scalarList& reverseLandauTellerCoeffs =
+            reactionCoeffsTable
+            [
+              word(reactionTypeNames[rType])
+             + reactionRateTypeNames[rrType]
+            ];
+          checkCoeffs(LandauTellerCoeffs, "reverse Landau-Teller", 2);
+          reactions_.append
           (
-            Reaction<gasHThermoPhysics>
+            new NonEquilibriumReversibleReaction
+              <Reaction, gasHThermoPhysics, LandauTellerReactionRate>
             (
-              speciesTable_,
-              lhs.shrink(),
-              rhs.shrink(),
-              speciesThermo_
-            ),
+              Reaction<gasHThermoPhysics>
+              (
+                speciesTable_,
+                lhs.shrink(),
+                rhs.shrink(),
+                speciesThermo_
+              ),
+              LandauTellerReactionRate
+              (
+                Afactor*ArrheniusCoeffs[0],
+                ArrheniusCoeffs[1],
+                ArrheniusCoeffs[2]/RR,
+                LandauTellerCoeffs[0],
+                LandauTellerCoeffs[1]
+              ),
+              LandauTellerReactionRate
+              (
+                AfactorRev*reverseArrheniusCoeffs[0],
+                reverseArrheniusCoeffs[1],
+                reverseArrheniusCoeffs[2]/RR,
+                reverseLandauTellerCoeffs[0],
+                reverseLandauTellerCoeffs[1]
+              )
+            )
+          );
+        } else {
+          addReactionType
+          (
+            rType,
+            lhs, rhs,
             LandauTellerReactionRate
             (
               Afactor*ArrheniusCoeffs[0],
@@ -592,95 +596,68 @@ void mousse::chemkinReader::addReaction
               ArrheniusCoeffs[2]/RR,
               LandauTellerCoeffs[0],
               LandauTellerCoeffs[1]
-            ),
-            LandauTellerReactionRate
-            (
-              AfactorRev*reverseArrheniusCoeffs[0],
-              reverseArrheniusCoeffs[1],
-              reverseArrheniusCoeffs[2]/RR,
-              reverseLandauTellerCoeffs[0],
-              reverseLandauTellerCoeffs[1]
             )
-          )
-        );
+          );
+        }
+        break;
       }
-      else
+    case Janev:
       {
+        const scalarList& JanevCoeffs =
+          reactionCoeffsTable[reactionRateTypeNames[rrType]];
+        checkCoeffs(JanevCoeffs, "Janev", 9);
         addReactionType
         (
           rType,
           lhs, rhs,
-          LandauTellerReactionRate
+          JanevReactionRate
           (
             Afactor*ArrheniusCoeffs[0],
             ArrheniusCoeffs[1],
             ArrheniusCoeffs[2]/RR,
-            LandauTellerCoeffs[0],
-            LandauTellerCoeffs[1]
+            FixedList<scalar, 9>(JanevCoeffs)
           )
         );
+        break;
       }
-      break;
-    }
-    case Janev:
-    {
-      const scalarList& JanevCoeffs =
-        reactionCoeffsTable[reactionRateTypeNames[rrType]];
-      checkCoeffs(JanevCoeffs, "Janev", 9);
-      addReactionType
-      (
-        rType,
-        lhs, rhs,
-        JanevReactionRate
-        (
-          Afactor*ArrheniusCoeffs[0],
-          ArrheniusCoeffs[1],
-          ArrheniusCoeffs[2]/RR,
-          FixedList<scalar, 9>(JanevCoeffs)
-        )
-      );
-      break;
-    }
     case powerSeries:
-    {
-      const scalarList& powerSeriesCoeffs =
-        reactionCoeffsTable[reactionRateTypeNames[rrType]];
-      checkCoeffs(powerSeriesCoeffs, "power-series", 4);
-      addReactionType
-      (
-        rType,
-        lhs, rhs,
-        powerSeriesReactionRate
+      {
+        const scalarList& powerSeriesCoeffs =
+          reactionCoeffsTable[reactionRateTypeNames[rrType]];
+        checkCoeffs(powerSeriesCoeffs, "power-series", 4);
+        addReactionType
         (
-          Afactor*ArrheniusCoeffs[0],
-          ArrheniusCoeffs[1],
-          ArrheniusCoeffs[2]/RR,
-          FixedList<scalar, 4>(powerSeriesCoeffs)
-        )
-      );
-      break;
-    }
+          rType,
+          lhs, rhs,
+          powerSeriesReactionRate
+          (
+            Afactor*ArrheniusCoeffs[0],
+            ArrheniusCoeffs[1],
+            ArrheniusCoeffs[2]/RR,
+            FixedList<scalar, 4>(powerSeriesCoeffs)
+          )
+        );
+        break;
+      }
     case unknownReactionRateType:
-    {
-      FATAL_ERROR_IN("chemkinReader::addReaction")
-        << "Internal error on line " << lineNo_-1
-        << ": reaction rate type has not been set"
-        << exit(FatalError);
-      break;
-    }
+      {
+        FATAL_ERROR_IN("chemkinReader::addReaction")
+          << "Internal error on line " << lineNo_-1
+          << ": reaction rate type has not been set"
+          << exit(FatalError);
+        break;
+      }
     default:
-    {
-      FATAL_ERROR_IN("chemkinReader::addReaction")
-        << "Reaction rate type " << reactionRateTypeNames[rrType]
-        << " on line " << lineNo_-1
-        << " not implemented"
-        << exit(FatalError);
-    }
+      {
+        FATAL_ERROR_IN("chemkinReader::addReaction")
+          << "Reaction rate type " << reactionRateTypeNames[rrType]
+          << " on line " << lineNo_-1
+          << " not implemented"
+          << exit(FatalError);
+      }
   }
-  FOR_ALL(nAtoms, i)
-  {
-    if (mag(nAtoms[i]) > imbalanceTol_)
-    {
+  FOR_ALL(nAtoms, i) {
+    if (mag(nAtoms[i]) > imbalanceTol_) {
       FATAL_ERROR_IN("chemkinReader::addReaction")
         << "Elemental imbalance of " << mag(nAtoms[i])
         << " in " << elementNames_[i]
@@ -694,40 +671,41 @@ void mousse::chemkinReader::addReaction
   rhs.clear();
   reactionCoeffsTable.clear();
 }
+
+
 void mousse::chemkinReader::read
 (
   const fileName& CHEMKINFileName,
   const fileName& thermoFileName
 )
 {
-  if (thermoFileName != fileName::null)
-  {
+  if (thermoFileName != fileName::null) {
     std::ifstream thermoStream(thermoFileName.c_str());
-    if (!thermoStream)
-    {
+    if (!thermoStream) {
       FATAL_ERROR_IN
       (
         "chemkin::chemkin(const fileName& CHEMKINFileName, "
         "const fileName& thermoFileName)"
-      )   << "file " << thermoFileName << " not found"
-        << exit(FatalError);
+      )
+      << "file " << thermoFileName << " not found"
+      << exit(FatalError);
     }
-    yy_buffer_state* bufferPtr(yy_create_buffer(&thermoStream, yyBufSize));
+    yy_buffer_state* bufferPtr{yy_create_buffer(&thermoStream, yyBufSize)};
     yy_switch_to_buffer(bufferPtr);
     while (lex() != 0)
     {}
     yy_delete_buffer(bufferPtr);
     lineNo_ = 1;
   }
-  std::ifstream CHEMKINStream(CHEMKINFileName.c_str());
-  if (!CHEMKINStream)
-  {
+  std::ifstream CHEMKINStream{CHEMKINFileName.c_str()};
+  if (!CHEMKINStream) {
     FATAL_ERROR_IN
     (
       "chemkin::chemkin(const fileName& CHEMKINFileName, "
       "const fileName& thermoFileName)"
-    )   << "file " << CHEMKINFileName << " not found"
-      << exit(FatalError);
+    )
+    << "file " << CHEMKINFileName << " not found"
+    << exit(FatalError);
   }
   yy_buffer_state* bufferPtr(yy_create_buffer(&CHEMKINStream, yyBufSize));
   yy_switch_to_buffer(bufferPtr);
@@ -736,6 +714,8 @@ void mousse::chemkinReader::read
   {}
   yy_delete_buffer(bufferPtr);
 }
+
+
 // Constructor
 mousse::chemkinReader::chemkinReader
 (
@@ -745,51 +725,48 @@ mousse::chemkinReader::chemkinReader
   const bool newFormat
 )
 :
-  lineNo_(1),
-  specieNames_(10),
-  speciesTable_(species),
-  reactions_(speciesTable_, speciesThermo_),
-  newFormat_(newFormat),
-  imbalanceTol_(ROOTSMALL)
+  lineNo_{1},
+  specieNames_{10},
+  speciesTable_{species},
+  reactions_{speciesTable_, speciesThermo_},
+  newFormat_{newFormat},
+  imbalanceTol_{ROOTSMALL}
 {
   read(CHEMKINFileName, thermoFileName);
 }
+
+
 mousse::chemkinReader::chemkinReader
 (
   const dictionary& thermoDict,
   speciesTable& species
 )
 :
-  lineNo_(1),
-  specieNames_(10),
-  speciesTable_(species),
-  reactions_(speciesTable_, speciesThermo_),
-  newFormat_(thermoDict.lookupOrDefault("newFormat", false)),
-  imbalanceTol_(thermoDict.lookupOrDefault("imbalanceTolerance", ROOTSMALL))
+  lineNo_{1},
+  specieNames_{10},
+  speciesTable_{species},
+  reactions_{speciesTable_, speciesThermo_},
+  newFormat_{thermoDict.lookupOrDefault("newFormat", false)},
+  imbalanceTol_{thermoDict.lookupOrDefault("imbalanceTolerance", ROOTSMALL)}
 {
-  if (newFormat_)
-  {
-    Info<< "Reading CHEMKIN thermo data in new file format" << endl;
+  if (newFormat_) {
+    Info << "Reading CHEMKIN thermo data in new file format" << endl;
   }
-  fileName chemkinFile(fileName(thermoDict.lookup("CHEMKINFile")).expand());
+  fileName chemkinFile{fileName{thermoDict.lookup("CHEMKINFile")}.expand()};
   fileName thermoFile = fileName::null;
-  if (thermoDict.found("CHEMKINThermoFile"))
-  {
-    thermoFile = fileName(thermoDict.lookup("CHEMKINThermoFile")).expand();
+  if (thermoDict.found("CHEMKINThermoFile")) {
+    thermoFile = fileName{thermoDict.lookup("CHEMKINThermoFile")}.expand();
   }
   // allow relative file names
   fileName relPath = thermoDict.name().path();
-  if (relPath.size())
-  {
-    if (!chemkinFile.isAbsolute())
-    {
+  if (relPath.size()) {
+    if (!chemkinFile.isAbsolute()) {
       chemkinFile = relPath/chemkinFile;
     }
-    if (!thermoFile.isAbsolute())
-    {
+    if (!thermoFile.isAbsolute()) {
       thermoFile = relPath/thermoFile;
     }
   }
   read(chemkinFile, thermoFile);
 }
-// Member Functions
+

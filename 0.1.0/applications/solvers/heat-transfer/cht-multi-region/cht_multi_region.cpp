@@ -15,6 +15,7 @@
 #include "coordinate_system.hpp"
 #include "fixed_flux_pressure_fv_patch_scalar_field.hpp"
 
+
 int main(int argc, char *argv[])
 {
   #include "set_root_case.inc"
@@ -30,8 +31,7 @@ int main(int argc, char *argv[])
   #include "compressible_multi_region_courant_no.inc"
   #include "solid_region_diffusion_no.inc"
   #include "set_initial_multi_region_delta_t.inc"
-  while (runTime.run())
-  {
+  while (runTime.run()) {
     #include "create_time_controls.inc"
     #include "read_solid_time_controls.inc"
     #include "read_pimple_controls.inc"
@@ -39,38 +39,33 @@ int main(int argc, char *argv[])
     #include "solid_region_diffusion_no.inc"
     #include "set_multi_region_delta_t.inc"
     runTime++;
-    Info<< "Time = " << runTime.timeName() << nl << endl;
-    if (nOuterCorr != 1)
-    {
-      FOR_ALL(fluidRegions, i)
-      {
+    Info << "Time = " << runTime.timeName() << nl << endl;
+    if (nOuterCorr != 1) {
+      FOR_ALL(fluidRegions, i) {
         #include "store_old_fluid_fields.inc"
       }
     }
     // --- PIMPLE loop
-    for (int oCorr=0; oCorr<nOuterCorr; oCorr++)
-    {
+    for (int oCorr=0; oCorr<nOuterCorr; oCorr++) {
       bool finalIter = oCorr == nOuterCorr-1;
-      FOR_ALL(fluidRegions, i)
-      {
-        Info<< "\nSolving for fluid region " << fluidRegions[i].name() << endl;
+      FOR_ALL(fluidRegions, i) {
+        Info << "\nSolving for fluid region " << fluidRegions[i].name() << endl;
         #include "set_region_fluid_fields.inc"
         #include "read_fluid_multi_region_pimple_controls.inc"
         #include "solve_fluid.inc"
       }
-      FOR_ALL(solidRegions, i)
-      {
-        Info<< "\nSolving for solid region " << solidRegions[i].name() << endl;
+      FOR_ALL(solidRegions, i) {
+        Info << "\nSolving for solid region " << solidRegions[i].name() << endl;
         #include "set_region_solid_fields.inc"
         #include "read_solid_multi_region_pimple_controls.inc"
         #include "solve_solid.inc"
       }
     }
     runTime.write();
-    Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
+    Info << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
       << "  ClockTime = " << runTime.elapsedClockTime() << " s"
       << nl << endl;
   }
-  Info<< "End\n" << endl;
+  Info << "End\n" << endl;
   return 0;
 }

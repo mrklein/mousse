@@ -15,13 +15,14 @@
 //      - thresholdField supplies the values beyond which the injection is
 //       permitted
 //   - limited to a user-supllied number of injections per injector location
-// SourceFiles
-//   _field_activated_injection.cpp
+
 #include "_injection_model.hpp"
 #include "distribution_model.hpp"
 #include "vol_fields_fwd.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template<class CloudType>
 class FieldActivatedInjection
 :
@@ -72,12 +73,13 @@ public:
     //- Construct copy
     FieldActivatedInjection(const FieldActivatedInjection<CloudType>& im);
     //- Construct and return a clone
-    virtual autoPtr<InjectionModel<CloudType> > clone() const
+    virtual autoPtr<InjectionModel<CloudType>> clone() const
     {
-      return autoPtr<InjectionModel<CloudType> >
-      (
-        new FieldActivatedInjection<CloudType>(*this)
-      );
+      return
+        autoPtr<InjectionModel<CloudType>>
+        {
+          new FieldActivatedInjection<CloudType>{*this}
+        };
     }
   //- Destructor
   virtual ~FieldActivatedInjection();
@@ -116,8 +118,9 @@ public:
       //  permitted
       virtual bool validInjection(const label parcelI);
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "_field_activated_injection.cpp"
-#endif
+
+#include "_field_activated_injection.ipp"
+
 #endif

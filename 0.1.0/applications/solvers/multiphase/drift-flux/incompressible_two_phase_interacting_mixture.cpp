@@ -6,11 +6,16 @@
 #include "add_to_run_time_selection_table.hpp"
 #include "surface_fields.hpp"
 #include "fvc.hpp"
+
+
 // Static Data Members
-namespace mousse
-{
+namespace mousse {
+
 DEFINE_TYPE_NAME_AND_DEBUG(incompressibleTwoPhaseInteractingMixture, 0);
+
 }
+
+
 // Constructors 
 mousse::incompressibleTwoPhaseInteractingMixture::
 incompressibleTwoPhaseInteractingMixture
@@ -69,20 +74,20 @@ incompressibleTwoPhaseInteractingMixture
       U_.db()
     },
     U_.mesh(),
-    {"mu", dimensionSet(1, -1, -1, 0, 0), 0},
+    {"mu", dimensionSet{1, -1, -1, 0, 0}, 0},
     calculatedFvPatchScalarField::typeName
   }
 {
   correct();
 }
+
+
 // Member Functions 
 bool mousse::incompressibleTwoPhaseInteractingMixture::read()
 {
-  if (regIOobject::read())
-  {
+  if (regIOobject::read()) {
     if (muModel_().read(subDict(phase1Name_))
-        && nucModel_().read(subDict(phase2Name_)))
-    {
+        && nucModel_().read(subDict(phase2Name_))) {
       muModel_->viscosityProperties().lookup("rho") >> rhod_;
       nucModel_->viscosityProperties().lookup("rho") >> rhoc_;
       dd_ = dimensionedScalar
@@ -99,13 +104,8 @@ bool mousse::incompressibleTwoPhaseInteractingMixture::read()
         );
       return true;
     }
-    else
-    {
-      return false;
-    }
-  }
-  else
-  {
     return false;
   }
+  return false;
 }
+

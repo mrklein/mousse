@@ -9,11 +9,12 @@
 // Description
 //   Simple extension of Reaction to handle reversible reactions using
 //   equilibrium thermodynamics.
-// SourceFiles
-//   irreversible_reaction.cpp
+
 #include "reaction.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 template
 <
   template<class> class ReactionType,
@@ -62,37 +63,37 @@ public:
       const dictionary& dict
     );
     //- Construct and return a clone
-    virtual autoPtr<Reaction<ReactionThermo> > clone() const
+    virtual autoPtr<Reaction<ReactionThermo>> clone() const
     {
-      return autoPtr<Reaction<ReactionThermo> >
-      (
+      return autoPtr<Reaction<ReactionThermo>>
+      {
         new IrreversibleReaction
         <
           ReactionType,
           ReactionThermo,
           ReactionRate
-        >(*this)
-      );
+        >{*this}
+      };
     }
     //- Construct and return a clone with new speciesTable
-    virtual autoPtr<Reaction<ReactionThermo> > clone
+    virtual autoPtr<Reaction<ReactionThermo>> clone
     (
       const speciesTable& species
     ) const
     {
-      return autoPtr<Reaction<ReactionThermo> >
-      (
+      return autoPtr<Reaction<ReactionThermo>>
+      {
         new IrreversibleReaction
         <
           ReactionType,
           ReactionThermo,
           ReactionRate
         >
-        (
+        {
           *this,
           species
-        )
-      );
+        }
+      };
     }
     //- Disallow default bitwise assignment
     void operator=
@@ -119,8 +120,9 @@ public:
     //- Write
     virtual void write(Ostream&) const;
 };
+
 }  // namespace mousse
-#ifdef NoRepository
-#   include "irreversible_reaction.cpp"
-#endif
+
+#include "irreversible_reaction.ipp"
+
 #endif

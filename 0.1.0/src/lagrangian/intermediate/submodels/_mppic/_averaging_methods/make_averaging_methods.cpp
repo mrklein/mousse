@@ -8,26 +8,34 @@
 #include "_basic.hpp"
 #include "_dual.hpp"
 #include "_moment.hpp"
+
+
 // Scalar interpolation
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::AveragingMethod<mousse::scalar>, 0);
-namespace mousse
-{
+
+
+namespace mousse {
+
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   AveragingMethod<mousse::scalar>,
   dictionary
 );
+
 }
+
+
 // Vector interpolation
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG(mousse::AveragingMethod<mousse::vector>, 0);
-namespace mousse
-{
+namespace mousse {
 DEFINE_TEMPLATE_RUN_TIME_SELECTION_TABLE
 (
   mousse::AveragingMethod<mousse::vector>,
   dictionary
 );
 }
+
+
 // Basic interpolation
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
@@ -37,6 +45,8 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::scalar>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::scalar>>
   addBasicscalarConstructorToTable_;
+
+
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Basic<mousse::vector>,
@@ -45,6 +55,8 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::vector>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Basic<mousse::vector>>
   addBasicvectorConstructorToTable_;
+
+
 // Dual interpolation
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
@@ -54,6 +66,8 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::scalar>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::scalar>>
   addDualscalarConstructorToTable_;
+
+
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Dual<mousse::vector>,
@@ -62,6 +76,8 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::vector>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Dual<mousse::vector>>
   addDualvectorConstructorToTable_;
+
+
 // Moment interpolation
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
@@ -71,6 +87,8 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::scalar>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::scalar>>
   addMomentscalarConstructorToTable_;
+
+
 DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 (
   mousse::AveragingMethods::Moment<mousse::vector>,
@@ -79,3 +97,4 @@ DEFINE_NAMED_TEMPLATE_TYPE_NAME_AND_DEBUG
 mousse::AveragingMethod<mousse::vector>::
 adddictionaryConstructorToTable<mousse::AveragingMethods::Moment<mousse::vector>>
   addMomentvectorConstructorToTable_;
+

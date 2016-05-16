@@ -8,14 +8,15 @@
 //   mousse::rhoReactionThermo
 // Description
 //   mousse::rhoReactionThermo
-// SourceFiles
-//   rho_reaction_thermo.cpp
+
 #include "rho_thermo.hpp"
 #include "basic_specie_mixture.hpp"
 #include "auto_ptr.hpp"
 #include "run_time_selection_tables.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class rhoReactionThermo
 :
   public rhoThermo
@@ -54,5 +55,8 @@ public:
     //- Return the composition of the multi-component mixture
     virtual const basicSpecieMixture& composition() const = 0;
 };
+
 }  // namespace mousse
+
 #endif
+

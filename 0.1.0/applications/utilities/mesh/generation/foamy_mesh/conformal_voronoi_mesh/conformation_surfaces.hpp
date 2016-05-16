@@ -6,17 +6,17 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::conformationSurfaces
-// Description
-// SourceFiles
-//   conformation_surfaces.cpp
+
 #include "searchable_surfaces.hpp"
 #include "searchable_surfaces_queries.hpp"
 #include "extended_feature_edge_mesh.hpp"
 #include "bool_list.hpp"
 #include "volume_type.hpp"
 #include "surface_zones_info.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class conformationSurfaces
 {
   typedef extendedFeatureEdgeMesh::sideVolumeType sideVolumeType;
@@ -269,42 +269,60 @@ public:
       //  an obj file
       void writeFeatureObj(const fileName& prefix) const;
 };
+
 }  // namespace mousse
+
 
 // Member Functions 
 const mousse::searchableSurfaces& mousse::conformationSurfaces::geometry() const
 {
   return allGeometry_;
 }
+
+
 const mousse::PtrList<mousse::extendedFeatureEdgeMesh>&
 mousse::conformationSurfaces::features() const
 {
   return features_;
 }
+
+
 const mousse::point& mousse::conformationSurfaces::locationInMesh() const
 {
   return locationInMesh_;
 }
+
+
 const mousse::labelList& mousse::conformationSurfaces::surfaces() const
 {
   return surfaces_;
 }
+
+
 const mousse::List<mousse::word>& mousse::conformationSurfaces::patchNames() const
 {
   return patchNames_;
 }
+
+
 const mousse::PtrList<mousse::surfaceZonesInfo>&
 mousse::conformationSurfaces::surfZones() const
 {
   return surfZones_;
 }
+
+
 const mousse::PtrList<mousse::dictionary>&
 mousse::conformationSurfaces::patchInfo() const
 {
   return patchInfo_;
 }
+
+
 const mousse::treeBoundBox& mousse::conformationSurfaces::globalBounds() const
 {
   return globalBounds_;
 }
+
 #endif
+

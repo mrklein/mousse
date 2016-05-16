@@ -6,12 +6,12 @@
 // Copyright (C) 2016 mousse project
 // Class
 //   mousse::linearSpatial
-// Description
-// SourceFiles
-//   linear_spatial.cpp
+
 #include "cell_size_function.hpp"
-namespace mousse
-{
+
+
+namespace mousse {
+
 class linearSpatial
 :
   public cellSizeFunction
@@ -63,5 +63,8 @@ public:
       scalar& size
     ) const;
 };
+
 }  // namespace mousse
+
 #endif
+

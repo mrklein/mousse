@@ -255,7 +255,7 @@ inline void mousse::UPtrList<T>::resize(const label newSize)
 template<class T>
 inline bool mousse::UPtrList<T>::set(const label i) const
 {
-  return ptrs_[i] != NULL;
+  return ptrs_[i] != nullptr;
 }
 
 
@@ -279,7 +279,7 @@ inline mousse::Xfer<mousse::UPtrList<T> > mousse::UPtrList<T>::xfer()
 template<class T>
 inline const T& mousse::UPtrList<T>::operator[](const label i) const
 {
-  if (!ptrs_[i]) {
+  if (ptrs_[i] == nullptr) {
     FATAL_ERROR_IN("UPtrList::operator[] const")
       << "hanging pointer at index " << i
       << " (size " << size()
@@ -293,7 +293,7 @@ inline const T& mousse::UPtrList<T>::operator[](const label i) const
 template<class T>
 inline T& mousse::UPtrList<T>::operator[](const label i)
 {
-  if (!ptrs_[i]) {
+  if (ptrs_[i] == nullptr) {
     FATAL_ERROR_IN("UPtrList::operator[]")
       << "hanging pointer at index " << i
       << " (size " << size()
@@ -373,6 +373,8 @@ mousse::UPtrList<T>::iterator::operator--()
   --ptr_;
   return *this;
 }
+
+
 template<class T>
 inline typename mousse::UPtrList<T>::iterator
 mousse::UPtrList<T>::iterator::operator--(int)

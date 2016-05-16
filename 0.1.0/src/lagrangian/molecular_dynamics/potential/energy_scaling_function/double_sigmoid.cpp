@@ -4,10 +4,11 @@
 
 #include "double_sigmoid.hpp"
 #include "add_to_run_time_selection_table.hpp"
-namespace mousse
-{
-namespace energyScalingFunctions
-{
+
+
+namespace mousse {
+namespace energyScalingFunctions {
+
 // Static Data Members
 DEFINE_TYPE_NAME_AND_DEBUG(doubleSigmoid, 0);
 ADD_TO_RUN_TIME_SELECTION_TABLE
@@ -16,16 +17,20 @@ ADD_TO_RUN_TIME_SELECTION_TABLE
   doubleSigmoid,
   dictionary
 );
+
+
 // Private Member Functions 
 scalar doubleSigmoid::sigmoidScale
-  (
-    const scalar r,
-    const scalar shift,
-    const scalar scale
-  ) const
+(
+  const scalar r,
+  const scalar shift,
+  const scalar scale
+) const
 {
   return 1.0 / (1.0 + exp( scale * (r - shift)));
 }
+
+
 // Constructors 
 doubleSigmoid::doubleSigmoid
 (
@@ -34,21 +39,25 @@ doubleSigmoid::doubleSigmoid
   const pairPotential& pairPot
 )
 :
-  energyScalingFunction(name, energyScalingFunctionProperties, pairPot),
+  energyScalingFunction{name, energyScalingFunctionProperties, pairPot},
   doubleSigmoidCoeffs_
-  (
+  {
     energyScalingFunctionProperties.subDict(typeName + "Coeffs")
-  ),
-  shift1_(readScalar(doubleSigmoidCoeffs_.lookup("shift1"))),
-  scale1_(readScalar(doubleSigmoidCoeffs_.lookup("scale1"))),
-  shift2_(readScalar(doubleSigmoidCoeffs_.lookup("shift2"))),
-  scale2_(readScalar(doubleSigmoidCoeffs_.lookup("scale2")))
+  },
+  shift1_{readScalar(doubleSigmoidCoeffs_.lookup("shift1"))},
+  scale1_{readScalar(doubleSigmoidCoeffs_.lookup("scale1"))},
+  shift2_{readScalar(doubleSigmoidCoeffs_.lookup("shift2"))},
+  scale2_{readScalar(doubleSigmoidCoeffs_.lookup("scale2"))}
 {}
+
+
 // Member Functions 
 void doubleSigmoid::scaleEnergy(scalar& e, const scalar r) const
 {
   e *= sigmoidScale(r, shift1_, scale1_) * sigmoidScale(r, shift2_, scale2_);
 }
+
+
 bool doubleSigmoid::read(const dictionary& energyScalingFunctionProperties)
 {
   energyScalingFunction::read(energyScalingFunctionProperties);
@@ -60,5 +69,7 @@ bool doubleSigmoid::read(const dictionary& energyScalingFunctionProperties)
   doubleSigmoidCoeffs_.lookup("scale2") >> scale2_;
   return true;
 }
+
 }  // namespace energyScalingFunctions
 }  // namespace mousse
+

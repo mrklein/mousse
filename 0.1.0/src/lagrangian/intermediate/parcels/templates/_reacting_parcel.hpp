@@ -9,22 +9,24 @@
 // Description
 //   Reacting parcel class with one/two-way coupling with the continuous
 //   phase.
-// SourceFiles
-//   _reacting_parcel.cpp
-//   _reacting_parcel_io.cpp
+
 #include "particle.hpp"
 #include "slg_thermo.hpp"
 #include "demand_driven_entry.hpp"
-namespace mousse
-{
-template<class ParcelType>
-class ReactingParcel;
+
+
+namespace mousse {
+
+template<class ParcelType> class ReactingParcel;
+
 template<class ParcelType>
 Ostream& operator<<
 (
   Ostream&,
   const ReactingParcel<ParcelType>&
 );
+
+
 template<class ParcelType>
 class ReactingParcel
 :
@@ -67,7 +69,7 @@ public:
     // Private data
       // Interpolators for continuous phase fields
         //- Interpolator for continuous phase pressure field
-        autoPtr<interpolation<scalar> > pInterp_;
+        autoPtr<interpolation<scalar>> pInterp_;
   public:
     typedef typename ParcelType::template TrackingData<CloudType>::trackPart
       trackPart;
@@ -130,11 +132,11 @@ public:
     //- Runtime type information
     TYPE_NAME("ReactingParcel");
     //- String representation of properties
-    AddToPropertyList
+    ADD_TO_PROPERTY_LIST
     (
       ParcelType,
       " mass0"
-     + " nPhases(Y1..YN)"
+      + " nPhases(Y1..YN)"
     );
   // Constructors
     //- Construct from owner, position, and cloud owner
@@ -184,15 +186,15 @@ public:
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone() const
     {
-      return autoPtr<particle>(new ReactingParcel<ParcelType>(*this));
+      return autoPtr<particle>{new ReactingParcel<ParcelType>{*this}};
     }
     //- Construct and return a (basic particle) clone
     virtual autoPtr<particle> clone(const polyMesh& mesh) const
     {
       return autoPtr<particle>
-      (
-        new ReactingParcel<ParcelType>(*this, mesh)
-      );
+      {
+        new ReactingParcel<ParcelType>{*this, mesh}
+      };
     }
     //- Factory class to read-construct particles used for
     //  parallel transfer
@@ -202,14 +204,15 @@ public:
     public:
       iNew(const polyMesh& mesh)
       :
-        mesh_(mesh)
+        mesh_{mesh}
       {}
-      autoPtr<ReactingParcel<ParcelType> > operator()(Istream& is) const
+      autoPtr<ReactingParcel<ParcelType>> operator()(Istream& is) const
       {
-        return autoPtr<ReactingParcel<ParcelType> >
-        (
-          new ReactingParcel<ParcelType>(mesh_, is, true)
-        );
+        return
+          autoPtr<ReactingParcel<ParcelType>>
+          {
+            new ReactingParcel<ParcelType>{mesh_, is, true}
+          };
       }
     };
   // Member Functions
@@ -293,7 +296,9 @@ public:
       const ReactingParcel<ParcelType>&
     );
 };
+
 }  // namespace mousse
+
 
 // Constructors 
 template<class ParcelType>
@@ -304,6 +309,8 @@ mousse::ReactingParcel<ParcelType>::constantProperties::constantProperties()
   pMin_{this->dict_, 0.0},
   constantVolume_{this->dict_, false}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -314,6 +321,8 @@ inline mousse::ReactingParcel<ParcelType>::constantProperties::constantPropertie
   pMin_{cp.pMin_},
   constantVolume_{cp.constantVolume_}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingParcel<ParcelType>::constantProperties::constantProperties
 (
@@ -324,6 +333,8 @@ inline mousse::ReactingParcel<ParcelType>::constantProperties::constantPropertie
   pMin_{this->dict_, "pMin", 1000.0},
   constantVolume_{this->dict_, word("constantVolume")}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingParcel<ParcelType>::ReactingParcel
 (
@@ -339,6 +350,8 @@ inline mousse::ReactingParcel<ParcelType>::ReactingParcel
   Y_{0},
   pc_{0.0}
 {}
+
+
 template<class ParcelType>
 inline mousse::ReactingParcel<ParcelType>::ReactingParcel
 (
@@ -383,6 +396,8 @@ inline mousse::ReactingParcel<ParcelType>::ReactingParcel
   // Set initial parcel mass
   mass0_ = this->mass();
 }
+
+
 // constantProperties Member Functions
 template<class ParcelType>
 inline mousse::scalar
@@ -390,43 +405,59 @@ mousse::ReactingParcel<ParcelType>::constantProperties::pMin() const
 {
   return pMin_.value();
 }
+
+
 template<class ParcelType>
 inline bool
 mousse::ReactingParcel<ParcelType>::constantProperties::constantVolume() const
 {
   return constantVolume_.value();
 }
+
+
 // ThermoParcel Member Functions
 template<class ParcelType>
 inline mousse::scalar mousse::ReactingParcel<ParcelType>::mass0() const
 {
   return mass0_;
 }
+
+
 template<class ParcelType>
 inline const mousse::scalarField& mousse::ReactingParcel<ParcelType>::Y() const
 {
   return Y_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar mousse::ReactingParcel<ParcelType>::pc() const
 {
   return pc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::ReactingParcel<ParcelType>::pc()
 {
   return pc_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalar& mousse::ReactingParcel<ParcelType>::mass0()
 {
   return mass0_;
 }
+
+
 template<class ParcelType>
 inline mousse::scalarField& mousse::ReactingParcel<ParcelType>::Y()
 {
   return Y_;
 }
+
+
 
 template<class ParcelType>
 template<class CloudType>
@@ -446,6 +477,8 @@ inline mousse::ReactingParcel<ParcelType>::TrackingData<CloudType>::TrackingData
     )
   }
 {}
+
+
 template<class ParcelType>
 template<class CloudType>
 inline const mousse::interpolation<mousse::scalar>&
@@ -453,7 +486,7 @@ mousse::ReactingParcel<ParcelType>::TrackingData<CloudType>::pInterp() const
 {
   return pInterp_();
 }
-#ifdef NoRepository
-  #include "_reacting_parcel.cpp"
-#endif
+
+#include "_reacting_parcel.ipp"
+
 #endif
