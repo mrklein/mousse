@@ -1,0 +1,43 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  location    "0";
+  object      alphat;
+}
+
+dimensions      [1 -1 -1 0 0 0 0];
+internalField   uniform 0;
+
+boundaryField
+{
+  frontAndBack
+  {
+    type            compressible::alphatWallFunction;
+    Prt             0.85;
+    value           uniform 0;
+  }
+  topAndBottom
+  {
+    type            compressible::alphatWallFunction;
+    Prt             0.85;
+    value           uniform 0;
+  }
+  hot
+  {
+    type            compressible::alphatWallFunction;
+    Prt             0.85;
+    value           uniform 0;
+  }
+  cold
+  {
+    type            compressible::alphatWallFunction;
+    Prt             0.85;
+    value           uniform 0;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

@@ -1,0 +1,30 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  location    "system/baffleRegion";
+  object      fvSchemes;
+}
+
+ddtSchemes
+{
+  default         steadyState;
+}
+divSchemes
+{
+  default        none;
+}
+gradSchemes
+{
+  default         Gauss linear;
+}
+laplacianSchemes
+{
+  default             none;
+  laplacian(alpha,h)  Gauss linear uncorrected;
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

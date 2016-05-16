@@ -1,0 +1,38 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  object      p;
+}
+
+dimensions      [1 -1 -2 0 0 0 0];
+internalField   uniform 100000;
+
+boundaryField
+{
+  floor
+  {
+    type            calculated;
+    value           uniform 100000;
+  }
+  ceiling
+  {
+    type            calculated;
+    value           uniform 100000;
+  }
+  fixedWalls
+  {
+    type            calculated;
+    value           uniform 100000;
+  }
+  box
+  {
+    type            calculated;
+    value           uniform 100000;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:

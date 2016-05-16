@@ -1,0 +1,34 @@
+// mousse: CFD toolbox
+
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       volScalarField;
+  object      T;
+}
+
+dimensions      [0 0 0 1 0 0 0];
+internalField   uniform 265;
+
+boundaryField
+{
+  //- Set patchGroups for constraint patches
+  #includeEtc "case_dicts/setConstraintTypes"
+  wall
+  {
+    type            fixedValue;
+    value           uniform 265;
+  }
+  twoFridgeFreezers_seal_0
+  {
+    type            fixedValue;
+    value           uniform 303;
+  }
+  twoFridgeFreezers_herring_1
+  {
+    $twoFridgeFreezers_seal_0;
+  }
+}
+
+// vim: set ft=foam et sw=2 ts=2 sts=2:
