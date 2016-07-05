@@ -1,1 +1,0 @@
-../formats/starcd_surface_format_core.cpp

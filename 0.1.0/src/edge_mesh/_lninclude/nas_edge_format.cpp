@@ -1,1 +1,0 @@
-../formats/nas_edge_format.cpp

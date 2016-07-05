@@ -1,1 +1,0 @@
-../stitch_triangles.cpp

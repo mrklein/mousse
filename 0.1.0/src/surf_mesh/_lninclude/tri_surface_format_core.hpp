@@ -1,1 +1,0 @@
-../formats/tri_surface_format_core.hpp

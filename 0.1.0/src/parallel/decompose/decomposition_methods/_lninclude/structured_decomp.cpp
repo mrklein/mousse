@@ -1,1 +1,0 @@
-../structured_decomp.cpp

@@ -1,1 +1,0 @@
-../formats/obj_edge_format.hpp

@@ -1,1 +1,0 @@
-../searchable_surface/closed_tri_surface_mesh.cpp

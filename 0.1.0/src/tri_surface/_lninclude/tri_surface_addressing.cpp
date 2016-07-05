@@ -1,1 +1,0 @@
-../tri_surface_addressing.cpp

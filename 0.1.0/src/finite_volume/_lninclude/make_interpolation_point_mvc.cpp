@@ -1,1 +1,0 @@
-../interpolation/interpolation/make_interpolation_point_mvc.cpp

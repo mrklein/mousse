@@ -1,1 +1,0 @@
-../scotch_decomp.cpp

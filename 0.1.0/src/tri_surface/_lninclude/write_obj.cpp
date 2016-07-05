@@ -1,1 +1,0 @@
-../interfaces/write_obj.cpp

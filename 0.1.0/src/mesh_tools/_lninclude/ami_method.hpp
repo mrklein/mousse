@@ -1,1 +1,0 @@
-../ami_interpolation/ami_method/ami_method.hpp

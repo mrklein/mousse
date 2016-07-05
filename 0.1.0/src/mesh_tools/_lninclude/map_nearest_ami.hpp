@@ -1,1 +1,0 @@
-../ami_interpolation/ami_method/map_nearest_ami.hpp

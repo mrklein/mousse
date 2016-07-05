@@ -1,1 +1,0 @@
-../searchable_surface/searchable_sphere.cpp

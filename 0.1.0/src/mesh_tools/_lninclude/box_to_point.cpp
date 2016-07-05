@@ -1,1 +1,0 @@
-../sets/point_sources/box_to_point.cpp

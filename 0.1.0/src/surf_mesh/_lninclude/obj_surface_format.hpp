@@ -1,1 +1,0 @@
-../formats/obj_surface_format.hpp

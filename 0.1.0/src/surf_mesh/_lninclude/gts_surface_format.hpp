@@ -1,1 +1,0 @@
-../formats/gts_surface_format.hpp

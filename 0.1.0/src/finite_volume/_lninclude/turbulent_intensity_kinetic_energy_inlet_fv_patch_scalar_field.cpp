@@ -1,1 +1,0 @@
-../fields/fv_patch_fields/derived/turbulent_intensity_kinetic_energy_inlet_fv_patch_scalar_field.cpp
